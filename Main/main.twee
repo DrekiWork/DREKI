@@ -43,7 +43,7 @@ Shelter Space: <<print $home>> <br> <br>
 
 Gold: <<print $gold>>
 <<else>>
-	Welcome to DREKI !
+	Welcome to DREKI: Dragon Simulator!
 <</if>>
 <</nobr>>
 
@@ -208,10 +208,10 @@ div[id|="numberslider-body"] input::-ms-thumb {
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Alpha 0.0.22.3 </h2><<nobr>>
+	<h2> Pre-Alpha 0.0.23.0 </h2><<nobr>>
 	''New!''
-	<ul><li>World Notes! + figuring this out means a new Patchnote format!</li>
+	<ul><li>Nothing so far!</li>
 	<li></li></ul>
 
 	''Bugs Patched''
-	<ul><li>I haven't found any yet! Help me fix that!</li></ul><</nobr>>
+	<ul><li>Hydra event works again! Wrow!</li></ul><</nobr>>
