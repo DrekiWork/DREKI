@@ -1,0 +1,170 @@
+:: Rest [WIP] {"position":"1075,550","size":"100,100"}
+The end of the day is approaching.<<nobr>>
+
+	<<set _exiled = []>>
+	<<for _i to 0; _i < $dragons.length; _i++>>
+		<<if $dragons[_i].exile == true>>
+			<<run _exiled.push($dragons[_i].name)>>
+		<<else>>
+		<</if>>
+	<</for>>
+	<<set $pop = $dragons.length>>
+	<<if _exiled.length > 2>>
+	<br> <br>
+		<<for _e to 0; _e > _exiled.length; _e++>>
+			<<if _e > (_exiled.length - 2)>>
+				<<print _exiled[_e]>>,
+			<<else>>
+				and <<print _exiled[_e]>>
+			<</if>>
+		<</for>>
+		group together and leave your camp quietly, never to return.
+	<<elseif _exiled.length == 2>>
+	<br> <br>
+		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your camp quietly, never to return.
+	<<elseif _exiled.length == 1>>
+	<br> <br>
+		<<print _exiled[0]>> leaves your camp quietly, never to return.
+	<</if>>
+	<<set $dragons = $dragons.filter(
+		dragon => dragon.exile < 1
+	)>>
+<<endday>>
+<<eggOne>>
+<<colOne>>
+	<<if _forcount >= 2>>
+		<br> <br> Your <<print _forcount>> foragers come home with <<print _food>> food.
+	<<elseif _forcount == 1>>
+		Your lone forager drops off some food.
+	<<else>>
+		
+	<</if>>
+	<<if _watcount gte 2>>
+		Your <<print _watcount>> rainiers return, having swept <<print _water>> water into your collection pools.
+	<<elseif _watcount is 1>>
+		A single rainier ushers in some water.
+	<<else>>
+		
+	<</if>>	
+	<<if _scavcount gte 2>>
+		Your <<print _scavcount>> scavengers return, bringing <<print _wood>> wood and <<print _stone>> stone.
+			<<if _goldluck gte 50>>
+				<<set _gold += random(12,41)>>
+				<<set $gold += _gold>>
+				They have also found <<print _gold>> gold!
+			<<else>>
+			<</if>>
+	<<elseif _scavcount is 1>>
+		Your scavenger hauls in <<if _wood gt 0>>wood.<<else>>stone.<</if>>
+			<<if _goldluck gte 50>>
+				<<set _gold += random(5,13)>>
+				<<set $gold += _gold>>
+				They have also found <<print _gold>> gold!
+			<<else>>
+			
+			<</if>>
+
+	<<else>>
+
+	<</if>>
+ <br> <br>
+
+		<<if _hatchcheck gte 2 && _growcheck gte 2>>
+			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery, and <<print $growcheck>> hatchlings grew up and left the Nursery.<br> <br>
+		<<elseif _hatchcheck gte 2 && _growcheck is 1>>
+			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery, and a hatchling has grown up and left the Nursery.<br> <br>
+		<<elseif _hatchcheck gte 2 && _growcheck is 0>>
+			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery.<br> <br>
+		<<elseif _hatchcheck is 1 && _growcheck gte 2>>
+			 <br> <br>An egg has hatched, and <<print _growcheck>> hatchlings have grown up and left the Nursery.<br> <br>
+		<<elseif _hatchcheck is 1 && _growcheck is 1>>
+			 <br> <br>An egg has hatched in the Nursery, and a hatchling has grown up and left the Nursery.<br> <br>
+		<<elseif _hatchcheck is 1 && _growcheck is 0>>
+			 <br> <br>An egg has hatched in the Nursery.<br> <br>
+		<<elseif _hatchcheck is 0 & _growcheck gte 2>>
+			 <br> <br><<print _growcheck>> hatchlings have grown up and left the Nursery.<br> <br>
+		<<elseif _hatchcheck is 0 && _growcheck is 1>>
+			 <br> <br>A hatchling has grown up and left the Nursery.<br> <br>
+		<<else>>
+		<</if>>
+
+	<<if $player.health <= 0>>
+			[[...|SandboxDeath]]
+	<<else>>
+	<<if _pcHungry == true && _pcThirsty == true>>
+		<<set _remaining = ($player.health / 2)>>
+		Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating.
+	<<elseif _pcHungry == true && _pcThirsty == false>>
+		Your stomach rumbles quietly. You didn't get to eat today, but you did have 4 water.
+	<<elseif _pcHungry == false && _pcThirsty == true>>
+		Your throat feels terribly dry. You ate 3 food, but had no water.
+	<<else>>
+		You ate 4 food and 3 water.
+	<</if>>
+	<<if $pop >= 2>>
+
+	<<if $hatchlings.length >= 1>>
+		Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water, and your
+	<<else>>
+		Your
+	<</if>>
+	<<run console.log($pop, $home)>>
+    <<if $home >= 0 && _eat > 0 && _drink > 0>>
+	colony eats <<print _eat>> food, and drinks <<print _drink>> water.
+	<<elseif $home < 0 && _eat > 0 && _drink > 0>>
+		colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
+	<</if>>
+	<<if _unfed gte 2 && _nowater gte 2>>
+		However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+	<<elseif _unfed gte 2 && _nowater == 1>>
+		However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.
+	<<elseif _unfed gte 2 && _nowater == 0>>
+		However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.
+	<<elseif _unfed == 1 && _nowater == 0>>
+		However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.
+	<<elseif _unfed == 1 && _nowater gte 2>>
+		However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+	<<elseif _unfed == 1 && _nowater == 1>>
+		However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+	<<elseif _unfed == 0 && _nowater gte 2>>
+		However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.
+	<<elseif _unfed == 0 && _nowater == 1>>
+		However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.
+	<</if>> <br> <br>
+	<</if>>
+	
+	<<if _left.length >= 2>>
+		<<nobr>><<for _i to 0; _i < _left.length; _i++>>
+			<<if _i !== (_left.length - 1)>>
+				<<print _left[_i]>>, 
+			<<elseif _i == (_left.length - 1)>>
+				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<</nobr>>
+	<<elseif _left.length == 1>>
+		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br> 
+	<</if>>
+	
+		<<set _eventChance to random(15)>>
+		<<if _eventChance <= 3>>
+			<<set _dream to random(0, 5)>>
+			<<if _dream == 1>>
+		You dream of flying among the stars. They do not welcome you, but their light is guiding you to a far off point. [[You wake up before you see where.|Sandbox Central]]
+			<<elseif _dream == 2>>
+		You are back in your home colony, being lavished with love and attention; the Founder themselves smiles upon you, and gifts you endless piles of gold and treasure; you're lauded a hero, and everywhere you look are smiling, adoring faces. [[You wake up happy, if homesick.|Sandbox Central]]
+			<<elseif _dream == 3>>
+		You dream of battle, and glory. You dream of fighting for your life against beings that avoid your claws and teeth and flames with practiced ease. [[You drown in their violence.|Sandbox Central]]
+			<<else>>
+		[[It's time for another day.|Sandbox Central]]
+			<</if>>
+		<<elseif _eventChance == 4>>
+			<<set _event = random(1)>>
+			<<switch _event>>
+				<<case 0>>
+					Before you can settle down to bed, there comes a commotion [[at the edge of your home.|Event_Join]]
+				<<case 1>>
+					As you start to close your nightly patrol, [[you see something in the darkness.|Event_Intruder]]
+			<</switch>>
+		<<else>>
+		[[It's time for another day.|Sandbox Central]]
+		<</if>>
+	<</if>>
+<</nobr>>

@@ -1,0 +1,59 @@
+:: Wood [WIP] {"position":"875,925","size":"100,100"}
+<<nobr>>
+<<silently>>
+	<<set _forage = random(9)>>
+	<<set $player.action -= 1>>
+	<<set _scene = random(2)>>
+<</silently>>
+	<<if _forage >= 8>>
+		<<set _collect = random(12, 15)>>
+		<<set $wood += _collect>>
+		<<if $wood > $woodCap>>
+			<<set $wood = $woodCap>>
+		<</if>>
+		<<if _scene == 0>>
+			You're somewhat bewildered to see a group of beaver-folk - castoridans, if you remember correctly? - arguing loudly over their dams. A quick flying circuit reveals no potential lodges, but by the time you get back, the castoridean group has left. Possibly after having seen you, given the abandoned wood. Their loss is your gain; you can't take all of it, but you gather up the <<print _collect>> that you can and take off again. <br> <br>
+		<<elseif _scene == 1>>
+			Normally the sight of a clearly ancient, huge tree would bring you little more than mild interest and perhaps annoyance, if it were housing something dangerous. You make an exception for this grand old tree, which quite kindly felled itself; going by the breakage, it started listing too far and gravity did the rest. You do your best to break it into pieces, but there's only so much one dragon can do. Still, you manage to bring back <<print _collect>> wood. <br> <br>
+		<<else>>
+			While flying over your territory, you find something strange below; a sweep to investigate reveals cut piles of timber, long since abandoned. Though most of it is rotten through and unable to be used, you are more than happy with the <<print _collect>> wood you bring back. <br> <br>
+		<</if>>
+
+	<<elseif _forage >= 3>>
+		<<set _collect = random(7, 11)>>
+		<<set $wood += _collect>>
+		<<if $wood > $woodCap>>
+			<<set $wood = $woodCap>>
+		<</if>>
+		<<if _scene == 0>>
+			Your wood-seeking patrol is interrupted by the existence of a tree you don't recognize. Specifically, this tree is walking, and as you get closer the ent possessing it begins to panic. You end its fear quickly. Its host gives you a pleasant <<print _collect>> wood for your stores. <br> <br>
+		<<elseif _scene == 1>>
+			You take a long look at the forest growing near your home, and make a decision: it's getting too close. Though not entirely discomforting, you're not fond of creatures thinking your thunder has abandoned its central lair over something as silly as overgrown trees. The <<print _collect>> wood you get is a nice bonus. <br> <br>
+		<<else>>
+			You patrol deeper into the woods than you normally would, intent on finding trees that are larger than the ones nearest your home - though there are plenty there. Your determination is rewarded by a fairly heavy tree, half-strangled by the vines around it and certainly on its way to death. You shear off the vines and tug the tree down forcefully - and it goes easily. A lot of it is understandably too brittle to be used, but there's enough there to be cut down to transport. You return home with <<print _collect>> timber; enough to be satisfied, at least. <br> <br>
+		<</if>>
+		
+	<<elseif _forage >= 1>>
+		<<set _collect = random(3, 6)>>
+		<<set $wood += _collect>>
+		<<if $wood > $woodCap>>
+			<<set $wood = $woodCap>>
+		<</if>>
+		<<if _scene == 0>>
+			As you glide around your territory, you spy an immediately interesting object: an overturned caravan. To your disappointment, there's nothing truly worth taking - maybe you've been here before? It's difficult to recall - but you decide to take apart the frame this time. Thre isn't much, but it gives you <<print _collect>> pieces of nicely carved wood to use. <br> <br>
+		<<elseif _scene == 1>>
+			It's a little frustrating, but all you manage to find that's worth taking back are a cluster of trees that are barely more than saplings. Even worse, they are difficult to tear out of the earth; all that effort, and only <<print _collect>> wood to show for it. <br> <br>
+		<<else>>
+			You can't afford to spend long looking for materials, but you do manage to find a fallen tree to drag back. It isn't much, but <<print _collect>> wood is still more than you had. <br> <br>
+		<</if>>
+		
+	<<else>>
+		The trees you find are either too brittle, bug-eaten, or simply too small; what trees <em>are</em> worth your time are too heavy to take alone. Frustrated, you are forced to end your patrol with empty claws. <br> <br>
+<</if>>
+<<if $player.action >= 1>>
+	<span id="choices">You could <<if $wood < $woodCap>>[[look again|Wood]]; <<else>><</if>>look for <<link "something else">><<replace "#choices">>[[Food]], [[water|Water]], <<if $ghunt == false>>[[stone|Stone]], or [[gold?|Treasure]]<<else>>or [[stone|Stone]]?<</if>> Alternatively, you could [[look again|Wood]] or [[go home|Sandbox Central]].<</replace>><</link>>; or you can simply [[stay home.|Sandbox Central]]</span>
+<<else>>
+	It's time to [[go home.|Sandbox Central]]
+<</if>>
+<</nobr>>
+

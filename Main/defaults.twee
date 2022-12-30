@@ -1,0 +1,87 @@
+:: StoryInit [Special] {"position":"100,0","size":"100,100"}
+<<silently>>
+    /* Setting the variables to what they need to be! */
+
+		/* Getting the player set up... */
+	<<set $player to {
+		title : "Founder",
+		action : 5,
+		health : 10
+	}>>
+		<<set $ghunt = false>>
+	
+		/* Number of eggs & how 'old' the eggs are; only keeps track of one of at a time! $theft keeps track of if you've stolen today. */
+	<<set $egg to 0>>
+	<<set $eggsHatched to 0>>
+	<<set $eggEvent to 0>>
+	<<set $theft to false>>
+	
+		/* Number of hatchlings & how 'old' they are; same as eggs */
+	<<set $hatchling to 0>>
+	<<set $firstCol to 0>>
+	
+		/* Setting nursery buildings... */
+	<<set $nest = 0>>
+	<<set $eggSpace = 0>>
+	
+		/* Population count! */
+	<<set $pop to 1>>
+	
+		/* Number of winglets/worker dragons. Slackers aren't employed, foragers go for food... */
+	<<set $eggs to []>>
+	<<set $hatchlings to []>>
+	<<set $winglets to []>>
+	<<set $dragons to []>>
+	
+		/* Food, water, trayseur, building supplies...*/
+	<<set $food to 0>>
+	<<set $water to 0>>
+	<<set $gold to 0>>
+	<<set $wood to 0>>
+	<<set $stone to 0>>
+
+		/* Set up for types of resource storage, and the resource cap... Pool is water, deep cave is food, Dug-out is wood, possibly stone.  */
+	/* <<set $storage to {}>> -- for later pondering on if I want to make the storage one single unit. We'll see. */
+	<<set $pool to { amount : 1, storage : 30}>>
+	<<set $waterCap to ($pool.amount * $pool.storage)>>
+	<<set $cavern to { amount : 1, storage : 30}>>
+	<<set $foodCap to ($cavern.amount * $cavern.storage)>>
+	<<set $dugOut to { amount : 1, storage : 30}>>
+	<<set $woodCap to ($dugOut.amount * $dugOut.storage)>>
+	<<set $stoneCap to ($dugOut.amount * $dugOut.storage)>>
+
+	<<set $defense to []>>
+	<<set $defense.enable to true>>
+	<<set $defense.types to {
+		barricade : 0,
+		traps : 0,
+		training : 0,
+	}>>
+
+		/* Setting homes up, I guess? Gonna have to figure out if I want to convert this to a datamap or array or something... ugh. */
+	<<set $shelter to {}>>
+	<<set $shelter.ruts to { amount : 0, shelter : 1, occupied: 0}>>
+    <<set $home to (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
+		
+		/* How many days you've been here, and how many moon cycles! */
+	<<set $days to 1>>
+    <<set $cycles to 0>>
+	
+		/* Setting up potential dragon names, personalities, etc... */
+	
+	<<set $dNames to ["Abaddon", "Ajax", "Alban", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus",  "Apara", "Argus", "Asher", "Astor", "Azizi", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", "Camo", "Cedric", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", "Damon", "Darius", "Delbin", "Devlin", "Drobit", "Ember", "Enzo", "Flame", "Flavius", "Fonsworthy", "Gavin", "Gildas", "Grigori", "Gunnar", "Halvor", "Hexus", "Isaak", "Ivor", "Jarvis", "Jed", "Kasiya", "Kosoko", "Laird", "Lateef", "Legna", "Lindar", "Lutalo", "Magnus", "Malefor", "Maximos", "Mazi", "Nestor", "Nevin", "Nils", "Obasi", "Odahviing", "Oswin", "Paarthurnax", "Pyra", "Ragnar", "Ramses", "Revilo", "Sadiki", "Skipper", "Smaug", "Spry", "Spyro", "Sunburn", "Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Trondo", "Ulric", "Unika", "Urgost", "Useni", "Varalys", "Vathek", "Volteer", "Zander", "Zane", "Zantor", "Zephyr", "Zinc"]>>
+	
+	<<set $dPers to ["Abrasive", "Absentminded", "Aloof", "Caring", "Chatty", "Clever", "Confident", "Formal", "Gentle", "Greedy", "Hardworking", "Lax", "Lazy", "Mellow", "Placid", "Quiet", "Selfish", "Thoughtful", "Whimsical"]>>
+	
+	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult"]>>
+	
+	<<set $dJobs to ["hatchling", "slacker", "forager", "rainier", "builder", "scavenger"]>>
+
+		/* Setting up some flags... oh boy, flags! */
+	
+	<<set $hydraSeen to false>>
+	<<set $hydraEggTaken to false>>
+	<<set $hydraTime = -1>>
+	<<set $hydraBeat = false>>
+<</silently>>
+

@@ -1,0 +1,25 @@
+:: Inventory [WIP] {"position":"550,700","size":"100,100"}
+You walk over to the sector you've designated for storage, and look about at what you have.
+
+<<print $food>> Food
+<<print $water>> Water
+<<print $wood>> Wood
+<<print $stone>> Stone
+
+<<nobr>>
+	<<if $gold gte 100>>
+		You can also smell your treasure; there's so much of it you don't dare pull it out of hiding, lest your colony notice, but simply knowing it's there fills you with warmth. You have <<print $gold>> treasure tucked away, waiting to be unearthed for you.
+	
+	<<elseif $gold gte 50>>
+		After a quick check to ensure no one is looking, you trot over to where your treasure is hidden. You feel warmer upon seeing it, and allow yourself a brief reprieve to run your scales against as much of your <<print $gold>> treasure.
+		
+	<<elseif $gold gte 25>>
+		Your treasure has been shuffled over to hiding; a safe place away from your colony's prying eyes. They've been getting increasingly curious about your gold pile, and you're not having it. That in mind, you spare the treasure just a few scant moments of your time before tucking all <<print $gold>> of it away again.
+		
+	<<elseif $gold gte 1>>
+		There's some gold scattered throughout the warehouse too; you haven't really bothered with properly organizing it, mostly because <<print $gold>> treasure isn't enough for the rest of your colony to care. It's a little distressing...
+	<</if>>
+<</nobr>>
+
+[[Go back outside|Pop]]
+

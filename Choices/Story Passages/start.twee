@@ -1,0 +1,32 @@
+:: START [WIP] {"position":"800,100","size":"100,100"}
+Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human, for humans, who want to pretend to be a dragon for a while. It's relaxing.
+
+What would you like to do?
+
+[[Start a colony in Free Play|Game Setter]]
+[[Go through the Story|Prologue]]
+&emsp;<em>Note: This currently only leads to the prologue, which then loops back to the sandbox starter.</em>
+
+
+:: Game Setter [WIP] {"position":"800,300","size":"100,100"}
+You are a Dragon that has left their colony; sent out with the great honor of founding a new home. You have been trained for this your entire life, and with this in mind - and perhaps, some vanity - have chosen the title of <<nobr>>
+	<<listbox "$player.title" autoselect>>
+		<<option "Architect">>
+		<<option "Creator">>
+		<<option "Dictator">>
+		<<option "Founder">>
+		<<option "Inspirer">>
+		<<option "Leader">>
+		<<option "Monarch">>
+		<<option "Overseer">>
+		<<option "Quing">>
+	<</listbox>>
+<</nobr>> to show your intent in creating this colony. Ambitious, of course - survival is harsh, and your travels have drained all your supplies.
+
+For now, you have no food, no water, no treasure, no home.
+
+//For now//, you have only your claws and your wings.
+
+[[It is time to build a home.|Sandbox Central]]
+
+

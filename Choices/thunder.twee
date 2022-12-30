@@ -1,0 +1,83 @@
+:: Pop [WIP] {"position":"475,550","size":"100,100"}
+You have <<if $pop gte 3>><<print ($pop - 1)>> other dragons<<elseif $pop == 2>>1 other dragon<</if>> living in your colony, using the same amount of shelter space.
+
+On mentioning that, you have <<print $shelter.ruts.amount>> ruts built, with <<print $home>> space available for more dragons. One day, you'll be able to build more than just ruts. Today is not that day.
+
+<<nobr>>
+	<<if $dragons.length gte 50>>
+			<<set _derg to $dragons.length>>
+			<<set _a to random(0, (_derg - 1))>>
+			<<print $dragons[_a].name>> bumps into you as you approach what has become the colony plaza. Seeing so many dragons fills you with pride - though there's an undeniable concern that you won't be able to take care of them all... <br> <br>
+
+			Would you like to interact with someone? Enter the number of your dragon from the list below. <<numberinput "$int" "0" 0 _derg>> [[Go|Interact]]
+		<<nobr>><<for _drg to 0; _drg lt $dragons.length; _drg++>>
+			<<print _drg>>. <<print $dragons[_drg].name>>, <<print $dragons[_drg].job>> <br>
+		<</for>><</nobr>>
+	<<elseif $dragons.length gte 10>>
+			<<set _derg to ($dragons.length - 1)>>
+			<<set _a to random(0, _derg)>>
+			<<set _b to random(0, _derg)>>
+			<<if _a == _b && _a == _derg>>
+				<<set _b-->>
+			<<elseif _a == _b && _a == 0>>
+				<<set _b++>>
+			<<elseif _a == _b>>
+				<<set _b++>>
+			<</if>>
+		There's a respectable number of dragons lazing about. You spot <<print $dragons[_a].name>> talking to <<print $dragons[_b].name>>, and feel pleased that they are comfortable enough to talk freely. <br> <br>
+
+		Would you like to interact with someone? Enter the number of your dragon. <<numberinput "$int" "0" 0 _derg>> [[Go|Interact]]
+		<<nobr>><<for _drg to 0; _drg lt $dragons.length; _drg++>>
+			<<print _drg>>. <<print $dragons[_drg].name>>, <<print $dragons[_drg].job>> <br>
+		<</for>><</nobr>>
+	<<elseif $dragons.length gte 2>>
+		<<silently>>
+			<<set _derg to ($dragons.length - 1)>>
+			<<set _a to random(0, _derg)>>
+			<<set _b to random(0, _derg)>>
+			<<if _a == _b && _a == _derg>>
+				<<set _b-->>
+			<<elseif _a == _b && _a == 0>>
+				<<set _b++>>
+			<</if>>
+		<</silently>>
+		There are a few dragons milling about here, such as <<print $dragons[_a].name>> and <<print $dragons[_b].name>>. <br> <br>
+		Would you like to interact with someone? Enter the number of your dragon. <<numberinput "$int" "0" 0 _derg>> [[Go|Interact]] <br>
+		<<nobr>><<for _drg to 0; _drg lt $dragons.length; _drg++>>
+			<<print _drg>>. <<print $dragons[_drg].name>>, <<print $dragons[_drg].job>> <br>
+		<</for>><</nobr>>
+		
+	<<elseif $dragons.length == 1>>
+		You can see <<print $dragons[0].name>>. <<linkappend "Do you want to talk to them?">> <br> <br>
+				<<switch $dragons[0].personality>>
+				<<case "Aloof" "Formal">>
+					<<print $dragons[0].name>> tips their head in greeting. You speak with them for a short while, but when it becomes evident that they're just trying to humor you, you dismiss them. Did <<print $dragons[0].name>> always seems so distant...?
+				<<case "Hardworking">>
+					You approach <<print $dragons[0].name>>, and talk with them. They're happy for it, though they seem rather fixated on how to help the colony grow. Your hearts squeeze with affection, and when you say your farewells, you feel pleased knowing that your first is so reliable.
+				<<case "Placid" "Quiet">>
+					You greet <<print $dragons[0].name>>, and they nod slowly in reply. As you talk, it becomes evident that they're doing more listening than speaking; you make sure to offer more direct questions from then on, and listen carefully when they decide to answer. When the sun has moved forward, you excuse yourself and give them a fond brush with your wing as you leave.
+				<<case "Chatty" "Whimsical">>
+					<<print $dragons[0].name>> bounds over to you, apparently having seen you, and cries out a cheerful "Good flying, <<print $title>>!" You're drawn into a conversation about anything and everything that has caught their attention - the weather, meals, the colony, a particular stone or the way water glittered off the collection ditches today. You listen with more amusement than anything, and chime in where you can. As the sun's shifting becomes obvious, you excuse yourself. Still, they sneak in a last head rub before you go.
+				<<case "Abrasive" "Clever">>
+					You approach and greet <<print $dragons[0].name>>; they return it warmly, but as you converse, they're becoming increasingly tactless. As your first hatchling, you're willing to accept it - even laugh at some of their comments - but it's quickly wearing on you. Eventually, you say your farewells and leave them to it.
+				<<case "Caring" "Gentle">>
+					<<print $dragons[0].name>> greets you warmly as you approach. You talk with them for some time, and though you trail over a great deal of interests - both yours and theirs - <<print $dragons[0].name>> is attentive and thoughtful throughout. When you leave, you do so reluctantly, though feeling lighter than you had before.
+				<<case "Confident">>
+					When you walk over to <<print $dragons[0].name>>, they offer a rather loud "Good flying, <<print $title>>!" - and the rest of the conversation follows much the same; you listen with great amusement to their boasting, and only chime in now and then to ensure they know you're listening. The time for you to leave eventually comes, however, and they strut away first - leaving you to shake your head fondly at their back.
+				<<case "Absentminded" "Lax" "Mellow">>
+					<<print $dragons[0].name>> hums as you greet them, evidently a little lost in their own world. You chat with them, and though they mostly make agreeable noises and only really contribute once or twice, you still appreciate the conversation. You make sure to nuzzle their head as you leave. They absently nudge you back.
+				<</switch>>
+	<</linkappend>>
+
+	<<link "Interact with them?" "Interact">>
+		<<set $int to 0>>
+	<</link>>
+	<<else>>
+		You don't have any grown dragons. Yet.
+	<</if>>
+<</nobr>>
+
+[[Check your supplies|Inventory]]
+[[Now what?|Sandbox Central]]
+
+

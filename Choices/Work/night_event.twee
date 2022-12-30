@@ -1,0 +1,114 @@
+::Event_Join
+<<nobr>>
+    <<silently>>
+        <<set _join to random(2, 5)>>
+        <<set _takeIn = 1>>
+    <</silently>>
+There are <<print _join>> dragons at the edge of your home. Their scales are flaking, and their eyes sunken in; if they are spies or have another thunder to call home, they are far from well cared for. One of them steps hesitantly forward. <br> <br>
+
+        "Are you the <<print $player.title>>?" They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. "I - <em>we</em> - apologize for the intrusion, <<print $player.title>>. We mean no harm, but... We have lost our home colony. We beg shelter of you, <<print $player.title>>. We will work. Please." <br> <br>
+        
+        You scrutinize the dragons. All told, your thefts might have made you enemies - had you been caught. Without that, there is no reason for another colony to attack you.  <br> <br> <br>
+
+        <span id="choices"><<link "Take them in.">><<replace "#choices">>
+        You tip your head silently. That is all the confirmation they need; the leader of the group rises slowly. You inform them of where they will be sleeping, and that you will address their food and work tomorrow; it is too late to be bothered with such things. They trip over themselves to express their gratitude, which you wave away easily. <br> <br>
+          
+        Once they are more or less settled in, [[you sleep.|Sandbox Central]]
+            <<for _i to 0; _i lt _join; _i++>>
+                <<dragonmaker>>
+                <<set $pop += 1>>
+            <</for>>
+        <</replace>><</link>> <br>
+
+        <<link "Take some.">>
+            <<replace "#choices">>
+                The dragons startle, evidently not expecting this answer. You aren't sure why; you have to be careful of how many dragons you look after at any given moment. Why would this be any different? <br> <br>
+
+                <span id="choices2">You choose to take <<numberinput "_takeIn" 1 0 _join>> <<link "dragons.">><<replace "#choices2">>
+                    <<if _takeIn == _join>>
+                        You choose to take all of the dragons. <br> <br>
+
+                        The dragons slump in relief - even if they are confused as to why you said you wouldn't take all of them, only to change your mind. Nevertheless, the leader thanks you profusely. You direct them toward their new sleeping area, and [[go to sleep yourself.|Sandbox Central]]
+                        <<for _i to 0; _i lt _takeIn; _i++>>
+                          <<dragonmaker>>
+                           <<set $pop += 1>>
+                       <</for>>
+                    <<elseif _takeIn < _join && _takeIn > 1>>
+                        You choose to take <<print _takeIn>> dragons. <br> <br>
+
+                        You wait patiently as the sorry group frets among themselves. The leader apologizes after some short time, and <<print _takeIn>> dragons are ushered forward. You send them promptly to their new resting space, and - in the spirit of at least being a decent host - escort the remainder to the edge of your territory. You even point them in the direction of a different colony several days away. <br> <br>
+
+                        Their thanks are unsurprisingly subdued, but you put it out of mind as you [[go home.|Sandbox Central]]
+                        <<for _i to 0; _i lt _takeIn; _i++>>
+                          <<dragonmaker>>
+                           <<set $pop += 1>>
+                       <</for>> 
+                    <<elseif _takeIn == 1>>
+                        You choose to take one of the dragons. <br> <br>
+
+                        You indicate the only dragon you'll be taking, and direct them to their new sleeping area. The remainder pull away quietly, and leave without your further direction. You were hoping to tell them where they might find another colony, but... oh well. You watch them for a moment, ensuring they leave, before turning and [[going to get some sleep.|Sandbox Central]]
+                        <<dragonmaker>>
+                    <<else>>
+                        You choose to take none of the dragons. <br> <br>
+
+                        The dragons wilt as you, after some deliberation, shake your head. You escort them out, ignoring the pleas and apologies for their intrusion - you have a thunder to care for. You can't afford your hearts softening for strangers. <br <br>
+
+                        When you reach the edge of your territory, you direct them towards another colony that might - <em>might</em> - take them in. The leader sags in relief that, even if they did not find mercy in you, there might be sanctuary elsewhere. You observe them leaving, and, in time, [[return home.|Sandbox Central.]]
+                    <</if>>
+                <</replace>>
+            <</link>></span>
+            <</replace>>
+        <</link>> <br>
+        
+        <br><<link "Send them away.">><<replace "#choices">>
+            You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Still, [[they hurry from your home.|Sandbox Central]] <</replace>> <</link>> </span>
+    <</nobr>>
+
+
+:: Event_Intruder
+<<silently>>
+    <<set _adult += 1>>
+    <<if $dragons.length >= 1>>
+        <<for _i to 0; _i < $dragons.length; _i++>>
+            <<if $dragons[_i].age == "Adult">>
+                <<set _adult += 1>>
+            <<else>>
+            <</if>>
+        <</for>>
+    <</if>>
+<</silently>>
+<<if $egg >= 2>>
+    It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision. <<nobr>>
+        <<if $hatchling >= 2>>
+            The hatchlings are chirping in terror, bundled in a corner, 
+        <<elseif $hatchling == 1>>
+            Your hatchling trembles in a corner, chirping with terror, 
+        <</if>>
+    <</nobr>>as a dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!
+
+        <<if _adult >= 1>>
+            Your battle cries draw the attention of your thunder over; the thief - hearing reinforcements arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above.
+
+            When you return, you tremble with lingering adrenaline and fury. You do not address your concerned thunder; you storm into the nursery and gather all the eggs to yourself. <<nobr>>
+                <<if $hatchling >= 2>>
+                Your hatchlings, thoroughly shaken, tuck themselves against you as well. It is almost - though not quite - enough to shake off the lingering remnants of your protective fury.
+                <<elseif $hatchling == 1>>
+                Your hatchling, thoroughly shaken, tucks themselves against you as well. Their fearful whines are almost - though not quite - enough to shake off the lingering remnants of your protective fury.
+                <<else>>
+                <</if>>
+            <</nobr>>[[You do not sleep.|Nursery]]
+        <<else>>
+            You fight as hard as you can - and the intruder, either sensing the impending loss or panicking from being caught - at last scrambles for the exit. You don't dare to leave the nursery as they flee, though you stomp and roar and light sparks between your teeth. You gather your eggs to you and curl around them with a booming growl rattling along your throat. [[You do not sleep.|Nursery]]
+        <</if>>
+<<else>>
+    It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision. <<nobr>>
+        <<if $hatchling >= 2>>
+            There are hatchlings in there - your little ones! 
+        <<elseif $hatchling == 1>>
+            There is a hatchling in there - your little one! 
+        <<else>>
+        <</if>>
+        <</nobr>>You barrel in, only to slam directly into the intruder. Their wing slaps your face, and you snap your teeth shut - the dragon wails in pain, but yanks the limb out from your jaws and manages to shove past you.
+
+        You chase without hesitation, howling in fury. You follow them for leagues, until the dragon manages to throw you - but they are far enough now. You shriek once more, flames billowing into the open air, before turning back. When you get back, [[you do not sleep.|Nursery]]
+<</if>>
