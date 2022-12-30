@@ -231,7 +231,7 @@ Config.saves.autosave = ["Central"];
 //};
 
 /*! <<numberpool>> macro set for SugarCube v2 */
-!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -846,289 +846,459 @@ For now, you have no food, no water, no treasure, no home.
 	&lt;&lt;if _forage == 12&gt;&gt;
 		&lt;&lt;set _collect = random(30, 40)&gt;&gt;
 		&lt;&lt;set _risk to random(1)&gt;&gt;
-		&lt;&lt;set $hydraSeen to true&gt;&gt;
 		While gliding over your territory, you find something strange. While a cave isn&#39;t normally worth your attention, there are a great deal of tracks leading in... and nothing leading out. In addition to being a potential threat, the idea of another predator on &lt;em&gt;your&lt;/em&gt; territory irritates you deeply. &lt;br&gt; &lt;br&gt;
-		&lt;span id=&quot;c1&quot;&gt; You could 
-		&lt;&lt;link &quot;investigate&quot;&gt;&gt;
-			&lt;&lt;replace &quot;#c1&quot;&gt;&gt;
-				&lt;&lt;if _risk == 1 &amp;&amp; $hydraSeen == false&gt;&gt;	
-					&lt;&lt;set $hydraSeen to true&gt;&gt;
-					You push into the cave, wings pressed tight against your sides and every sense on high alert. It is musty but warm in the cave; if it didn&#39;t smell so strongly of something dangerous, you would make note of it as a potential storage cache... but it does, and you feel your spinal crest beginning to rattle with your mounting anxiety. &lt;br&gt; &lt;br&gt;
-					Before you get too deep, however, you spy something that shuts you up swiftly. A mound of flesh - rotting at the bottom but fresher to the top, and... &lt;em&gt;something&lt;/em&gt;... sleeping coiled around it. You&#39;d think it was a serpent if it didn&#39;t have &lt;&lt;print random(2, 5)&gt;&gt; heads that you can see, and if it weren&#39;t larger than you. Nausea wells up your throat, and it is only by a desperate will to live that you swallow it down. As it stands, the mess before you feels like a terrible joke - a monster guarding its decayed horde, and you daring to challenge it for a fraction of its wealth. &lt;br&gt; &lt;br&gt;
-					&lt;span id=&quot;c2&quot;&gt;You have a choice. You can either &lt;&lt;link &quot;try stealing food anyway&quot;&gt;&gt;
-						&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
-							&lt;&lt;set _danger = random(3)&gt;&gt;
-							&lt;&lt;if _danger == 3&gt;&gt;
-								&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
-								&lt;&lt;set $food += _collect&gt;&gt;
-								&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-									&lt;&lt;set $food = $foodCap&gt;&gt;
-								&lt;&lt;/if&gt;&gt;
-								You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
-								You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra&#39;s tongue flicks. &lt;br&gt; &lt;br&gt;
-								It sees you. &lt;br&gt; &lt;br&gt;
-								You grab what you can and &lt;em&gt;run&lt;/em&gt;. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn&#39;t matter - you&#39;re gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. &lt;br&gt; &lt;br&gt;
-								You don&#39;t stop until you&#39;re home - and even then you tremble. It takes some time until you&#39;ve recovered enough to see that you collected &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
-								... Was it worth it? &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-
-							&lt;&lt;elseif _danger == 2&gt;&gt;
-								&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
-								&lt;&lt;set $food += _collect&gt;&gt;
-								&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-									&lt;&lt;set $food = $foodCap&gt;&gt;
-								&lt;&lt;/if&gt;&gt;
-								You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
-								You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
-								But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
-								What does that matter when it wakes up anyway? One head yawns, and two rows of teeth longer than your head flare in its open maw. Delicately, with more stealth than you knew you had, you creep towards the entrance of its lair. The hydra&#39;s tongue flicks. You abandon care and sprint. &lt;br&gt; &lt;br&gt;
-								You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn&#39;t matter; you are gone. Thankfully, you are gone. &lt;br&gt; &lt;br&gt;
-								When you land back at home, your nerves have settled enough for you to count your haul. &lt;&lt;print _collect&gt;&gt; food. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. &lt;br&gt; &lt;br&gt;
-								It didn&#39;t follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-
-							&lt;&lt;elseif _danger == 1&gt;&gt;
-								&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
-								&lt;&lt;set $food += _collect&gt;&gt;
-								&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-									&lt;&lt;set $food = $foodCap&gt;&gt;
-								&lt;&lt;/if&gt;&gt;
-								You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
-								You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
-								But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
-								By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of panic rather than anything the hydra would do to you. &lt;br&gt; &lt;br&gt;
-								Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: &lt;&lt;print _collect&gt;&gt; food. Not bad, given the pressure you were working under. &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-
-							&lt;&lt;else&gt;&gt;
-								&lt;&lt;set $food += _collect&gt;&gt;
-								&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-									&lt;&lt;set $food = $foodCap&gt;&gt;
-								&lt;&lt;/if&gt;&gt;
-								You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
-								You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
-								It does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
-								By the time your throat pouch is half full, your raw nerves have you struggling to breathe. Still, you power through - the hydra yawns and your hearts stop; it squeezes tighter around the pile and your legs almost give from terror. It does not wake. &lt;br&gt; &lt;br&gt;
-								Not soon enough - though faster than expected - you find yourself reaching capacity. You dare to swipe a few more pieces from its pile directly (and almost collapse when a head nearly brushes you), then - more than satisfied - you creep out. &lt;br&gt; &lt;br&gt;
-								It still does not wake. &lt;br&gt; &lt;br&gt;
-								By the time you get home, however, you are aglow with triumph, having brought back &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-							&lt;&lt;/if&gt;&gt;
-						&lt;&lt;/replace&gt;&gt;
-					&lt;&lt;/link&gt;&gt;, or you can &lt;&lt;link &quot;leave&quot;&gt;&gt;
-						&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
-							&lt;&lt;set _collect to random(10)&gt;&gt;
-							Fear in your hearts and survival on your mind, you slink away from the hydra. There are better - less potentially fatal - ways to gather a meal for you and yours. This is not the way. &lt;br&gt; &lt;br&gt;
-							&lt;&lt;if _collect &gt;= 1&gt;&gt;
-								&lt;&lt;set $food += _collect&gt;&gt;
-								&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-									&lt;&lt;set $food = $foodCap&gt;&gt;
-								&lt;&lt;/if&gt;&gt;
-								You prove it by collecting &lt;&lt;print _collect&gt;&gt; food; scraps from around your territory, never straying near the hydra&#39;s den. It is disappointing when you consider how much the great creature was sleeping on, but... you have all your limbs. You like to think you, ultimately, made the right choice. &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-							&lt;&lt;else&gt;&gt;
-								You don&#39;t find anything for the rest of your patrol. It&#39;s frustrating and frankly a little insulting - but it is what it is. Still, when you think about how much that hydra was sleeping on, you can&#39;t help but think... &lt;br&gt; &lt;br&gt;
-
-								&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-									&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-								&lt;&lt;else&gt;&gt;
-									It&#39;s time to [[go home.|Sandbox Central]]
-								&lt;&lt;/if&gt;&gt;
-							&lt;&lt;/if&gt;&gt;
-						&lt;&lt;/replace&gt;&gt;
-					&lt;&lt;/link&gt;&gt;. If you get caught it won&#39;t be pretty, but surely such a risk is worth taking for what you could potentially steal.&lt;/span&gt;
-				&lt;&lt;elseif _risk == 1 &amp;&amp; $hydraSeen == true&gt;&gt;
-					As you step into the cave, abandoning the cool mist from the waterfall outside, you feel a prickle along your back. Something about this seems... familiar. You stop just inside the cave mouth and inspect the area carefully. There are the steps leading in, and none out. The smoothed walls, deep gouges where something large dragged against it. You flick your tongue curiously. Warmth and blood. Flesh. Some rotting - &lt;em&gt;oh.&lt;/em&gt; &lt;br&gt; &lt;br&gt;
-					The hydra. &lt;br&gt; &lt;br&gt;
-					You lick your teeth and think carefully about your situation. Last time it didn&#39;t catch you - but that might have been Sun watching over you, or your need to survive overpowering your greed. Regardless, you are in much more danger visiting than you were before... &lt;em&gt;if&lt;/em&gt; you aren&#39;t careful. &lt;br&gt; &lt;br&gt;
-					Knowing the danger, and what a prize the hydra sleeps on - it tickles your interest. Perhaps there&#39;s even more buried in the flesh heap; a greater treasure just waiting for more worthy claws to take a hold of it. Your hearts squeeze at the tragedy of simply leaving it. &lt;br&gt; &lt;br&gt;
-					You flick your tongue again, and taste the danger. You feel your pulse speed, and your spinal crest twitches with anticipation. &lt;br&gt; &lt;br&gt;
-					&lt;span id=&quot;c2&quot;&gt;You can &lt;&lt;link &quot;go inside&quot;&gt;&gt;
-						&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
-							&lt;&lt;set _danger to random(1)&gt;&gt;
-								You click your teeth eagerly and continue forward. &lt;br&gt; &lt;br&gt;
-								The hydra&#39;s den isn&#39;t too far into the cave; as you go, you keep your head low and claws light on the cavern floor. &lt;br&gt; &lt;br&gt;
-							&lt;&lt;if _danger == 0&gt;&gt;
-								Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. &lt;br&gt; &lt;br&gt;
-								The great serpent&#39;s body is curled around the pile once again; its heads sunk into the meat and scales stained with red-brown blood. Some of it is fresh; the majority of it is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
-								You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... &lt;br&gt; &lt;br&gt;
-								A head twitches and your claws dig into the rock as terror floods you. Yet it remains still, eyes unfocused and head slumped further into its rotting nest. The movement reveals something gleaming within. &lt;br&gt; &lt;br&gt;
-								You stay where you are - fear rooting you more firmly than any force of will could hope to - but lift your head slowly until you have a better view of the object underneath the meat and body. It&#39;s strange - sunken yet sturdy, as though something underneath holds its shape. It shimmers wetly, nearly clean despite the gore holding it. What &lt;em&gt;is&lt;/em&gt; that? &lt;br&gt; &lt;br&gt;
-								&lt;span id=&quot;c3&quot;&gt;It might be worth looking at... but you came here for food. If you decide to &lt;&lt;link &quot;investigate the mystery&quot;&gt;&gt;
-									&lt;&lt;replace &quot;#c3&quot;&gt;&gt;
-										&lt;&lt;set _collect to random(5, 13)&gt;&gt;
-										Perhaps you are greedy. Perhaps you have more curiosity than sense... but that shiny, mysterious &lt;em&gt;something&lt;/em&gt; tickles your interest more than rotting flesh. You could find fresher by patrolling your territory. &lt;br&gt; &lt;br&gt;
-										You creep forward, trembling - with anticipation or nerves, who could say? All you know, all you see, is that &lt;em&gt;something&lt;/em&gt;. &lt;br&gt; &lt;br&gt;
-										Every step sends a thrill through your bones. Every little noise stops your hearts, your breathing - perhaps your very fire. But none of it is enough to stop you creeping closer, yet closer. When you reach the pile, you scarcely dare to move. Painfully slowly, your claws sink into the meat. It is soft under your weight; boneless. So much &lt;em&gt;food&lt;/em&gt;, all wasted as a macabre hoard. Even you aren&#39;t immune to the indignity. Reluctantly, eyes still trapped to the gleaming object above - you dip your head and swallow some of it into your throat pouch, before your desire for the &lt;em&gt;something&lt;/em&gt; becomes unbearable again and you resume your slow climb. &lt;br&gt; &lt;br&gt;
-										The worst is not your weight dipping into the nest, or the feeling of gore sliding against your scales. It is not the knowledge that the hydra is impossibly close; that you feel its every breath. No, the true horror is having to clamber over the coils of its body. Dimly, you know there is a better way - you could circle with it, follow its body up, or attempt to fly silently higher... but those would be too slow, too dangerous. There is no safe option. &lt;br&gt; &lt;br&gt;
-										The hydra&#39;s body is softer than you expect. Its scales click against you, but underneath, it gives subtly. Powerful muscles relaxed in sleep. It is warm, almost relaxingly so - or terrifyingly, knowing how alive it is. How you risk your life for your curiosity. &lt;br&gt; &lt;br&gt;
-										Still, the hydra does not wake. &lt;br&gt; &lt;br&gt;
-										As you crest the pile, you find the gleaming thing within reach. Your greed peaks. You dig. The flesh parts easily under your claws, slipping down the pile soundlessly as you reveal... an egg. &lt;br&gt; &lt;br&gt;
-										... An egg? &lt;br&gt; &lt;br&gt;
-										Oh. Oh no. Oh no no &lt;em&gt;no&lt;/em&gt;. You start to rear back, shaking like a hatchling - but the pile rumbles, and the hydra makes a noise. Its scales scrape. Terror bursts in your veins, freezing you solid as the hydra stills. Slow. You must be &lt;em&gt;slow.&lt;/em&gt; Your tongue flicks out uncontrollably, your spinal crest shivers - but does not rattle. You don&#39;t &lt;em&gt;dare&lt;/em&gt; to allow even the slightest noise to escape as you stare - at the egg? at the hydra? At nothing at all? It&#39;s impossible to focus on one thing, the realization that you are risking your life - no. Not just your life. The whole of your &lt;em&gt;thunder&lt;/em&gt; by coming here, seeing this egg, knowing that you should have been slaughtered for your trespass; better that than risk its fury raging across your entire territory! &lt;br&gt; &lt;br&gt;
-										Can you leave? Do you have a chance at escape? You turn, unbearably slow, to the exit. You could glide. Your wings spread, bit by trembling bit. You could glide. &lt;br&gt; &lt;br&gt;
-										The pile trembles. A head yawns. Before your mind can catch up to your actions, you throw yourself at the egg, coiling around it - so much smaller than expected, not much bigger than two of your own. The hydra is - still? It&#39;s not awake. There is no relief in this - your scent is &lt;em&gt;coating&lt;/em&gt; the egg. There is no way it won&#39;t know. You straighten out as much as you dare, thoughts rolling dizzyingly through your head as you desperately &lt;&lt;linkappend &quot;observe the den.&gt;&gt; &lt;br&gt; &lt;br&gt;
-										&lt;span id=&quot;c4&quot;&gt;You can &lt;&lt;link &quot;glide&quot;&gt;&gt;&lt;&lt;/link&gt;&gt; at risk of being heard and taking only what little food you collected at the beginning... &lt;&lt;timed 5s&gt;&gt;&lt;&lt;linkappend &quot;Or...&quot;&gt;&gt;&lt;br&gt; &lt;br&gt;
-										Your throat dries. You have 
-										&lt;&lt;if $dragons.length &gt; 20&gt;&gt;
-											plenty of dragons. &lt;&lt;print $dragons.length&gt;&gt; is a large thunder to worry about - but that&#39;s a large thunder that might be able to prepare for somthing... stupid. Something big. Something like killing a hydra. &lt;br&gt; &lt;br&gt;
-											Your attention drifts to the egg under your claws, and a terrible, horrible, &lt;em&gt;greedy&lt;/em&gt; thought sits heavy on your shoulders. You could &lt;&lt;link &quot;take the egg&quot;&gt;&gt;
-												&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
-													&lt;&lt;set $hydraEggTaken = true&gt;&gt;
-													&lt;&lt;set $hydraTime = 15&gt;&gt;
-													A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
-													Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
-													With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
-													The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
-													You leave in half a daze, and by the time you are in fresh air again, the world is still beyond you. &lt;br&gt; &lt;br&gt;
-													The glide back is pleasant - quiet and uninterrupted. You come to a smooth landing in your homesite. Most of your dragons don&#39;t notice what you have, or even, really, that you&#39;re back. You watch them for a moment. Affection wells up in your hearts, warm and undeniable. &lt;br&gt; &lt;br&gt;
-													You shriek the gathering call. &lt;br&gt; &lt;br&gt;
-													Within moments, every dragon in your thunder has arrived, most panting with exertion from heeding the sudden call. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
-													You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. &lt;br&gt; &lt;br&gt;
-													Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching. &lt;br&gt; &lt;br&gt;
-													Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. &lt;br&gt; &lt;br&gt;
-													[[You will be ready.|Sandbox Central]]
-												&lt;&lt;/replace&gt;&gt;
-											&lt;&lt;/link&gt;&gt;, or you could &lt;&lt;link &quot;leave&quot; &quot;Sandbox Central&quot;&gt;&gt;&lt;&lt;set $food += _collect&gt;&gt;&lt;&lt;/link&gt;&gt;. &lt;br&gt; &lt;br&gt;
-											If you take the egg, there is no going back. You will draw the hydra&#39;s wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you &lt;em&gt;cycles!&lt;/em&gt; - and a hydra egg, to either hatch as your own or kill as you see fit. &lt;br&gt; &lt;br&gt;
-											You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
-										&lt;&lt;elseif $dragons.length &gt; 10&gt;&gt;
-											some dragons. &lt;&lt;print $dragons.length&gt;&gt;. That&#39;s - not few. But it&#39;s not a great amount either; it&#39;s risky. It&#39;s stupid, to be thinking about this. About the egg under your claws, the hydra sleeping here. About killing it. &lt;br&gt; &lt;br&gt;
-											Your attention drifts to the egg under your claws, and a terrible, horrible, &lt;em&gt;greedy&lt;/em&gt; thought sits heavy on your shoulders. You could &lt;&lt;link &quot;take the egg&quot;&gt;&gt;
-												&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
-													&lt;&lt;set $hydraEggTaken = true&gt;&gt;
-													&lt;&lt;set $hydraTime = 15&gt;&gt;
-													A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
-													Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
-													With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
-													The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
-													You leave in half a daze, and by the time you are in fresh air again, the world is still beyond you. &lt;br&gt; &lt;br&gt;
-													The glide back is pleasant - quiet and uninterrupted. You come to a smooth landing in your homesite. Most of your dragons don&#39;t notice what you have, or even, really, that you&#39;re back. You watch them for a moment. Affection wells up in your hearts, warm and undeniable. &lt;br&gt; &lt;br&gt;
-													You shriek the gathering call. &lt;br&gt; &lt;br&gt;
-													Within moments, every dragon in your thunder has arrived, most panting with exertion from heeding the sudden call. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
-													You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. &lt;br&gt; &lt;br&gt;
-													Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching, living. So strange to have a soft shell, to be so small for its immense parent. &lt;br&gt; &lt;br&gt;
-													Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. &lt;br&gt; &lt;br&gt;
-													[[You will be ready.|Sandbox Central]]
-												&lt;&lt;/replace&gt;&gt;
-											&lt;&lt;/link&gt;&gt;, or you could &lt;&lt;link &quot;leave&quot; &quot;Sandbox Central&quot;&gt;&gt;&lt;&lt;set $food += _collect&gt;&gt;&lt;&lt;/link&gt;&gt;. &lt;br&gt; &lt;br&gt;
-											If you take the egg, there is no going back. You will draw the hydra&#39;s wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you &lt;em&gt;cycles!&lt;/em&gt; - and a hydra egg, to either hatch as your own or kill as you see fit. &lt;br&gt; &lt;br&gt;
-											You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
-										&lt;&lt;elseif $dragons.length &gt; 1&gt;&gt;
-											not enough dragons. Your thunder is tiny, with only &lt;&lt;print $dragons.length&gt;&gt; dragons. No, you are thinking big ideas - ideas that hatchlings have, ideas that little creatures with no concept of mortality dream of. You can&#39;t kill a hydra. Not like this. &lt;br&gt; &lt;br&gt;
-											You shake your head and stretch your wings. When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you&#39;ve collected in your throat. You spread your wings and carefully, silently, glide away with the &lt;&lt;print _collect&gt;&gt; you stole earlier. &lt;&lt;link &quot;One day, you will be back.&quot; &quot;Sandbox Central&quot;&gt;&gt;&lt;&lt;set $food += _collect&gt;&gt;&lt;&lt;/link&gt;&gt;
-										&lt;&lt;else&gt;&gt;
-											a stupid idea; you shake your head, terror wending up your throat once more. No. No, you would need support for that - you would need many dragons, and right now you do not have that. You are not equipped to kill a hydra, not right now. &lt;br&gt; &lt;br&gt;
-											When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you&#39;ve collected in your throat. You spread your wings and carefully, silently, glide away with the &lt;&lt;print _collect&gt;&gt; you stole earlier. &lt;&lt;link &quot;One day, you will be back.&quot; &quot;Sandbox Central&quot;&gt;&gt;&lt;&lt;set $food += _collect&gt;&gt;&lt;&lt;/link&gt;&gt;
+		&lt;span id=&quot;c1&quot;&gt;
+			 You could 
+			&lt;&lt;link &quot;investigate&quot;&gt;&gt;
+				&lt;&lt;replace &quot;#c1&quot;&gt;&gt;
+					&lt;&lt;if _risk == 1 &amp;&amp; $hydraSeen == false&gt;&gt;
+						&lt;&lt;set $hydraSeen to true&gt;&gt;
+						You push into the cave, wings pressed tight against your sides and every sense on high alert. It is musty but warm in the cave; if it didn&#39;t smell so strongly of something dangerous, you would make note of it as a potential storage cache... but it does, and you feel your spinal crest beginning to rattle with your mounting anxiety. &lt;br&gt; &lt;br&gt;
+						Before you get too deep, however, you spy something that shuts you up swiftly. A mound of flesh - rotting at the bottom but fresher to the top, and... &lt;em&gt;something&lt;/em&gt;... sleeping coiled around it. You&#39;d think it was a serpent if it didn&#39;t have 
+						&lt;&lt;print random(2, 5)&gt;&gt; 
+						heads that you can see, and if it weren&#39;t larger than you. Nausea wells up your throat, and it is only by a desperate will to live that you swallow it down. As it stands, the mess before you feels like a terrible joke - a monster guarding its decayed horde, and you daring to challenge it for a fraction of its wealth.
+						&lt;br&gt; &lt;br&gt;
+						&lt;span id=&quot;c2&quot;&gt;
+							You have a choice. You can either 
+							&lt;&lt;link &quot;try stealing food anyway&quot;&gt;&gt;
+								&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
+									&lt;&lt;set _danger = random(3)&gt;&gt;
+									&lt;&lt;if _danger == 3&gt;&gt;
+										&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
+										&lt;&lt;set $food += _collect&gt;&gt;
+										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+											&lt;&lt;set $food = $foodCap&gt;&gt;
 										&lt;&lt;/if&gt;&gt;
-										&lt;&lt;/linkappend&gt;&gt;&lt;&lt;/timed&gt;&gt;&lt;&lt;/linkappend&gt;&gt;&lt;/span&gt;
-									&lt;&lt;/replace&gt;&gt;
-								&lt;&lt;/link&gt;&gt;, it will likely come at the cost of waking the hydra - though if you &lt;&lt;link &quot;steal meat&quot;&gt;&gt;
-									&lt;&lt;replace &quot;#c3&quot;&gt;&gt;
-										&lt;&lt;set $food = $foodCap&gt;&gt;
-										&lt;&lt;if $player.health &lt; 10&gt;&gt;
-											&lt;&lt;set $player.health += 1&gt;&gt;
+										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+										You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra&#39;s tongue flicks. &lt;br&gt; &lt;br&gt;
+										It sees you. &lt;br&gt; &lt;br&gt;
+										You grab what you can and &lt;em&gt;run&lt;/em&gt;. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn&#39;t matter - you&#39;re gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. &lt;br&gt; &lt;br&gt;
+										You don&#39;t stop until you&#39;re home - and even then you tremble. It takes some time until you&#39;ve recovered enough to see that you collected 
+										&lt;&lt;print _collect&gt;&gt; 
+										food. 
+										&lt;br&gt; &lt;br&gt;
+										... Was it worth it? 
+										&lt;br&gt; &lt;br&gt;
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;
+												; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
 										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
 										&lt;&lt;/if&gt;&gt;
-										You shake your head once, tossing the greed from your mind. It pains you, but survival comes first, always. You can see what it is another time - if you dare to come back at all. &lt;br&gt; &lt;br&gt;
-										You creep forward to the towering mound of rotten flesh, and sink your claws in; it sinks easily, shivering in time with the hydra&#39;s slow breaths. It almost seems to be breathing. The idea is unnerving - almost horrifying - but you press onward to the nearest chunk of fresh meat. You dig in slowly, but with purpose. Every bite sinks into your throat pouch, bloating you uncomfortably - but there is so much. &lt;br&gt; &lt;br&gt;
-										Upon realizing your pouch is full, and that the hydra hasn&#39;t moved... you lick your teeth. &lt;br&gt; &lt;br&gt;
-										You leave the cave silently, returning home to drop off your food - then go straight back to the sleeping hydra&#39;s lair. Over and over and over again, until your food storage is fit to burst. And then, because you can, you devour some yourself on your last trip. It isn&#39;t particularly filling, but you feel... healthy for it. Perhaps from consuming the hydra&#39;s scales? &lt;br&gt; &lt;br&gt;
-										You eye some of the shed contemplatively, but ultimately ignore it in favor of leaving silently. You&#39;ve taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. &lt;br&gt; &lt;br&gt;
-										[[You arrive home feeling quite smug.|Sandbox Central]]
-									&lt;&lt;/replace&gt;&gt;
-								&lt;&lt;/link&gt;&gt;, the same will likely happen. What to do...&lt;/span&gt;
-							&lt;&lt;else&gt;&gt;
+
+									&lt;&lt;elseif _danger == 2&gt;&gt;
+										&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
+										&lt;&lt;set $food += _collect&gt;&gt;
+										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+											&lt;&lt;set $food = $foodCap&gt;&gt;
+										&lt;&lt;/if&gt;&gt;
+										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
+										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
+										What does that matter when it wakes up anyway? One head yawns, and two rows of teeth longer than your head flare in its open maw. Delicately, with more stealth than you knew you had, you creep towards the entrance of its lair. The hydra&#39;s tongue flicks. You abandon care and sprint. &lt;br&gt; &lt;br&gt;
+										You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn&#39;t matter; you are gone. Thankfully, you are gone. &lt;br&gt; &lt;br&gt;
+										When you land back at home, your nerves have settled enough for you to count your haul. &lt;&lt;print _collect&gt;&gt; food. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. &lt;br&gt; &lt;br&gt;
+										It didn&#39;t follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. &lt;br&gt; &lt;br&gt;
+
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
+										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
+										&lt;&lt;/if&gt;&gt;
+
+									&lt;&lt;elseif _danger == 1&gt;&gt;
+										&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
+										&lt;&lt;set $food += _collect&gt;&gt;
+										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+											&lt;&lt;set $food = $foodCap&gt;&gt;
+										&lt;&lt;/if&gt;&gt;
+										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
+										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
+										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of panic rather than anything the hydra would do to you. &lt;br&gt; &lt;br&gt;
+										Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: &lt;&lt;print _collect&gt;&gt; food. Not bad, given the pressure you were working under. &lt;br&gt; &lt;br&gt;
+
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
+										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
+										&lt;&lt;/if&gt;&gt;
+
+									&lt;&lt;else&gt;&gt;
+										&lt;&lt;set $food += _collect&gt;&gt;
+										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+											&lt;&lt;set $food = $foodCap&gt;&gt;
+										&lt;&lt;/if&gt;&gt;
+										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
+										It does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
+										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. Still, you power through - the hydra yawns and your hearts stop; it squeezes tighter around the pile and your legs almost give from terror. It does not wake. &lt;br&gt; &lt;br&gt;
+										Not soon enough - though faster than expected - you find yourself reaching capacity. You dare to swipe a few more pieces from its pile directly (and almost collapse when a head nearly brushes you), then - more than satisfied - you creep out. &lt;br&gt; &lt;br&gt;
+										It still does not wake. &lt;br&gt; &lt;br&gt;
+										By the time you get home, however, you are aglow with triumph, having brought back &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
+
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;
+												; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
+										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
+										&lt;&lt;/if&gt;&gt;
+									&lt;&lt;/if&gt;&gt;
+								&lt;&lt;/replace&gt;&gt;
+							&lt;&lt;/link&gt;&gt;, or you can 
+							&lt;&lt;link &quot;leave&quot;&gt;&gt;
+								&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
+									&lt;&lt;set _collect to random(10)&gt;&gt;
+									Fear in your hearts and survival on your mind, you slink away from the hydra. There are better - less potentially fatal - ways to gather a meal for you and yours. This is not the way. &lt;br&gt; &lt;br&gt;
+									&lt;&lt;if _collect &gt;= 0&gt;&gt;
+										&lt;&lt;set $food += _collect&gt;&gt;
+										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+											&lt;&lt;set $food = $foodCap&gt;&gt;
+										&lt;&lt;/if&gt;&gt;
+										You prove it by collecting &lt;&lt;print _collect&gt;&gt; food; scraps from around your territory, never straying near the hydra&#39;s den. It is disappointing when you consider how much the great creature was sleeping on, but... you have all your limbs. You like to think you, ultimately, made the right choice. &lt;br&gt; &lt;br&gt;
+
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
+										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
+										&lt;&lt;/if&gt;&gt;
+									&lt;&lt;else&gt;&gt;
+										You don&#39;t find anything for the rest of your patrol. It&#39;s frustrating and frankly a little insulting - but it is what it is. Still, when you think about how much that hydra was sleeping on, you can&#39;t help but think... &lt;br&gt; &lt;br&gt;
+
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+											&lt;span id=&quot;forageChoices&quot;&gt;
+												You could [[hunt again|Food]]; look for 
+												&lt;&lt;link &quot;something else&quot;&gt;&gt;
+													&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+														[[Water]], [[wood|Wood]], 
+														&lt;&lt;if $ghunt == false&gt;&gt;
+															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+														&lt;&lt;else&gt;&gt;
+															or [[stone|Stone]]?
+														&lt;&lt;/if&gt;&gt;
+													&lt;&lt;/replace&gt;&gt;
+												&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+											&lt;/span&gt;
+										&lt;&lt;else&gt;&gt;
+											It&#39;s time to [[go home.|Sandbox Central]]
+										&lt;&lt;/if&gt;&gt;
+									&lt;&lt;/if&gt;&gt;
+								&lt;&lt;/replace&gt;&gt;
+							&lt;&lt;/link&gt;&gt;. 
+							If you get caught it won&#39;t be pretty, but surely such a risk is worth taking for what you could potentially steal.
+						&lt;/span&gt;
+					&lt;&lt;elseif _risk == 1 &amp;&amp; $hydraSeen == true&gt;&gt;
+						As you step into the cave, abandoning the cool mist from the waterfall outside, you feel a prickle along your back. Something about this seems... familiar. You stop just inside the cave mouth and inspect the area carefully. There are the steps leading in, and none out. The smoothed walls, deep gouges where something large dragged against it. You flick your tongue curiously. Warmth and blood. Flesh. Some rotting - &lt;em&gt;oh.&lt;/em&gt; &lt;br&gt; &lt;br&gt;
+						The hydra. &lt;br&gt; &lt;br&gt;
+						You lick your teeth and think carefully about your situation. Last time it didn&#39;t catch you - but that might have been Sun watching over you, or your need to survive overpowering your greed. Regardless, you are in much more danger visiting than you were before... &lt;em&gt;if&lt;/em&gt; you aren&#39;t careful. &lt;br&gt; &lt;br&gt;
+						Knowing the danger, and what a prize the hydra sleeps on - it tickles your interest. Perhaps there&#39;s even more buried in the flesh heap; a greater treasure just waiting for more worthy claws to take a hold of it. Your hearts squeeze at the tragedy of simply leaving it. &lt;br&gt; &lt;br&gt;
+						You flick your tongue again, and taste the danger. You feel your pulse speed, and your spinal crest twitches with anticipation. &lt;br&gt; &lt;br&gt;
+						&lt;span id=&quot;c2&quot;&gt;
+							You can 
+							&lt;&lt;link &quot;go inside&quot;&gt;&gt;
+								&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
+
+									&lt;&lt;set _danger to random(1)&gt;&gt;
+									You click your teeth eagerly and continue forward. &lt;br&gt; &lt;br&gt;
+									The hydra&#39;s den isn&#39;t too far into the cave; as you go, you keep your head low and claws light on the cavern floor. &lt;br&gt; &lt;br&gt;
+									&lt;&lt;if _danger == 0&gt;&gt;
+
+									
+										Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. &lt;br&gt; &lt;br&gt;
+										The great serpent&#39;s body is curled around the pile once again; its heads sunk into the meat and scales stained with red-brown blood. Some of it is fresh; the majority of it is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
+										You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... &lt;br&gt; &lt;br&gt;
+										A head twitches and your claws dig into the rock as terror floods you. Yet it remains still, eyes unfocused and head slumped further into its rotting nest. The movement reveals something gleaming within. &lt;br&gt; &lt;br&gt;
+										You stay where you are - fear rooting you more firmly than any force of will could hope to - but lift your head slowly until you have a better view of the object underneath the meat and body. It&#39;s strange - sunken yet sturdy, as though something underneath holds its shape. It shimmers wetly, nearly clean despite the gore holding it. What &lt;em&gt;is&lt;/em&gt; that? &lt;br&gt; &lt;br&gt;
+										&lt;span id=&quot;c3&quot;&gt;
+											It might be worth looking at... but you came here for food. If you decide to 
+											&lt;&lt;link &quot;investigate the mystery&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#c3&quot;&gt;&gt;
+													&lt;&lt;set _collect to random(5, 13)&gt;&gt;
+													Perhaps you are greedy. Perhaps you have more curiosity than sense... but that shiny, mysterious &lt;em&gt;something&lt;/em&gt; tickles your interest more than rotting flesh. You could find fresher by patrolling your territory. &lt;br&gt; &lt;br&gt;
+													You creep forward, trembling - with anticipation or nerves, who could say? All you know, all you see, is that &lt;em&gt;something&lt;/em&gt;. &lt;br&gt; &lt;br&gt;
+													Every step sends a thrill through your bones. Every little noise stops your hearts, your breathing - perhaps your very fire. But none of it is enough to stop you creeping closer, yet closer. When you reach the pile, you scarcely dare to move. Painfully slowly, your claws sink into the meat. It is soft under your weight; boneless. So much &lt;em&gt;food&lt;/em&gt;, all wasted as a macabre hoard. Even you aren&#39;t immune to the indignity. Reluctantly, eyes still trapped to the gleaming object above - you dip your head and swallow some of it into your throat pouch, before your desire for the &lt;em&gt;something&lt;/em&gt; becomes unbearable again and you resume your slow climb. &lt;br&gt; &lt;br&gt;
+													The worst is not your weight dipping into the nest, or the feeling of gore sliding against your scales. It is not the knowledge that the hydra is impossibly close; that you feel its every breath. No, the true horror is having to clamber over the coils of its body. Dimly, you know there is a better way - you could circle with it, follow its body up, or attempt to fly silently higher... but those would be too slow, too dangerous. There is no safe option. &lt;br&gt; &lt;br&gt;
+													The hydra&#39;s body is softer than you expect. Its scales click against you, but underneath, it gives subtly. Powerful muscles relaxed in sleep. It is warm, almost relaxingly so - or terrifyingly, knowing how alive it is. How you risk your life for your curiosity. &lt;br&gt; &lt;br&gt;
+													Still, the hydra does not wake. &lt;br&gt; &lt;br&gt;
+													As you crest the pile, you find the gleaming thing within reach. Your greed peaks. You dig. The flesh parts easily under your claws, slipping down the pile soundlessly as you reveal... an egg. &lt;br&gt; &lt;br&gt;
+													... An egg? &lt;br&gt; &lt;br&gt;
+													Oh. Oh no. Oh no no &lt;em&gt;no&lt;/em&gt;. You start to rear back, shaking like a hatchling - but the pile rumbles, and the hydra makes a noise. Its scales scrape. Terror bursts in your veins, freezing you solid as the hydra stills. Slow. You must be &lt;em&gt;slow.&lt;/em&gt; Your tongue flicks out uncontrollably, your spinal crest shivers - but does not rattle. You don&#39;t &lt;em&gt;dare&lt;/em&gt; to allow even the slightest noise to escape as you stare - at the egg? at the hydra? At nothing at all? It&#39;s impossible to focus on one thing, the realization that you are risking your life - no. Not just your life. The whole of your &lt;em&gt;thunder&lt;/em&gt; by coming here, seeing this egg, knowing that you should have been slaughtered for your trespass; better that than risk its fury raging across your entire territory! &lt;br&gt; &lt;br&gt;
+													Can you leave? Do you have a chance at escape? You turn, unbearably slow, to the exit. You could glide. Your wings spread, bit by trembling bit. You could glide. &lt;br&gt; &lt;br&gt;
+													The pile trembles. A head yawns. Before your mind can catch up to your actions, you throw yourself at the egg, coiling around it - so much smaller than expected, not much bigger than two of your own. The hydra is - still? It&#39;s not awake. There is no relief in this - your scent is &lt;em&gt;coating&lt;/em&gt; the egg. There is no way it won&#39;t know. You straighten out as much as you dare, thoughts rolling dizzyingly through your head as you desperately 
+													&lt;&lt;linkappend &quot;observe the den.&quot;&gt;&gt; &lt;br&gt; &lt;br&gt;
+														&lt;span id=&quot;c4&quot;&gt;
+															You can 
+															&lt;&lt;link &quot;glide&quot;&gt;&gt;
+																&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
+																	&lt;&lt;set $food += _collect&gt;&gt;
+																	You spread your wings and double - triple - quadruple check that the the hydra is very much asleep. Despite the tremble in your frame, your glide is smooth and silent. You land easily on the stone near the entrance and flee as quickly and quietly as you can. Behind you is silence; before you, freedom. You take to the skies in a flurry of waterfall-born mist as the sunlight greets you, and rush home with the paltry &lt;&lt;print _collect&gt;&gt; food you stole earlier. [[Better that than risking your thunder.|Sandbox Central]]
+																&lt;&lt;/replace&gt;&gt;
+															&lt;&lt;/link&gt;&gt; 
+															at risk of being heard and taking only what little food you collected at the beginning... 
+															&lt;&lt;timed 5s&gt;&gt;
+																&lt;&lt;linkappend &quot;Or...&quot;&gt;&gt; &lt;br&gt; &lt;br&gt;
+																	Your throat dries. You have 
+																	&lt;&lt;if $dragons.length &gt; 20&gt;&gt;
+																		plenty of dragons. &lt;&lt;print $dragons.length&gt;&gt; is a large thunder to worry about - but that&#39;s a large thunder that might be able to prepare for somthing... stupid. Something big. Something like killing a hydra. &lt;br&gt; &lt;br&gt;
+																		Your attention drifts to the egg under your claws, and a terrible, horrible, &lt;em&gt;greedy&lt;/em&gt; thought sits heavy on your shoulders. You could 
+																		&lt;&lt;link &quot;take the egg&quot;&gt;&gt;
+																			&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
+																				&lt;&lt;set $hydraEggTaken = true&gt;&gt;
+																				&lt;&lt;set $hydraTime = 15&gt;&gt;
+																				A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
+																				Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
+																				With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
+																				The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
+																				You leave in half a daze, and by the time you are in fresh air again, the world is still beyond you. &lt;br&gt; &lt;br&gt;
+																				The glide back is pleasant - quiet and uninterrupted. You come to a smooth landing in your homesite. Most of your dragons don&#39;t notice what you have, or even, really, that you&#39;re back. You watch them for a moment. Affection wells up in your hearts, warm and undeniable. &lt;br&gt; &lt;br&gt;
+																				You shriek the gathering call. &lt;br&gt; &lt;br&gt;
+																				Within moments, every dragon in your thunder has arrived, most panting with exertion from heeding the sudden call. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
+																				You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. &lt;br&gt; &lt;br&gt;
+																				Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching. &lt;br&gt; &lt;br&gt;
+																				Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. &lt;br&gt; &lt;br&gt;
+																				[[You will be ready.|Sandbox Central]]
+																			&lt;&lt;/replace&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;, or you could 
+																		&lt;&lt;link &quot;leave&quot; &quot;Sandbox Central&quot;&gt;&gt;
+																			&lt;&lt;set $food += _collect&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;. &lt;br&gt; &lt;br&gt;
+																		If you take the egg, there is no going back. You will draw the hydra&#39;s wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you &lt;em&gt;cycles!&lt;/em&gt; - and a hydra egg, to either hatch as your own or kill as you see fit. &lt;br&gt; &lt;br&gt;
+																		You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
+																	&lt;&lt;elseif $dragons.length &gt; 10&gt;&gt;
+																		some dragons. &lt;&lt;print $dragons.length&gt;&gt;. That&#39;s - not few. But it&#39;s not a great amount either; it&#39;s risky. It&#39;s stupid, to be thinking about this. About the egg under your claws, the hydra sleeping here. About killing it. &lt;br&gt; &lt;br&gt;
+																		Your attention drifts to the egg under your claws, and a terrible, horrible, &lt;em&gt;greedy&lt;/em&gt; thought sits heavy on your shoulders. You could 
+																		&lt;&lt;link &quot;take the egg&quot;&gt;&gt;
+																			&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
+																				&lt;&lt;set $hydraEggTaken = true&gt;&gt;
+																				&lt;&lt;set $hydraTime = 15&gt;&gt;
+																				A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
+																				Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
+																				With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
+																				The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
+																				You leave in half a daze, and by the time you are in fresh air again, the world is still beyond you. &lt;br&gt; &lt;br&gt;
+																				The glide back is pleasant - quiet and uninterrupted. You come to a smooth landing in your homesite. Most of your dragons don&#39;t notice what you have, or even, really, that you&#39;re back. You watch them for a moment. Affection wells up in your hearts, warm and undeniable. &lt;br&gt; &lt;br&gt;
+																				You shriek the gathering call. &lt;br&gt; &lt;br&gt;
+																				Within moments, every dragon in your thunder has arrived, most panting with exertion from heeding the sudden call. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
+																				You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. &lt;br&gt; &lt;br&gt;
+																				Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching, living. So strange to have a soft shell, to be so small for its immense parent. &lt;br&gt; &lt;br&gt;
+																				Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. &lt;br&gt; &lt;br&gt;
+																				[[You will be ready.|Sandbox Central]]
+																			&lt;&lt;/replace&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;, 
+																		or you could 
+																		&lt;&lt;link &quot;leave&quot; &quot;Sandbox Central&quot;&gt;&gt;
+																			&lt;&lt;set $food += _collect&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;. &lt;br&gt; &lt;br&gt;
+																		If you take the egg, there is no going back. You will draw the hydra&#39;s wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you &lt;em&gt;cycles!&lt;/em&gt; - and a hydra egg, to either hatch as your own or kill as you see fit. &lt;br&gt; &lt;br&gt;
+																		You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
+																	&lt;&lt;elseif $dragons.length &gt; 1&gt;&gt;
+																		not enough dragons. Your thunder is tiny, with only &lt;&lt;print $dragons.length&gt;&gt; dragons. No, you are thinking big ideas - ideas that hatchlings have, ideas that little creatures with no concept of mortality dream of. You can&#39;t kill a hydra. Not like this. &lt;br&gt; &lt;br&gt;
+																		You shake your head and stretch your wings. When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you&#39;ve collected in your throat. You spread your wings and carefully, silently, glide away with the &lt;&lt;print _collect&gt;&gt; you stole earlier. 
+																		&lt;&lt;link &quot;One day, you will be back.&quot; &quot;Sandbox Central&quot;&gt;&gt;
+																			&lt;&lt;set $food += _collect&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;
+																	&lt;&lt;else&gt;&gt;
+																		a stupid idea; you shake your head, terror wending up your throat once more. No. No, you would need support for that - you would need many dragons, and right now you do not have that. You are not equipped to kill a hydra, not right now. &lt;br&gt; &lt;br&gt;
+																		When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you&#39;ve collected in your throat. You spread your wings and carefully, silently, glide away with the &lt;&lt;print _collect&gt;&gt; you stole earlier.
+																		&lt;&lt;link &quot;One day, you will be back.&quot; &quot;Sandbox Central&quot;&gt;&gt;
+																			&lt;&lt;set $food += _collect&gt;&gt;
+																		&lt;&lt;/link&gt;&gt;
+																	&lt;&lt;/if&gt;&gt;
+																&lt;&lt;/linkappend&gt;&gt;
+															&lt;&lt;/timed&gt;&gt;
+														&lt;/span&gt;
+													&lt;&lt;/linkappend&gt;&gt;
+												
+												&lt;&lt;/replace&gt;&gt;
+											&lt;&lt;/link&gt;&gt;, 
+											it will likely come at the cost of waking the hydra - though if you 
+											&lt;&lt;link &quot;steal meat&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#c3&quot;&gt;&gt;
+													&lt;&lt;set $food = $foodCap&gt;&gt;
+													&lt;&lt;if $player.health &lt; 10&gt;&gt;
+														&lt;&lt;set $player.health += 1&gt;&gt;
+													&lt;&lt;else&gt;&gt;
+													&lt;&lt;/if&gt;&gt;
+													You shake your head once, tossing the greed from your mind. It pains you, but survival comes first, always. You can see what it is another time - if you dare to come back at all. &lt;br&gt; &lt;br&gt;
+													You creep forward to the towering mound of rotten flesh, and sink your claws in; it sinks easily, shivering in time with the hydra&#39;s slow breaths. It almost seems to be breathing. The idea is unnerving - almost horrifying - but you press onward to the nearest chunk of fresh meat. You dig in slowly, but with purpose. Every bite sinks into your throat pouch, bloating you uncomfortably - but there is so much. &lt;br&gt; &lt;br&gt;
+													Upon realizing your pouch is full, and that the hydra hasn&#39;t moved... you lick your teeth. &lt;br&gt; &lt;br&gt;
+													You leave the cave silently, returning home to drop off your food - then go straight back to the sleeping hydra&#39;s lair. Over and over and over again, until your food storage is fit to burst. And then, because you can, you devour some yourself on your last trip. It isn&#39;t particularly filling, but you feel... healthy for it. Perhaps from consuming the hydra&#39;s scales? &lt;br&gt; &lt;br&gt;
+													You eye some of the shed contemplatively, but ultimately ignore it in favor of leaving silently. You&#39;ve taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. &lt;br&gt; &lt;br&gt;
+													[[You arrive home feeling quite smug.|Sandbox Central]]
+												&lt;&lt;/replace&gt;&gt;
+											&lt;&lt;/link&gt;&gt;, 
+											the same will likely happen. What to do...
+										&lt;/span&gt;
+									&lt;&lt;else&gt;&gt;
 								
-							&lt;&lt;/if&gt;&gt;
-						&lt;&lt;/replace&gt;&gt;
-					&lt;&lt;/link&gt;&gt; anyway, or you can &lt;&lt;link &quot;look elsewhere&quot;&gt;&gt;
-						&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
-							&lt;&lt;set _collect = random(3, 15)&gt;&gt;
-							&lt;&lt;set $food += _collect&gt;&gt;
-							&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-								&lt;&lt;set $food = $foodCap&gt;&gt;
-							&lt;&lt;/if&gt;&gt;
-							You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
+									&lt;&lt;/if&gt;&gt;
+								&lt;&lt;/replace&gt;&gt;
+							&lt;&lt;/link&gt;&gt; 
+							anyway, or you can 
+							&lt;&lt;link &quot;look elsewhere&quot;&gt;&gt;
+								&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
+									&lt;&lt;set _collect = random(3, 15)&gt;&gt;
+									&lt;&lt;set $food += _collect&gt;&gt;
+									&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+										&lt;&lt;set $food = $foodCap&gt;&gt;
+									&lt;&lt;/if&gt;&gt;
+									You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
 
-							When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
+									When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
 
-							&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-								&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-							&lt;&lt;else&gt;&gt;
-								It&#39;s time to [[go home.|Sandbox Central]]
-							&lt;&lt;/if&gt;&gt;
-						&lt;&lt;/replace&gt;&gt;
-					&lt;&lt;/link&gt;&gt;.&lt;/span&gt;
-				&lt;&lt;else&gt;&gt;
-					&lt;&lt;set $food += _collect&gt;&gt;
-					&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-						&lt;&lt;set $food = $foodCap&gt;&gt;
-					&lt;&lt;/if&gt;&gt;
-					You step into the cave, wings tight against your sides and every sense on high alert. From first sight there isn&#39;t much; just muddy tracks leading deeper into the cave. You don&#39;t smell anything dangerous either; just damp and cold. &lt;br&gt; &lt;br&gt;
-					As you walk further in, you find yourself relaxing somewhat. If this &lt;em&gt;were&lt;/em&gt; some other predator&#39;s abode, they&#39;ve long since left the area. You increasingly suspect that it isn&#39;t, though. There are far too many prey-tracks, and it seems some did leave... just not recently. &lt;br&gt; &lt;br&gt;
-					Your slight distraction leads you to stumble - and it&#39;s sheer luck that you catch yourself before you go tumbling down a sudden overhang. You would have been fine regardless - there&#39;s space enough for you to roll into a sloppy glide - but it seems plenty of other animals weren&#39;t half as lucky if the reek of death is anything to go by. &lt;br&gt; &lt;br&gt;
-					Still... With nothing else living here, and 
+									&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+										&lt;span id=&quot;forageChoices&quot;&gt;
+											You could [[hunt again|Food]]; look for 
+											&lt;&lt;link &quot;something else&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+													[[Water]], [[wood|Wood]], 
+													&lt;&lt;if $ghunt == false&gt;&gt;
+														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+													&lt;&lt;else&gt;&gt;
+														or [[stone|Stone]]?
+													&lt;&lt;/if&gt;&gt;
+												&lt;&lt;/replace&gt;&gt;
+											&lt;&lt;/link&gt;&gt;; 
+											or you can simply [[stay home.|Sandbox Central]]
+										&lt;/span&gt;
+									&lt;&lt;else&gt;&gt;
+										It&#39;s time to [[go home.|Sandbox Central]]
+									&lt;&lt;/if&gt;&gt;
+								&lt;&lt;/replace&gt;&gt;
+							&lt;&lt;/link&gt;&gt;.
+						&lt;/span&gt;
+					&lt;&lt;else&gt;&gt;
+						&lt;&lt;set $food += _collect&gt;&gt;
+						&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+							&lt;&lt;set $food = $foodCap&gt;&gt;
+						&lt;&lt;else&gt;&gt;
+						&lt;&lt;/if&gt;&gt;
+						You step into the cave, wings tight against your sides and every sense on high alert. From first sight there isn&#39;t much; just muddy tracks leading deeper into the cave. You don&#39;t smell anything dangerous either; just damp and cold. &lt;br&gt; &lt;br&gt;
+						As you walk further in, you find yourself relaxing somewhat. If this &lt;em&gt;were&lt;/em&gt; some other predator&#39;s abode, they&#39;ve long since left the area. You increasingly suspect that it isn&#39;t, though. There are far too many prey-tracks, and it seems some did leave... just not recently. &lt;br&gt; &lt;br&gt;
+						Your slight distraction leads you to stumble - and it&#39;s sheer luck that you catch yourself before you go tumbling down a sudden overhang. You would have been fine regardless - there&#39;s space enough for you to roll into a sloppy glide - but it seems plenty of other animals weren&#39;t half as lucky if the reek of death is anything to go by. &lt;br&gt; &lt;br&gt;
+						Still... With nothing else living here, and 
 						&lt;&lt;if $dragons.length &gt;= 1 || $hatchlings.length &gt;= 1&gt;&gt;
 							a burgeoning thunder to care for, 
 						&lt;&lt;else&gt;&gt;
 							the future of your colony to think of, 
 						&lt;&lt;/if&gt;&gt;
-					it would be a shame to waste food... That in mind, you carefully swoop down and begin picking through the carcasses. A great many of them are rotten through, but there are plenty fresh enough - and layered enough - that you can safely seperate the edible from the disgusting. &lt;br&gt; &lt;br&gt;
-					There&#39;s enough there to be worth calling an unexpected windfall, too! By the time you&#39;re done, you&#39;ve collected &lt;&lt;print _collect&gt;&gt; food, and are feeling like quite the clever dragon for having investigated the cave. &lt;br&gt; &lt;br&gt;
-
-					&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-							&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
-					&lt;&lt;else&gt;&gt;
-						It&#39;s time to [[go home.|Sandbox Central]]
-					&lt;&lt;/if&gt;&gt;
-
-				&lt;&lt;/if&gt;&gt;
-			&lt;&lt;/replace&gt;&gt;
-		&lt;&lt;/link&gt;&gt;, or &lt;&lt;link &quot;move on.&quot;&gt;&gt;
-					&lt;&lt;replace &quot;#c1&quot;&gt;&gt;
-						&lt;&lt;set _collect = random(3, 15)&gt;&gt;
-						&lt;&lt;set $food += _collect&gt;&gt;
-						&lt;&lt;if $food &gt; $foodCap&gt;&gt;
-							&lt;&lt;set $food = $foodCap&gt;&gt;
-						&lt;&lt;/if&gt;&gt;
-						You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
-
-						When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
+						it would be a shame to waste food... That in mind, you carefully swoop down and begin picking through the carcasses. A great many of them are rotten through, but there are plenty fresh enough - and layered enough - that you can safely seperate the edible from the disgusting. &lt;br&gt; &lt;br&gt;
+						There&#39;s enough there to be worth calling an unexpected windfall, too! By the time you&#39;re done, you&#39;ve collected &lt;&lt;print _collect&gt;&gt; food, and are feeling like quite the clever dragon for having investigated the cave. &lt;br&gt; &lt;br&gt;
 
 						&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-							&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+							&lt;span id=&quot;forageChoices&quot;&gt;
+								You could [[hunt again|Food]]; look for 
+								&lt;&lt;link &quot;something else&quot;&gt;&gt;
+									&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+										[[Water]], [[wood|Wood]], 
+										&lt;&lt;if $ghunt == false&gt;&gt;
+											[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+										&lt;&lt;else&gt;&gt;
+											or [[stone|Stone]]?
+										&lt;&lt;/if&gt;&gt;
+									&lt;&lt;/replace&gt;&gt;
+								&lt;&lt;/link&gt;&gt;; 
+								or you can simply [[stay home.|Sandbox Central]]
+							&lt;/span&gt;
 						&lt;&lt;else&gt;&gt;
 							It&#39;s time to [[go home.|Sandbox Central]]
 						&lt;&lt;/if&gt;&gt;
-					&lt;&lt;/replace&gt;&gt;
-				&lt;&lt;/link&gt;&gt;
-			&lt;/span&gt;
+					&lt;&lt;/if&gt;&gt;
+
+
+				&lt;&lt;/replace&gt;&gt;
+			&lt;&lt;/link&gt;&gt;, or 
+			&lt;&lt;link &quot;move on.&quot;&gt;&gt;
+				&lt;&lt;replace &quot;#c1&quot;&gt;&gt;
+					&lt;&lt;set _collect = random(3, 15)&gt;&gt;
+					&lt;&lt;set $food += _collect&gt;&gt;
+					&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+						&lt;&lt;set $food = $foodCap&gt;&gt;
+					&lt;&lt;else&gt;&gt;
+					&lt;&lt;/if&gt;&gt;
+					You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
+
+					When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
+
+					&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+						&lt;span id=&quot;forageChoices&quot;&gt;
+							You could [[hunt again|Food]]; look for 
+							&lt;&lt;link &quot;something else&quot;&gt;&gt;
+								&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], 
+								&lt;&lt;if $ghunt == false&gt;&gt;
+									[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+								&lt;&lt;else&gt;&gt;
+									or [[stone|Stone]]?
+								&lt;&lt;/if&gt;&gt;
+								&lt;&lt;/replace&gt;&gt;
+							&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+						&lt;/span&gt;
+					&lt;&lt;else&gt;&gt;
+						It&#39;s time to [[go home.|Sandbox Central]]
+					&lt;&lt;/if&gt;&gt;
+				&lt;&lt;/replace&gt;&gt;
+			&lt;&lt;/link&gt;&gt;
+		&lt;/span&gt;
 	&lt;&lt;elseif _forage &gt;= 8&gt;&gt;
 		&lt;&lt;set _collect = random(12, 15)&gt;&gt;
 		&lt;&lt;set $food += _collect&gt;&gt;
@@ -1144,7 +1314,7 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;/if&gt;&gt;
 
 		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-			&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
 		&lt;&lt;else&gt;&gt;
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
@@ -1164,7 +1334,7 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;/if&gt;&gt;
 
 		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-			&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
 		&lt;&lt;else&gt;&gt;
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
@@ -1184,7 +1354,7 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;/if&gt;&gt;
 		
 		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-			&lt;span id=&quot;choices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;You could [[hunt again|Food]]; look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
 		&lt;&lt;else&gt;&gt;
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
@@ -1193,7 +1363,7 @@ For now, you have no food, no water, no treasure, no home.
 		You patrol your territory for something - anything - to eat, but none of the plants are edible and the prey seems to be avoiding you with almost preternatural ability. How frustrating. &lt;br&gt; &lt;br&gt;
 
 		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-			&lt;span id=&quot;choices&quot;&gt;You could &lt;&lt;if $food &lt; $foodCap&gt;&gt;[[hunt again|Food]]; &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;You could &lt;&lt;if $food &lt; $foodCap&gt;&gt;[[hunt again|Food]]; &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
 		&lt;&lt;else&gt;&gt;
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
