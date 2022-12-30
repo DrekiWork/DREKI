@@ -292,7 +292,11 @@ Config.saves.autosave = ["Central"];
 
 		/* Setting homes up, I guess? Gonna have to figure out if I want to convert this to a datamap or array or something... ugh. */
 	&lt;&lt;set $shelter to {}&gt;&gt;
-	&lt;&lt;set $shelter.ruts to { amount : 0, shelter : 1, occupied: 0}&gt;&gt;
+	&lt;&lt;set $shelter.ruts to { 
+		amount : 0,
+		shelter : 1,
+		occupied: 0
+		}&gt;&gt;
     &lt;&lt;set $home to (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)&gt;&gt;
 		
 		/* How many days you&#39;ve been here, and how many moon cycles! */
@@ -301,20 +305,24 @@ Config.saves.autosave = ["Central"];
 	
 		/* Setting up potential dragon names, personalities, etc... */
 	
-	&lt;&lt;set $dNames to [&quot;Abaddon&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;,  &quot;Apara&quot;, &quot;Argus&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Azizi&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, &quot;Camo&quot;, &quot;Cedric&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, &quot;Damon&quot;, &quot;Darius&quot;, &quot;Delbin&quot;, &quot;Devlin&quot;, &quot;Drobit&quot;, &quot;Ember&quot;, &quot;Enzo&quot;, &quot;Flame&quot;, &quot;Flavius&quot;, &quot;Fonsworthy&quot;, &quot;Gavin&quot;, &quot;Gildas&quot;, &quot;Grigori&quot;, &quot;Gunnar&quot;, &quot;Halvor&quot;, &quot;Hexus&quot;, &quot;Isaak&quot;, &quot;Ivor&quot;, &quot;Jarvis&quot;, &quot;Jed&quot;, &quot;Kasiya&quot;, &quot;Kosoko&quot;, &quot;Laird&quot;, &quot;Lateef&quot;, &quot;Legna&quot;, &quot;Lindar&quot;, &quot;Lutalo&quot;, &quot;Magnus&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, &quot;Nestor&quot;, &quot;Nevin&quot;, &quot;Nils&quot;, &quot;Obasi&quot;, &quot;Odahviing&quot;, &quot;Oswin&quot;, &quot;Paarthurnax&quot;, &quot;Pyra&quot;, &quot;Ragnar&quot;, &quot;Ramses&quot;, &quot;Revilo&quot;, &quot;Sadiki&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Sunburn&quot;, &quot;Terrador&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Trondo&quot;, &quot;Ulric&quot;, &quot;Unika&quot;, &quot;Urgost&quot;, &quot;Useni&quot;, &quot;Varalys&quot;, &quot;Vathek&quot;, &quot;Volteer&quot;, &quot;Zander&quot;, &quot;Zane&quot;, &quot;Zantor&quot;, &quot;Zephyr&quot;, &quot;Zinc&quot;]&gt;&gt;
+	&lt;&lt;set $dNames to [&quot;Abaddon&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alaric&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;, &quot;Apara&quot;, &quot;Arden&quot;, &quot;Argus&quot;, &quot;Aric&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Athine&quot;, &quot;Azizi&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, &quot;Caius&quot;, &quot;Camo&quot;, &quot;Caspar&quot;, &quot;Cedric&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, &quot;Damon&quot;, &quot;Darius&quot;, &quot;Delbin&quot;, &quot;Devlin&quot;, &quot;Drobit&quot;, &quot;Eirlys&quot;, &quot;Eleri&quot;, &quot;Ember&quot;, &quot;Enzo&quot;, &quot;Flame&quot;, &quot;Flavius&quot;, &quot;Fonsworthy&quot;, &quot;Galadriel&quot;, &quot;Gavin&quot;, &quot;Gildas&quot;, &quot;Gildor&quot;, &quot;Grigori&quot;, &quot;Gwyneth&quot;, &quot;Gunnar&quot;, &quot;Halen&quot;, &quot;Halvor&quot;, &quot;Haldor&quot;, &quot;Hexus&quot;, &quot;Helgi&quot;, &quot;Iola&quot;, &quot;Isaak&quot;, &quot;Ilmarinen&quot;, &quot;Ivor&quot;, &quot;Jaren&quot;, &quot;Jarvis&quot;, &quot;Jed&quot;, &quot;Jormungandr&quot;, &quot;Kael&quot;, &quot;Kasiya&quot;, &quot;Kosoko&quot;, &quot;Laird&quot;, &quot;Lateef&quot;, &quot;Legna&quot;, &quot;Lindar&quot;, &quot;Liraz&quot;, &quot;Lirien&quot;, &quot;Lutalo&quot;, &quot;Magnus&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, &quot;Nestor&quot;, &quot;Nevin&quot;, &quot;Nils&quot;, &quot;Obasi&quot;, &quot;Odahviing&quot;, &quot;Oswin&quot;, &quot;Paarthurnax&quot;, &quot;Pyra&quot;, &quot;Rhiannon&quot;, &quot;Rhys&quot;, &quot;Ragnar&quot;, &quot;Ramses&quot;, &quot;Revilo&quot;, &quot;Sadiki&quot;, &quot;Sif&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Seren&quot;, &quot;Sunburn&quot;, &quot;Terrador&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Torin&quot;, &quot;Trondo&quot;, &quot;Ulric&quot;, &quot;Unika&quot;, &quot;Ullr&quot;, &quot;Urgost&quot;, &quot;Useni&quot;, &quot;Valen&quot;, &quot;Varalys&quot;, &quot;Varda&quot;, &quot;Vathek&quot;, &quot;Volteer&quot;, &quot;Woden&quot;, &quot;Wren&quot;, &quot;Yara&quot;, &quot;Zander&quot;, &quot;Zane&quot;, &quot;Zantor&quot;, &quot;Zaren&quot;, &quot;Zephyr&quot;, &quot;Zinc&quot;]&gt;&gt;
 	
-	&lt;&lt;set $dPers to [&quot;Abrasive&quot;, &quot;Absentminded&quot;, &quot;Aloof&quot;, &quot;Caring&quot;, &quot;Chatty&quot;, &quot;Clever&quot;, &quot;Confident&quot;, &quot;Formal&quot;, &quot;Gentle&quot;, &quot;Greedy&quot;, &quot;Hardworking&quot;, &quot;Lax&quot;, &quot;Lazy&quot;, &quot;Mellow&quot;, &quot;Placid&quot;, &quot;Quiet&quot;, &quot;Selfish&quot;, &quot;Thoughtful&quot;, &quot;Whimsical&quot;]&gt;&gt;
+	&lt;&lt;set $dPers to [&quot;Absentminded&quot;, &quot;Abrasive&quot;, &quot;Aloof&quot;, &quot;Ambitious&quot;, &quot;Caring&quot;, &quot;Chatty&quot;, &quot;Clever&quot;, &quot;Confident&quot;, &quot;Creative&quot;, &quot;Curiosity&quot;, &quot;Dependable&quot;, &quot;Emotional&quot;, &quot;Energetic&quot;, &quot;Formal&quot;, &quot;Friendly&quot;, &quot;Generous&quot;, &quot;Gentle&quot;, &quot;Greedy&quot;, &quot;Hardworking&quot;, &quot;Impatient&quot;, &quot;Independent&quot;, &quot;Insecure&quot;, &quot;Intelligent&quot;, &quot;Lax&quot;, &quot;Lazy&quot;, &quot;Loyal&quot;, &quot;Mellow&quot;, &quot;Moody&quot;, &quot;Nervous&quot;, &quot;Organized&quot;, &quot;Patient&quot;, &quot;Persistent&quot;, &quot;Placid&quot;, &quot;Practical&quot;, &quot;Quiet&quot;, &quot;Rational&quot;, &quot;Resourceful&quot;, &quot;Responsible&quot;, &quot;Selfish&quot;, &quot;Selfless&quot;, &quot;Sensitive&quot;, &quot;Skeptical&quot;, &quot;Spontaneous&quot;, &quot;Thoughtful&quot;, &quot;Tolerant&quot;, &quot;Whimsical&quot;, &quot;Witty&quot;]&gt;&gt;
 	
 	&lt;&lt;set $dAge to [&quot;Egg&quot;, &quot;Hatchling&quot;, &quot;Winglet&quot;, &quot;Adult&quot;]&gt;&gt;
 	
-	&lt;&lt;set $dJobs to [&quot;hatchling&quot;, &quot;slacker&quot;, &quot;forager&quot;, &quot;rainier&quot;, &quot;builder&quot;, &quot;scavenger&quot;]&gt;&gt;
+	&lt;&lt;set $dJobs to [&quot;hatchling&quot;, &quot;slacker&quot;, &quot;forager&quot;, &quot;rainier&quot;, &quot;builder&quot;, &quot;scavenger&quot;, &quot;salvager&quot;]&gt;&gt;
 
 		/* Setting up some flags... oh boy, flags! */
-	
+
+		/* These set up the Hydra. */
 	&lt;&lt;set $hydraSeen to false&gt;&gt;
 	&lt;&lt;set $hydraEggTaken to false&gt;&gt;
 	&lt;&lt;set $hydraTime = -1&gt;&gt;
 	&lt;&lt;set $hydraBeat = false&gt;&gt;
+
+		/* These relate to the lake creatures! */
+	&lt;&lt;set $infestedNotice to false&gt;&gt;
 &lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="EncyclopediaHome" tags="" position="225,100" size="100,100"></tw-passagedata><tw-passagedata pid="3" name="StorySubtitle" tags="" position="350,100" size="100,100">&lt;sup&gt;pre-alpha 0.0.22.0
 Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="4" name="StoryCaption" tags="Special" position="100,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;!-- nobr because comments apparently fuck with formatting? News to me!
@@ -843,7 +851,29 @@ For now, you have no food, no water, no treasure, no home.
 	&lt;&lt;set _scene = random(2)&gt;&gt;
 	&lt;&lt;set $player.action -= 1&gt;&gt;
 &lt;&lt;/silently&gt;&gt;
-	&lt;&lt;if _forage == 12&gt;&gt;
+	&lt;&lt;if _forage == 12 &amp;&amp; $hydraEggTaken == true&gt;&gt;
+		&lt;&lt;set _collect = random(3,15)&gt;&gt;
+		&lt;&lt;set $food += _collect&gt;&gt;
+		You&#39;re gliding lazily over your territory when you realize where you&#39;re going - the hydra&#39;s den. The allure of its food stores were callng you - but you can&#39;t do that now. Not until the hydra is dead, or your thunder is destroyed. &lt;br&gt; &lt;br&gt;
+		You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
+		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;
+				You could [[hunt again|Food]]; look for 
+				&lt;&lt;link &quot;something else&quot;&gt;&gt;
+					&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+						[[Water]], [[wood|Wood]], 
+						&lt;&lt;if $ghunt == false&gt;&gt;
+							[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+						&lt;&lt;else&gt;&gt;
+							or [[stone|Stone]]?
+						&lt;&lt;/if&gt;&gt;
+					&lt;&lt;/replace&gt;&gt;
+				&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+			&lt;/span&gt;
+		&lt;&lt;else&gt;&gt;
+			It&#39;s time to [[go home.|Sandbox Central]]
+		&lt;&lt;/if&gt;&gt;
+	&lt;&lt;elseif _forage == 12 &amp;&amp; $hydraEggTaken == false&gt;&gt;
 		&lt;&lt;set _collect = random(30, 40)&gt;&gt;
 		&lt;&lt;set _risk to random(1)&gt;&gt;
 		While gliding over your territory, you find something strange. While a cave isn&#39;t normally worth your attention, there are a great deal of tracks leading in... and nothing leading out. In addition to being a potential threat, the idea of another predator on &lt;em&gt;your&lt;/em&gt; territory irritates you deeply. &lt;br&gt; &lt;br&gt;
@@ -873,10 +903,7 @@ For now, you have no food, no water, no treasure, no home.
 										You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra&#39;s tongue flicks. &lt;br&gt; &lt;br&gt;
 										It sees you. &lt;br&gt; &lt;br&gt;
 										You grab what you can and &lt;em&gt;run&lt;/em&gt;. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn&#39;t matter - you&#39;re gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. &lt;br&gt; &lt;br&gt;
-										You don&#39;t stop until you&#39;re home - and even then you tremble. It takes some time until you&#39;ve recovered enough to see that you collected 
-										&lt;&lt;print _collect&gt;&gt; 
-										food. 
-										&lt;br&gt; &lt;br&gt;
+										You don&#39;t stop until you&#39;re home - and even then you tremble. It takes some time until you&#39;ve recovered enough to see that you collected &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
 										... Was it worth it? 
 										&lt;br&gt; &lt;br&gt;
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
@@ -897,7 +924,6 @@ For now, you have no food, no water, no treasure, no home.
 										&lt;&lt;else&gt;&gt;
 											It&#39;s time to [[go home.|Sandbox Central]]
 										&lt;&lt;/if&gt;&gt;
-
 									&lt;&lt;elseif _danger == 2&gt;&gt;
 										&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
 										&lt;&lt;set $food += _collect&gt;&gt;
@@ -911,7 +937,6 @@ For now, you have no food, no water, no treasure, no home.
 										You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn&#39;t matter; you are gone. Thankfully, you are gone. &lt;br&gt; &lt;br&gt;
 										When you land back at home, your nerves have settled enough for you to count your haul. &lt;&lt;print _collect&gt;&gt; food. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. &lt;br&gt; &lt;br&gt;
 										It didn&#39;t follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. &lt;br&gt; &lt;br&gt;
-
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 											&lt;span id=&quot;forageChoices&quot;&gt;
 												You could [[hunt again|Food]]; look for 
@@ -941,7 +966,6 @@ For now, you have no food, no water, no treasure, no home.
 										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
 										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of panic rather than anything the hydra would do to you. &lt;br&gt; &lt;br&gt;
 										Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: &lt;&lt;print _collect&gt;&gt; food. Not bad, given the pressure you were working under. &lt;br&gt; &lt;br&gt;
-
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 											&lt;span id=&quot;forageChoices&quot;&gt;
 												You could [[hunt again|Food]]; look for 
@@ -959,7 +983,6 @@ For now, you have no food, no water, no treasure, no home.
 										&lt;&lt;else&gt;&gt;
 											It&#39;s time to [[go home.|Sandbox Central]]
 										&lt;&lt;/if&gt;&gt;
-
 									&lt;&lt;else&gt;&gt;
 										&lt;&lt;set $food += _collect&gt;&gt;
 										&lt;&lt;if $food &gt; $foodCap&gt;&gt;
@@ -972,7 +995,6 @@ For now, you have no food, no water, no treasure, no home.
 										Not soon enough - though faster than expected - you find yourself reaching capacity. You dare to swipe a few more pieces from its pile directly (and almost collapse when a head nearly brushes you), then - more than satisfied - you creep out. &lt;br&gt; &lt;br&gt;
 										It still does not wake. &lt;br&gt; &lt;br&gt;
 										By the time you get home, however, you are aglow with triumph, having brought back &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
-
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 											&lt;span id=&quot;forageChoices&quot;&gt;
 												You could [[hunt again|Food]]; look for 
@@ -1004,7 +1026,6 @@ For now, you have no food, no water, no treasure, no home.
 											&lt;&lt;set $food = $foodCap&gt;&gt;
 										&lt;&lt;/if&gt;&gt;
 										You prove it by collecting &lt;&lt;print _collect&gt;&gt; food; scraps from around your territory, never straying near the hydra&#39;s den. It is disappointing when you consider how much the great creature was sleeping on, but... you have all your limbs. You like to think you, ultimately, made the right choice. &lt;br&gt; &lt;br&gt;
-
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 											&lt;span id=&quot;forageChoices&quot;&gt;
 												You could [[hunt again|Food]]; look for 
@@ -1024,7 +1045,6 @@ For now, you have no food, no water, no treasure, no home.
 										&lt;&lt;/if&gt;&gt;
 									&lt;&lt;else&gt;&gt;
 										You don&#39;t find anything for the rest of your patrol. It&#39;s frustrating and frankly a little insulting - but it is what it is. Still, when you think about how much that hydra was sleeping on, you can&#39;t help but think... &lt;br&gt; &lt;br&gt;
-
 										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 											&lt;span id=&quot;forageChoices&quot;&gt;
 												You could [[hunt again|Food]]; look for 
@@ -1057,13 +1077,10 @@ For now, you have no food, no water, no treasure, no home.
 							You can 
 							&lt;&lt;link &quot;go inside&quot;&gt;&gt;
 								&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
-
 									&lt;&lt;set _danger to random(1)&gt;&gt;
 									You click your teeth eagerly and continue forward. &lt;br&gt; &lt;br&gt;
 									The hydra&#39;s den isn&#39;t too far into the cave; as you go, you keep your head low and claws light on the cavern floor. &lt;br&gt; &lt;br&gt;
 									&lt;&lt;if _danger == 0&gt;&gt;
-
-									
 										Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. &lt;br&gt; &lt;br&gt;
 										The great serpent&#39;s body is curled around the pile once again; its heads sunk into the meat and scales stained with red-brown blood. Some of it is fresh; the majority of it is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
 										You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... &lt;br&gt; &lt;br&gt;
@@ -1168,7 +1185,6 @@ For now, you have no food, no water, no treasure, no home.
 															&lt;&lt;/timed&gt;&gt;
 														&lt;/span&gt;
 													&lt;&lt;/linkappend&gt;&gt;
-												
 												&lt;&lt;/replace&gt;&gt;
 											&lt;&lt;/link&gt;&gt;, 
 											it will likely come at the cost of waking the hydra - though if you 
@@ -1190,7 +1206,33 @@ For now, you have no food, no water, no treasure, no home.
 											the same will likely happen. What to do...
 										&lt;/span&gt;
 									&lt;&lt;else&gt;&gt;
-								
+										&lt;&lt;set _collect to random(5,15)&gt;&gt;
+										As you creep into the cave, your steps masked by the hiss of the waterfall outside, you realize something is... wrong. Nothing has changed - the tracks leading in are unchanged, and you certainly don&#39;t see any new ones leading &lt;em&gt;out&lt;/em&gt;. You strain your neck and eyes to peer deeper into the gloom - and despite your night vision, you see nothing out of the ordinary. Your tongue flicks in the air. Still smells like hydra and rot. What could be wrong? &lt;br&gt; &lt;br&gt;
+										You hesitantly step forward, eyes wide and ears pricked - strangely, the deeper you go, the louder the falls sound. A product of the cave echoing, maybe? But, you don&#39;t remember the waterfall growing louder... &lt;br&gt; &lt;br&gt;
+										Just before you enter the den, it hits you. &lt;br&gt; &lt;br&gt;
+										You try to back up, but your legs fail you. Your spinal crest rattles as the hydra&#39;s hissing chorus rises dangerously. You hear it so clearly now, the fury, the rocks and flesh grinding under its body - that was never the waterfall. But you can&#39;t move. You can&#39;t &lt;em&gt;move!&lt;/em&gt; &lt;br&gt; &lt;br&gt;
+										You hear it coming closer, its immense scales scraping and sending sparks of light flickering across the cave walls. You shrink in on yourself, lips peeling back in terrified threat. Closer comes the hydra. It doesn&#39;t hiss. It doesn&#39;t need to, not when the constant rumble of its body is threat enough. As its shadow comes into view, two of its heads in sight - you find yourself sprinting away. Away, away, as far away as you can - out from the cave, away from the falls. You never see it emerge, nor do you linger to confirm. &lt;br&gt; &lt;br&gt;
+										Instead you spend your time hunting, taking your fear and adrenaline out on whatever you can find. Ultimately, you catch enough to be worth &lt;&lt;print _collect&gt;&gt; food, but your crest still twitches with nerves. You check the den. &lt;br&gt; &lt;br&gt;
+										It never left. &lt;br&gt; &lt;br&gt;
+										You linger on this as you fly away, thoughts adrift and the shake never quite disappearing. &lt;br&gt; &lt;br&gt;
+										&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+										&lt;span id=&quot;forageChoices&quot;&gt;
+											You could [[hunt again|Food]]; look for 
+											&lt;&lt;link &quot;something else&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+													[[Water]], [[wood|Wood]], 
+													&lt;&lt;if $ghunt == false&gt;&gt;
+														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+													&lt;&lt;else&gt;&gt;
+														or [[stone|Stone]]?
+													&lt;&lt;/if&gt;&gt;
+												&lt;&lt;/replace&gt;&gt;
+											&lt;&lt;/link&gt;&gt;; 
+											or you can simply [[stay home.|Sandbox Central]]
+										&lt;/span&gt;
+									&lt;&lt;else&gt;&gt;
+										It&#39;s time to [[go home.|Sandbox Central]]
+									&lt;&lt;/if&gt;&gt;
 									&lt;&lt;/if&gt;&gt;
 								&lt;&lt;/replace&gt;&gt;
 							&lt;&lt;/link&gt;&gt; 
@@ -1203,9 +1245,7 @@ For now, you have no food, no water, no treasure, no home.
 										&lt;&lt;set $food = $foodCap&gt;&gt;
 									&lt;&lt;/if&gt;&gt;
 									You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
-
 									When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
-
 									&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 										&lt;span id=&quot;forageChoices&quot;&gt;
 											You could [[hunt again|Food]]; look for 
@@ -1264,8 +1304,6 @@ For now, you have no food, no water, no treasure, no home.
 							It&#39;s time to [[go home.|Sandbox Central]]
 						&lt;&lt;/if&gt;&gt;
 					&lt;&lt;/if&gt;&gt;
-
-
 				&lt;&lt;/replace&gt;&gt;
 			&lt;&lt;/link&gt;&gt;, or 
 			&lt;&lt;link &quot;move on.&quot;&gt;&gt;
@@ -1277,9 +1315,7 @@ For now, you have no food, no water, no treasure, no home.
 					&lt;&lt;else&gt;&gt;
 					&lt;&lt;/if&gt;&gt;
 					You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. &lt;br&gt; &lt;br&gt;
-
 					When you return home, you are satisfied to have done so with &lt;&lt;print _collect&gt;&gt; food in claw. Not much, but enough for one patrol, at least. &lt;br&gt; &lt;br&gt;
-
 					&lt;&lt;if $player.action &gt;= 1&gt;&gt;
 						&lt;span id=&quot;forageChoices&quot;&gt;
 							You could [[hunt again|Food]]; look for 
@@ -1363,7 +1399,25 @@ For now, you have no food, no water, no treasure, no home.
 		You patrol your territory for something - anything - to eat, but none of the plants are edible and the prey seems to be avoiding you with almost preternatural ability. How frustrating. &lt;br&gt; &lt;br&gt;
 
 		&lt;&lt;if $player.action &gt;= 1&gt;&gt;
-			&lt;span id=&quot;forageChoices&quot;&gt;You could &lt;&lt;if $food &lt; $foodCap&gt;&gt;[[hunt again|Food]]; &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;[[Water]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt;&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+			&lt;span id=&quot;forageChoices&quot;&gt;
+				You could 
+				&lt;&lt;if $food &lt; $foodCap&gt;&gt;
+					[[hunt again|Food]]; 
+				&lt;&lt;else&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+				look for 
+				&lt;&lt;link &quot;something else&quot;&gt;&gt;
+					&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+						[[Water]], [[wood|Wood]], 
+						&lt;&lt;if $ghunt == false&gt;&gt;
+							[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+						&lt;&lt;else&gt;&gt;
+							or [[stone|Stone]]?
+						&lt;&lt;/if&gt;&gt;
+					&lt;&lt;/replace&gt;&gt;
+				&lt;&lt;/link&gt;&gt;; 
+				or you can simply [[stay home.|Sandbox Central]]
+			&lt;/span&gt;
 		&lt;&lt;else&gt;&gt;
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
@@ -1499,7 +1553,15 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;if _scene == 0&gt;&gt;
 			After some long-distance flying, you find an almost idyllic pool in a grove, surrounded by small hills. There isn&#39;t much there, but you manage to collect &lt;&lt;print _collect&gt;&gt; water before the rest drains away to somewhere deep underground. &lt;br&gt; &lt;br&gt;
 		&lt;&lt;elseif _scene == 1&gt;&gt;
-			You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole pond is infested with them! Ultimately, you return home with only &lt;&lt;print _collect&gt;&gt; water for your near-death experience. &lt;br&gt; &lt;br&gt;
+			&lt;&lt;if $infestedNotice is false&gt;&gt;
+				&lt;&lt;set $infestedNotice to true&gt;&gt;
+				You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole lake is infested with them! Ultimately, you return home with only &lt;&lt;print _collect&gt;&gt; water for your near-death experience. &lt;br&gt; &lt;br&gt;
+			&lt;&lt;elseif $infestedNotice is true&gt;&gt;
+				&lt;&lt;set _extra += random(5, 8)&gt;&gt;
+				&lt;&lt;set $water += _extra&gt;&gt;
+				You find a lake! As you dive to scoop up water, however, you notice something under the surface - and pull up short. This is familiar. &lt;em&gt;Suspiciously&lt;/em&gt; familiar. You flap hard, raising yourself higher, and then pull into a dive - only to yank yourself out of the way as something surges up from the water. Your ascent is marked by splashing and the sound of teeth snapping shut below you. &lt;br&gt; &lt;br&gt;
+				You spit fire irritably at the lake-creatures, resolving to one day come down and boil them. They&#39;d taste great like that, you&#39;re sure. For now, you keep baiting them, snatching water where you can. Without the benefit of surprise, their tactics don&#39;t work nearly as well, and you find yourself satisfied with the &lt;&lt;print (_collect + _extra)&gt;&gt; water you gather. &lt;br&gt; &lt;br&gt;
+			&lt;&lt;/if&gt;&gt;
 		&lt;&lt;else&gt;&gt;
 			You haven&#39;t gone far before stumbling upon a stream trickling by your colony. Deciding to spare yourself trying to swallow all of it to return, you instead carve a shallow rut to your water storage. The flow stills before much longer, but your colony has &lt;&lt;print _collect&gt;&gt; more water than you started with. &lt;br&gt; &lt;br&gt;
 		&lt;&lt;/if&gt;&gt;
@@ -1522,7 +1584,26 @@ For now, you have no food, no water, no treasure, no home.
 		You found a streambed - but no matter how you dig, or how far you follow it, the bed remains dry and cracked beneath your claws. &lt;br&gt; &lt;br&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;if $player.action &gt;= 1&gt;&gt;
-	&lt;span id=&quot;choices&quot;&gt;You could &lt;&lt;if $water &lt; $waterCap&gt;&gt;[[look again|Water]]; &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;look for &lt;&lt;link &quot;something else&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;[[Food]], [[wood|Wood]], &lt;&lt;if $ghunt == false&gt;&gt;[[stone|Stone]], or [[gold?|Treasure]]&lt;&lt;else&gt;&gt;or [[stone|Stone]]?&lt;&lt;/if&gt;&gt; Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].&lt;&lt;/replace&gt;&gt;&lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]&lt;/span&gt;
+	&lt;span id=&quot;choices&quot;&gt;
+		You could 
+		&lt;&lt;if $water &lt; $waterCap&gt;&gt;
+			[[look again|Water]]; 
+		&lt;&lt;else&gt;&gt;
+		&lt;&lt;/if&gt;&gt;
+		look for 
+		&lt;&lt;link &quot;something else&quot;&gt;&gt;
+			&lt;&lt;replace &quot;#choices&quot;&gt;&gt;
+				[[Food]], [[wood|Wood]], 
+				&lt;&lt;if $ghunt == false&gt;&gt;
+					[[stone|Stone]], or [[gold?|Treasure]]
+				&lt;&lt;else&gt;&gt;or 
+					[[stone|Stone]]?
+				&lt;&lt;/if&gt;&gt; 
+				Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].
+			&lt;&lt;/replace&gt;&gt;
+		&lt;&lt;/link&gt;&gt;; 
+		or you can simply [[stay home.|Sandbox Central]]&lt;
+	/span&gt;
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;

@@ -28,7 +28,15 @@
 		<<if _scene == 0>>
 			After some long-distance flying, you find an almost idyllic pool in a grove, surrounded by small hills. There isn't much there, but you manage to collect <<print _collect>> water before the rest drains away to somewhere deep underground. <br> <br>
 		<<elseif _scene == 1>>
-			You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole pond is infested with them! Ultimately, you return home with only <<print _collect>> water for your near-death experience. <br> <br>
+			<<if $infestedNotice is false>>
+				<<set $infestedNotice to true>>
+				You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole lake is infested with them! Ultimately, you return home with only <<print _collect>> water for your near-death experience. <br> <br>
+			<<elseif $infestedNotice is true>>
+				<<set _extra += random(5, 8)>>
+				<<set $water += _extra>>
+				You find a lake! As you dive to scoop up water, however, you notice something under the surface - and pull up short. This is familiar. <em>Suspiciously</em> familiar. You flap hard, raising yourself higher, and then pull into a dive - only to yank yourself out of the way as something surges up from the water. Your ascent is marked by splashing and the sound of teeth snapping shut below you. <br> <br>
+				You spit fire irritably at the lake-creatures, resolving to one day come down and boil them. They'd taste great like that, you're sure. For now, you keep baiting them, snatching water where you can. Without the benefit of surprise, their tactics don't work nearly as well, and you find yourself satisfied with the <<print (_collect + _extra)>> water you gather. <br> <br>
+			<</if>>
 		<<else>>
 			You haven't gone far before stumbling upon a stream trickling by your colony. Deciding to spare yourself trying to swallow all of it to return, you instead carve a shallow rut to your water storage. The flow stills before much longer, but your colony has <<print _collect>> more water than you started with. <br> <br>
 		<</if>>
@@ -51,7 +59,26 @@
 		You found a streambed - but no matter how you dig, or how far you follow it, the bed remains dry and cracked beneath your claws. <br> <br>
 <</if>>
 <<if $player.action >= 1>>
-	<span id="choices">You could <<if $water < $waterCap>>[[look again|Water]]; <<else>><</if>>look for <<link "something else">><<replace "#choices">>[[Food]], [[wood|Wood]], <<if $ghunt == false>>[[stone|Stone]], or [[gold?|Treasure]]<<else>>or [[stone|Stone]]?<</if>> Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].<</replace>><</link>>; or you can simply [[stay home.|Sandbox Central]]</span>
+	<span id="choices">
+		You could 
+		<<if $water < $waterCap>>
+			[[look again|Water]]; 
+		<<else>>
+		<</if>>
+		look for 
+		<<link "something else">>
+			<<replace "#choices">>
+				[[Food]], [[wood|Wood]], 
+				<<if $ghunt == false>>
+					[[stone|Stone]], or [[gold?|Treasure]]
+				<<else>>or 
+					[[stone|Stone]]?
+				<</if>> 
+				Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].
+			<</replace>>
+		<</link>>; 
+		or you can simply [[stay home.|Sandbox Central]]<
+	/span>
 <<else>>
 	It's time to [[go home.|Sandbox Central]]
 <</if>>

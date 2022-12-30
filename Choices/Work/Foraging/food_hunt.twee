@@ -5,7 +5,29 @@
 	<<set _scene = random(2)>>
 	<<set $player.action -= 1>>
 <</silently>>
-	<<if _forage == 12>>
+	<<if _forage == 12 && $hydraEggTaken == true>>
+		<<set _collect = random(3,15)>>
+		<<set $food += _collect>>
+		You're gliding lazily over your territory when you realize where you're going - the hydra's den. The allure of its food stores were callng you - but you can't do that now. Not until the hydra is dead, or your thunder is destroyed. <br> <br>
+		You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with <<print _collect>> food. <br> <br>
+		<<if $player.action >= 1>>
+			<span id="forageChoices">
+				You could [[hunt again|Food]]; look for 
+				<<link "something else">>
+					<<replace "#forageChoices">>
+						[[Water]], [[wood|Wood]], 
+						<<if $ghunt == false>>
+							[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+						<<else>>
+							or [[stone|Stone]]?
+						<</if>>
+					<</replace>>
+				<</link>>; or you can simply [[stay home.|Sandbox Central]]
+			</span>
+		<<else>>
+			It's time to [[go home.|Sandbox Central]]
+		<</if>>
+	<<elseif _forage == 12 && $hydraEggTaken == false>>
 		<<set _collect = random(30, 40)>>
 		<<set _risk to random(1)>>
 		While gliding over your territory, you find something strange. While a cave isn't normally worth your attention, there are a great deal of tracks leading in... and nothing leading out. In addition to being a potential threat, the idea of another predator on <em>your</em> territory irritates you deeply. <br> <br>
@@ -35,10 +57,7 @@
 										You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra's tongue flicks. <br> <br>
 										It sees you. <br> <br>
 										You grab what you can and <em>run</em>. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn't matter - you're gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. <br> <br>
-										You don't stop until you're home - and even then you tremble. It takes some time until you've recovered enough to see that you collected 
-										<<print _collect>> 
-										food. 
-										<br> <br>
+										You don't stop until you're home - and even then you tremble. It takes some time until you've recovered enough to see that you collected <<print _collect>> food. <br> <br>
 										... Was it worth it? 
 										<br> <br>
 										<<if $player.action >= 1>>
@@ -59,7 +78,6 @@
 										<<else>>
 											It's time to [[go home.|Sandbox Central]]
 										<</if>>
-
 									<<elseif _danger == 2>>
 										<<set _collect = Math.round(_collect /= (_danger * 2))>>
 										<<set $food += _collect>>
@@ -73,7 +91,6 @@
 										You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn't matter; you are gone. Thankfully, you are gone. <br> <br>
 										When you land back at home, your nerves have settled enough for you to count your haul. <<print _collect>> food. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. <br> <br>
 										It didn't follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. <br> <br>
-
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
 												You could [[hunt again|Food]]; look for 
@@ -103,7 +120,6 @@
 										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... <br> <br>
 										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of panic rather than anything the hydra would do to you. <br> <br>
 										Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: <<print _collect>> food. Not bad, given the pressure you were working under. <br> <br>
-
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
 												You could [[hunt again|Food]]; look for 
@@ -121,7 +137,6 @@
 										<<else>>
 											It's time to [[go home.|Sandbox Central]]
 										<</if>>
-
 									<<else>>
 										<<set $food += _collect>>
 										<<if $food > $foodCap>>
@@ -134,7 +149,6 @@
 										Not soon enough - though faster than expected - you find yourself reaching capacity. You dare to swipe a few more pieces from its pile directly (and almost collapse when a head nearly brushes you), then - more than satisfied - you creep out. <br> <br>
 										It still does not wake. <br> <br>
 										By the time you get home, however, you are aglow with triumph, having brought back <<print _collect>> food. <br> <br>
-
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
 												You could [[hunt again|Food]]; look for 
@@ -166,7 +180,6 @@
 											<<set $food = $foodCap>>
 										<</if>>
 										You prove it by collecting <<print _collect>> food; scraps from around your territory, never straying near the hydra's den. It is disappointing when you consider how much the great creature was sleeping on, but... you have all your limbs. You like to think you, ultimately, made the right choice. <br> <br>
-
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
 												You could [[hunt again|Food]]; look for 
@@ -186,7 +199,6 @@
 										<</if>>
 									<<else>>
 										You don't find anything for the rest of your patrol. It's frustrating and frankly a little insulting - but it is what it is. Still, when you think about how much that hydra was sleeping on, you can't help but think... <br> <br>
-
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
 												You could [[hunt again|Food]]; look for 
@@ -219,13 +231,10 @@
 							You can 
 							<<link "go inside">>
 								<<replace "#c2">>
-
 									<<set _danger to random(1)>>
 									You click your teeth eagerly and continue forward. <br> <br>
 									The hydra's den isn't too far into the cave; as you go, you keep your head low and claws light on the cavern floor. <br> <br>
 									<<if _danger == 0>>
-
-									
 										Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. <br> <br>
 										The great serpent's body is curled around the pile once again; its heads sunk into the meat and scales stained with red-brown blood. Some of it is fresh; the majority of it is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn't so much as twitch. <br> <br>
 										You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... <br> <br>
@@ -330,7 +339,6 @@
 															<</timed>>
 														</span>
 													<</linkappend>>
-												
 												<</replace>>
 											<</link>>, 
 											it will likely come at the cost of waking the hydra - though if you 
@@ -352,7 +360,33 @@
 											the same will likely happen. What to do...
 										</span>
 									<<else>>
-								
+										<<set _collect to random(5,15)>>
+										As you creep into the cave, your steps masked by the hiss of the waterfall outside, you realize something is... wrong. Nothing has changed - the tracks leading in are unchanged, and you certainly don't see any new ones leading <em>out</em>. You strain your neck and eyes to peer deeper into the gloom - and despite your night vision, you see nothing out of the ordinary. Your tongue flicks in the air. Still smells like hydra and rot. What could be wrong? <br> <br>
+										You hesitantly step forward, eyes wide and ears pricked - strangely, the deeper you go, the louder the falls sound. A product of the cave echoing, maybe? But, you don't remember the waterfall growing louder... <br> <br>
+										Just before you enter the den, it hits you. <br> <br>
+										You try to back up, but your legs fail you. Your spinal crest rattles as the hydra's hissing chorus rises dangerously. You hear it so clearly now, the fury, the rocks and flesh grinding under its body - that was never the waterfall. But you can't move. You can't <em>move!</em> <br> <br>
+										You hear it coming closer, its immense scales scraping and sending sparks of light flickering across the cave walls. You shrink in on yourself, lips peeling back in terrified threat. Closer comes the hydra. It doesn't hiss. It doesn't need to, not when the constant rumble of its body is threat enough. As its shadow comes into view, two of its heads in sight - you find yourself sprinting away. Away, away, as far away as you can - out from the cave, away from the falls. You never see it emerge, nor do you linger to confirm. <br> <br>
+										Instead you spend your time hunting, taking your fear and adrenaline out on whatever you can find. Ultimately, you catch enough to be worth <<print _collect>> food, but your crest still twitches with nerves. You check the den. <br> <br>
+										It never left. <br> <br>
+										You linger on this as you fly away, thoughts adrift and the shake never quite disappearing. <br> <br>
+										<<if $player.action >= 1>>
+										<span id="forageChoices">
+											You could [[hunt again|Food]]; look for 
+											<<link "something else">>
+												<<replace "#forageChoices">>
+													[[Water]], [[wood|Wood]], 
+													<<if $ghunt == false>>
+														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+													<<else>>
+														or [[stone|Stone]]?
+													<</if>>
+												<</replace>>
+											<</link>>; 
+											or you can simply [[stay home.|Sandbox Central]]
+										</span>
+									<<else>>
+										It's time to [[go home.|Sandbox Central]]
+									<</if>>
 									<</if>>
 								<</replace>>
 							<</link>> 
@@ -365,9 +399,7 @@
 										<<set $food = $foodCap>>
 									<</if>>
 									You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. <br> <br>
-
 									When you return home, you are satisfied to have done so with <<print _collect>> food in claw. Not much, but enough for one patrol, at least. <br> <br>
-
 									<<if $player.action >= 1>>
 										<span id="forageChoices">
 											You could [[hunt again|Food]]; look for 
@@ -426,8 +458,6 @@
 							It's time to [[go home.|Sandbox Central]]
 						<</if>>
 					<</if>>
-
-
 				<</replace>>
 			<</link>>, or 
 			<<link "move on.">>
@@ -439,9 +469,7 @@
 					<<else>>
 					<</if>>
 					You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. <br> <br>
-
 					When you return home, you are satisfied to have done so with <<print _collect>> food in claw. Not much, but enough for one patrol, at least. <br> <br>
-
 					<<if $player.action >= 1>>
 						<span id="forageChoices">
 							You could [[hunt again|Food]]; look for 
@@ -525,7 +553,25 @@
 		You patrol your territory for something - anything - to eat, but none of the plants are edible and the prey seems to be avoiding you with almost preternatural ability. How frustrating. <br> <br>
 
 		<<if $player.action >= 1>>
-			<span id="forageChoices">You could <<if $food < $foodCap>>[[hunt again|Food]]; <<else>><</if>>look for <<link "something else">><<replace "#forageChoices">>[[Water]], [[wood|Wood]], <<if $ghunt == false>>[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]<<else>>or [[stone|Stone]]?<</if>><</replace>><</link>>; or you can simply [[stay home.|Sandbox Central]]</span>
+			<span id="forageChoices">
+				You could 
+				<<if $food < $foodCap>>
+					[[hunt again|Food]]; 
+				<<else>>
+				<</if>>
+				look for 
+				<<link "something else">>
+					<<replace "#forageChoices">>
+						[[Water]], [[wood|Wood]], 
+						<<if $ghunt == false>>
+							[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+						<<else>>
+							or [[stone|Stone]]?
+						<</if>>
+					<</replace>>
+				<</link>>; 
+				or you can simply [[stay home.|Sandbox Central]]
+			</span>
 		<<else>>
 			It's time to [[go home.|Sandbox Central]]
 		<</if>>

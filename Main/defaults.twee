@@ -60,7 +60,11 @@
 
 		/* Setting homes up, I guess? Gonna have to figure out if I want to convert this to a datamap or array or something... ugh. */
 	<<set $shelter to {}>>
-	<<set $shelter.ruts to { amount : 0, shelter : 1, occupied: 0}>>
+	<<set $shelter.ruts to { 
+		amount : 0,
+		shelter : 1,
+		occupied: 0
+		}>>
     <<set $home to (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
 		
 		/* How many days you've been here, and how many moon cycles! */
@@ -69,19 +73,23 @@
 	
 		/* Setting up potential dragon names, personalities, etc... */
 	
-	<<set $dNames to ["Abaddon", "Ajax", "Alban", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus",  "Apara", "Argus", "Asher", "Astor", "Azizi", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", "Camo", "Cedric", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", "Damon", "Darius", "Delbin", "Devlin", "Drobit", "Ember", "Enzo", "Flame", "Flavius", "Fonsworthy", "Gavin", "Gildas", "Grigori", "Gunnar", "Halvor", "Hexus", "Isaak", "Ivor", "Jarvis", "Jed", "Kasiya", "Kosoko", "Laird", "Lateef", "Legna", "Lindar", "Lutalo", "Magnus", "Malefor", "Maximos", "Mazi", "Nestor", "Nevin", "Nils", "Obasi", "Odahviing", "Oswin", "Paarthurnax", "Pyra", "Ragnar", "Ramses", "Revilo", "Sadiki", "Skipper", "Smaug", "Spry", "Spyro", "Sunburn", "Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Trondo", "Ulric", "Unika", "Urgost", "Useni", "Varalys", "Vathek", "Volteer", "Zander", "Zane", "Zantor", "Zephyr", "Zinc"]>>
+	<<set $dNames to ["Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Azizi", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", "Caius", "Camo", "Caspar", "Cedric", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", "Damon", "Darius", "Delbin", "Devlin", "Drobit", "Eirlys", "Eleri", "Ember", "Enzo", "Flame", "Flavius", "Fonsworthy", "Galadriel", "Gavin", "Gildas", "Gildor", "Grigori", "Gwyneth", "Gunnar", "Halen", "Halvor", "Haldor", "Hexus", "Helgi", "Iola", "Isaak", "Ilmarinen", "Ivor", "Jaren", "Jarvis", "Jed", "Jormungandr", "Kael", "Kasiya", "Kosoko", "Laird", "Lateef", "Legna", "Lindar", "Liraz", "Lirien", "Lutalo", "Magnus", "Malefor", "Maximos", "Mazi", "Nestor", "Nevin", "Nils", "Obasi", "Odahviing", "Oswin", "Paarthurnax", "Pyra", "Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", "Sadiki", "Sif", "Skipper", "Smaug", "Spry", "Spyro", "Seren", "Sunburn", "Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Ulric", "Unika", "Ullr", "Urgost", "Useni", "Valen", "Varalys", "Varda", "Vathek", "Volteer", "Woden", "Wren", "Yara", "Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"]>>
 	
-	<<set $dPers to ["Abrasive", "Absentminded", "Aloof", "Caring", "Chatty", "Clever", "Confident", "Formal", "Gentle", "Greedy", "Hardworking", "Lax", "Lazy", "Mellow", "Placid", "Quiet", "Selfish", "Thoughtful", "Whimsical"]>>
+	<<set $dPers to ["Absentminded", "Abrasive", "Aloof", "Ambitious", "Caring", "Chatty", "Clever", "Confident", "Creative", "Curiosity", "Dependable", "Emotional", "Energetic", "Formal", "Friendly", "Generous", "Gentle", "Greedy", "Hardworking", "Impatient", "Independent", "Insecure", "Intelligent", "Lax", "Lazy", "Loyal", "Mellow", "Moody", "Nervous", "Organized", "Patient", "Persistent", "Placid", "Practical", "Quiet", "Rational", "Resourceful", "Responsible", "Selfish", "Selfless", "Sensitive", "Skeptical", "Spontaneous", "Thoughtful", "Tolerant", "Whimsical", "Witty"]>>
 	
 	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult"]>>
 	
-	<<set $dJobs to ["hatchling", "slacker", "forager", "rainier", "builder", "scavenger"]>>
+	<<set $dJobs to ["hatchling", "slacker", "forager", "rainier", "builder", "scavenger", "salvager"]>>
 
 		/* Setting up some flags... oh boy, flags! */
-	
+
+		/* These set up the Hydra. */
 	<<set $hydraSeen to false>>
 	<<set $hydraEggTaken to false>>
 	<<set $hydraTime = -1>>
 	<<set $hydraBeat = false>>
+
+		/* These relate to the lake creatures! */
+	<<set $infestedNotice to false>>
 <</silently>>
 
