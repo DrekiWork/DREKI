@@ -73,7 +73,12 @@
 			<</if>>
 
 		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
-			<<set _goldbonus = (Math.round(Math.sqrt($gold / $pop)))>>
+			<<if $pop > 0>>
+				<<set _goldDiv = ($gold^(1/3))>>
+				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop)))>>
+				<<run console.log("Bonus is", _goldDiv, _goldbonus, $pop)>>
+			<<else>>
+			<</if>>
 
 			<<if $hatchlings.length > 0>>
 			<<for _i to 0; _i < $hatchlings.length; _i++>>
