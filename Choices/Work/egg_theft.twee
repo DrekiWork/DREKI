@@ -26,12 +26,12 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<<if $egg < $eggSpace>>
 			As you're about to leave, however, you pause and look back at the unattended nursery.
 
-			You could take more. <<linkreplace "Do you?">> <<if _space > 2>> <<set _space = 2>> <</if>>
+			You could take more. <<linkreplace "Do you?">> <<if _space >= 2>> <<set _space = 2>><</if>>
 			
 			You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<link "more.">><<nobr>>
 					<<if _take == 0>>
 						... Your grip tightens on your egg. You've taken enough risk without adding an egg they <em>want</em> to your crime. You leave the nursery, [[wrought with mixed feelings.|Nursery]]
-					<<if _take == 1>>
+					<<elseif _take == 1>>
 						You pluck another egg from the nest, assured that they will be raised as siblings - as they should have been. Brood-bonded, if not by blood. The idea pleases you, even as you [[arrange your eggs in their new home.|Nursery]]
 					<<else>>
 						You pull two more eggs into your arms, and feel a happy weight settle in your chest. The urge to take more grows, but you cannot safely carry them - so instead you satisfy yourself by nuzzling one of the remainder, and leaving before you attempt it. These three will be warm and loved [[in your home.|Nursery]]
