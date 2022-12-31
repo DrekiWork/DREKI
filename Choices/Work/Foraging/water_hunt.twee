@@ -77,8 +77,8 @@
 				Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].
 			<</replace>>
 		<</link>>; 
-		or you can simply [[stay home.|Sandbox Central]]<
-	/span>
+		or you can simply [[stay home.|Sandbox Central]]
+	</span>
 <<else>>
 	It's time to [[go home.|Sandbox Central]]
 <</if>>

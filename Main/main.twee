@@ -214,4 +214,5 @@ div[id|="numberslider-body"] input::-ms-thumb {
 	<li></li></ul>
 
 	''Bugs Patched''
-	<ul><li>Hydra event works again! Wrow!</li></ul><</nobr>>
+	<ul><li>Hydra event works again! Wrow!</li>
+	<li>Water hunt works as intended now lol</li></ul><</nobr>>
