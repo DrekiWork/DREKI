@@ -231,7 +231,7 @@ Config.saves.autosave = ["Central"];
 //};
 
 /*! <<numberpool>> macro set for SugarCube v2 */
-!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -330,7 +330,7 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="4" name="StoryC
 But this sets up the sidebar for printing stuff. Currently only prints, not formatted. Might start relegating stuff to places like storage, pop tab, etc? Already have a nursery, so...
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. --&gt;
-&lt;&lt;if hasVisited(&quot;Sandbox Central&quot;)&gt;&gt;Cycle &lt;&lt;print $cycles&gt;&gt;, Day &lt;&lt;print $days&gt;&gt; &lt;br&gt; &lt;br&gt;
+&lt;&lt;if hasVisited(&quot;TutorialOpen&quot;)&gt;&gt;Cycle &lt;&lt;print $cycles&gt;&gt;, Day &lt;&lt;print $days&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 Food: &lt;&lt;print $food&gt;&gt; / &lt;&lt;print $foodCap&gt;&gt; &lt;br&gt;
 Water: &lt;&lt;print $water&gt;&gt; / &lt;&lt;print $waterCap&gt;&gt; &lt;br&gt;
@@ -809,7 +809,11 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 			exile: 0
 			
 			} )&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Prologue" tags="WIP" position="1300,100" size="100,100">&lt;em&gt;It&#39;s time,&lt;/em&gt; you tell yourself. Your scales rattle with your nerves. You are alone, and though this is good, you feel vulnerable without the warmth of your thunder beside you. Grand Diety Corsyth (long may she burn), is strict on schedules; normally you do not care, but tonight you are grateful for her. For her control over the colony, for her need to grasp every moment of their lives. You are grateful.
+&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;updatebar&quot;&gt;&gt;&lt;&lt;silently&gt;&gt;
+&lt;&lt;replace &quot;#story-caption&quot;&gt;&gt;&lt;&lt;display &quot;StoryCaption&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/silently&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Prologue" tags="WIP" position="1300,100" size="100,100">&lt;em&gt;It&#39;s time,&lt;/em&gt; you tell yourself. Your scales rattle with your nerves. You are alone, and though this is good, you feel vulnerable without the warmth of your thunder beside you. Grand Diety Corsyth (long may she burn), is strict on schedules; normally you do not care, but tonight you are grateful for her. For her control over the colony, for her need to grasp every moment of their lives. You are grateful.
 The Brooders may be in the Hatchery for no longer than it takes for the moon to reach the first star.
 
 You force your eyes away from the night&#39;s blind eye, and toward the Hatchery. You push aside the scale-edged hide and step lightly inside. It is bright. Carvings of the world - of dragons, of animals, of plants and the sun and moon - cavort across the walls; lurid, chipped paintings overloved by passing scales and wings and claws. Fires dance in pits scattered throughout, and the smoke - an old friend in your lungs, warming you inside as the fires do outside - swirls over your head as it creeps through secret passes in the ceiling. Orange light is reflected further from gilt nests, long strings of gold so finely spun it is could almost be mistaken for fur layered the softness of the nests.
@@ -852,7 +856,81 @@ For now, you have no food, no water, no treasure, no home.
 
 //For now//, you have only your claws and your wings.
 
-[[It is time to build a home.|Sandbox Central]]</tw-passagedata><tw-passagedata pid="12" name="Food" tags="WIP" position="725,675" size="100,100">&lt;&lt;nobr&gt;&gt;
+[[It is time to build a home.|TutorialOpen]]</tw-passagedata><tw-passagedata pid="12" name="TutorialOpen" tags="" position="225,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;TutChoice&quot;&gt;
+Would you like the tutorial? &lt;br&gt;
+&lt;&lt;button &quot;Yes&quot;&gt;&gt;
+    &lt;&lt;replace &quot;#TutChoice&quot;&gt;&gt;
+        DREKI is a colony management sim based around your ever-growing thunder. Look to the left, at your sidebar. &lt;br&gt; &lt;br&gt;
+
+        Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, and stone. &lt;br&gt; &lt;br&gt;
+
+        The &lt;em&gt;left&lt;/em&gt; number represents how much you have in storage, and the &lt;em&gt;right&lt;/em&gt; is how much space you have to store said materials. Currently, you have nothing! Let&#39;s fix that. &lt;br&gt; &lt;br&gt;
+
+        You can go foraging to retrieve supplies. Each time you leave in search of supplies, you use up one of your actions for the day; you have &lt;em&gt;five&lt;/em&gt; out-of-home actions before it gets too late for the &lt;&lt;print $player.title&gt;&gt; to want to go out any more. &lt;br&gt; &lt;br&gt;
+
+        In the actual game, all actions &amp; locations will be available at the bottom of the home screen. For now, [[let&#39;s go find some food.|GatherTut]]
+    &lt;&lt;/replace&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+&amp;emsp;
+&lt;&lt;button &quot;No&quot;&gt;&gt;
+    &lt;&lt;goto &quot;Sandbox Central&quot;&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+&lt;/span&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="GatherTut" tags="" position="350,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set _foodGet = 3&gt;&gt;
+&lt;&lt;set $food = 3&gt;&gt;
+Reluctant to leave your settling site, you scrounge around the outskirts of the clearing. 
+&lt;&lt;set _tutNum to random(0,2)&gt;&gt;
+&lt;&lt;if _tutNum == 2&gt;&gt;
+    There isn&#39;t much - but a nest of fuzzy little creatures provides &lt;&lt;print _foodGet&gt;&gt; for your stores.
+&lt;&lt;elseif _tutNum == 1&gt;&gt;
+    You find some barely ripe berries; enough for &lt;&lt;print _foodGet&gt;&gt; food for your stores. You eat a couple while picking - so sour!
+&lt;&lt;else&gt;&gt;
+    You pull down some edible ivy from the trees. While not very tasty, they&#39;re still worth &lt;&lt;print _foodGet&gt;&gt; food.
+&lt;&lt;/if&gt;&gt;
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+Normally after foraging, if you have the energy, you will be given the option to search again, look for something else (in this case, water, wood, stone, or gold), or simply go home. If not, the &lt;&lt;print $player.title&gt;&gt; will simply go home. &lt;br&gt; &lt;br&gt;
+
+In this case, we&#39;ve got enough food for tonight - however, there are random variations in text, including in this tutorial! &lt;&lt;link &quot;Click here&quot;&gt;&gt;&lt;&lt;run Engine.show()&gt;&gt;&lt;&lt;/link&gt;&gt; to reload the page and (hopefully) see different text. There are three total variations on this page, but in game there are more depending on how much you&#39;ve gathered, what your dragon has seen before, and whether or not you&#39;ve stumbled into an event. &lt;br&gt; &lt;br&gt;
+
+For now, however, I&#39;ll just give you what you need for the rest of the tutorial. That&#39;s going to be 4 water, and 5 stone. &lt;&lt;link &quot;Click here&quot;&gt;&gt;&lt;&lt;set $water = 4&gt;&gt; &lt;&lt;set $stone = 5&gt;&gt; &lt;&lt;goto &quot;BuildTut&quot;&gt;&gt; &lt;&lt;/link&gt;&gt; when you&#39;re ready to learn how to build.
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="BuildTut" tags="" position="475,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;span id=&quot;BuildTut&quot;&gt;
+With food and water taken care of, you need a shelter. If you look at the left sidebar, you may have already noticed &lt;em&gt;Shelter Space&lt;/em&gt;, which sits at -1. Every adult colonist needs some kind of shelter - this includes you. The most basic kind of shelter available are ruts; pits just large enough for a single dragon with stones atop to protect them from the weather. &lt;br&gt; &lt;br&gt;
+
+In-game, there will be a specifc menu organized by building type for your construction needs. Each building requires different amounts of building supplies - &lt;em&gt;wood&lt;/em&gt; and &lt;em&gt;stone&lt;/em&gt;. Ruts only need 5 stone, for their rooves. &lt;br&gt; &lt;br&gt;
+
+&lt;&lt;link &quot;Click here&quot;&gt;&gt;
+    &lt;&lt;replace &quot;#BuildTut&quot;&gt;&gt;
+        &lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
+	    &lt;&lt;set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)&gt;&gt;
+	    &lt;&lt;set $stone -= 5&gt;&gt;
+        &lt;&lt;updatebar&gt;&gt;
+        You&#39;ve got a home now! Notice how your Shelter Space is at zero. That means every (adult) colonist is sheltered. Keep a close eye on that! Sheltered dragons consume less resources than non-sheltered dragons - and dragons are big eaters as it is! If possible, it is &lt;em&gt;always&lt;/em&gt; better to shelter your colonists rather than leave them out in the cold. &lt;br&gt; &lt;br&gt;
+
+        Of course, building homes isn&#39;t the only reason you might need to build. You may need to expand your resource capacity, expand your nursery for eggs, build job stations for colonists, or, later on, build up defenses to protect your thunder. We&#39;ll get to those when we get to them, though! &lt;br&gt; &lt;br&gt;
+
+        For now, the &lt;&lt;print $player.title&gt;&gt; has had a long day of travel and gathering. Let&#39;s let them [[sleep...|RestTut]]
+    &lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt; to build a rut for your &lt;&lt;print $player.title&gt;&gt;.
+&lt;/span&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="RestTut" tags="" position="600,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $food = 0&gt;&gt;
+&lt;&lt;set $water = 0&gt;&gt;
+The end of the day is approaching. &lt;br&gt; &lt;br&gt;
+
+You ate 3 food and drank 4 water. This settled, you curl up to sleep.
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+At the end of each day, your colony will deliver their spoils, and you and yours will all eat. The founding dragon - that&#39;s you! - always needs 3 food and 4 water. Your thunder will need varying amounts based on what kind of creature they are, how old they are, and - if they are adults - what sort of job they have and if they are sheltered. &lt;br&gt; &lt;br&gt;
+
+If a colonist goes without, they get unhappy! Three days without food and water will drive any adult colonist away, and not eating may outright &lt;em&gt;kill&lt;/em&gt; any hatchlings; after all, they&#39;re too young to leave on their own. If the &lt;&lt;print $player.title&gt;&gt; doesn&#39;t eat or drink, they take some damage; how long they can go without depends on how healthy they already are. A less healthy &lt;&lt;print $player.title&gt;&gt; will end up dying faster than a well-taken-care-of one, so keep your food and water topped up! The game doesn&#39;t end until your dragon&#39;s life does, no matter what happens to the thunder.&lt;br&gt; &lt;br&gt;
+
+Now, one last thing before you&#39;re unleashed on the world: You retrieve eggs by hunting them out. You can only do this once per day; they&#39;ll hatch when they&#39;re ready into hatchlings, who contribute nothing but eat a lot, and eventually grow up into adult dragons whom you can assign jobs from their interact screen. If you want hatchlings, build up a good stock of food and water first - I recommend having at &lt;em&gt;least&lt;/em&gt; twenty food and water each, because playing catch up can be a brutal experience. &lt;br&gt; &lt;br&gt;
+
+Alright! You&#39;re all set. [[Click here|Sandbox Central]] to officially start your thunder.
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Food" tags="WIP" position="725,675" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(12)&gt;&gt;
 	&lt;&lt;set _scene = random(2)&gt;&gt;
@@ -1429,7 +1507,7 @@ For now, you have no food, no water, no treasure, no home.
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="Treasure" tags="WIP" position="875,800" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Treasure" tags="WIP" position="875,800" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(9)&gt;&gt;
 	&lt;&lt;set $player.action -= 1&gt;&gt;
@@ -1476,7 +1554,7 @@ For now, you have no food, no water, no treasure, no home.
 	&lt;&lt;else&gt;&gt;
 		It&#39;s time to [[go home.|Sandbox Central]]
 	&lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Stone" tags="WIP" position="725,925" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="Stone" tags="WIP" position="725,925" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(9)&gt;&gt;
 	&lt;&lt;set $player.action -= 1&gt;&gt;
@@ -1531,7 +1609,7 @@ For now, you have no food, no water, no treasure, no home.
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="Water" tags="WIP" position="725,800" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Water" tags="WIP" position="725,800" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(12)&gt;&gt;
 	&lt;&lt;set _scene = random(2)&gt;&gt;
@@ -1614,7 +1692,7 @@ For now, you have no food, no water, no treasure, no home.
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Wood" tags="WIP" position="875,925" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Wood" tags="WIP" position="875,925" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(9)&gt;&gt;
 	&lt;&lt;set $player.action -= 1&gt;&gt;
@@ -1670,7 +1748,7 @@ For now, you have no food, no water, no treasure, no home.
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Building" tags="WIP" position="950,550" size="100,100">You need to make something, but what? What does your colony need right now?
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Building" tags="WIP" position="950,550" size="100,100">You need to make something, but what? What does your colony need right now?
 
 		&#39;&#39;Rut&#39;&#39;
 		Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have &lt;&lt;print $shelter.ruts.amount&gt;&gt;.
@@ -1745,7 +1823,7 @@ For now, you have no food, no water, no treasure, no home.
 	&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;
 	
 
-		You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="18" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
+		You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="22" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
 
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set $theft++&gt;&gt;
@@ -1831,7 +1909,7 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;/nobr&gt;&gt;
 	
 	
-&lt;&lt;/switch&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Forage" tags="WIP" position="800,550" size="100,100">You decide to forage for supplies - but for what, exactly? What do you need?
+&lt;&lt;/switch&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Forage" tags="WIP" position="800,550" size="100,100">You decide to forage for supplies - but for what, exactly? What do you need?
 
 &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;if $fhunt gte 1 &amp;&amp; $food &lt; $foodCap&gt;&gt;
@@ -1860,7 +1938,7 @@ For now, you have no food, no water, no treasure, no home.
 		&lt;&lt;/linkappend&gt;&gt;
 		[[Treasure]]
 &lt;&lt;/nobr&gt;&gt;
-[[Nevermind|Sandbox Central]]</tw-passagedata><tw-passagedata pid="20" name="Event_Join" tags="" position="1225,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+[[Nevermind|Sandbox Central]]</tw-passagedata><tw-passagedata pid="24" name="Event_Join" tags="" position="475,350" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;&lt;silently&gt;&gt;
         &lt;&lt;set _join to random(2, 5)&gt;&gt;
         &lt;&lt;set _takeIn = 1&gt;&gt;
@@ -1923,7 +2001,7 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
         
         &lt;br&gt;&lt;&lt;link &quot;Send them away.&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;
             You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Still, [[they hurry from your home.|Sandbox Central]] &lt;&lt;/replace&gt;&gt; &lt;&lt;/link&gt;&gt; &lt;/span&gt;
-    &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Event_Intruder" tags="" position="100,350" size="100,100">&lt;&lt;silently&gt;&gt;
+    &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Event_Intruder" tags="" position="600,350" size="100,100">&lt;&lt;silently&gt;&gt;
     &lt;&lt;set _adult += 1&gt;&gt;
     &lt;&lt;if $dragons.length &gt;= 1&gt;&gt;
         &lt;&lt;for _i to 0; _i &lt; $dragons.length; _i++&gt;&gt;
@@ -1968,7 +2046,7 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
         &lt;&lt;/nobr&gt;&gt;You barrel in, only to slam directly into the intruder. Their wing slaps your face, and you snap your teeth shut - the dragon wails in pain, but yanks the limb out from your jaws and manages to shove past you.
 
         You chase without hesitation, howling in fury. You follow them for leagues, until the dragon manages to throw you - but they are far enough now. You shriek once more, flames billowing into the open air, before turning back. When you get back, [[you do not sleep.|Nursery]]
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Nursery" tags="WIP" position="650,550" size="100,100">Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have &lt;&lt;nobr&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Nursery" tags="WIP" position="650,550" size="100,100">Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have &lt;&lt;nobr&gt;&gt;
 	
 	&lt;&lt;set $eggSpace to ($nest * 3)&gt;&gt;
 	&lt;&lt;set $eggSpace to ($eggSpace - $egg)&gt;&gt;
@@ -2031,7 +2109,7 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 
 What would you like to do?
 
-[[Go back|Sandbox Central]]</tw-passagedata><tw-passagedata pid="23" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">You are a dragon in a&lt;&lt;nobr&gt;&gt;
+[[Go back|Sandbox Central]]</tw-passagedata><tw-passagedata pid="27" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">You are a dragon in a&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;if $cycles &gt;= 100&gt;&gt;n ancient-looking colony that has been around for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it&#39;s been here for a very long time.
 	&lt;&lt;elseif $cycles &gt;= 25&gt;&gt; well-established colony, having lived here for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. It&#39;s all beginning to take proper shape, and you can&#39;t help but feel pleased with it.
 	&lt;&lt;elseif $cycles &gt;= 5&gt;&gt; somewhat established colony, that has been here for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. You&#39;ve been here long enough to note the dirt becoming packed from footsteps and wingbeats.
@@ -2153,7 +2231,7 @@ What do you want to do?
 		[[Interact with your thunder|Pop]] &lt;br&gt;
 	&lt;&lt;/if&gt;&gt;
 [[Rest|Rest]]
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="SandboxDeath" tags="" position="475,350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="SandboxDeath" tags="" position="975,350" size="100,100">&lt;&lt;nobr&gt;&gt;
     You watch the sunset. &lt;br&gt; &lt;br&gt;
     &lt;&lt;if $dragons.length &gt; 1 &amp;&amp; $hatchlings.length &gt; 1&gt;&gt;
         &lt;&lt;set _i = random(0, ($dragons.length - 1))&gt;&gt;
@@ -2213,7 +2291,7 @@ What do you want to do?
 
         &lt;&lt;link &quot;You close your eyes and dream of what might have been.&quot;&gt;&gt;&lt;&lt;run UI.restart()&gt;&gt;&lt;&lt;/link&gt;&gt;
     &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Interact" tags="WIP" position="400,700" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Interact" tags="WIP" position="400,700" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;set _name to $dragons[$int].name&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;textbox &quot;_name&quot; _name&gt;&gt; is one of your dragons; they&#39;re &lt;&lt;if $dragons[$int].age == &quot;Adult&quot;&gt;&gt;fully grown, &lt;&lt;else&gt;&gt;pretty young &lt;&lt;/if&gt;&gt;and have shown themselves to be &lt;&lt;print $dragons[$int].personality&gt;&gt;. Currently, they&#39;re a &lt;&lt;print $dragons[$int].job&gt;&gt;. &lt;&lt;nobr&gt;&gt;
 &lt;br&gt; &lt;br&gt;
@@ -2330,7 +2408,7 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 &lt;&lt;else&gt;&gt;
 	They will leave at sunset.
 &lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-&lt;&lt;link &quot;Back to Pop&quot; &quot;Pop&quot;&gt;&gt;&lt;&lt;set $dragons[$int].name to _name&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Inventory" tags="WIP" position="550,700" size="100,100">You walk over to the sector you&#39;ve designated for storage, and look about at what you have.
+&lt;&lt;link &quot;Back to Pop&quot; &quot;Pop&quot;&gt;&gt;&lt;&lt;set $dragons[$int].name to _name&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Inventory" tags="WIP" position="550,700" size="100,100">You walk over to the sector you&#39;ve designated for storage, and look about at what you have.
 
 &lt;&lt;print $food&gt;&gt; Food
 &lt;&lt;print $water&gt;&gt; Water
@@ -2352,7 +2430,7 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 	&lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-[[Go back outside|Pop]]</tw-passagedata><tw-passagedata pid="27" name="Rest" tags="WIP" position="1075,550" size="100,100">The end of the day is approaching.&lt;&lt;nobr&gt;&gt;
+[[Go back outside|Pop]]</tw-passagedata><tw-passagedata pid="31" name="Rest" tags="WIP" position="1075,550" size="100,100">The end of the day is approaching.&lt;&lt;nobr&gt;&gt;
 
 	&lt;&lt;set _exiled = []&gt;&gt;
 	&lt;&lt;for _i to 0; _i &lt; $dragons.length; _i++&gt;&gt;
@@ -2452,7 +2530,7 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 	&lt;&lt;elseif _pcHungry == false &amp;&amp; _pcThirsty == true&gt;&gt;
 		Your throat feels terribly dry. You ate 3 food, but had no water.
 	&lt;&lt;else&gt;&gt;
-		You ate 4 food and 3 water.
+		You ate 3 food and 4 water.
 	&lt;&lt;/if&gt;&gt;
 	&lt;&lt;if $pop &gt;= 2&gt;&gt;
 
@@ -2520,7 +2598,7 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 		[[It&#39;s time for another day.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Pop" tags="WIP" position="475,550" size="100,100">You have &lt;&lt;if $pop gte 3&gt;&gt;&lt;&lt;print ($pop - 1)&gt;&gt; other dragons&lt;&lt;elseif $pop == 2&gt;&gt;1 other dragon&lt;&lt;/if&gt;&gt; living in your colony, using the same amount of shelter space.
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Pop" tags="WIP" position="475,550" size="100,100">You have &lt;&lt;if $pop gte 3&gt;&gt;&lt;&lt;print ($pop - 1)&gt;&gt; other dragons&lt;&lt;elseif $pop == 2&gt;&gt;1 other dragon&lt;&lt;/if&gt;&gt; living in your colony, using the same amount of shelter space.
 
 On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts built, with &lt;&lt;print $home&gt;&gt; space available for more dragons. One day, you&#39;ll be able to build more than just ruts. Today is not that day.
 

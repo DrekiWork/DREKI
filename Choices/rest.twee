@@ -99,7 +99,7 @@ The end of the day is approaching.<<nobr>>
 	<<elseif _pcHungry == false && _pcThirsty == true>>
 		Your throat feels terribly dry. You ate 3 food, but had no water.
 	<<else>>
-		You ate 4 food and 3 water.
+		You ate 3 food and 4 water.
 	<</if>>
 	<<if $pop >= 2>>
 

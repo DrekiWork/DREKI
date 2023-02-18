@@ -447,3 +447,6 @@
 			} )>>
 <</widget>>
 
+<<widget "updatebar">><<silently>>
+<<replace "#story-caption">><<display "StoryCaption">><</replace>>
+<</silently>><</widget>>

@@ -33,7 +33,7 @@ Made by Recila!</sup>
 But this sets up the sidebar for printing stuff. Currently only prints, not formatted. Might start relegating stuff to places like storage, pop tab, etc? Already have a nursery, so...
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. -->
-<<if hasVisited("Sandbox Central")>>Cycle <<print $cycles>>, Day <<print $days>> <br> <br>
+<<if hasVisited("TutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>> <br> <br>
 
 Food: <<print $food>> / <<print $foodCap>> <br>
 Water: <<print $water>> / <<print $waterCap>> <br>
