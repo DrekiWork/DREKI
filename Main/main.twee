@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-alpha 0.0.22.0
+<sup>pre-alpha 0.0.23.0
 Made by Recila!</sup>
 
 
@@ -67,10 +67,8 @@ Gold: <<print $gold>>
 :: Patchnotes
 	<h2> Pre-Alpha 0.0.23.0 </h2><<nobr>>
 	''New!''
-	<ul><li>Nothing so far!</li>
+	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
 	<li></li></ul>
 
 	''Bugs Patched''
-	<ul><li>Hydra event works again! Wrow!</li>
-	<li>Water hunt works as intended now lol</li>
-	<li>Fixed egg thief</li></ul><</nobr>>
+	<ul><li>Zip zilch nada!</li></ul><</nobr>>
