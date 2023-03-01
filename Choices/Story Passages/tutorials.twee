@@ -6,7 +6,7 @@ Would you like the tutorial? <br>
     <<replace "#TutChoice">>
         DREKI is a colony management sim based around your ever-growing thunder. Look to the left, at your sidebar. <br> <br>
 
-        Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, and stone. <br> <br>
+        Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, and stone. You will also see Shelter Space - which we'll talk about later - and gold. But for now, we'll focus on the ones with two numbers next to them.<br> <br>
 
         The <em>left</em> number represents how much you have in storage, and the <em>right</em> is how much space you have to store said materials. Currently, you have nothing! Let's fix that. <br> <br>
 
@@ -38,9 +38,11 @@ Reluctant to leave your settling site, you scrounge around the outskirts of the 
 <br> <br> <br>
 Normally after foraging, if you have the energy, you will be given the option to search again, look for something else (in this case, water, wood, stone, or gold), or simply go home. If not, the <<print $player.title>> will simply go home. <br> <br>
 
-In this case, we've got enough food for tonight - however, there are random variations in text, including in this tutorial! <<link "Click here">><<run Engine.show()>><</link>> to reload the page and (hopefully) see different text. There are three total variations on this page, but in game there are more depending on how much you've gathered, what your dragon has seen before, and whether or not you've stumbled into an event. <br> <br>
+As a special note: <em>gold</em> is able to be foraged for just like any other resource. However, it doesn't have any benefits currently... At least, not obvious ones. Even if you can't do much with it, your colonists might work a little harder if you have enough... But I'll leave that to you to figure out. <br> <br>
 
-For now, however, I'll just give you what you need for the rest of the tutorial. That's going to be 4 water, and 5 stone. <<link "Click here">><<set $water = 4>> <<set $stone = 5>> <<goto "BuildTut">> <</link>> when you're ready to learn how to build.
+For now, we've got enough food - however, there are random variations in text, including in this tutorial! <<link "Click here">><<run Engine.show()>><</link>> to reload the page and (hopefully) see different text. It may take a couple of clicks, as the chance for different text is random! There are three total variations on this page, but in game there are more depending on how much you've gathered, what your dragon has seen before, and whether or not you've stumbled into an event. Of course, for tutorial purposes, reloading the page won't change the food you collect, and in-game you won't have the option to reload freely. <br> <br>
+
+For now, however, I'll just give you what you need for the rest of the tutorial. That's going to be 4 water, and 5 stone - these are gathered in exactly the same way as food, under the foraging option in the main screen. <<link "Click here">><<set $water = 4>> <<set $stone = 5>> <<goto "BuildTut">> <</link>> when you're ready to learn how to build.
 <</nobr>>
 
 ::BuildTut
@@ -79,7 +81,9 @@ At the end of each day, your colony will deliver their spoils, and you and yours
 
 If a colonist goes without, they get unhappy! Three days without food and water will drive any adult colonist away, and not eating may outright <em>kill</em> any hatchlings; after all, they're too young to leave on their own. If the <<print $player.title>> doesn't eat or drink, they take some damage; how long they can go without depends on how healthy they already are. A less healthy <<print $player.title>> will end up dying faster than a well-taken-care-of one, so keep your food and water topped up! The game doesn't end until your dragon's life does, no matter what happens to the thunder.<br> <br>
 
-Now, one last thing before you're unleashed on the world: You retrieve eggs by hunting them out. You can only do this once per day; they'll hatch when they're ready into hatchlings, who contribute nothing but eat a lot, and eventually grow up into adult dragons whom you can assign jobs from their interact screen. If you want hatchlings, build up a good stock of food and water first - I recommend having at <em>least</em> twenty food and water each, because playing catch up can be a brutal experience. <br> <br>
+Now, one last thing before you're unleashed on the world: You retrieve eggs by hunting them out. You can only do this once per day; they'll hatch when they're ready into hatchlings, who contribute nothing but eat a lot, and eventually grow up into adult dragons whom you can assign jobs from their interact screen. If you want hatchlings, build up a good stock of food and water first - I recommend having at <em>least</em> twenty food and water each, because playing catch up can be a brutal experience. Especially if you pick up multiple eggs! <br> <br>
 
-Alright! You're all set. [[Click here|Sandbox Central]] to officially start your thunder.
+Alright! You're all set. There are, of course, more things that can happen - events while foraging, something interrupting your sleep... but these are the basics and should get you through the game for the most part.
+
+If you're ready, [[click here|Sandbox Central]] to officially start your thunder.
 <</nobr>>

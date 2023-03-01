@@ -4,8 +4,8 @@ Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human,
 What would you like to do?
 
 [[Start a colony in Free Play|Game Setter]]
-[[Go through the Story|Prologue]]
-&emsp;<em>Note: This currently only leads to the prologue, which then loops back to the sandbox starter.</em>
+<!-- [[Go through the Story|Prologue]]
+&emsp;<em>Note: This currently only leads to the prologue, which then loops back to the sandbox starter.</em> -->
 
 
 :: Game Setter [WIP] {"position":"800,300","size":"100,100"}
