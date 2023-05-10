@@ -27,4 +27,4 @@ Config.saves.autosave = ["Central"];
 
 //Gonna try again with the favicon branch... here we friggen go i guess.
 
-
+$(document.head).append("<link rel='icon' href='C:/Users/Kates/Desktop/Tweeego/DREKI/Media/Dreki Symbol (no BG, no jewel).png'>");
