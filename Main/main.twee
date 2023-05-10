@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-alpha 0.0.23.0
+<sup>pre-pre-alpha 0.0.24.0
 Made by Recila!</sup>
 
 
@@ -41,7 +41,16 @@ Wood: <<print $wood>> / <<print $woodCap>> <br>
 Stone: <<print $stone>> / <<print $stoneCap>> <br>
 Shelter Space: <<print $home>> <br> <br>
 
-Gold: <<print $gold>>
+Gold: <<print $gold>> <br> <br>
+
+<<if $dragons.length > 0 && $shelter.ruts.amount > 0.>>
+''SOCIAL POLICIES'' <br>
+	Do you want dragons to find their own places to sleep?
+	<<cycle "$findSleep" autoselect>>
+		<<option "Yes." true>>
+		<<option "No." false>>
+	<</cycle>>
+<</if>>
 <<else>>
 	Welcome to DREKI: Thunder Simulator!
 <</if>>
@@ -65,10 +74,12 @@ Gold: <<print $gold>>
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Alpha 0.0.23.0 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.24.0 </h2><<nobr>>
 	''New!''
 	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
+	<li>Dragons can be assigned dens!</li>
+	<li>The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?</li>
 	<li></li></ul>
 
 	''Bugs Patched''
-	<ul><li>Zip zilch nada!</li></ul><</nobr>>
+	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li></ul><</nobr>>

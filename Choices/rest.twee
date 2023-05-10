@@ -101,14 +101,21 @@ The end of the day is approaching.<<nobr>>
 	<<else>>
 		You ate 3 food and 4 water.
 	<</if>>
-	<<if $pop >= 2>>
 
-	<<if $hatchlings.length >= 1>>
+	<<if $dragons.length == 0>>
+	<<if $hatchlings.length > 1>>
+		Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.
+	<<elseif $hatchlings.length == 1>>
+		Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.
+	<</if>>
+	<<else>>
+
+	<<if $hatchlings.length > 0>>
 		Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water, and your
 	<<else>>
 		Your
 	<</if>>
-	<<run console.log($pop, $home)>>
+
     <<if $home >= 0 && _eat > 0 && _drink > 0>>
 	colony eats <<print _eat>> food, and drinks <<print _drink>> water.
 	<<elseif $home < 0 && _eat > 0 && _drink > 0>>
@@ -132,6 +139,81 @@ The end of the day is approaching.<<nobr>>
 		However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.
 	<</if>> <br> <br>
 	<</if>>
+
+	<<if $dragons.length > 0>>
+		<<if _newHouse.length > 2>>
+			<<for _i to 0; _i < _newHouse.length; _i++>>
+				<<if _i < (_newHouse.length - 2)>>
+					<<print _newHouse[_i]>>, 
+				<<else>>
+				and <<print _newHouse[_i]>>
+				<</if>>
+			<</for>>
+			found unoccupied places to sleep for the night. They probably won't leave now.
+			<<if _homeless.length > 2>>
+			<<for _i to 0; _i < _homeless.length; _i++>>
+				<<if _i < (_homeless.length - 2)>>
+					<<print _homeless[_i]>>, 
+				<<else>>
+				and <<print _homeless[_i]>>
+				<</if>>
+			<</for>>
+			don't have anywhere to sleep yet.
+		<<elseif _homeless.length == 2>>
+			<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
+		<<elseif _homeless.length == 1>>
+			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
+		<</if>> <br> <br>
+		<<elseif _newHouse.length == 2>>
+			<<print _newHouse[0]>> and <<print _newHouse[1]>> found unoccupied places to sleep for the night. They probably won't leave now.
+			<<if _homeless.length > 2>>
+			<<for _i to 0; _i < _homeless.length; _i++>>
+				<<if _i < (_homeless.length - 2)>>
+					<<print _homeless[_i]>>, 
+				<<else>>
+				and <<print _homeless[_i]>>
+				<</if>>
+			<</for>>
+			don't have anywhere to sleep yet.
+		<<elseif _homeless.length == 2>>
+			<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
+		<<elseif _homeless.length == 1>>
+			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
+		<</if>> <br> <br>
+		<<elseif _newHouse.length == 1>>
+			<<print _newHouse[0]>> found an unoccupied place to sleep for the night. They probably won't leave now.
+			<<if _homeless.length > 2>>
+			<<for _i to 0; _i < _homeless.length; _i++>>
+				<<if _i < (_homeless.length - 2)>>
+					<<print _homeless[_i]>>, 
+				<<else>>
+				and <<print _homeless[_i]>>
+				<</if>>
+			<</for>>
+			don't have anywhere to sleep yet.
+			<<elseif _homeless.length == 2>>
+				<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
+			<<elseif _homeless.length == 1>>
+				<<print _homeless[0]>> doesn't have anywhere to sleep yet.
+			<</if>> <br> <br>
+		<</if>>
+	<<else>>
+	<</if>>
+
+	<<if _homeless.length > 2>>
+		<<for _i to 0; _i < _homeless.length; _i++>>
+			<<if _i < (_homeless.length - 2)>>
+				<<print _homeless[_i]>>, 
+			<<else>>
+				and <<print _homeless[_i]>>
+			<</if>>
+		<</for>>
+		don't have anywhere to sleep yet.
+	<<elseif _homeless.length == 2>>
+		<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
+	<<elseif _homeless.length == 1>>
+			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
+	<</if>> <br> <br>
 	
 	<<if _left.length >= 2>>
 		<<nobr>><<for _i to 0; _i < _left.length; _i++>>

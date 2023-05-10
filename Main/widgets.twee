@@ -30,8 +30,7 @@
 			<<set $eggs = $eggs.filter(egg => egg.time < 7)>>
 		
 		/* Determines if your dragons are adequetely sheltered, and thus, if they eat a normal amount, or more. */
-			
-			<<set _housed to ($home)>>
+		
 			<<set _hungry = 0>>
 			<<set _thirsty = 0>>
 			<<set _unfed = 0>>
@@ -75,12 +74,12 @@
 		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			<<if $pop > 0>>
 				<<set _goldDiv = ($gold^(1/3))>>
-				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop)))>>
-				<<run console.log("Bonus is", _goldDiv, _goldbonus, $pop)>>
+				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop))))>>
 			<<else>>
 			<</if>>
 
 			<<if $hatchlings.length > 0>>
+			
 			<<for _i to 0; _i < $hatchlings.length; _i++>>
 				<<if $food >= (_eat + 4)>>
 					<<set $hatchlings[_i].hunger = 0>>
@@ -101,15 +100,38 @@
 				<</if>>
 			<</for>>
 			<</if>>
+			
 			<<if $dragons.length > 0>>
+			<<set _newHouse = []>>
+			<<set _homeless = []>>
+
 			<<for _i to 0; _i < $dragons.length; _i++>>
+				
+				<<if $findSleep == true>>
+					<<if $dragons[_i].home !== "none">>
+
+					<<else>>
+						<<if $shelter.free >= 1 || $home >= 1>>
+							<<set $dragons[_i].home = "rut">>
+							<<set $shelter.ruts.free -= 1>>
+							<<set $home -= 1>>
+							<<run _newHouse.push($dragons[_i].name)>>
+						<<else>>
+							<<run _homeless.push($dragons[_i].name)>>
+						<</if>>
+					<</if>>
+				<<else>>
+					<<if $dragons[_i].home == "none">>
+						<<run _homeless.push($dragons[_i].name)>>
+					<<else>>
+					<</if>>
+				<</if>>
+				
 				<<switch $dragons[_i].job>>
 
 				<<case "slacker">>
 
-					<<set _housed -= 1>>
-
-					<<if _housed >= 0>>
+					<<if $dragons[_i].home !== "none">>
 						<<if $food >= (_eat + 3)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 3>>
@@ -128,7 +150,7 @@
 							<<set _nowater += 1>>
 						<</if>>
 
-					<<elseif _housed < 0>>
+					<<else>>
 						<<if $food >= (_eat + 4)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 4>>
@@ -154,9 +176,7 @@
 					<<set $dragons[_i].foragexp += 0.1>>
 					<<set _food += (Math.round($dragons[_i].foragexp * _goldbonus) + random(3))>>
 
-					<<set _housed -= 1>>
-
-					<<if _housed >= 0>>
+					<<if $dragons[_i].home !== "none">>
 						<<if $food >= (_eat + 1)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 1>>
@@ -175,7 +195,7 @@
 							<<set _nowater += 1>>
 						<</if>>
 
-					<<elseif _housed < 0>>
+					<<else>>
 						<<if $food >= (_eat + 2)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 2>>
@@ -201,9 +221,7 @@
 					<<set $dragons[_i].rainxp += 0.1>>
 					<<set _water += (Math.round($dragons[_i].rainxp * _goldbonus) + random(3))>>
 					
-					<<set _housed -= 1>>
-
-					<<if _housed >= 0>>
+					<<if $dragons[_i].home !== "none">>
 						<<if $food >= (_eat + 3)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 3>>
@@ -222,7 +240,7 @@
 							<<set _nowater += 1>>
 						<</if>>
 
-					<<elseif _housed < 0>>
+					<<else>>
 						<<if $food >= (_eat + 4)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 4>>
@@ -254,9 +272,7 @@
 					<</if>>
 					<<set _goldluck += (Math.round($dragons[_i].scavxp)) + random(0, 49)>>
 
-					<<set _housed -= 1>>
-
-					<<if _housed >= 0>>
+					<<if $dragons[_i].home !== "none">>
 						<<if $food >= (_eat + 4)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 4>>
@@ -274,7 +290,7 @@
 							<<set _thirsty += 5>>
 							<<set _nowater += 1>>
 						<</if>>
-					<<elseif _housed < 0>>
+					<<else>>
 						<<if $food >= (_eat + 5)>>
 							<<set $dragons[_i].hunger = 0>>
 							<<set _eat += 5>>
@@ -429,6 +445,8 @@
 			age: "Adult", 
 			
 			job: "slacker", 
+
+			home: "none",
 			
 			foragexp: 0,
 			
@@ -447,6 +465,10 @@
 			} )>>
 <</widget>>
 
-<<widget "updatebar">><<silently>>
-<<replace "#story-caption">><<display "StoryCaption">><</replace>>
-<</silently>><</widget>>
+<<widget "updatebar">>
+	<<silently>>
+		<<replace "#story-caption">>
+			<<display "StoryCaption">>
+		<</replace>>
+	<</silently>>
+<</widget>>
