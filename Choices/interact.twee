@@ -17,12 +17,43 @@
 <<else>>
 	They're well-hydrated.
 <</if>>
+<<if $dragons[$int].home == "none">>
+	They don't have a home to themselves yet.
+	<<if $home > $pop>>
+		You have some empty ruts; would you like to assign <<print $dragons[$int].name>> to a 
+		<<link "rut">>
+			<<set $dragons[$int].home = "rut">>
+			<<set $home -= 1>>
+			<<set $shelter.ruts.free -= 1>>
+			<<run Engine.show()>>
+		<</link>>?
+	<<else>>
+		There's no shelter available either; you might have to build more.
+	<</if>>
+<<else>>
+	They're housed in a <<print $dragons[$int].home>>, and
+	<<if $dragons[$int].home == "rut">>
+		live alone. You can <<link "kick them out">>
+			<<set $dragons[$int].home = "none">>
+			<<set $home += 1>>
+			<<set $shelter.ruts.free += 1>>
+			<<run Engine.show()>>
+		<</link>> if you like...
+	<<else>>
+		live alone, though there's space for others. You can <<link "kick them out">>
+			<<set $dragons[$int].home = "none">>
+			<<set $home += 1>>
+			<<set $shelter.ruts.free += 1>>
+			<<run Engine.show()>>
+		<</link>> if you like...
+	<</if>>
+<</if>> <br> <br>
 	<<switch $dragons[$int].job>>.
 	<<case "slacker">>
 		As with all dragons, they are an instinctive master of the art of doing nothing.
 	<<case "forager">>
 			<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
-		they've worked for <<print _xp>> days as a forager.
+		They've worked for <<print _xp>> days as a forager.
 			<<if _xp >= 50>>
 				They're fairly comfortable gathering food by now.
 			<<elseif _xp >= 20>>
@@ -36,7 +67,7 @@
 		<<silently>>
 			<<set _xp to Math.round($dragons[$int].rainxp * 10)>>
 		<</silently>>
-		they've worked for <<print _xp>> days as a rainier.
+		They've worked for <<print _xp>> days as a rainier.
 			<<if _xp >= 50>>
 				They're fairly comfortable around water by now.
 			<<elseif _xp >= 20>>
@@ -50,7 +81,7 @@
 		<<silently>>
 			<<set _xp to Math.round($dragons[$int].scavxp * 10)>>
 		<</silently>>
-		they've worked for <<print _xp>> days as a scavenger.
+		They've worked for <<print _xp>> days as a scavenger.
 			<<if _xp >= 50>>
 				They're fairly comfortable collecting building materials by now.
 			<<elseif _xp >= 20>>
@@ -61,8 +92,6 @@
 				They're pretty new to the job.
 			<</if>>
 	<</switch>>
-<</nobr>>
-<<nobr>>
 <</nobr>>
 <<switch $dragons[$int].job>>
 	<<case "slacker">>

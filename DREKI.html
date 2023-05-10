@@ -231,7 +231,7 @@ Config.saves.autosave = ["Central"];
 //};
 
 /*! <<numberpool>> macro set for SugarCube v2 */
-!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();</script><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -256,14 +256,14 @@ Config.saves.autosave = ["Central"];
 	&lt;&lt;set $nest = 0&gt;&gt;
 	&lt;&lt;set $eggSpace = 0&gt;&gt;
 	
-		/* Population count! */
-	&lt;&lt;set $pop to 1&gt;&gt;
-	
 		/* Number of winglets/worker dragons. Slackers aren&#39;t employed, foragers go for food... */
 	&lt;&lt;set $eggs to []&gt;&gt;
 	&lt;&lt;set $hatchlings to []&gt;&gt;
 	&lt;&lt;set $winglets to []&gt;&gt;
 	&lt;&lt;set $dragons to []&gt;&gt;
+	
+		/* Population count! */
+	&lt;&lt;set $pop to 1&gt;&gt;
 	
 		/* Food, water, trayseur, building supplies...*/
 	&lt;&lt;set $food to 0&gt;&gt;
@@ -315,6 +315,9 @@ Config.saves.autosave = ["Central"];
 
 		/* Setting up some flags... oh boy, flags! */
 
+		/* Default social policies... */
+	&lt;&lt;set $findSleep to true&gt;&gt;
+
 		/* These set up the Hydra. */
 	&lt;&lt;set $hydraSeen to false&gt;&gt;
 	&lt;&lt;set $hydraEggTaken to false&gt;&gt;
@@ -323,7 +326,7 @@ Config.saves.autosave = ["Central"];
 
 		/* These relate to the lake creatures! */
 	&lt;&lt;set $infestedNotice to false&gt;&gt;
-&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="EncyclopediaHome" tags="" position="225,100" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="3" name="StorySubtitle" tags="" position="350,100" size="100,100">&lt;sup&gt;pre-alpha 0.0.23.0
+&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="EncyclopediaHome" tags="" position="225,100" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="3" name="StorySubtitle" tags="" position="350,100" size="100,100">&lt;sup&gt;pre-pre-alpha 0.0.24.0
 Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="4" name="StoryCaption" tags="Special" position="100,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;!-- nobr because comments apparently fuck with formatting? News to me!
 
@@ -338,7 +341,16 @@ Wood: &lt;&lt;print $wood&gt;&gt; / &lt;&lt;print $woodCap&gt;&gt; &lt;br&gt;
 Stone: &lt;&lt;print $stone&gt;&gt; / &lt;&lt;print $stoneCap&gt;&gt; &lt;br&gt;
 Shelter Space: &lt;&lt;print $home&gt;&gt; &lt;br&gt; &lt;br&gt;
 
-Gold: &lt;&lt;print $gold&gt;&gt;
+Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
+
+&lt;&lt;if $dragons.length &gt; 0 &amp;&amp; $shelter.ruts.amount &gt; 0.&gt;&gt;
+&#39;&#39;SOCIAL POLICIES&#39;&#39; &lt;br&gt;
+	Do you want dragons to find their own places to sleep?
+	&lt;&lt;cycle &quot;$findSleep&quot; autoselect&gt;&gt;
+		&lt;&lt;option &quot;Yes.&quot; true&gt;&gt;
+		&lt;&lt;option &quot;No.&quot; false&gt;&gt;
+	&lt;&lt;/cycle&gt;&gt;
+&lt;&lt;/if&gt;&gt;
 &lt;&lt;else&gt;&gt;
 	Welcome to DREKI: Thunder Simulator!
 &lt;&lt;/if&gt;&gt;
@@ -355,13 +367,15 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 	Dialog.wiki(Story.get(&quot;EncyclopediaHome&quot;).processText());
 	Dialog.open();
 	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Alpha 0.0.23.0 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.0 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
 	&#39;&#39;New!&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Tutorial added! Though barebones, it&#39;ll walk you through a gathering round, building, and sleeping.&lt;/li&gt;
+	&lt;li&gt;Dragons can be assigned dens!&lt;/li&gt;
+	&lt;li&gt;The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
 
 	&#39;&#39;Bugs Patched&#39;&#39;
-	&lt;ul&gt;&lt;li&gt;Zip zilch nada!&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
+	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;growUp&gt;&gt;
 
 		/* Moves a day forward */
@@ -392,8 +406,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 			&lt;&lt;set $eggs = $eggs.filter(egg =&gt; egg.time &lt; 7)&gt;&gt;
 		
 		/* Determines if your dragons are adequetely sheltered, and thus, if they eat a normal amount, or more. */
-			
-			&lt;&lt;set _housed to ($home)&gt;&gt;
+		
 			&lt;&lt;set _hungry = 0&gt;&gt;
 			&lt;&lt;set _thirsty = 0&gt;&gt;
 			&lt;&lt;set _unfed = 0&gt;&gt;
@@ -437,12 +450,12 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			&lt;&lt;if $pop &gt; 0&gt;&gt;
 				&lt;&lt;set _goldDiv = ($gold^(1/3))&gt;&gt;
-				&lt;&lt;set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop)))&gt;&gt;
-				&lt;&lt;run console.log(&quot;Bonus is&quot;, _goldDiv, _goldbonus, $pop)&gt;&gt;
+				&lt;&lt;set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop))))&gt;&gt;
 			&lt;&lt;else&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
 
 			&lt;&lt;if $hatchlings.length &gt; 0&gt;&gt;
+			
 			&lt;&lt;for _i to 0; _i &lt; $hatchlings.length; _i++&gt;&gt;
 				&lt;&lt;if $food &gt;= (_eat + 4)&gt;&gt;
 					&lt;&lt;set $hatchlings[_i].hunger = 0&gt;&gt;
@@ -463,15 +476,38 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 				&lt;&lt;/if&gt;&gt;
 			&lt;&lt;/for&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
+			
 			&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
+			&lt;&lt;set _newHouse = []&gt;&gt;
+			&lt;&lt;set _homeless = []&gt;&gt;
+
 			&lt;&lt;for _i to 0; _i &lt; $dragons.length; _i++&gt;&gt;
+				
+				&lt;&lt;if $findSleep == true&gt;&gt;
+					&lt;&lt;if $dragons[_i].home !== &quot;none&quot;&gt;&gt;
+
+					&lt;&lt;else&gt;&gt;
+						&lt;&lt;if $shelter.free &gt;= 1 || $home &gt;= 1&gt;&gt;
+							&lt;&lt;set $dragons[_i].home = &quot;rut&quot;&gt;&gt;
+							&lt;&lt;set $shelter.ruts.free -= 1&gt;&gt;
+							&lt;&lt;set $home -= 1&gt;&gt;
+							&lt;&lt;run _newHouse.push($dragons[_i].name)&gt;&gt;
+						&lt;&lt;else&gt;&gt;
+							&lt;&lt;run _homeless.push($dragons[_i].name)&gt;&gt;
+						&lt;&lt;/if&gt;&gt;
+					&lt;&lt;/if&gt;&gt;
+				&lt;&lt;else&gt;&gt;
+					&lt;&lt;if $dragons[_i].home == &quot;none&quot;&gt;&gt;
+						&lt;&lt;run _homeless.push($dragons[_i].name)&gt;&gt;
+					&lt;&lt;else&gt;&gt;
+					&lt;&lt;/if&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+				
 				&lt;&lt;switch $dragons[_i].job&gt;&gt;
 
 				&lt;&lt;case &quot;slacker&quot;&gt;&gt;
 
-					&lt;&lt;set _housed -= 1&gt;&gt;
-
-					&lt;&lt;if _housed &gt;= 0&gt;&gt;
+					&lt;&lt;if $dragons[_i].home !== &quot;none&quot;&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 3)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 3&gt;&gt;
@@ -490,7 +526,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 							&lt;&lt;set _nowater += 1&gt;&gt;
 						&lt;&lt;/if&gt;&gt;
 
-					&lt;&lt;elseif _housed &lt; 0&gt;&gt;
+					&lt;&lt;else&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 4)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 4&gt;&gt;
@@ -516,9 +552,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 					&lt;&lt;set $dragons[_i].foragexp += 0.1&gt;&gt;
 					&lt;&lt;set _food += (Math.round($dragons[_i].foragexp * _goldbonus) + random(3))&gt;&gt;
 
-					&lt;&lt;set _housed -= 1&gt;&gt;
-
-					&lt;&lt;if _housed &gt;= 0&gt;&gt;
+					&lt;&lt;if $dragons[_i].home !== &quot;none&quot;&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 1)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 1&gt;&gt;
@@ -537,7 +571,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 							&lt;&lt;set _nowater += 1&gt;&gt;
 						&lt;&lt;/if&gt;&gt;
 
-					&lt;&lt;elseif _housed &lt; 0&gt;&gt;
+					&lt;&lt;else&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 2)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 2&gt;&gt;
@@ -563,9 +597,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 					&lt;&lt;set $dragons[_i].rainxp += 0.1&gt;&gt;
 					&lt;&lt;set _water += (Math.round($dragons[_i].rainxp * _goldbonus) + random(3))&gt;&gt;
 					
-					&lt;&lt;set _housed -= 1&gt;&gt;
-
-					&lt;&lt;if _housed &gt;= 0&gt;&gt;
+					&lt;&lt;if $dragons[_i].home !== &quot;none&quot;&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 3)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 3&gt;&gt;
@@ -584,7 +616,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 							&lt;&lt;set _nowater += 1&gt;&gt;
 						&lt;&lt;/if&gt;&gt;
 
-					&lt;&lt;elseif _housed &lt; 0&gt;&gt;
+					&lt;&lt;else&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 4)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 4&gt;&gt;
@@ -616,9 +648,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 					&lt;&lt;/if&gt;&gt;
 					&lt;&lt;set _goldluck += (Math.round($dragons[_i].scavxp)) + random(0, 49)&gt;&gt;
 
-					&lt;&lt;set _housed -= 1&gt;&gt;
-
-					&lt;&lt;if _housed &gt;= 0&gt;&gt;
+					&lt;&lt;if $dragons[_i].home !== &quot;none&quot;&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 4)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 4&gt;&gt;
@@ -636,7 +666,7 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 							&lt;&lt;set _thirsty += 5&gt;&gt;
 							&lt;&lt;set _nowater += 1&gt;&gt;
 						&lt;&lt;/if&gt;&gt;
-					&lt;&lt;elseif _housed &lt; 0&gt;&gt;
+					&lt;&lt;else&gt;&gt;
 						&lt;&lt;if $food &gt;= (_eat + 5)&gt;&gt;
 							&lt;&lt;set $dragons[_i].hunger = 0&gt;&gt;
 							&lt;&lt;set _eat += 5&gt;&gt;
@@ -791,6 +821,8 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 			age: &quot;Adult&quot;, 
 			
 			job: &quot;slacker&quot;, 
+
+			home: &quot;none&quot;,
 			
 			foragexp: 0,
 			
@@ -809,9 +841,13 @@ Gold: &lt;&lt;print $gold&gt;&gt;
 			} )&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget &quot;updatebar&quot;&gt;&gt;&lt;&lt;silently&gt;&gt;
-&lt;&lt;replace &quot;#story-caption&quot;&gt;&gt;&lt;&lt;display &quot;StoryCaption&quot;&gt;&gt;&lt;&lt;/replace&gt;&gt;
-&lt;&lt;/silently&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Prologue" tags="WIP" position="1300,100" size="100,100">&lt;em&gt;It&#39;s time,&lt;/em&gt; you tell yourself. Your scales rattle with your nerves. You are alone, and though this is good, you feel vulnerable without the warmth of your thunder beside you. Grand Diety Corsyth (long may she burn), is strict on schedules; normally you do not care, but tonight you are grateful for her. For her control over the colony, for her need to grasp every moment of their lives. You are grateful.
+&lt;&lt;widget &quot;updatebar&quot;&gt;&gt;
+	&lt;&lt;silently&gt;&gt;
+		&lt;&lt;replace &quot;#story-caption&quot;&gt;&gt;
+			&lt;&lt;display &quot;StoryCaption&quot;&gt;&gt;
+		&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;/silently&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Prologue" tags="WIP" position="1300,100" size="100,100">&lt;em&gt;It&#39;s time,&lt;/em&gt; you tell yourself. Your scales rattle with your nerves. You are alone, and though this is good, you feel vulnerable without the warmth of your thunder beside you. Grand Diety Corsyth (long may she burn), is strict on schedules; normally you do not care, but tonight you are grateful for her. For her control over the colony, for her need to grasp every moment of their lives. You are grateful.
 The Brooders may be in the Hatchery for no longer than it takes for the moon to reach the first star.
 
 You force your eyes away from the night&#39;s blind eye, and toward the Hatchery. You push aside the scale-edged hide and step lightly inside. It is bright. Carvings of the world - of dragons, of animals, of plants and the sun and moon - cavort across the walls; lurid, chipped paintings overloved by passing scales and wings and claws. Fires dance in pits scattered throughout, and the smoke - an old friend in your lungs, warming you inside as the fires do outside - swirls over your head as it creeps through secret passes in the ceiling. Orange light is reflected further from gilt nests, long strings of gold so finely spun it is could almost be mistaken for fur layered the softness of the nests.
@@ -929,7 +965,9 @@ If a colonist goes without, they get unhappy! Three days without food and water 
 
 Now, one last thing before you&#39;re unleashed on the world: You retrieve eggs by hunting them out. You can only do this once per day; they&#39;ll hatch when they&#39;re ready into hatchlings, who contribute nothing but eat a lot, and eventually grow up into adult dragons whom you can assign jobs from their interact screen. If you want hatchlings, build up a good stock of food and water first - I recommend having at &lt;em&gt;least&lt;/em&gt; twenty food and water each, because playing catch up can be a brutal experience. Especially if you pick up multiple eggs! &lt;br&gt; &lt;br&gt;
 
-Alright! You&#39;re all set. [[Click here|Sandbox Central]] to officially start your thunder.
+Alright! You&#39;re all set. There are, of course, more things that can happen - events while foraging, something interrupting your sleep... but these are the basics and should get you through the game for the most part.
+
+If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thunder.
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Food" tags="WIP" position="725,675" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(12)&gt;&gt;
@@ -1754,7 +1792,8 @@ Alright! You&#39;re all set. [[Click here|Sandbox Central]] to officially start 
 		Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have &lt;&lt;print $shelter.ruts.amount&gt;&gt;.
 		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $stone &gt;= 5&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
-				&lt;&lt;set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)&gt;&gt;
+				&lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
+				&lt;&lt;set $home += 1&gt;&gt;
 				&lt;&lt;set $stone -= 5&gt;&gt;
 				&lt;&lt;run Engine.show()&gt;&gt;
 		&lt;&lt;/button&gt;&gt;
@@ -2110,6 +2149,7 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 What would you like to do?
 
 [[Go back|Sandbox Central]]</tw-passagedata><tw-passagedata pid="27" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">You are a dragon in a&lt;&lt;nobr&gt;&gt;
+&lt;&lt;run console.log($pop)&gt;&gt;
 	&lt;&lt;if $cycles &gt;= 100&gt;&gt;n ancient-looking colony that has been around for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it&#39;s been here for a very long time.
 	&lt;&lt;elseif $cycles &gt;= 25&gt;&gt; well-established colony, having lived here for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. It&#39;s all beginning to take proper shape, and you can&#39;t help but feel pleased with it.
 	&lt;&lt;elseif $cycles &gt;= 5&gt;&gt; somewhat established colony, that has been here for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. You&#39;ve been here long enough to note the dirt becoming packed from footsteps and wingbeats.
@@ -2309,12 +2349,43 @@ What do you want to do?
 &lt;&lt;else&gt;&gt;
 	They&#39;re well-hydrated.
 &lt;&lt;/if&gt;&gt;
+&lt;&lt;if $dragons[$int].home == &quot;none&quot;&gt;&gt;
+	They don&#39;t have a home to themselves yet.
+	&lt;&lt;if $home &gt; $pop&gt;&gt;
+		You have some empty ruts; would you like to assign &lt;&lt;print $dragons[$int].name&gt;&gt; to a 
+		&lt;&lt;link &quot;rut&quot;&gt;&gt;
+			&lt;&lt;set $dragons[$int].home = &quot;rut&quot;&gt;&gt;
+			&lt;&lt;set $home -= 1&gt;&gt;
+			&lt;&lt;set $shelter.ruts.free -= 1&gt;&gt;
+			&lt;&lt;run Engine.show()&gt;&gt;
+		&lt;&lt;/link&gt;&gt;?
+	&lt;&lt;else&gt;&gt;
+		There&#39;s no shelter available either; you might have to build more.
+	&lt;&lt;/if&gt;&gt;
+&lt;&lt;else&gt;&gt;
+	They&#39;re housed in a &lt;&lt;print $dragons[$int].home&gt;&gt;, and
+	&lt;&lt;if $dragons[$int].home == &quot;rut&quot;&gt;&gt;
+		live alone. You can &lt;&lt;link &quot;kick them out&quot;&gt;&gt;
+			&lt;&lt;set $dragons[$int].home = &quot;none&quot;&gt;&gt;
+			&lt;&lt;set $home += 1&gt;&gt;
+			&lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
+			&lt;&lt;run Engine.show()&gt;&gt;
+		&lt;&lt;/link&gt;&gt; if you like...
+	&lt;&lt;else&gt;&gt;
+		live alone, though there&#39;s space for others. You can &lt;&lt;link &quot;kick them out&quot;&gt;&gt;
+			&lt;&lt;set $dragons[$int].home = &quot;none&quot;&gt;&gt;
+			&lt;&lt;set $home += 1&gt;&gt;
+			&lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
+			&lt;&lt;run Engine.show()&gt;&gt;
+		&lt;&lt;/link&gt;&gt; if you like...
+	&lt;&lt;/if&gt;&gt;
+&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 	&lt;&lt;switch $dragons[$int].job&gt;&gt;.
 	&lt;&lt;case &quot;slacker&quot;&gt;&gt;
 		As with all dragons, they are an instinctive master of the art of doing nothing.
 	&lt;&lt;case &quot;forager&quot;&gt;&gt;
 			&lt;&lt;set _xp to Math.round($dragons[$int].foragexp * 10)&gt;&gt;
-		they&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a forager.
+		They&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a forager.
 			&lt;&lt;if _xp &gt;= 50&gt;&gt;
 				They&#39;re fairly comfortable gathering food by now.
 			&lt;&lt;elseif _xp &gt;= 20&gt;&gt;
@@ -2328,7 +2399,7 @@ What do you want to do?
 		&lt;&lt;silently&gt;&gt;
 			&lt;&lt;set _xp to Math.round($dragons[$int].rainxp * 10)&gt;&gt;
 		&lt;&lt;/silently&gt;&gt;
-		they&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a rainier.
+		They&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a rainier.
 			&lt;&lt;if _xp &gt;= 50&gt;&gt;
 				They&#39;re fairly comfortable around water by now.
 			&lt;&lt;elseif _xp &gt;= 20&gt;&gt;
@@ -2342,7 +2413,7 @@ What do you want to do?
 		&lt;&lt;silently&gt;&gt;
 			&lt;&lt;set _xp to Math.round($dragons[$int].scavxp * 10)&gt;&gt;
 		&lt;&lt;/silently&gt;&gt;
-		they&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a scavenger.
+		They&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a scavenger.
 			&lt;&lt;if _xp &gt;= 50&gt;&gt;
 				They&#39;re fairly comfortable collecting building materials by now.
 			&lt;&lt;elseif _xp &gt;= 20&gt;&gt;
@@ -2353,8 +2424,6 @@ What do you want to do?
 				They&#39;re pretty new to the job.
 			&lt;&lt;/if&gt;&gt;
 	&lt;&lt;/switch&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;
-&lt;&lt;nobr&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 &lt;&lt;switch $dragons[$int].job&gt;&gt;
 	&lt;&lt;case &quot;slacker&quot;&gt;&gt;
@@ -2532,14 +2601,21 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 	&lt;&lt;else&gt;&gt;
 		You ate 3 food and 4 water.
 	&lt;&lt;/if&gt;&gt;
-	&lt;&lt;if $pop &gt;= 2&gt;&gt;
 
-	&lt;&lt;if $hatchlings.length &gt;= 1&gt;&gt;
+	&lt;&lt;if $dragons.length == 0&gt;&gt;
+	&lt;&lt;if $hatchlings.length &gt; 1&gt;&gt;
+		Your hatchlings eat &lt;&lt;print _hatchEat&gt;&gt; food and drink &lt;&lt;print _hatchDrink&gt;&gt; water.
+	&lt;&lt;elseif $hatchlings.length == 1&gt;&gt;
+		Your hatchling eats &lt;&lt;print _hatchEat&gt;&gt; food and drinks &lt;&lt;print _hatchDrink&gt;&gt; water.
+	&lt;&lt;/if&gt;&gt;
+	&lt;&lt;else&gt;&gt;
+
+	&lt;&lt;if $hatchlings.length &gt; 0&gt;&gt;
 		Your hatchlings eat &lt;&lt;print _hatchEat&gt;&gt; food and drink &lt;&lt;print _hatchDrink&gt;&gt; water, and your
 	&lt;&lt;else&gt;&gt;
 		Your
 	&lt;&lt;/if&gt;&gt;
-	&lt;&lt;run console.log($pop, $home)&gt;&gt;
+
     &lt;&lt;if $home &gt;= 0 &amp;&amp; _eat &gt; 0 &amp;&amp; _drink &gt; 0&gt;&gt;
 	colony eats &lt;&lt;print _eat&gt;&gt; food, and drinks &lt;&lt;print _drink&gt;&gt; water.
 	&lt;&lt;elseif $home &lt; 0 &amp;&amp; _eat &gt; 0 &amp;&amp; _drink &gt; 0&gt;&gt;
@@ -2563,6 +2639,81 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 		However, one dragon did not drink. You needed &lt;&lt;print _thirsty&gt;&gt; more water to satisfy them.
 	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 	&lt;&lt;/if&gt;&gt;
+
+	&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
+		&lt;&lt;if _newHouse.length &gt; 2&gt;&gt;
+			&lt;&lt;for _i to 0; _i &lt; _newHouse.length; _i++&gt;&gt;
+				&lt;&lt;if _i &lt; (_newHouse.length - 2)&gt;&gt;
+					&lt;&lt;print _newHouse[_i]&gt;&gt;, 
+				&lt;&lt;else&gt;&gt;
+				and &lt;&lt;print _newHouse[_i]&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+			&lt;&lt;/for&gt;&gt;
+			found unoccupied places to sleep for the night. They probably won&#39;t leave now.
+			&lt;&lt;if _homeless.length &gt; 2&gt;&gt;
+			&lt;&lt;for _i to 0; _i &lt; _homeless.length; _i++&gt;&gt;
+				&lt;&lt;if _i &lt; (_homeless.length - 2)&gt;&gt;
+					&lt;&lt;print _homeless[_i]&gt;&gt;, 
+				&lt;&lt;else&gt;&gt;
+				and &lt;&lt;print _homeless[_i]&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+			&lt;&lt;/for&gt;&gt;
+			don&#39;t have anywhere to sleep yet.
+		&lt;&lt;elseif _homeless.length == 2&gt;&gt;
+			&lt;&lt;print _homeless[0]&gt;&gt; and &lt;&lt;print _homeless[1]&gt;&gt; don&#39;t have anywhere to sleep yet.
+		&lt;&lt;elseif _homeless.length == 1&gt;&gt;
+			&lt;&lt;print _homeless[0]&gt;&gt; doesn&#39;t have anywhere to sleep yet.
+		&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
+		&lt;&lt;elseif _newHouse.length == 2&gt;&gt;
+			&lt;&lt;print _newHouse[0]&gt;&gt; and &lt;&lt;print _newHouse[1]&gt;&gt; found unoccupied places to sleep for the night. They probably won&#39;t leave now.
+			&lt;&lt;if _homeless.length &gt; 2&gt;&gt;
+			&lt;&lt;for _i to 0; _i &lt; _homeless.length; _i++&gt;&gt;
+				&lt;&lt;if _i &lt; (_homeless.length - 2)&gt;&gt;
+					&lt;&lt;print _homeless[_i]&gt;&gt;, 
+				&lt;&lt;else&gt;&gt;
+				and &lt;&lt;print _homeless[_i]&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+			&lt;&lt;/for&gt;&gt;
+			don&#39;t have anywhere to sleep yet.
+		&lt;&lt;elseif _homeless.length == 2&gt;&gt;
+			&lt;&lt;print _homeless[0]&gt;&gt; and &lt;&lt;print _homeless[1]&gt;&gt; don&#39;t have anywhere to sleep yet.
+		&lt;&lt;elseif _homeless.length == 1&gt;&gt;
+			&lt;&lt;print _homeless[0]&gt;&gt; doesn&#39;t have anywhere to sleep yet.
+		&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
+		&lt;&lt;elseif _newHouse.length == 1&gt;&gt;
+			&lt;&lt;print _newHouse[0]&gt;&gt; found an unoccupied place to sleep for the night. They probably won&#39;t leave now.
+			&lt;&lt;if _homeless.length &gt; 2&gt;&gt;
+			&lt;&lt;for _i to 0; _i &lt; _homeless.length; _i++&gt;&gt;
+				&lt;&lt;if _i &lt; (_homeless.length - 2)&gt;&gt;
+					&lt;&lt;print _homeless[_i]&gt;&gt;, 
+				&lt;&lt;else&gt;&gt;
+				and &lt;&lt;print _homeless[_i]&gt;&gt;
+				&lt;&lt;/if&gt;&gt;
+			&lt;&lt;/for&gt;&gt;
+			don&#39;t have anywhere to sleep yet.
+			&lt;&lt;elseif _homeless.length == 2&gt;&gt;
+				&lt;&lt;print _homeless[0]&gt;&gt; and &lt;&lt;print _homeless[1]&gt;&gt; don&#39;t have anywhere to sleep yet.
+			&lt;&lt;elseif _homeless.length == 1&gt;&gt;
+				&lt;&lt;print _homeless[0]&gt;&gt; doesn&#39;t have anywhere to sleep yet.
+			&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
+		&lt;&lt;/if&gt;&gt;
+	&lt;&lt;else&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+
+	&lt;&lt;if _homeless.length &gt; 2&gt;&gt;
+		&lt;&lt;for _i to 0; _i &lt; _homeless.length; _i++&gt;&gt;
+			&lt;&lt;if _i &lt; (_homeless.length - 2)&gt;&gt;
+				&lt;&lt;print _homeless[_i]&gt;&gt;, 
+			&lt;&lt;else&gt;&gt;
+				and &lt;&lt;print _homeless[_i]&gt;&gt;
+			&lt;&lt;/if&gt;&gt;
+		&lt;&lt;/for&gt;&gt;
+		don&#39;t have anywhere to sleep yet.
+	&lt;&lt;elseif _homeless.length == 2&gt;&gt;
+		&lt;&lt;print _homeless[0]&gt;&gt; and &lt;&lt;print _homeless[1]&gt;&gt; don&#39;t have anywhere to sleep yet.
+	&lt;&lt;elseif _homeless.length == 1&gt;&gt;
+			&lt;&lt;print _homeless[0]&gt;&gt; doesn&#39;t have anywhere to sleep yet.
+	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 	
 	&lt;&lt;if _left.length &gt;= 2&gt;&gt;
 		&lt;&lt;nobr&gt;&gt;&lt;&lt;for _i to 0; _i &lt; _left.length; _i++&gt;&gt;

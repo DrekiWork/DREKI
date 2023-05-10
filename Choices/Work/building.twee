@@ -5,7 +5,8 @@ You need to make something, but what? What does your colony need right now?
 		Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>.
 		<<nobr>><<if $stone >= 5>><<button "Build">>
 				<<set $shelter.ruts.amount += 1>>
-				<<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
+				<<set $shelter.ruts.free += 1>>
+				<<set $home += 1>>
 				<<set $stone -= 5>>
 				<<run Engine.show()>>
 		<</button>>
