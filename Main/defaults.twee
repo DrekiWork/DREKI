@@ -24,14 +24,14 @@
 	<<set $nest = 0>>
 	<<set $eggSpace = 0>>
 	
-		/* Population count! */
-	<<set $pop to 1>>
-	
 		/* Number of winglets/worker dragons. Slackers aren't employed, foragers go for food... */
 	<<set $eggs to []>>
 	<<set $hatchlings to []>>
 	<<set $winglets to []>>
 	<<set $dragons to []>>
+	
+		/* Population count! */
+	<<set $pop to 1>>
 	
 		/* Food, water, trayseur, building supplies...*/
 	<<set $food to 0>>
@@ -82,6 +82,9 @@
 	<<set $dJobs to ["hatchling", "slacker", "forager", "rainier", "builder", "scavenger", "salvager"]>>
 
 		/* Setting up some flags... oh boy, flags! */
+
+		/* Default social policies... */
+	<<set $findSleep to true>>
 
 		/* These set up the Hydra. */
 	<<set $hydraSeen to false>>
