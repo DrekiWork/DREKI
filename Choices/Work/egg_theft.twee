@@ -44,6 +44,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<<else>>
 			You place the egg delicately in their new home; churring and clicking at them all the while. There's room for more, you note. But for today, [[you are perfectly happy with your new treasure.|Nursery]]
 		<</if>>
+		<</if>>
 			
 			
 	<<case 5 6 7>><<nobr>>

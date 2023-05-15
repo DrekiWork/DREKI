@@ -83,4 +83,5 @@ Gold: <<print $gold>> <br> <br>
 
 	''Bugs Patched''
 	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li>
-	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li></ul><</nobr>>
+	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li>
+	<li>Abandoned egg from theft event no longer has a missing </if> tag. Oops!</li></ul><</nobr>>

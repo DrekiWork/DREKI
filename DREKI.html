@@ -239,7 +239,7 @@ Config.saves.autosave = ["Central"];
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+}());</script><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -384,7 +384,8 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 	&#39;&#39;Bugs Patched&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;
-	&lt;li&gt;The game should no longer try to check if you have any homeless dragons when you don&#39;t even have dragons.&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
+	&lt;li&gt;The game should no longer try to check if you have any homeless dragons when you don&#39;t even have dragons.&lt;/li&gt;
+	&lt;li&gt;Abandoned egg from theft event no longer has a missing &lt;/if&gt; tag. Oops!&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;growUp&gt;&gt;
 
 		/* Moves a day forward */
@@ -1916,6 +1917,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 			You settle your egg in its new nest, chirping and purring at them to familiarize the hatchling within with your voice. You don&#39;t have room for any more, you note; your nursery is, for its current capacity, perfectly full. The idea warms your hearts, [[burning away any guilt over your theft as you continue to speak.|Nursery]]
 		&lt;&lt;else&gt;&gt;
 			You place the egg delicately in their new home; churring and clicking at them all the while. There&#39;s room for more, you note. But for today, [[you are perfectly happy with your new treasure.|Nursery]]
+		&lt;&lt;/if&gt;&gt;
 		&lt;&lt;/if&gt;&gt;
 			
 			
