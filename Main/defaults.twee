@@ -87,6 +87,7 @@
 	<<set $findSleep to true>>
 
 		/* These set up the Hydra. */
+	<<set $defenseTalk = 0>>
 	<<set $hydraSeen to false>>
 	<<set $hydraEggTaken to false>>
 	<<set $hydraTime = -1>>

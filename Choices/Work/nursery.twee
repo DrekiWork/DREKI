@@ -1,5 +1,5 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
-Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have <<nobr>>
+<<nobr>>Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have 
 	
 	<<set $eggSpace to ($nest * 3)>>
 	<<set $eggSpace to ($eggSpace - $egg)>>
@@ -30,16 +30,16 @@ Your Nursery is carved in the very back of your storage cavern; warm and protect
 	<<elseif $hatchling == 1>>
 		one hatchling.
 	<</if>>
+	 <br> <br>
+
 	
-<</nobr>>
-<<nobr>>
-	<<if $egg >= $hatchling && $hatchling >= 2>>The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
-	<<elseif $hatchling >= $egg && $egg >= 2>>The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
-	<<elseif $egg >= 2 && $hatchling == 0>>It's warmly quiet with only eggs in here. You take a moment to rest with them.
-	<<elseif $egg == 1 && $hatchling >= 2>>Your egg has been moved out of the way of its hyper siblings.
-	<<elseif $egg == 1 && $hatchling == 1>>You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
-	<<elseif $egg == 1 && $hatchling == 0>>There's a sole egg here. You take a moment to turn it and clean its shell.<<if $eggs[0].time >= 5>> You croon with satisfaction as it rocks under your ministrations.<</if>>
-	<<elseif $hatchling >= 2 && $egg == 0>>The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
+	<<if $egg >= $hatchling && $hatchling >= 2>>The hatchlings are being cautious around the nestled eggs, though they clearly want to play. <br> <br>
+	<<elseif $hatchling >= $egg && $egg >= 2>>The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings. <br> <br>
+	<<elseif $egg >= 2 && $hatchling == 0>>It's warmly quiet with only eggs in here. You take a moment to rest with them. <br> <br>
+	<<elseif $egg == 1 && $hatchling >= 2>>Your egg has been moved out of the way of its hyper siblings. <br> <br>
+	<<elseif $egg == 1 && $hatchling == 1>>You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up. <br> <br>
+	<<elseif $egg == 1 && $hatchling == 0>>There's a sole egg here. You take a moment to turn it and clean its shell.<<if $eggs[0].time >= 5>> You croon with satisfaction as it rocks under your ministrations.<</if>> <br> <br>
+	<<elseif $hatchling >= 2 && $egg == 0>>The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play. <br> <br>
 	<<elseif $hatchling == 1 && $egg == 0>>Your lone hatchling perks up as you enter and loudly demands <<linkappend "you entertain them.">> <<set _play to random(3)>>
 		<<if _play == 0>>
 			The hatchling shrieks with delight as you turn on them, and just as eagerly chases you around when you manage to catch them.
@@ -50,17 +50,15 @@ Your Nursery is carved in the very back of your storage cavern; warm and protect
 		<<elseif _play == 3>>
 			You plop them in their nest, and - before the hatchling can protest - begin telling a story of your old colony. They listen with rapt attention.
 		<</if>>
-		<</linkappend>>
-	<<else>>The nursery is empty. You examine its barren nests with a deep sense of sadness.
+		<</linkappend>> <br> <br>
+	<<else>>The nursery is empty. You examine its barren nests with a deep sense of sadness. <br> <br>
 	<</if>>
-<</nobr>>
 
 <<if $hydraEggTaken == true>>
-	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well.
+	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. Its shell is leathery, and you can see the faint shadow of the snake growing inside. The sight of it still gives you a thrill of nerves. <br> <br>
 <<else>>
 <</if>>
-
-What would you like to do?
+<</nobr>>What would you like to do?
 
 [[Go back|Sandbox Central]]
 
