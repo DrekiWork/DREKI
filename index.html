@@ -334,7 +334,7 @@ Config.saves.autosave = ["Central"];
 
 		/* These relate to the lake creatures! */
 	&lt;&lt;set $infestedNotice to false&gt;&gt;
-&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="EncyclopediaHome" tags="" position="225,100" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="3" name="StorySubtitle" tags="" position="350,100" size="100,100">&lt;sup&gt;pre-pre-alpha 0.0.24.0
+&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="EncyclopediaHome" tags="" position="225,100" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="3" name="StorySubtitle" tags="" position="350,100" size="100,100">&lt;sup&gt;pre-pre-alpha 0.0.24.1
 Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="4" name="StoryCaption" tags="Special" position="100,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;!-- nobr because comments apparently fuck with formatting? News to me!
 
@@ -375,15 +375,16 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 	Dialog.wiki(Story.get(&quot;EncyclopediaHome&quot;).processText());
 	Dialog.open();
 	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.0 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.1 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
 	&#39;&#39;New!&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Tutorial added! Though barebones, it&#39;ll walk you through a gathering round, building, and sleeping.&lt;/li&gt;
 	&lt;li&gt;Dragons can be assigned dens!&lt;/li&gt;
 	&lt;li&gt;The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?&lt;/li&gt;
-	&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
+	&lt;li&gt;FAVICON!!! FAVICOOOONNNN&lt;/li&gt;&lt;/ul&gt;
 
 	&#39;&#39;Bugs Patched&#39;&#39;
-	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
+	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;
+	&lt;li&gt;The game should no longer try to check if you have any homeless dragons when you don&#39;t even have dragons.&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;growUp&gt;&gt;
 
 		/* Moves a day forward */
@@ -484,8 +485,9 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 				&lt;&lt;/if&gt;&gt;
 			&lt;&lt;/for&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
+
 			
-			&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
+			&lt;&lt;if $dragons.length &gt;= 1&gt;&gt;
 			&lt;&lt;set _newHouse = []&gt;&gt;
 			&lt;&lt;set _homeless = []&gt;&gt;
 
@@ -2647,7 +2649,8 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 	&lt;&lt;/if&gt;&gt;
 
-	&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
+	
+	&lt;&lt;if $dragons.length &gt;= 1&gt;&gt;
 		&lt;&lt;if _newHouse.length &gt; 2&gt;&gt;
 			&lt;&lt;for _i to 0; _i &lt; _newHouse.length; _i++&gt;&gt;
 				&lt;&lt;if _i &lt; (_newHouse.length - 2)&gt;&gt;
@@ -2706,21 +2709,6 @@ Would you like to give &lt;&lt;print $dragons[$int].name&gt;&gt; a job?
 		&lt;&lt;/if&gt;&gt;
 	&lt;&lt;else&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
-
-	&lt;&lt;if _homeless.length &gt; 2&gt;&gt;
-		&lt;&lt;for _i to 0; _i &lt; _homeless.length; _i++&gt;&gt;
-			&lt;&lt;if _i &lt; (_homeless.length - 2)&gt;&gt;
-				&lt;&lt;print _homeless[_i]&gt;&gt;, 
-			&lt;&lt;else&gt;&gt;
-				and &lt;&lt;print _homeless[_i]&gt;&gt;
-			&lt;&lt;/if&gt;&gt;
-		&lt;&lt;/for&gt;&gt;
-		don&#39;t have anywhere to sleep yet.
-	&lt;&lt;elseif _homeless.length == 2&gt;&gt;
-		&lt;&lt;print _homeless[0]&gt;&gt; and &lt;&lt;print _homeless[1]&gt;&gt; don&#39;t have anywhere to sleep yet.
-	&lt;&lt;elseif _homeless.length == 1&gt;&gt;
-			&lt;&lt;print _homeless[0]&gt;&gt; doesn&#39;t have anywhere to sleep yet.
-	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 	
 	&lt;&lt;if _left.length &gt;= 2&gt;&gt;
 		&lt;&lt;nobr&gt;&gt;&lt;&lt;for _i to 0; _i &lt; _left.length; _i++&gt;&gt;

@@ -140,7 +140,8 @@ The end of the day is approaching.<<nobr>>
 	<</if>> <br> <br>
 	<</if>>
 
-	<<if $dragons.length > 0>>
+	
+	<<if $dragons.length >= 1>>
 		<<if _newHouse.length > 2>>
 			<<for _i to 0; _i < _newHouse.length; _i++>>
 				<<if _i < (_newHouse.length - 2)>>
@@ -199,21 +200,6 @@ The end of the day is approaching.<<nobr>>
 		<</if>>
 	<<else>>
 	<</if>>
-
-	<<if _homeless.length > 2>>
-		<<for _i to 0; _i < _homeless.length; _i++>>
-			<<if _i < (_homeless.length - 2)>>
-				<<print _homeless[_i]>>, 
-			<<else>>
-				and <<print _homeless[_i]>>
-			<</if>>
-		<</for>>
-		don't have anywhere to sleep yet.
-	<<elseif _homeless.length == 2>>
-		<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
-	<<elseif _homeless.length == 1>>
-			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
-	<</if>> <br> <br>
 	
 	<<if _left.length >= 2>>
 		<<nobr>><<for _i to 0; _i < _left.length; _i++>>

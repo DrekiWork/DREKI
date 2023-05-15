@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.24.0
+<sup>pre-pre-alpha 0.0.24.1
 Made by Recila!</sup>
 
 
@@ -74,12 +74,13 @@ Gold: <<print $gold>> <br> <br>
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Pre-Alpha 0.0.24.0 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.24.1 </h2><<nobr>>
 	''New!''
 	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
 	<li>Dragons can be assigned dens!</li>
 	<li>The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?</li>
-	<li></li></ul>
+	<li>FAVICON!!! FAVICOOOONNNN</li></ul>
 
 	''Bugs Patched''
-	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li></ul><</nobr>>
+	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li>
+	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li></ul><</nobr>>

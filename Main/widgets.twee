@@ -100,8 +100,9 @@
 				<</if>>
 			<</for>>
 			<</if>>
+
 			
-			<<if $dragons.length > 0>>
+			<<if $dragons.length >= 1>>
 			<<set _newHouse = []>>
 			<<set _homeless = []>>
 
