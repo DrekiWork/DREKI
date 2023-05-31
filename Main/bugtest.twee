@@ -1,0 +1,63 @@
+:: BugTest
+
+<h2>Resources</h2>
+    Food:
+     Amount: <<numberbox "$food" $food>>
+     Storage Space: <<numberbox "$foodCap" $foodCap>>
+
+    Water:
+     Amount: <<numberbox "$water" $water>>
+     Storage Space: <<numberbox "$waterCap" $waterCap>>
+
+    Wood:
+     Amount: <<numberbox "$wood" $wood>>
+     Storage Space: <<numberbox "$woodCap" $woodCap>>
+
+    Stone:
+     Amount: <<numberbox "$stone" $stone>>
+     Storage Space: <<numberbox "$stoneCap" $stoneCap>>
+
+<<link "Go">>
+    <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
+    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
+        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
+        <<set $home = $shelter.ruts.free>>
+    <</if>>
+    <<run Engine.show()>>
+<</link>>
+<h2>Buildings</h2>
+    Ruts: <<numberbox "$shelter.ruts.amount" $shelter.ruts.amount>>
+
+    Nests: <<numberbox "$nest" $nest>>
+
+<<link "Go">>
+    <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
+    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
+        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
+        <<set $home = $shelter.ruts.free>>
+    <</if>>
+    <<run Engine.show()>>
+<</link>>
+<h2>Dragons</h2>
+<h3>NOTE:</h3> One click, one thing. I promise it's working, the screen just won't reload. Don't spam this, and DO NOT. <em>DO. NOT.</em> Add more total eggs / hatchlings than you have eggspace.
+Gimme an:
+    <<link "Egg">>
+        <<eggmaker>>
+    <</link>>
+    <<link "Hatchling">>
+        <<hatchmaker>>
+    <</link>>
+    <<link "Dragon">>
+        <<dragonmaker>>
+    <</link>>
+
+<<link "Go">>
+    <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
+    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
+        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
+        <<set $home = $shelter.ruts.free>>
+    <</if>>
+    <<run Engine.show()>>
+<</link>>
+
+[[Back|Sandbox Central]]
