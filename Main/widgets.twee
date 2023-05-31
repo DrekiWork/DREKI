@@ -21,7 +21,6 @@
 					<<set $hatchling++>>
 					<<set _hatchcheck += 1>>
 					<<set $eggsHatched += 1>>
-					<<set $egg-->>
 				<<else>>
 				<</if>>
 			<</for>>
@@ -393,8 +392,6 @@
 			time: random(0, 6),
 			
 		} )>>
-		
-		<<set $egg++>>
 	
 	<</silently>>
 <</widget>>
@@ -419,7 +416,6 @@
 		<<if $hatchlings[_i].time == 15>>
 			<<dragonmaker>>
 			<<run $hatchlings.splice(_i, 1)>>
-			<<set $hatchling-->>
 			<<set _growcheck += 1>>
 			<<set $pop += 1>>
 		<</if>>

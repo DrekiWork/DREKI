@@ -239,7 +239,7 @@ Config.saves.autosave = ["Central"];
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+}());</script><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-passagedata pid="1" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -251,18 +251,16 @@ Config.saves.autosave = ["Central"];
 		&lt;&lt;set $ghunt = false&gt;&gt;
 	
 		/* Number of eggs &amp; how &#39;old&#39; the eggs are; only keeps track of one of at a time! $theft keeps track of if you&#39;ve stolen today. */
-	&lt;&lt;set $egg to 0&gt;&gt;
 	&lt;&lt;set $eggsHatched to 0&gt;&gt;
 	&lt;&lt;set $eggEvent to 0&gt;&gt;
 	&lt;&lt;set $theft to false&gt;&gt;
 	
 		/* Number of hatchlings &amp; how &#39;old&#39; they are; same as eggs */
-	&lt;&lt;set $hatchling to 0&gt;&gt;
 	&lt;&lt;set $firstCol to 0&gt;&gt;
 	
 		/* Setting nursery buildings... */
 	&lt;&lt;set $nest = 0&gt;&gt;
-	&lt;&lt;set $eggSpace = 0&gt;&gt;
+	&lt;&lt;set $eggSpace = ($nest * 3)&gt;&gt;
 	
 		/* Number of winglets/worker dragons. Slackers aren&#39;t employed, foragers go for food... */
 	&lt;&lt;set $eggs to []&gt;&gt;
@@ -313,7 +311,7 @@ Config.saves.autosave = ["Central"];
 	
 		/* Setting up potential dragon names, personalities, etc... */
 	
-	&lt;&lt;set $dNames to [&quot;Abaddon&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alaric&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;, &quot;Apara&quot;, &quot;Arden&quot;, &quot;Argus&quot;, &quot;Aric&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Athine&quot;, &quot;Azizi&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, &quot;Caius&quot;, &quot;Camo&quot;, &quot;Caspar&quot;, &quot;Cedric&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, &quot;Damon&quot;, &quot;Darius&quot;, &quot;Delbin&quot;, &quot;Devlin&quot;, &quot;Drobit&quot;, &quot;Eirlys&quot;, &quot;Eleri&quot;, &quot;Ember&quot;, &quot;Enzo&quot;, &quot;Flame&quot;, &quot;Flavius&quot;, &quot;Fonsworthy&quot;, &quot;Galadriel&quot;, &quot;Gavin&quot;, &quot;Gildas&quot;, &quot;Gildor&quot;, &quot;Grigori&quot;, &quot;Gwyneth&quot;, &quot;Gunnar&quot;, &quot;Halen&quot;, &quot;Halvor&quot;, &quot;Haldor&quot;, &quot;Hexus&quot;, &quot;Helgi&quot;, &quot;Iola&quot;, &quot;Isaak&quot;, &quot;Ilmarinen&quot;, &quot;Ivor&quot;, &quot;Jaren&quot;, &quot;Jarvis&quot;, &quot;Jed&quot;, &quot;Jormungandr&quot;, &quot;Kael&quot;, &quot;Kasiya&quot;, &quot;Kosoko&quot;, &quot;Laird&quot;, &quot;Lateef&quot;, &quot;Legna&quot;, &quot;Lindar&quot;, &quot;Liraz&quot;, &quot;Lirien&quot;, &quot;Lutalo&quot;, &quot;Magnus&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, &quot;Nestor&quot;, &quot;Nevin&quot;, &quot;Nils&quot;, &quot;Obasi&quot;, &quot;Odahviing&quot;, &quot;Oswin&quot;, &quot;Paarthurnax&quot;, &quot;Pyra&quot;, &quot;Rhiannon&quot;, &quot;Rhys&quot;, &quot;Ragnar&quot;, &quot;Ramses&quot;, &quot;Revilo&quot;, &quot;Sadiki&quot;, &quot;Sif&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Seren&quot;, &quot;Sunburn&quot;, &quot;Terrador&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Torin&quot;, &quot;Trondo&quot;, &quot;Ulric&quot;, &quot;Unika&quot;, &quot;Ullr&quot;, &quot;Urgost&quot;, &quot;Useni&quot;, &quot;Valen&quot;, &quot;Varalys&quot;, &quot;Varda&quot;, &quot;Vathek&quot;, &quot;Volteer&quot;, &quot;Woden&quot;, &quot;Wren&quot;, &quot;Yara&quot;, &quot;Zander&quot;, &quot;Zane&quot;, &quot;Zantor&quot;, &quot;Zaren&quot;, &quot;Zephyr&quot;, &quot;Zinc&quot;]&gt;&gt;
+	&lt;&lt;set $dNames to [&quot;Abaddon&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alaric&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;, &quot;Apara&quot;, &quot;Arden&quot;, &quot;Argus&quot;, &quot;Aric&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Athine&quot;, &quot;Aysaelo&quot;, &quot;Azizi&quot;, &quot;Baeliru&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, &quot;Caedialo&quot;, &quot;Caius&quot;, &quot;Camo&quot;, &quot;Caspar&quot;, &quot;Cedric&quot;, &quot;Cigam&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, &quot;Damon&quot;, &quot;Darius&quot;, &quot;Delbin&quot;, &quot;Devlin&quot;, &quot;Drobit&quot;, &quot;Eirlys&quot;, &quot;Eleri&quot;, &quot;Ember&quot;, &quot;Enzo&quot;, &quot;Eivias&quot;, &quot;Flame&quot;, &quot;Flavius&quot;, &quot;Fonsworthy&quot;, &quot;Galadriel&quot;, &quot;Gavin&quot;, &quot;Gildas&quot;, &quot;Gildor&quot;, &quot;Grigori&quot;, &quot;Gwyneth&quot;, &quot;Gunnar&quot;, &quot;Halen&quot;, &quot;Halvor&quot;, &quot;Haldor&quot;, &quot;Hexus&quot;, &quot;Helgi&quot;, &quot;Iola&quot;, &quot;Isaak&quot;, &quot;Ilmarinen&quot;, &quot;Ivor&quot;, &quot;Jaren&quot;, &quot;Jarvis&quot;, &quot;Jed&quot;, &quot;Jormungandr&quot;, &quot;Kael&quot;, &quot;Kasiya&quot;, &quot;Kosoko&quot;, &quot;Laird&quot;, &quot;Lateef&quot;, &quot;Legna&quot;, &quot;Lindar&quot;, &quot;Liraz&quot;, &quot;Lirien&quot;, &quot;Lutalo&quot;, &quot;Magnus&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, &quot;Nestor&quot;, &quot;Nevin&quot;, &quot;Nils&quot;, &quot;Obasi&quot;, &quot;Odahviing&quot;, &quot;Oswin&quot;, &quot;Paarthurnax&quot;, &quot;Pyra&quot;, &quot;Rhiannon&quot;, &quot;Rhys&quot;, &quot;Ragnar&quot;, &quot;Ramses&quot;, &quot;Revilo&quot;, &quot;Sadiki&quot;, &quot;Sif&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Seren&quot;, &quot;Sunburn&quot;, &quot;Terrador&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Torin&quot;, &quot;Trondo&quot;, &quot;Ulric&quot;, &quot;Unika&quot;, &quot;Ullr&quot;, &quot;Urgost&quot;, &quot;Useni&quot;, &quot;Valen&quot;, &quot;Varalys&quot;, &quot;Varda&quot;, &quot;Vathek&quot;, &quot;Volteer&quot;, &quot;Woden&quot;, &quot;Wren&quot;, &quot;Yara&quot;, &quot;Zander&quot;, &quot;Zane&quot;, &quot;Zantor&quot;, &quot;Zaren&quot;, &quot;Zephyr&quot;, &quot;Zinc&quot;]&gt;&gt;
 	
 	&lt;&lt;set $dPers to [&quot;Absentminded&quot;, &quot;Abrasive&quot;, &quot;Aloof&quot;, &quot;Ambitious&quot;, &quot;Caring&quot;, &quot;Chatty&quot;, &quot;Clever&quot;, &quot;Confident&quot;, &quot;Creative&quot;, &quot;Curiosity&quot;, &quot;Dependable&quot;, &quot;Emotional&quot;, &quot;Energetic&quot;, &quot;Formal&quot;, &quot;Friendly&quot;, &quot;Generous&quot;, &quot;Gentle&quot;, &quot;Greedy&quot;, &quot;Hardworking&quot;, &quot;Impatient&quot;, &quot;Independent&quot;, &quot;Insecure&quot;, &quot;Intelligent&quot;, &quot;Lax&quot;, &quot;Lazy&quot;, &quot;Loyal&quot;, &quot;Mellow&quot;, &quot;Moody&quot;, &quot;Nervous&quot;, &quot;Organized&quot;, &quot;Patient&quot;, &quot;Persistent&quot;, &quot;Placid&quot;, &quot;Practical&quot;, &quot;Quiet&quot;, &quot;Rational&quot;, &quot;Resourceful&quot;, &quot;Responsible&quot;, &quot;Selfish&quot;, &quot;Selfless&quot;, &quot;Sensitive&quot;, &quot;Skeptical&quot;, &quot;Spontaneous&quot;, &quot;Thoughtful&quot;, &quot;Tolerant&quot;, &quot;Whimsical&quot;, &quot;Witty&quot;]&gt;&gt;
 	
@@ -375,12 +373,13 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 	Dialog.wiki(Story.get(&quot;EncyclopediaHome&quot;).processText());
 	Dialog.open();
 	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.1 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Patchnotes" tags="" position="725,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.2 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
 	&#39;&#39;New!&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Tutorial added! Though barebones, it&#39;ll walk you through a gathering round, building, and sleeping.&lt;/li&gt;
 	&lt;li&gt;Dragons can be assigned dens!&lt;/li&gt;
 	&lt;li&gt;The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?&lt;/li&gt;
-	&lt;li&gt;FAVICON!!! FAVICOOOONNNN&lt;/li&gt;&lt;/ul&gt;
+	&lt;li&gt;FAVICON!!! FAVICOOOONNNN&lt;/li&gt;
+	&lt;li&gt;Cleaning up the code a bit...&lt;/li&gt;&lt;/ul&gt;
 
 	&#39;&#39;Bugs Patched&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;
@@ -407,7 +406,6 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 					&lt;&lt;set $hatchling++&gt;&gt;
 					&lt;&lt;set _hatchcheck += 1&gt;&gt;
 					&lt;&lt;set $eggsHatched += 1&gt;&gt;
-					&lt;&lt;set $egg--&gt;&gt;
 				&lt;&lt;else&gt;&gt;
 				&lt;&lt;/if&gt;&gt;
 			&lt;&lt;/for&gt;&gt;
@@ -779,8 +777,6 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 			time: random(0, 6),
 			
 		} )&gt;&gt;
-		
-		&lt;&lt;set $egg++&gt;&gt;
 	
 	&lt;&lt;/silently&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
@@ -805,7 +801,6 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 		&lt;&lt;if $hatchlings[_i].time == 15&gt;&gt;
 			&lt;&lt;dragonmaker&gt;&gt;
 			&lt;&lt;run $hatchlings.splice(_i, 1)&gt;&gt;
-			&lt;&lt;set $hatchling--&gt;&gt;
 			&lt;&lt;set _growcheck += 1&gt;&gt;
 			&lt;&lt;set $pop += 1&gt;&gt;
 		&lt;&lt;/if&gt;&gt;
@@ -1797,11 +1792,11 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Building" tags="WIP" position="950,550" size="100,100">You need to make something, but what? What does your colony need right now?
-
-		&#39;&#39;Rut&#39;&#39;
-		Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have &lt;&lt;print $shelter.ruts.amount&gt;&gt;.
-		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $stone &gt;= 5&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Building" tags="WIP" position="950,550" size="100,100">You need to make something, but what? What does your colony need right now?&lt;&lt;nobr&gt;&gt;
+&lt;br&gt; &lt;br&gt;
+	&#39;&#39;Rut&#39;&#39; &lt;br&gt;
+	Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have &lt;&lt;print $shelter.ruts.amount&gt;&gt;. &lt;br&gt;
+		&lt;&lt;if $stone &gt;= 5&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
 				&lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
 				&lt;&lt;set $home += 1&gt;&gt;
@@ -1809,22 +1804,22 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 				&lt;&lt;run Engine.show()&gt;&gt;
 		&lt;&lt;/button&gt;&gt;
 	&lt;&lt;else&gt;&gt;&#39;&#39;You don&#39;t have enough!&#39;&#39; You are missing &lt;&lt;print (5 - $stone)&gt;&gt; stone!
-	&lt;&lt;/if&gt;&gt; &lt;&lt;/nobr&gt;&gt;
-
-		&#39;&#39;Pool&#39;&#39;
-		Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have &lt;&lt;print $pool.amount&gt;&gt;.
-		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $stone &gt;= 10&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+&lt;br&gt; &lt;br&gt;
+		&#39;&#39;Pool&#39;&#39; &lt;br&gt;
+		Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have &lt;&lt;print $pool.amount&gt;&gt;. &lt;br&gt;
+			&lt;&lt;if $stone &gt;= 10&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $pool.amount += 1&gt;&gt;
 				&lt;&lt;set $waterCap = ($pool.amount * $pool.storage)&gt;&gt;
 				&lt;&lt;set $stone -= 10&gt;&gt;
 				&lt;&lt;run Engine.show()&gt;&gt;
 		&lt;&lt;/button&gt;&gt;
 	&lt;&lt;else&gt;&gt;&#39;&#39;You don&#39;t have enough!&#39;&#39; You are missing &lt;&lt;print (10 - $stone)&gt;&gt; stone!
-	&lt;&lt;/if&gt;&gt; &lt;&lt;/nobr&gt;&gt;
-
-		&#39;&#39;Cavern&#39;&#39;
-		Cost: 10 stone and 10 wood to build. You&#39;ve already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have &lt;&lt;print $cavern.amount&gt;&gt;.
-		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $stone &gt;= 10 &amp;&amp; $wood &gt;= 10&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+&lt;br&gt; &lt;br&gt;
+		&#39;&#39;Cavern&#39;&#39; &lt;br&gt;
+		Cost: 10 stone and 10 wood to build. You&#39;ve already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have &lt;&lt;print $cavern.amount&gt;&gt;. &lt;br&gt;
+		&lt;&lt;if $stone &gt;= 10 &amp;&amp; $wood &gt;= 10&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $cavern.amount += 1&gt;&gt;
 				&lt;&lt;set $foodCap = ($cavern.amount * $cavern.storage)&gt;&gt;
 				&lt;&lt;set $stone -= 10&gt;&gt;
@@ -1839,11 +1834,11 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 		&lt;&lt;elseif $stone &gt;= 10 &amp;&amp; $wood &lt; 10&gt;&gt;
 			&#39;&#39;You don&#39;t have enough!&#39;&#39; You are missing &lt;&lt;print (10 - $wood)&gt;&gt; wood!
 		&lt;&lt;/if&gt;&gt;
-	&lt;&lt;/if&gt;&gt; &lt;&lt;/nobr&gt;&gt;
-
-		&#39;&#39;Dug-out&#39;&#39;
-		Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have &lt;&lt;print $dugOut.amount&gt;&gt;.
-		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $stone &gt;= 15 &amp;&amp; $wood &gt;= 15&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+&lt;br&gt; &lt;br&gt;
+		&#39;&#39;Dug-out&#39;&#39; &lt;br&gt;
+		Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have &lt;&lt;print $dugOut.amount&gt;&gt;. &lt;br&gt;
+		&lt;&lt;if $stone &gt;= 15 &amp;&amp; $wood &gt;= 15&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $dugOut.amount += 1&gt;&gt;
 				&lt;&lt;set $woodCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
 				&lt;&lt;set $stoneCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
@@ -1859,21 +1854,22 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 		&lt;&lt;elseif $stone &gt;= 15 &amp;&amp; $wood &lt; 15&gt;&gt;
 			You are missing &lt;&lt;print (15 - $wood)&gt;&gt; wood!
 		&lt;&lt;/if&gt;&gt;
-	&lt;&lt;/if&gt;&gt; &lt;&lt;/nobr&gt;&gt;
-
-		&#39;&#39;Nest&#39;&#39;
-		Cost: 3 wood. By prying apart and feathering wood, you create a nest for three eggs. You currently have &lt;&lt;print $nest&gt;&gt;.
-		&lt;&lt;nobr&gt;&gt;&lt;&lt;if $wood &gt;= 3&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+&lt;br&gt; &lt;br&gt;
+		&#39;&#39;Nest&#39;&#39; &lt;br&gt;
+		Cost: 3 wood. By prying apart and feathering wood, you create a nest for three eggs. You currently have &lt;&lt;print $nest&gt;&gt;. &lt;br&gt;
+		&lt;&lt;if $wood &gt;= 3&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $nest += 1&gt;&gt;
-				&lt;&lt;set $eggSpace += 3&gt;&gt;
+				&lt;&lt;set $eggSpace = ($nest * 3)&gt;&gt;
 				&lt;&lt;set $wood -= 3&gt;&gt;
 				&lt;&lt;run Engine.show()&gt;&gt;
 		&lt;&lt;/button&gt;&gt;&lt;&lt;else&gt;&gt;
 		&#39;&#39;You don&#39;t have enough!&#39;&#39; You are missing &lt;&lt;print (3 - $wood)&gt;&gt; wood!
-	&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;
-	
+	&lt;&lt;/if&gt;&gt;
 
-		You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="22" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
+ &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+&lt;&lt;/nobr&gt;&gt;You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="22" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
 
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set $theft++&gt;&gt;
@@ -2100,7 +2096,7 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Nursery" tags="WIP" position="650,550" size="100,100">Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have &lt;&lt;nobr&gt;&gt;
 	
 	&lt;&lt;set $eggSpace to ($nest * 3)&gt;&gt;
-	&lt;&lt;set $eggSpace to ($eggSpace - $egg)&gt;&gt;
+	&lt;&lt;set $eggSpace to ($eggSpace - ($eggs.length + $hatchlings.length))&gt;&gt;
 	
 	&lt;&lt;if $nest gte 2 || $nest is 0&gt;&gt;
 		&lt;&lt;print $nest&gt;&gt; nests 
@@ -2118,27 +2114,26 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 		&lt;&lt;/if&gt;&gt;
 			Currently, you have 
 	
-	&lt;&lt;if $egg gte 2 || $egg is 0&gt;&gt;
-		&lt;&lt;print $egg&gt;&gt; eggs and 
-	&lt;&lt;elseif $egg == 1&gt;&gt;one egg and 
+	&lt;&lt;if $eggs.length gte 2 || $eggs.length is 0&gt;&gt;
+		&lt;&lt;print $eggs.length&gt;&gt; eggs and 
+	&lt;&lt;elseif $eggs.length == 1&gt;&gt;one egg and 
 	&lt;&lt;/if&gt;&gt;
 	
-	&lt;&lt;if $hatchling gte 2 || $hatchling == 0&gt;&gt;
-		&lt;&lt;print $hatchling&gt;&gt; hatchlings. 
-	&lt;&lt;elseif $hatchling == 1&gt;&gt;
+	&lt;&lt;if $hatchlings.length &gt;= 2 || $hatchlings.length == 0&gt;&gt;
+		&lt;&lt;print $hatchlings.length&gt;&gt; hatchlings. 
+	&lt;&lt;elseif $hatchlings.length == 1&gt;&gt;
 		one hatchling.
 	&lt;&lt;/if&gt;&gt;
-	
-&lt;&lt;/nobr&gt;&gt;
-&lt;&lt;nobr&gt;&gt;
-	&lt;&lt;if $egg &gt;= $hatchling &amp;&amp; $hatchling &gt;= 2&gt;&gt;The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
-	&lt;&lt;elseif $hatchling &gt;= $egg &amp;&amp; $egg &gt;= 2&gt;&gt;The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
-	&lt;&lt;elseif $egg &gt;= 2 &amp;&amp; $hatchling == 0&gt;&gt;It&#39;s warmly quiet with only eggs in here. You take a moment to rest with them.
-	&lt;&lt;elseif $egg == 1 &amp;&amp; $hatchling &gt;= 2&gt;&gt;Your egg has been moved out of the way of its hyper siblings.
-	&lt;&lt;elseif $egg == 1 &amp;&amp; $hatchling == 1&gt;&gt;You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
-	&lt;&lt;elseif $egg == 1 &amp;&amp; $hatchling == 0&gt;&gt;There&#39;s a sole egg here. You take a moment to turn it and clean its shell.&lt;&lt;if $eggs[0].time &gt;= 5&gt;&gt; You croon with satisfaction as it rocks under your ministrations.&lt;&lt;/if&gt;&gt;
-	&lt;&lt;elseif $hatchling &gt;= 2 &amp;&amp; $egg == 0&gt;&gt;The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
-	&lt;&lt;elseif $hatchling == 1 &amp;&amp; $egg == 0&gt;&gt;Your lone hatchling perks up as you enter and loudly demands &lt;&lt;linkappend &quot;you entertain them.&quot;&gt;&gt; &lt;&lt;set _play to random(3)&gt;&gt;
+
+&lt;br&gt; &lt;br&gt;
+	&lt;&lt;if $eggs.length &gt;= $hatchlings.length &amp;&amp; $hatchlings.length &gt;= 2&gt;&gt;The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
+	&lt;&lt;elseif $hatchlings.length &gt;= $eggs.length &amp;&amp; $eggs.length &gt;= 2&gt;&gt;The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
+	&lt;&lt;elseif $eggs.length &gt;= 2 &amp;&amp; $hatchlings.length == 0&gt;&gt;It&#39;s warmly quiet with only eggs in here. You take a moment to rest with them.
+	&lt;&lt;elseif $eggs.length == 1 &amp;&amp; $hatchlings.length &gt;= 2&gt;&gt;Your egg has been moved out of the way of its hyper siblings.
+	&lt;&lt;elseif $eggs.length == 1 &amp;&amp; $hatchlings.length == 1&gt;&gt;You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
+	&lt;&lt;elseif $eggs.length == 1 &amp;&amp; $hatchlings.length == 0&gt;&gt;There&#39;s a sole egg here. You take a moment to turn it and clean its shell.&lt;&lt;if $eggs[0].time &gt;= 5&gt;&gt; You croon with satisfaction as it rocks under your ministrations.&lt;&lt;/if&gt;&gt;
+	&lt;&lt;elseif $hatchlings.length &gt;= 2 &amp;&amp; $eggs.length == 0&gt;&gt;The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
+	&lt;&lt;elseif $hatchlings.length == 1 &amp;&amp; $eggs.length == 0&gt;&gt;Your lone hatchling perks up as you enter and loudly demands &lt;&lt;linkappend &quot;you entertain them.&quot;&gt;&gt; &lt;&lt;set _play to random(3)&gt;&gt;
 		&lt;&lt;if _play == 0&gt;&gt;
 			The hatchling shrieks with delight as you turn on them, and just as eagerly chases you around when you manage to catch them.
 		&lt;&lt;elseif _play == 1&gt;&gt;
@@ -2150,16 +2145,14 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 		&lt;&lt;/if&gt;&gt;
 		&lt;&lt;/linkappend&gt;&gt;
 	&lt;&lt;else&gt;&gt;The nursery is empty. You examine its barren nests with a deep sense of sadness.
-	&lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;
+	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 &lt;&lt;if $hydraEggTaken == true&gt;&gt;
-	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well.
+	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. &lt;br&gt; &lt;br&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-What would you like to do?
-
+&lt;&lt;/nobr&gt;&gt;What would you like to do?
 [[Go back|Sandbox Central]]</tw-passagedata><tw-passagedata pid="27" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">You are a dragon in a&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;if $cycles &gt;= 100&gt;&gt;n ancient-looking colony that has been around for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it&#39;s been here for a very long time.
 	&lt;&lt;elseif $cycles &gt;= 25&gt;&gt; well-established colony, having lived here for &lt;&lt;print $cycles&gt;&gt; cycle&lt;&lt;if $cycles &gt;= 2 || $cycles == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;, and &lt;&lt;print $days&gt;&gt; day&lt;&lt;if $days &gt;= 2 || $days == 0&gt;&gt;s&lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;. It&#39;s all beginning to take proper shape, and you can&#39;t help but feel pleased with it.
@@ -2278,7 +2271,7 @@ What do you want to do?
 	&lt;&lt;/if&gt;&gt;
 	[[Build something|Building]] &lt;br&gt;
 	[[Check the nursery|Nursery]] &lt;br&gt;
-	&lt;&lt;if $pop gte 2&gt;&gt;
+	&lt;&lt;if $dragons.length &gt;= 1&gt;&gt;
 		[[Interact with your thunder|Pop]] &lt;br&gt;
 	&lt;&lt;/if&gt;&gt;
 [[Rest|Rest]]

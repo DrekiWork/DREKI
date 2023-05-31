@@ -11,18 +11,16 @@
 		<<set $ghunt = false>>
 	
 		/* Number of eggs & how 'old' the eggs are; only keeps track of one of at a time! $theft keeps track of if you've stolen today. */
-	<<set $egg to 0>>
 	<<set $eggsHatched to 0>>
 	<<set $eggEvent to 0>>
 	<<set $theft to false>>
 	
 		/* Number of hatchlings & how 'old' they are; same as eggs */
-	<<set $hatchling to 0>>
 	<<set $firstCol to 0>>
 	
 		/* Setting nursery buildings... */
 	<<set $nest = 0>>
-	<<set $eggSpace = 0>>
+	<<set $eggSpace = ($nest * 3)>>
 	
 		/* Number of winglets/worker dragons. Slackers aren't employed, foragers go for food... */
 	<<set $eggs to []>>

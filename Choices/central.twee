@@ -117,7 +117,7 @@ What do you want to do?
 	<</if>>
 	[[Build something|Building]] <br>
 	[[Check the nursery|Nursery]] <br>
-	<<if $pop gte 2>>
+	<<if $dragons.length >= 1>>
 		[[Interact with your thunder|Pop]] <br>
 	<</if>>
 [[Rest|Rest]]
