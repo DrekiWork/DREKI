@@ -1,7 +1,7 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
 	<<set _name to $dragons[$int].name>>
-<</nobr>><<textbox "_name" _name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. Currently, they're a <<print $dragons[$int].job>>. <<nobr>>
+<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. Currently, they're a <<print $dragons[$int].job>>.
 <br> <br>
 <<if $dragons[$int].hunger > 1>>
 	<<print _name>> is hungry; they haven't eaten in <<print $dragons[$int].hunger>> days. If they don't eat, they'll leave.

@@ -61,7 +61,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
         <</link>> <br>
         
         <br><<link "Send them away.">><<replace "#choices">>
-            You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Still, [[they hurry from your home.|Sandbox Central]] <</replace>> <</link>> </span>
+            You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Instead, you point them in the direction of a different colony that may have room for them. The leader thanks you profusely for your kindness, even as [[they hurry from your home.|Sandbox Central]] <</replace>> <</link>> </span>
     <</nobr>>
 
 
@@ -80,11 +80,13 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 <<if $egg >= 2>>
     It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision. <<nobr>>
         <<if $hatchling >= 2>>
-            The hatchlings are chirping in terror, bundled in a corner, 
+            The hatchlings are chirping in terror, bundled in a corner, as a
         <<elseif $hatchling == 1>>
-            Your hatchling trembles in a corner, chirping with terror, 
+            Your hatchling trembles in a corner, chirping with terror, as a
+        <<else>>
+            A
         <</if>>
-    <</nobr>>as a dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!
+    <</nobr>> dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!
 
         <<if _adult >= 1>>
             Your battle cries draw the attention of your thunder over; the thief - hearing reinforcements arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above.
