@@ -107,9 +107,9 @@ What do you want to do?
 			<</linkappend>>
 		<br> &emsp;[[Treasure]]
 		<</linkappend>> <br>
-		<<if $egg lt $eggSpace && $theft < 1>>
+		<<if $eggs < $eggSpace && $theft == false>>
 			[[Get eggs|Egg theft]] <br>
-		<<elseif $egg >= $eggSpace>>
+		<<elseif $eggs >= $eggSpace && $theft == false>>
 			You don't see a point in risking yourself for eggs that you don't have room for. <br>
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>

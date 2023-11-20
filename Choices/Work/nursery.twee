@@ -1,5 +1,5 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
-Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have <<nobr>>
+<<nobr>>Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have
 	
 	<<set $eggSpace to ($nest * 3)>>
 	<<set $eggSpace to ($eggSpace - ($eggs.length + $hatchlings.length))>>
@@ -58,5 +58,6 @@ Your Nursery is carved in the very back of your storage cavern; warm and protect
 <<else>>
 <</if>>
 
-<</nobr>>What would you like to do?
+What would you like to do? <br>
 [[Go back|Sandbox Central]]
+<</nobr>>

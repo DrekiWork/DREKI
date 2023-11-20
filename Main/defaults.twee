@@ -61,7 +61,8 @@
 	<<set $shelter.ruts to { 
 		amount : 0,
 		shelter : 1,
-		occupied: 0
+		occupied: 0,
+		free : 0
 		}>>
     <<set $home to (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
 		

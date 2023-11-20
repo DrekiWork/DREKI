@@ -4,7 +4,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 <<silently>>
 	<<set $theft++>>
 	<<set $player.action-->>
-	<<set _space to ($eggSpace - $egg)>>
+	<<set _space to ($eggSpace - $eggs)>>
 	<<if _space > 3>>
 		<<set _space = 3>>
 	<<else>>
@@ -25,7 +25,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<<eggmaker>>
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children. <br> <br>
-		<<if $egg < $eggSpace>>
+		<<if $eggs < $eggSpace>>
 			As you're about to leave, however, you pause and look back at the unattended nursery. <br> <br>
 
 			You could take more. <<linkreplace "Do you?">> <<if _space >= 2>> <<set _space = 2>><</if>>
@@ -40,7 +40,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 					<</if>>
 			<</link>>
 			<</linkreplace>>
-		<<if $egg == $eggSpace>>
+		<<if $eggs == $eggSpace>>
 			You settle your egg in its new nest, chirping and purring at them to familiarize the hatchling within with your voice. You don't have room for any more, you note; your nursery is, for its current capacity, perfectly full. The idea warms your hearts, [[burning away any guilt over your theft as you continue to speak.|Nursery]]
 		<<else>>
 			You place the egg delicately in their new home; churring and clicking at them all the while. There's room for more, you note. But for today, [[you are perfectly happy with your new treasure.|Nursery]]

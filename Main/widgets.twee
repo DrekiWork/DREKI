@@ -352,9 +352,9 @@
 <</nobr>><</widget>>
 
 <<widget "eggOne">><<nobr>>
-	<<if $eggsHatched === 1 and $eggEvent === 0>>
+	<<if $eggsHatched >= 1 and $eggEvent === 0>>
 	<<set $eggEvent += 1>> <<linkappend "Something has happened...">>
-		Your head snaps up from being curled around the eggs as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to //tap! Tap! Tap!// at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell... <br> <br>
+		Your head snaps up from being curled around the eggs as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $player.title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to //tap! Tap! Tap!// at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell... <br> <br>
 	
 		You remember yourself after a moment, and use your claws to gently split the shell. The hatchling within, so small - so, //so// small in its egg - cries out with a high note that has you prizing away more and more shell. Eventually, a thin snout pokes out of the shell, nostrils flaring and sniffling as it takes its first breath of air. Soon enough, it returns to cracking and pushing, as you continue the task of assisting it. <br> <br>
 
@@ -366,7 +366,7 @@
 
 <<widget "colOne">>
 	<<nobr>>
-	<<if $pop === 2 and $firstCol === 0>>
+	<<if $pop >= 2 and $firstCol === 0>>
 	<<set $firstCol += 1>><<linkappend "Something has happened...">>
 			As you're doing your nightly rounds along the colony, you discover your first hatchling - your first egg, your shining-jewel - outside the nursery, watching you solemnly. You tilt your head in silent permission for them to speak. <br> <br>
 			
