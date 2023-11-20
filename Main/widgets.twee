@@ -72,7 +72,7 @@
 
 		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			<<if $dragons.length > 0>>
-				<<set _goldDiv = ($gold^(1/3))>>
+				<<set _goldDiv = ($gold^(1/100))>>
 				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop))))>>
 			<<else>>
 			<</if>>
@@ -100,7 +100,6 @@
 			<</for>>
 			<</if>>
 
-			<<run console.log("Made it to checking dragons are homeless.")>>
 			<<if $dragons.length >= 1>>
 			<<set _newHouse = []>>
 			<<set _homeless = []>>

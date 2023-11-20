@@ -243,14 +243,16 @@ Config.saves.autosave = ["Central"];
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">&lt;h2&gt;Resources&lt;/h2&gt;
+}());</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">/* Note to self: Change Resource + shelter code to fix it because it&#39;s multiplying in ways it ABSOLUTELY shouldn&#39;t. */
+
+&lt;h2&gt;Resources&lt;/h2&gt;
     Food:
      Amount: &lt;&lt;numberbox &quot;$food&quot; $food&gt;&gt;
-     Storage Space: &lt;&lt;numberbox &quot;$foodCap&quot; $foodCap&gt;&gt;
+     Storage Caverns: &lt;&lt;numberbox &quot;$foodCap&quot; $foodCap&gt;&gt;
 
     Water:
      Amount: &lt;&lt;numberbox &quot;$water&quot; $water&gt;&gt;
-     Storage Space: &lt;&lt;numberbox &quot;$waterCap&quot; $waterCap&gt;&gt;
+     Storage Pools: &lt;&lt;numberbox &quot;$waterCap&quot; $waterCap&gt;&gt;
 
     Wood:
      Amount: &lt;&lt;numberbox &quot;$wood&quot; $wood&gt;&gt;
@@ -265,6 +267,8 @@ Config.saves.autosave = ["Central"];
     &lt;&lt;if $shelter.ruts.free &lt; ($shelter.ruts.amount - $dragons.length)&gt;&gt;
         &lt;&lt;set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)&gt;&gt;
         &lt;&lt;set $home = $shelter.ruts.free&gt;&gt;
+    &lt;&lt;else&gt;&gt;
+        
     &lt;&lt;/if&gt;&gt;
     &lt;&lt;run Engine.show()&gt;&gt;
 &lt;&lt;/link&gt;&gt;
@@ -438,18 +442,25 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 	Dialog.wiki(Story.get(&quot;EncyclopediaHome&quot;).processText());
 	Dialog.open();
 	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Patchnotes" tags="" position="850,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.2 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Patchnotes" tags="" position="850,100" size="100,100">&lt;h2&gt; Pre-Pre-Alpha 0.0.24.3 &lt;/h2&gt;&lt;&lt;nobr&gt;&gt;
 	&#39;&#39;New!&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Tutorial added! Though barebones, it&#39;ll walk you through a gathering round, building, and sleeping.&lt;/li&gt;
 	&lt;li&gt;Dragons can be assigned dens!&lt;/li&gt;
 	&lt;li&gt;The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?&lt;/li&gt;
 	&lt;li&gt;FAVICON!!! FAVICOOOONNNN&lt;/li&gt;
-	&lt;li&gt;Cleaning up the code a bit...&lt;/li&gt;&lt;/ul&gt;
+	&lt;li&gt;Cleaning up the code a bit...&lt;/li&gt;
+	&lt;li&gt;Dragons now appear in a grid-adjacent formation in the pop screen! This takes up less space and looks a little nice. Not very, just a little.&lt;/li&gt;
+	&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
 
 	&#39;&#39;Bugs Patched&#39;&#39;
 	&lt;ul&gt;&lt;li&gt;Hatchlings now tell you that they&#39;ve eaten even if you&#39;re the only adult. :)&lt;/li&gt;
 	&lt;li&gt;The game should no longer try to check if you have any homeless dragons when you don&#39;t even have dragons.&lt;/li&gt;
-	&lt;li&gt;Abandoned egg from theft event no longer has a missing &lt;/if&gt; tag. Oops!&lt;/li&gt;&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
+	&lt;li&gt;Abandoned egg from theft event no longer has a missing &lt;/if&gt; tag. Oops!&lt;/li&gt;
+	&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
+	
+	&#39;&#39;Bugs Created&#39;&#39;
+	&lt;ul&gt;&lt;li&gt;Ruts are being funky junky and I&#39;m not sure why they&#39;re no longer counting right...&lt;/li&gt;
+	&lt;/ul&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Widgets" tags="widget" position="250,0" size="100,100">&lt;&lt;widget &quot;endday&quot;&gt;&gt; &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;growUp&gt;&gt;
 
 		/* Moves a day forward */
@@ -522,7 +533,7 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
-				&lt;&lt;set _goldDiv = ($gold^(1/3))&gt;&gt;
+				&lt;&lt;set _goldDiv = ($gold^(1/100))&gt;&gt;
 				&lt;&lt;set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop))))&gt;&gt;
 			&lt;&lt;else&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
@@ -550,7 +561,6 @@ Gold: &lt;&lt;print $gold&gt;&gt; &lt;br&gt; &lt;br&gt;
 			&lt;&lt;/for&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
 
-			&lt;&lt;run console.log(&quot;Made it to checking dragons are homeless.&quot;)&gt;&gt;
 			&lt;&lt;if $dragons.length &gt;= 1&gt;&gt;
 			&lt;&lt;set _newHouse = []&gt;&gt;
 			&lt;&lt;set _homeless = []&gt;&gt;
@@ -2056,9 +2066,9 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
     &lt;&lt;/silently&gt;&gt;
 There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their scales are flaking, and their eyes sunken in; if they are spies or have another thunder to call home, they are far from well cared for. One of them steps hesitantly forward. &lt;br&gt; &lt;br&gt;
 
-        &quot;Are you the &lt;&lt;print $player.title&gt;&gt;?&quot; They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. &quot;I - &lt;em&gt;we&lt;/em&gt; - apologize for the intrusion, &lt;&lt;print $player.title&gt;&gt;. We mean no harm, but... We have lost our home colony. We beg shelter of you, &lt;&lt;print $player.title&gt;&gt;. We will work. Please.&quot; &lt;br&gt; &lt;br&gt;
+        &quot;Are you the &lt;&lt;print $player.title&gt;&gt;?&quot; They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. &quot;I – &lt;em&gt;we&lt;/em&gt; – apologize for the intrusion, &lt;&lt;print $player.title&gt;&gt;. We mean no harm, but... We have lost our home colony. We beg shelter of you, &lt;&lt;print $player.title&gt;&gt;. We will work. Please.&quot; &lt;br&gt; &lt;br&gt;
         
-        You scrutinize the dragons. All told, your thefts might have made you enemies - had you been caught. Without that, there is no reason for another colony to attack you.  &lt;br&gt; &lt;br&gt; &lt;br&gt;
+        You scrutinize the dragons. All told, your thefts might have made you enemies – had you been caught. Without that, there is no reason for another colony to attack you.  &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
         &lt;span id=&quot;choices&quot;&gt;&lt;&lt;link &quot;Take them in.&quot;&gt;&gt;&lt;&lt;replace &quot;#choices&quot;&gt;&gt;
         You tip your head silently. That is all the confirmation they need; the leader of the group rises slowly. You inform them of where they will be sleeping, and that you will address their food and work tomorrow; it is too late to be bothered with such things. They trip over themselves to express their gratitude, which you wave away easily. &lt;br&gt; &lt;br&gt;
@@ -2405,11 +2415,14 @@ What do you want to do?
         &lt;&lt;link &quot;You close your eyes and dream of what might have been.&quot;&gt;&gt;&lt;&lt;run UI.restart()&gt;&gt;&lt;&lt;/link&gt;&gt;
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="dragonList" tags="" position="1225,350" size="100,100">&lt;&lt;nobr&gt;&gt;
+    &lt;&lt;set _count = 0&gt;&gt;
     &lt;&lt;for _drg to 0; _drg lt $dragons.length; _drg++&gt;&gt;
         &lt;&lt;capture _drg&gt;&gt;
-            &lt;&lt;if (_drg % 3 !== 0) || _drg == 0&gt;&gt;
+            &lt;&lt;set _count += 1&gt;&gt;
+            &lt;&lt;if _count &lt; 4&gt;&gt;
                 &lt;&lt;link &quot;$dragons[_drg].name&quot;&gt;&gt; &lt;&lt;set $int to _drg&gt;&gt; &lt;&lt;goto &quot;Interact&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;, &lt;&lt;print $dragons[_drg].job&gt;&gt; | 
             &lt;&lt;else&gt;&gt;
+                &lt;&lt;set _count = 0&gt;&gt;
                 &lt;&lt;link &quot;$dragons[_drg].name&quot;&gt;&gt; &lt;&lt;set $int to _drg&gt;&gt; &lt;&lt;goto &quot;Interact&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;, &lt;&lt;print $dragons[_drg].job&gt;&gt; |&lt;br&gt;
             &lt;&lt;/if&gt;&gt;
         &lt;&lt;/capture&gt;&gt;

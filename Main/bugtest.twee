@@ -1,13 +1,15 @@
 :: BugTest
 
+/* Note to self: Change Resource + shelter code to fix it because it's multiplying in ways it ABSOLUTELY shouldn't. */
+
 <h2>Resources</h2>
     Food:
      Amount: <<numberbox "$food" $food>>
-     Storage Space: <<numberbox "$foodCap" $foodCap>>
+     Storage Caverns: <<numberbox "$foodCap" $foodCap>>
 
     Water:
      Amount: <<numberbox "$water" $water>>
-     Storage Space: <<numberbox "$waterCap" $waterCap>>
+     Storage Pools: <<numberbox "$waterCap" $waterCap>>
 
     Wood:
      Amount: <<numberbox "$wood" $wood>>
@@ -22,6 +24,8 @@
     <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
         <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
         <<set $home = $shelter.ruts.free>>
+    <<else>>
+        
     <</if>>
     <<run Engine.show()>>
 <</link>>

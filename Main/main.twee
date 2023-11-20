@@ -74,15 +74,22 @@ Gold: <<print $gold>> <br> <br>
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Pre-Alpha 0.0.24.2 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.24.3 </h2><<nobr>>
 	''New!''
 	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
 	<li>Dragons can be assigned dens!</li>
 	<li>The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?</li>
 	<li>FAVICON!!! FAVICOOOONNNN</li>
-	<li>Cleaning up the code a bit...</li></ul>
+	<li>Cleaning up the code a bit...</li>
+	<li>Dragons now appear in a grid-adjacent formation in the pop screen! This takes up less space and looks a little nice. Not very, just a little.</li>
+	<li></li></ul>
 
 	''Bugs Patched''
 	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li>
 	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li>
-	<li>Abandoned egg from theft event no longer has a missing </if> tag. Oops!</li></ul><</nobr>>
+	<li>Abandoned egg from theft event no longer has a missing </if> tag. Oops!</li>
+	<li></li></ul>
+	
+	''Bugs Created''
+	<ul><li>Ruts are being funky junky and I'm not sure why they're no longer counting right...</li>
+	</ul><</nobr>>
