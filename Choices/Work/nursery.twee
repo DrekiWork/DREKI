@@ -1,5 +1,5 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
-<<nobr>>Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have
+<<nobr>>Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easy access to your food and water stores. Presently, you have
 	
 	<<set $eggSpace to ($nest * 3)>>
 	<<set $eggSpace to ($eggSpace - ($eggs.length + $hatchlings.length))>>
@@ -49,15 +49,15 @@
 		<<elseif _play == 3>>
 			You plop them in their nest, and - before the hatchling can protest - begin telling a story of your old colony. They listen with rapt attention.
 		<</if>>
-		<</linkappend>>
-	<<else>>The nursery is empty. You examine its barren nests with a deep sense of sadness.
-	<</if>> <br> <br>
+		<</linkappend>> <br> <br>
+	<<else>>The nursery is empty. You examine its barren nests with a deep sense of sadness. <br> <br>
+	<</if>>
 
 <<if $hydraEggTaken == true>>
-	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. <br> <br>
+	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. Its shell is leathery, and you can see the faint shadow of the snake growing inside. The sight of it still gives you a thrill of nerves. <br> <br>
 <<else>>
 <</if>>
+<</nobr>>What would you like to do?
 
-What would you like to do? <br>
 [[Go back|Sandbox Central]]
 <</nobr>>

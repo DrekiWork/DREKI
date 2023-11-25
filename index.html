@@ -217,7 +217,7 @@ div[id|="numberslider-body"] input::-ms-thumb {
 
 //Alternative is 'Config.history.controls = false;', which will remove history controls (back and forward arrows) without stoppping it from saving previous pages.
 
-Config.history.controls = false;
+Config.history.controls = true;
 
 //Autosave set up... Not in use currently, for sanity reasons, but will be set to autosave on rest.
 
@@ -388,6 +388,7 @@ Gimme: &lt;br&gt;
 	&lt;&lt;set $findSleep to true&gt;&gt;
 
 		/* These set up the Hydra. */
+	&lt;&lt;set $defenseTalk = 0&gt;&gt;
 	&lt;&lt;set $hydraSeen to false&gt;&gt;
 	&lt;&lt;set $hydraEggTaken to false&gt;&gt;
 	&lt;&lt;set $hydraTime = -1&gt;&gt;
@@ -1042,6 +1043,112 @@ Now, one last thing before you&#39;re unleashed on the world: You retrieve eggs 
 Alright! You&#39;re all set. There are, of course, more things that can happen - events while foraging, something interrupting your sleep... but these are the basics and should get you through the game for the most part.
 
 If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thunder.
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="HydraFoodEvent" tags="" position="725,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set _danger = random(0, 3)&gt;&gt;
+
+&lt;&lt;switch $hydraEggTaken&gt;&gt;
+
+    &lt;&lt;case true&gt;&gt;
+
+	    &lt;&lt;set _collect = random(3,15)&gt;&gt;
+    	&lt;&lt;set $food += _collect&gt;&gt;
+	    You&#39;re gliding lazily over your territory when you realize where you&#39;re going - the hydra&#39;s den. The allure of its food stores were callng you - but you can&#39;t do that now. Not until the hydra is dead, or your thunder is destroyed. &lt;br&gt; &lt;br&gt;
+	    You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
+	    &lt;&lt;if $player.action &gt;= 1&gt;&gt;
+	    	&lt;span id=&quot;forageChoices&quot;&gt;
+		    	You could [[hunt again|Food]]; look for 
+			    &lt;&lt;link &quot;something else&quot;&gt;&gt;
+				    &lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+					    [[Water]], [[wood|Wood]], 
+					    &lt;&lt;if $ghunt == false&gt;&gt;
+					    	[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+				    	&lt;&lt;else&gt;&gt;
+					    	or [[stone|Stone]]?
+					    &lt;&lt;/if&gt;&gt;
+				    &lt;&lt;/replace&gt;&gt;
+			    &lt;&lt;/link&gt;&gt;; or you can simply [[stay home.|Sandbox Central]]
+		    &lt;/span&gt;
+	    &lt;&lt;else&gt;&gt;
+		    It&#39;s time to [[go home.|Sandbox Central]]
+	    &lt;&lt;/if&gt;&gt;
+
+
+    &lt;&lt;case false&gt;&gt;
+
+    	&lt;&lt;set _collect = random(30, 40)&gt;&gt;
+	    &lt;&lt;set _risk to random(1)&gt;&gt; 
+
+    	While gliding over your territory, you find something strange. While a cave isn&#39;t normally worth your attention, there are a great deal of tracks leading in... and nothing leading out. In addition to being a potential threat, the idea of another predator on &lt;em&gt;your&lt;/em&gt; territory irritates you deeply. &lt;br&gt; &lt;br&gt;
+    	&lt;span id=&quot;c1&quot;&gt;
+		    You could 
+		    &lt;&lt;link &quot;investigate&quot;&gt;&gt;
+			&lt;&lt;replace &quot;#c1&quot;&gt;&gt;
+				&lt;&lt;if _risk == 1 &amp;&amp; $hydraSeen == false&gt;&gt;
+					&lt;&lt;set $hydraSeen to true&gt;&gt;
+					You push into the cave, wings pressed tight against your sides and every sense on high alert. It is musty but warm in the cave; if it didn&#39;t smell so strongly of something dangerous, you would make note of it as a potential storage cache... but it does, and you feel your spinal crest beginning to rattle with your mounting anxiety. &lt;br&gt; &lt;br&gt;
+					Before you get too deep, however, you spy something that shuts you up swiftly. A mound of flesh - rotting at the bottom but fresher to the top, and... &lt;em&gt;something&lt;/em&gt;... sleeping coiled around it. You&#39;d think it was a serpent if it didn&#39;t have three heads that you can see, and if it weren&#39;t larger than you. Nausea wells up your throat, and it is only by a desperate will to live that you swallow it down. As it stands, the mess before you feels like a terrible joke - a monster guarding its decayed horde, and you daring to challenge it for a fraction of its wealth.
+					&lt;br&gt; &lt;br&gt;
+					&lt;span id=&quot;c2&quot;&gt;
+						You have a choice. You can either 
+						&lt;&lt;link &quot;try stealing food anyway&quot;&gt;&gt;
+							&lt;&lt;replace &quot;#c2&quot;&gt;&gt;
+								&lt;&lt;set _danger = random(3)&gt;&gt;
+								&lt;&lt;if _danger == 3&gt;&gt;
+									&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
+									&lt;&lt;set $food += _collect&gt;&gt;
+									&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+										&lt;&lt;set $food = $foodCap&gt;&gt;
+									&lt;&lt;/if&gt;&gt;
+									You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+									You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra&#39;s tongue flicks. &lt;br&gt; &lt;br&gt;
+									It sees you. &lt;br&gt; &lt;br&gt;
+									You grab what you can and &lt;em&gt;run&lt;/em&gt;. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn&#39;t matter - you&#39;re gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. &lt;br&gt; &lt;br&gt;
+									You don&#39;t stop until you&#39;re home - and even then you tremble. It takes some time until you&#39;ve recovered enough to see that you collected &lt;&lt;print _collect&gt;&gt; food. &lt;br&gt; &lt;br&gt;
+									... Was it worth it? 
+									&lt;br&gt; &lt;br&gt;
+									&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+										&lt;span id=&quot;forageChoices&quot;&gt;
+											You could [[hunt again|Food]]; look for 
+											&lt;&lt;link &quot;something else&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+													[[Water]], [[wood|Wood]], 
+													&lt;&lt;if $ghunt == false&gt;&gt;
+														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+													&lt;&lt;else&gt;&gt;
+														or [[stone|Stone]]?
+													&lt;&lt;/if&gt;&gt;
+												&lt;&lt;/replace&gt;&gt;
+											&lt;&lt;/link&gt;&gt;
+											; or you can simply [[stay home.|Sandbox Central]]
+										&lt;/span&gt;
+									&lt;&lt;else&gt;&gt;
+										It&#39;s time to [[go home.|Sandbox Central]]
+									&lt;&lt;/if&gt;&gt;
+								&lt;&lt;elseif _danger == 2&gt;&gt;
+									&lt;&lt;set _collect = Math.round(_collect /= (_danger * 2))&gt;&gt;
+									&lt;&lt;set $food += _collect&gt;&gt;
+									&lt;&lt;if $food &gt; $foodCap&gt;&gt;
+										&lt;&lt;set $food = $foodCap&gt;&gt;
+									&lt;&lt;/if&gt;&gt;
+									You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. &lt;br&gt; &lt;br&gt;
+									You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. &lt;br&gt; &lt;br&gt;
+									But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... &lt;br&gt; &lt;br&gt;
+									What does that matter when it wakes up anyway? One head yawns, and two rows of teeth longer than your head flare in its open maw. Delicately, with more stealth than you knew you had, you creep towards the entrance of its lair. The hydra&#39;s tongue flicks. You abandon care and sprint. &lt;br&gt; &lt;br&gt;
+									You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn&#39;t matter; you are gone. Thankfully, you are gone. &lt;br&gt; &lt;br&gt;
+									When you land back at home, your nerves have settled enough for you to count your haul. &lt;&lt;print _collect&gt;&gt; food. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. &lt;br&gt; &lt;br&gt;
+									It didn&#39;t follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. &lt;br&gt; &lt;br&gt;
+									&lt;&lt;if $player.action &gt;= 1&gt;&gt;
+										&lt;span id=&quot;forageChoices&quot;&gt;
+											You could [[hunt again|Food]]; look for 
+											&lt;&lt;link &quot;something else&quot;&gt;&gt;
+												&lt;&lt;replace &quot;#forageChoices&quot;&gt;&gt;
+													[[Water]], [[wood|Wood]], 
+													&lt;&lt;if $ghunt == false&gt;&gt;
+														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
+													&lt;&lt;else&gt;&gt;
+														or [[stone|Stone]]?
+													&lt;&lt;/if&gt;&gt;
+												&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Food" tags="WIP" position="725,675" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(12)&gt;&gt;
@@ -1279,7 +1386,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 									The hydra&#39;s den isn&#39;t too far into the cave; as you go, you keep your head low and claws light on the cavern floor. &lt;br&gt; &lt;br&gt;
 									&lt;&lt;if _danger == 0&gt;&gt;
 										Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. &lt;br&gt; &lt;br&gt;
-										The great serpent&#39;s body is curled around the pile once again; its heads sunk into the meat and scales stained with red-brown blood. Some of it is fresh; the majority of it is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
+										The great serpent&#39;s body is curled around the pile once again; its heads sunk into the meat and its scales are stained with red-brown blood. Some of it is fresh; the majority of is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn&#39;t so much as twitch. &lt;br&gt; &lt;br&gt;
 										You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... &lt;br&gt; &lt;br&gt;
 										A head twitches and your claws dig into the rock as terror floods you. Yet it remains still, eyes unfocused and head slumped further into its rotting nest. The movement reveals something gleaming within. &lt;br&gt; &lt;br&gt;
 										You stay where you are - fear rooting you more firmly than any force of will could hope to - but lift your head slowly until you have a better view of the object underneath the meat and body. It&#39;s strange - sunken yet sturdy, as though something underneath holds its shape. It shimmers wetly, nearly clean despite the gore holding it. What &lt;em&gt;is&lt;/em&gt; that? &lt;br&gt; &lt;br&gt;
@@ -1289,7 +1396,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 												&lt;&lt;replace &quot;#c3&quot;&gt;&gt;
 													&lt;&lt;set _collect to random(5, 13)&gt;&gt;
 													Perhaps you are greedy. Perhaps you have more curiosity than sense... but that shiny, mysterious &lt;em&gt;something&lt;/em&gt; tickles your interest more than rotting flesh. You could find fresher by patrolling your territory. &lt;br&gt; &lt;br&gt;
-													You creep forward, trembling - with anticipation or nerves, who could say? All you know, all you see, is that &lt;em&gt;something&lt;/em&gt;. &lt;br&gt; &lt;br&gt;
+													You creep forward, trembling - with anticipation or nerves, who could say? All you know, all you see, is that seed of treasure in the gore. &lt;br&gt; &lt;br&gt;
 													Every step sends a thrill through your bones. Every little noise stops your hearts, your breathing - perhaps your very fire. But none of it is enough to stop you creeping closer, yet closer. When you reach the pile, you scarcely dare to move. Painfully slowly, your claws sink into the meat. It is soft under your weight; boneless. So much &lt;em&gt;food&lt;/em&gt;, all wasted as a macabre hoard. Even you aren&#39;t immune to the indignity. Reluctantly, eyes still trapped to the gleaming object above - you dip your head and swallow some of it into your throat pouch, before your desire for the &lt;em&gt;something&lt;/em&gt; becomes unbearable again and you resume your slow climb. &lt;br&gt; &lt;br&gt;
 													The worst is not your weight dipping into the nest, or the feeling of gore sliding against your scales. It is not the knowledge that the hydra is impossibly close; that you feel its every breath. No, the true horror is having to clamber over the coils of its body. Dimly, you know there is a better way - you could circle with it, follow its body up, or attempt to fly silently higher... but those would be too slow, too dangerous. There is no safe option. &lt;br&gt; &lt;br&gt;
 													The hydra&#39;s body is softer than you expect. Its scales click against you, but underneath, it gives subtly. Powerful muscles relaxed in sleep. It is warm, almost relaxingly so - or terrifyingly, knowing how alive it is. How you risk your life for your curiosity. &lt;br&gt; &lt;br&gt;
@@ -1297,8 +1404,8 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 													As you crest the pile, you find the gleaming thing within reach. Your greed peaks. You dig. The flesh parts easily under your claws, slipping down the pile soundlessly as you reveal... an egg. &lt;br&gt; &lt;br&gt;
 													... An egg? &lt;br&gt; &lt;br&gt;
 													Oh. Oh no. Oh no no &lt;em&gt;no&lt;/em&gt;. You start to rear back, shaking like a hatchling - but the pile rumbles, and the hydra makes a noise. Its scales scrape. Terror bursts in your veins, freezing you solid as the hydra stills. Slow. You must be &lt;em&gt;slow.&lt;/em&gt; Your tongue flicks out uncontrollably, your spinal crest shivers - but does not rattle. You don&#39;t &lt;em&gt;dare&lt;/em&gt; to allow even the slightest noise to escape as you stare - at the egg? at the hydra? At nothing at all? It&#39;s impossible to focus on one thing, the realization that you are risking your life - no. Not just your life. The whole of your &lt;em&gt;thunder&lt;/em&gt; by coming here, seeing this egg, knowing that you should have been slaughtered for your trespass; better that than risk its fury raging across your entire territory! &lt;br&gt; &lt;br&gt;
-													Can you leave? Do you have a chance at escape? You turn, unbearably slow, to the exit. You could glide. Your wings spread, bit by trembling bit. You could glide. &lt;br&gt; &lt;br&gt;
-													The pile trembles. A head yawns. Before your mind can catch up to your actions, you throw yourself at the egg, coiling around it - so much smaller than expected, not much bigger than two of your own. The hydra is - still? It&#39;s not awake. There is no relief in this - your scent is &lt;em&gt;coating&lt;/em&gt; the egg. There is no way it won&#39;t know. You straighten out as much as you dare, thoughts rolling dizzyingly through your head as you desperately 
+													Can you leave? Do you have a chance at escape? You turn, in the smallest, silentest movement, to the exit. You could glide. Your wings spread, bit by trembling bit. You could glide. &lt;br&gt; &lt;br&gt;
+													The pile trembles. A head yawns. Before your mind can catch up to your actions, you throw yourself at the egg, coiling around it - so much smaller than expected, not much bigger than two of your own. The hydra is - still? It is not awake. There is no relief in this - your scent is &lt;em&gt;coating&lt;/em&gt; the egg. There is no way it won&#39;t know. You straighten out as much as you dare, thoughts rolling dizzyingly through your head as you desperately 
 													&lt;&lt;linkappend &quot;observe the den.&quot;&gt;&gt; &lt;br&gt; &lt;br&gt;
 														&lt;span id=&quot;c4&quot;&gt;
 															You can 
@@ -1319,6 +1426,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 																			&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
 																				&lt;&lt;set $hydraEggTaken = true&gt;&gt;
 																				&lt;&lt;set $hydraTime = 15&gt;&gt;
+																				&lt;&lt;set $defenseTalk = 1&gt;&gt;
 																				A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
 																				Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
 																				With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
@@ -1326,7 +1434,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 																				You leave in half a daze, and by the time you are in fresh air again, the world is still beyond you. &lt;br&gt; &lt;br&gt;
 																				The glide back is pleasant - quiet and uninterrupted. You come to a smooth landing in your homesite. Most of your dragons don&#39;t notice what you have, or even, really, that you&#39;re back. You watch them for a moment. Affection wells up in your hearts, warm and undeniable. &lt;br&gt; &lt;br&gt;
 																				You shriek the gathering call. &lt;br&gt; &lt;br&gt;
-																				Within moments, every dragon in your thunder has arrived, most panting with exertion from heeding the sudden call. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
+																				Within moments, every dragon in your thunder has arrived, most panting with exertion from a sudden sprint to you. When they are all settled - more or less - you show them the hydra egg. &lt;br&gt; &lt;br&gt;
 																				You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. &lt;br&gt; &lt;br&gt;
 																				Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching. &lt;br&gt; &lt;br&gt;
 																				Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. &lt;br&gt; &lt;br&gt;
@@ -1345,6 +1453,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 																			&lt;&lt;replace &quot;#c4&quot;&gt;&gt;
 																				&lt;&lt;set $hydraEggTaken = true&gt;&gt;
 																				&lt;&lt;set $hydraTime = 15&gt;&gt;
+																				&lt;&lt;set $defenseTalk = 1&gt;&gt;
 																				A noise escapes you. You don&#39;t recognize what it is - perhaps it is one that dragons simply weren&#39;t meant to create - but you know what you feel. &lt;br&gt; &lt;br&gt;
 																				Exhilaration. Determination. Terror. &lt;br&gt; &lt;br&gt;
 																				With gentle claws, as delicate as you would be with a dragon&#39;s egg, you pull the hydra&#39;s free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can&#39;t help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. &lt;br&gt; &lt;br&gt;
@@ -1396,7 +1505,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 													You creep forward to the towering mound of rotten flesh, and sink your claws in; it sinks easily, shivering in time with the hydra&#39;s slow breaths. It almost seems to be breathing. The idea is unnerving - almost horrifying - but you press onward to the nearest chunk of fresh meat. You dig in slowly, but with purpose. Every bite sinks into your throat pouch, bloating you uncomfortably - but there is so much. &lt;br&gt; &lt;br&gt;
 													Upon realizing your pouch is full, and that the hydra hasn&#39;t moved... you lick your teeth. &lt;br&gt; &lt;br&gt;
 													You leave the cave silently, returning home to drop off your food - then go straight back to the sleeping hydra&#39;s lair. Over and over and over again, until your food storage is fit to burst. And then, because you can, you devour some yourself on your last trip. It isn&#39;t particularly filling, but you feel... healthy for it. Perhaps from consuming the hydra&#39;s scales? &lt;br&gt; &lt;br&gt;
-													You eye some of the shed contemplatively, but ultimately ignore it in favor of leaving silently. You&#39;ve taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. &lt;br&gt; &lt;br&gt;
+													You eye some broken strips of the hydra&#39;s shed contemplatively, but ultimately ignore it in favor of leaving silently. You&#39;ve taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. &lt;br&gt; &lt;br&gt;
 													[[You arrive home feeling quite smug.|Sandbox Central]]
 												&lt;&lt;/replace&gt;&gt;
 											&lt;&lt;/link&gt;&gt;, 
@@ -1532,6 +1641,34 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 				&lt;&lt;/replace&gt;&gt;
 			&lt;&lt;/link&gt;&gt;
 		&lt;/span&gt;
+
+&lt;!--The end of the block checking for if you have the hydra egg.--&gt;
+&lt;&lt;/switch&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="DefenseTalk" tags="" position="850,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;!--
+    Leader settles for discussion w/ self on what needs to be done to prep for Hydra Raid.
+     &gt; Set up Guards. Guards protect the colony &amp; surrounding territory. They are trained in battle and as they gain experience, they are more confident in fights. Mechanically, this translates to good health + harder hits. Unfortunately, they eat and drink more to fuel their training, and don&#39;t otherwise contribute to the colony. When you need them, you&#39;re grateful they&#39;re there, but when you don&#39;t, they&#39;re borderline parasites.
+     &gt; Set up Fortifications. Fortifications are various barricades, offensive traps, choke-points, and hides for your dragons to retreat to &amp; attack from. Fortifications are classified as:
+        &gt; Protective. Barricades, moats, overhangs, deep-shelters, etc. Lessens damage taken during raids, and provides shelter for non-combative dragons (including hatchlings.) Building none of these means that you trust your ability to rebuild, and don&#39;t mind watching children die.
+        &gt; Offensive. Traps, choke-points, attack nests, etc. Damages and slows attackers while allowing your dragons to risk themselves slightly less in attacking. Not building these mean you either trust your numbers &amp; skill levels, or that you&#39;re pulling a zerg rush and praying to Sun &amp; Moon that it works.
+        &gt; Pre-Emptive, and Post. Scout points, retreat zones, secondary stockpiles, etc. Gives you warnings about where the raider is, where you can go if things start getting really, really bad, and what you have left to recover with. Not building these is akin to deciding that you are either arrogant enough to believe you need no forewarning and can survive any losses you take, or panicked enough to forget that you&#39;ll have to rebuild.
+ --&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="HydraRaid" tags="" position="975,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Food" tags="WIP" position="725,675" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;silently&gt;&gt;
+	&lt;&lt;set _forage = random(12)&gt;&gt;
+	&lt;&lt;if _forage == 12 &amp;&amp; $cycles &lt; 2&gt;&gt;
+		&lt;&lt;set _forage -= random(1, 11)&gt;&gt;
+	&lt;&lt;elseif _forage == 12 &amp;&amp; $cycles &gt;= 3&gt;&gt;
+	&lt;&lt;else&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+	&lt;&lt;set _scene = random(2)&gt;&gt;
+	&lt;&lt;set $player.action -= 1&gt;&gt;
+&lt;&lt;/silently&gt;&gt;
+	&lt;&lt;if _forage == 12 &amp;&amp; $hydraEggTaken == true&gt;&gt;
+		
 	&lt;&lt;elseif _forage &gt;= 8&gt;&gt;
 		&lt;&lt;set _collect = random(12, 15)&gt;&gt;
 		&lt;&lt;set $food += _collect&gt;&gt;
@@ -1619,7 +1756,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 			It&#39;s time to [[go home.|Sandbox Central]]
 		&lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="Treasure" tags="WIP" position="875,800" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Treasure" tags="WIP" position="875,800" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(9)&gt;&gt;
 	&lt;&lt;set $player.action -= 1&gt;&gt;
@@ -1721,7 +1858,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 &lt;&lt;else&gt;&gt;
 	It&#39;s time to [[go home.|Sandbox Central]]
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Water" tags="WIP" position="725,800" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Water" tags="WIP" position="725,800" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set _forage = random(12)&gt;&gt;
 	&lt;&lt;set _scene = random(2)&gt;&gt;
@@ -1937,7 +2074,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 
  &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
-&lt;&lt;/nobr&gt;&gt;You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="23" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point. &lt;&lt;nobr&gt;&gt;
+		You are pretty sure [[you&#39;re done here|Sandbox Central]]</tw-passagedata><tw-passagedata pid="25" name="Egg theft" tags="WIP" position="875,675" size="100,100">There&#39;s a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
 
 &lt;&lt;silently&gt;&gt;
 	&lt;&lt;set $theft++&gt;&gt;
@@ -2023,6 +2160,8 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 			&lt;&lt;/linkreplace&gt;&gt;
 		&lt;/span&gt;	
 	
+	
+&lt;&lt;/switch&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Forage" tags="WIP" position="800,550" size="100,100">You decide to forage for supplies - but for what, exactly? What do you need?
 	&lt;&lt;/switch&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Forage" tags="WIP" position="800,550" size="100,100">You decide to forage for supplies - but for what, exactly? What do you need?
 
@@ -2218,9 +2357,10 @@ There are &lt;&lt;print _join&gt;&gt; dragons at the edge of your home. Their sc
 	&lt;&lt;/if&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 &lt;&lt;if $hydraEggTaken == true&gt;&gt;
-	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. &lt;br&gt; &lt;br&gt;
+	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. Its shell is leathery, and you can see the faint shadow of the snake growing inside. The sight of it still gives you a thrill of nerves. &lt;br&gt; &lt;br&gt;
 &lt;&lt;else&gt;&gt;
 &lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;What would you like to do?
 
 What would you like to do? &lt;br&gt;
 [[Go back|Sandbox Central]]
