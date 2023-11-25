@@ -6,7 +6,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<<if $stone >= 5>><<button "Build">>
 				<<set $shelter.ruts.amount += 1>>
 				<<set $shelter.ruts.free += 1>>
-				<<set $home = (($shelter.ruts.amount * $shelter.ruts.free) - $pop)>>
+				<<set $home = ($shelter.ruts.free - 1)>>
 				<<set $stone -= 5>>
 				<<run Engine.show()>>
 		<</button>>

@@ -243,71 +243,65 @@ Config.saves.autosave = ["Central"];
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">/* Note to self: Change Resource + shelter code to fix it because it&#39;s multiplying in ways it ABSOLUTELY shouldn&#39;t. */
+}());</script><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">&lt;&lt;nobr&gt;&gt;
+Select &quot;Go&quot; at bottom of page after making decisions, especially if having built anything. That&#39;s the only way the game will remember and properly change your shit. DO NOT IGNORE IT.
+/* Note to self: Change Resource + shelter code to fix it because it&#39;s multiplying in ways it ABSOLUTELY shouldn&#39;t. */
 
 &lt;h2&gt;Resources&lt;/h2&gt;
-    Food:
-     Amount: &lt;&lt;numberbox &quot;$food&quot; $food&gt;&gt;
-     Storage Caverns: &lt;&lt;numberbox &quot;$foodCap&quot; $foodCap&gt;&gt;
+    Food: &lt;br&gt;
+    &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$food&quot; $food&gt;&gt; &lt;br&gt;
+    &amp;nbsp;Storage Caverns: &lt;&lt;numberbox &quot;$cavern.amount&quot; $cavern.amount&gt;&gt; &lt;br&gt;
 
-    Water:
-     Amount: &lt;&lt;numberbox &quot;$water&quot; $water&gt;&gt;
-     Storage Pools: &lt;&lt;numberbox &quot;$waterCap&quot; $waterCap&gt;&gt;
+    Water: &lt;br&gt;
+    &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$water&quot; $water&gt;&gt; &lt;br&gt;
+    &amp;nbsp;Storage Pools: &lt;&lt;numberbox &quot;$pool.amount&quot; $pool.amount&gt;&gt; &lt;br&gt;
 
-    Wood:
-     Amount: &lt;&lt;numberbox &quot;$wood&quot; $wood&gt;&gt;
-     Storage Space: &lt;&lt;numberbox &quot;$woodCap&quot; $woodCap&gt;&gt;
+    Buildng Mats: &lt;br&gt;
+    &amp;nbsp;Wood: &lt;br&gt;
+        &amp;nbsp;&amp;nbsp;Amount: &lt;&lt;numberbox &quot;$wood&quot; $wood&gt;&gt; &lt;br&gt;
 
-    Stone:
-     Amount: &lt;&lt;numberbox &quot;$stone&quot; $stone&gt;&gt;
-     Storage Space: &lt;&lt;numberbox &quot;$stoneCap&quot; $stoneCap&gt;&gt;
+    &amp;nbsp;Stone: &lt;br&gt;
+        &amp;nbsp;&amp;nbsp;Amount: &lt;&lt;numberbox &quot;$stone&quot; $stone&gt;&gt; &lt;br&gt;
 
-&lt;&lt;link &quot;Go&quot;&gt;&gt;
-    &lt;&lt;set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))&gt;&gt;
-    &lt;&lt;if $shelter.ruts.free &lt; ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $home = $shelter.ruts.free&gt;&gt;
-    &lt;&lt;else&gt;&gt;
-        
-    &lt;&lt;/if&gt;&gt;
-    &lt;&lt;run Engine.show()&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+    &amp;nbsp;Wood &amp; Stone Dug-outs: &lt;&lt;numberbox &quot;$dugOut.amount&quot; $dugOut.amount&gt;&gt; &lt;br&gt; &lt;br&gt;
+
+
 &lt;h2&gt;Buildings&lt;/h2&gt;
-    Ruts: &lt;&lt;numberbox &quot;$shelter.ruts.amount&quot; $shelter.ruts.amount&gt;&gt;
+    Shelters work a bit differently to other buildings. The amount in the number box is basically saying &quot;build this many more&quot;. I haven&#39;t implemented removing shelters yet – I&#39;m a little bit foolish – so just use this to build more, never less. &lt;br&gt;
+    &lt;&lt;set _rutAmount = 0&gt;&gt;
+    Ruts: &lt;&lt;numberbox &quot;_rutAmount&quot; _rutAmount&gt;&gt; &lt;br&gt;
 
-    Nests: &lt;&lt;numberbox &quot;$nest&quot; $nest&gt;&gt;
+    Nests: &lt;&lt;numberbox &quot;$nest&quot; $nest&gt;&gt; &lt;br&gt; &lt;br&gt;
 
-&lt;&lt;link &quot;Go&quot;&gt;&gt;
-    &lt;&lt;set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))&gt;&gt;
-    &lt;&lt;if $shelter.ruts.free &lt; ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $home = $shelter.ruts.free&gt;&gt;
-    &lt;&lt;/if&gt;&gt;
-    &lt;&lt;run Engine.show()&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+
 &lt;h2&gt;Dragons&lt;/h2&gt;
 &lt;h3&gt;NOTE:&lt;/h3&gt; One click, one thing. I promise it&#39;s working, the screen just won&#39;t reload. Don&#39;t spam this, and DO NOT. &lt;em&gt;DO. NOT.&lt;/em&gt; Add more total eggs / hatchlings than you have eggspace.
-Gimme an:
+Gimme: &lt;br&gt;
     &lt;&lt;link &quot;Egg&quot;&gt;&gt;
         &lt;&lt;eggmaker&gt;&gt;
-    &lt;&lt;/link&gt;&gt;
+    &lt;&lt;/link&gt;&gt; | 
     &lt;&lt;link &quot;Hatchling&quot;&gt;&gt;
         &lt;&lt;hatchmaker&gt;&gt;
-    &lt;&lt;/link&gt;&gt;
+    &lt;&lt;/link&gt;&gt; | 
     &lt;&lt;link &quot;Dragon&quot;&gt;&gt;
         &lt;&lt;dragonmaker&gt;&gt;
-    &lt;&lt;/link&gt;&gt;
+    &lt;&lt;/link&gt;&gt; &lt;br&gt; &lt;br&gt;
 
 &lt;&lt;link &quot;Go&quot;&gt;&gt;
     &lt;&lt;set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))&gt;&gt;
-    &lt;&lt;if $shelter.ruts.free &lt; ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)&gt;&gt;
-        &lt;&lt;set $home = $shelter.ruts.free&gt;&gt;
-    &lt;&lt;/if&gt;&gt;
-    &lt;&lt;run Engine.show()&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+    &lt;&lt;for _i to 0; _i lt _rutAmount; _i++&gt;&gt;
+        &lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
+	    &lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
+	    &lt;&lt;set $home = ($shelter.ruts.free - 1)&gt;&gt;
+    &lt;&lt;/for&gt;&gt;
+    &lt;&lt;set $waterCap = ($pool.amount * $pool.storage)&gt;&gt;
+    &lt;&lt;set $foodCap = ($cavern.amount * $cavern.storage)&gt;&gt;
+    &lt;&lt;set $woodCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
+	&lt;&lt;set $stoneCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
+&lt;&lt;/link&gt;&gt; | 
 
-[[Back|Sandbox Central]]</tw-passagedata><tw-passagedata pid="2" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
+[[Back|Sandbox Central]]
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
 
 		/* Getting the player set up... */
@@ -1873,7 +1867,7 @@ If you&#39;re ready, [[click here|Sandbox Central]] to officially start your thu
 		&lt;&lt;if $stone &gt;= 5&gt;&gt;&lt;&lt;button &quot;Build&quot;&gt;&gt;
 				&lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
 				&lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
-				&lt;&lt;set $home = (($shelter.ruts.amount * $shelter.ruts.free) - $pop)&gt;&gt;
+				&lt;&lt;set $home = ($shelter.ruts.free - 1)&gt;&gt;
 				&lt;&lt;set $stone -= 5&gt;&gt;
 				&lt;&lt;run Engine.show()&gt;&gt;
 		&lt;&lt;/button&gt;&gt;
