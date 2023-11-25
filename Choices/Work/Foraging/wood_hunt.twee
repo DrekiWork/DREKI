@@ -40,7 +40,7 @@
 			<<set $wood = $woodCap>>
 		<</if>>
 		<<if _scene == 0>>
-			As you glide around your territory, you spy an immediately interesting object: an overturned caravan. To your disappointment, there's nothing truly worth taking - maybe you've been here before? It's difficult to recall - but you decide to take apart the frame this time. Thre isn't much, but it gives you <<print _collect>> pieces of nicely carved wood to use. <br> <br>
+			As you glide around your territory, you spy an immediately interesting object: an overturned caravan. To your disappointment, there's nothing truly worth taking - maybe you've been here before? It's difficult to recall - but you decide to take apart the frame this time. There isn't much, but it gives you <<print _collect>> pieces of nicely carved wood to use. <br> <br>
 		<<elseif _scene == 1>>
 			It's a little frustrating, but all you manage to find that's worth taking back are a cluster of trees that are barely more than saplings. Even worse, they are difficult to tear out of the earth; all that effort, and only <<print _collect>> wood to show for it. <br> <br>
 		<<else>>
@@ -56,4 +56,3 @@
 	It's time to [[go home.|Sandbox Central]]
 <</if>>
 <</nobr>>
-

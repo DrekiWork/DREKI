@@ -6,9 +6,9 @@
     <</silently>>
 There are <<print _join>> dragons at the edge of your home. Their scales are flaking, and their eyes sunken in; if they are spies or have another thunder to call home, they are far from well cared for. One of them steps hesitantly forward. <br> <br>
 
-        "Are you the <<print $player.title>>?" They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. "I - <em>we</em> - apologize for the intrusion, <<print $player.title>>. We mean no harm, but... We have lost our home colony. We beg shelter of you, <<print $player.title>>. We will work. Please." <br> <br>
+        "Are you the <<print $player.title>>?" They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. "I – <em>we</em> – apologize for the intrusion, <<print $player.title>>. We mean no harm, but... We have lost our home colony. We beg shelter of you, <<print $player.title>>. We will work. Please." <br> <br>
         
-        You scrutinize the dragons. All told, your thefts might have made you enemies - had you been caught. Without that, there is no reason for another colony to attack you.  <br> <br> <br>
+        You scrutinize the dragons. All told, your thefts might have made you enemies – had you been caught. Without that, there is no reason for another colony to attack you.  <br> <br> <br>
 
         <span id="choices"><<link "Take them in.">><<replace "#choices">>
         You tip your head silently. That is all the confirmation they need; the leader of the group rises slowly. You inform them of where they will be sleeping, and that you will address their food and work tomorrow; it is too late to be bothered with such things. They trip over themselves to express their gratitude, which you wave away easily. <br> <br>
@@ -61,7 +61,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
         <</link>> <br>
         
         <br><<link "Send them away.">><<replace "#choices">>
-            You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Still, [[they hurry from your home.|Sandbox Central]] <</replace>> <</link>> </span>
+            You dismiss them. The leader tenses, pupils blowing with worry, but you do not move to attack. Instead, you point them in the direction of a different colony that may have room for them. The leader thanks you profusely for your kindness, even as [[they hurry from your home.|Sandbox Central]] <</replace>> <</link>> </span>
     <</nobr>>
 
 
@@ -80,11 +80,13 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 <<if $egg >= 2>>
     It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision. <<nobr>>
         <<if $hatchling >= 2>>
-            The hatchlings are chirping in terror, bundled in a corner, 
+            The hatchlings are chirping in terror, bundled in a corner, as a
         <<elseif $hatchling == 1>>
-            Your hatchling trembles in a corner, chirping with terror, 
+            Your hatchling trembles in a corner, chirping with terror, as a
+        <<else>>
+            A
         <</if>>
-    <</nobr>>as a dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!
+    <</nobr>> dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!
 
         <<if _adult >= 1>>
             Your battle cries draw the attention of your thunder over; the thief - hearing reinforcements arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above.

@@ -1,10 +1,10 @@
 :: Egg theft [WIP] {"position":"875,675","size":"100,100"}
-There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.
+There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point. <<nobr>>
 
 <<silently>>
 	<<set $theft++>>
 	<<set $player.action-->>
-	<<set _space to ($eggSpace - $egg)>>
+	<<set _space to ($eggSpace - $eggs)>>
 	<<if _space > 3>>
 		<<set _space = 3>>
 	<<else>>
@@ -15,20 +15,22 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 <<switch _thief>>
 
 	<<case 0 1>>
-		As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials.
-		... You can't do this, can you?
-		You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
+			As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br> <br>
+
+			... You can't do this, can you? <br> <br>
+
+			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
-		
-	<<case 2 3 4>><<nobr>>
+	<<case 2 3 4>>
 		<<eggmaker>>
-		<</nobr>>You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children.
-		<<if $egg < $eggSpace>>
-			As you're about to leave, however, you pause and look back at the unattended nursery.
+		
+		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children. <br> <br>
+		<<if $eggs < $eggSpace>>
+			As you're about to leave, however, you pause and look back at the unattended nursery. <br> <br>
 
 			You could take more. <<linkreplace "Do you?">> <<if _space >= 2>> <<set _space = 2>><</if>>
 			
-			You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<link "more.">><<nobr>>
+			You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<link "more.">> <br> <br>
 					<<if _take == 0>>
 						... Your grip tightens on your egg. You've taken enough risk without adding an egg they <em>want</em> to your crime. You leave the nursery, [[wrought with mixed feelings.|Nursery]]
 					<<elseif _take == 1>>
@@ -36,10 +38,9 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 					<<else>>
 						You pull two more eggs into your arms, and feel a happy weight settle in your chest. The urge to take more grows, but you cannot safely carry them - so instead you satisfy yourself by nuzzling one of the remainder, and leaving before you attempt it. These three will be warm and loved [[in your home.|Nursery]]
 					<</if>>
-				<</nobr>>
 			<</link>>
 			<</linkreplace>>
-		<<if $egg == $eggSpace>>
+		<<if $eggs == $eggSpace>>
 			You settle your egg in its new nest, chirping and purring at them to familiarize the hatchling within with your voice. You don't have room for any more, you note; your nursery is, for its current capacity, perfectly full. The idea warms your hearts, [[burning away any guilt over your theft as you continue to speak.|Nursery]]
 		<<else>>
 			You place the egg delicately in their new home; churring and clicking at them all the while. There's room for more, you note. But for today, [[you are perfectly happy with your new treasure.|Nursery]]
@@ -47,10 +48,9 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<</if>>
 			
 			
-	<<case 5 6 7>><<nobr>>
-	<</nobr>>
-		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose.
-		With trembling claws, you claim <<numberinput "_take" 2 1 3>> <<linkappend "for your own.">>
+	<<case 5 6 7>>
+		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose. <br> <br>
+		With trembling claws, you claim <<numberinput "_take" 2 1 3>> <<linkappend "for your own.">> <br> <br>
 		As you disappear from sight of the nursery, to glide towards your own home - you see no more than a dozen dragons take flight to search for the thief. For you.
 		You avert your eyes and continue home. [[None of them have seen you, after all.|Nursery]]
 		<<silently>>
@@ -61,7 +61,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 
 	
 	<<case 8 9>>
-		You creep into the rival colony's nursery, claws light and wings pressed close against your sides. Your breath comes light and slow, though your hearts pound ferociously. You are alone, and unheard. <<nobr>>
+		You creep into the rival colony's nursery, claws light and wings pressed close against your sides. Your breath comes light and slow, though your hearts pound ferociously. You are alone, and unheard. <br> <br>
 			<span id="choices">Though the urge to take as many as you can is strong, you hesitate with your claws poised over a nest of three. <br> <br>
 
 			Ultimately, you are stealing children; how many you can safely carry and take care of is of utmost importance. After a moment of stillness, you decide to take <<numberinput "_take" 1 0 _space>> <<linkreplace "of them.">>
@@ -79,12 +79,11 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 						You carefully pick up <<print _take>> eggs and creep out, feeling distinctly pleased with yourself. <<print _take>> new little ones. When you return, you arrange them carefully in their new nest, [[chirring all the while.|Nursery]]
 						<<for _i to 0; _i < _take; _i++>>
 								<<eggmaker>>
-							<</for>>
+						<</for>>
 					<</if>>
 				<</replace>>
-			<</linkreplace>></span>
-		<</nobr>>
+			<</linkreplace>>
+		</span>	
 	
-	
-<</switch>>
-
+	<</switch>>
+<</nobr>>
