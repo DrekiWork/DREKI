@@ -1,67 +1,60 @@
 :: BugTest
-
+<<nobr>>
+Select "Go" at bottom of page after making decisions, especially if having built anything. That's the only way the game will remember and properly change your shit. DO NOT IGNORE IT.
 /* Note to self: Change Resource + shelter code to fix it because it's multiplying in ways it ABSOLUTELY shouldn't. */
 
 <h2>Resources</h2>
-    Food:
-     Amount: <<numberbox "$food" $food>>
-     Storage Caverns: <<numberbox "$foodCap" $foodCap>>
+    Food: <br>
+    &nbsp;Amount: <<numberbox "$food" $food>> <br>
+    &nbsp;Storage Caverns: <<numberbox "$cavern.amount" $cavern.amount>> <br>
 
-    Water:
-     Amount: <<numberbox "$water" $water>>
-     Storage Pools: <<numberbox "$waterCap" $waterCap>>
+    Water: <br>
+    &nbsp;Amount: <<numberbox "$water" $water>> <br>
+    &nbsp;Storage Pools: <<numberbox "$pool.amount" $pool.amount>> <br>
 
-    Wood:
-     Amount: <<numberbox "$wood" $wood>>
-     Storage Space: <<numberbox "$woodCap" $woodCap>>
+    Buildng Mats: <br>
+    &nbsp;Wood: <br>
+        &nbsp;&nbsp;Amount: <<numberbox "$wood" $wood>> <br>
 
-    Stone:
-     Amount: <<numberbox "$stone" $stone>>
-     Storage Space: <<numberbox "$stoneCap" $stoneCap>>
+    &nbsp;Stone: <br>
+        &nbsp;&nbsp;Amount: <<numberbox "$stone" $stone>> <br>
 
-<<link "Go">>
-    <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
-    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
-        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
-        <<set $home = $shelter.ruts.free>>
-    <<else>>
-        
-    <</if>>
-    <<run Engine.show()>>
-<</link>>
+    &nbsp;Wood & Stone Dug-outs: <<numberbox "$dugOut.amount" $dugOut.amount>> <br> <br>
+
+
 <h2>Buildings</h2>
-    Ruts: <<numberbox "$shelter.ruts.amount" $shelter.ruts.amount>>
+    Shelters work a bit differently to other buildings. The amount in the number box is basically saying "build this many more". I haven't implemented removing shelters yet – I'm a little bit foolish – so just use this to build more, never less. <br>
+    <<set _rutAmount = 0>>
+    Ruts: <<numberbox "_rutAmount" _rutAmount>> <br>
 
-    Nests: <<numberbox "$nest" $nest>>
+    Nests: <<numberbox "$nest" $nest>> <br> <br>
 
-<<link "Go">>
-    <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
-    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
-        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
-        <<set $home = $shelter.ruts.free>>
-    <</if>>
-    <<run Engine.show()>>
-<</link>>
+
 <h2>Dragons</h2>
 <h3>NOTE:</h3> One click, one thing. I promise it's working, the screen just won't reload. Don't spam this, and DO NOT. <em>DO. NOT.</em> Add more total eggs / hatchlings than you have eggspace.
-Gimme an:
+Gimme: <br>
     <<link "Egg">>
         <<eggmaker>>
-    <</link>>
+    <</link>> | 
     <<link "Hatchling">>
         <<hatchmaker>>
-    <</link>>
+    <</link>> | 
     <<link "Dragon">>
         <<dragonmaker>>
-    <</link>>
+    <</link>> <br> <br>
 
 <<link "Go">>
     <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
-    <<if $shelter.ruts.free < ($shelter.ruts.amount - $dragons.length)>>
-        <<set $shelter.ruts.free += ($shelter.ruts.amount - $dragons.length)>>
-        <<set $home = $shelter.ruts.free>>
-    <</if>>
-    <<run Engine.show()>>
-<</link>>
+    <<for _i to 0; _i lt _rutAmount; _i++>>
+        <<set $shelter.ruts.amount += 1>>
+	    <<set $shelter.ruts.free += 1>>
+	    <<set $home = ($shelter.ruts.free - 1)>>
+    <</for>>
+    <<set $waterCap = ($pool.amount * $pool.storage)>>
+    <<set $foodCap = ($cavern.amount * $cavern.storage)>>
+    <<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
+	<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+<</link>> | 
 
 [[Back|Sandbox Central]]
+<</nobr>>
