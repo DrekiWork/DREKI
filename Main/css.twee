@@ -1,5 +1,9 @@
 :: Story Stylesheet [stylesheet]
 
+#dragonList {
+	border: 0px, 2px;
+}
+
 /*! <<numberpool>> macro set for SugarCube v2 */
 div[id|="numberinput-body"] {
 	display: inline-block;

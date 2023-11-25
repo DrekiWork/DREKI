@@ -1,8 +1,8 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
-Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have <<nobr>>
+<<nobr>>Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easily access to your food and water stores. Presently, you have
 	
 	<<set $eggSpace to ($nest * 3)>>
-	<<set $eggSpace to ($eggSpace - $egg)>>
+	<<set $eggSpace to ($eggSpace - ($eggs.length + $hatchlings.length))>>
 	
 	<<if $nest gte 2 || $nest is 0>>
 		<<print $nest>> nests 
@@ -20,27 +20,26 @@ Your Nursery is carved in the very back of your storage cavern; warm and protect
 		<</if>>
 			Currently, you have 
 	
-	<<if $egg gte 2 || $egg is 0>>
-		<<print $egg>> eggs and 
-	<<elseif $egg == 1>>one egg and 
+	<<if $eggs.length gte 2 || $eggs.length is 0>>
+		<<print $eggs.length>> eggs and 
+	<<elseif $eggs.length == 1>>one egg and 
 	<</if>>
 	
-	<<if $hatchling gte 2 || $hatchling == 0>>
-		<<print $hatchling>> hatchlings. 
-	<<elseif $hatchling == 1>>
+	<<if $hatchlings.length >= 2 || $hatchlings.length == 0>>
+		<<print $hatchlings.length>> hatchlings. 
+	<<elseif $hatchlings.length == 1>>
 		one hatchling.
 	<</if>>
-	
-<</nobr>>
-<<nobr>>
-	<<if $egg >= $hatchling && $hatchling >= 2>>The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
-	<<elseif $hatchling >= $egg && $egg >= 2>>The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
-	<<elseif $egg >= 2 && $hatchling == 0>>It's warmly quiet with only eggs in here. You take a moment to rest with them.
-	<<elseif $egg == 1 && $hatchling >= 2>>Your egg has been moved out of the way of its hyper siblings.
-	<<elseif $egg == 1 && $hatchling == 1>>You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
-	<<elseif $egg == 1 && $hatchling == 0>>There's a sole egg here. You take a moment to turn it and clean its shell.<<if $eggs[0].time >= 5>> You croon with satisfaction as it rocks under your ministrations.<</if>>
-	<<elseif $hatchling >= 2 && $egg == 0>>The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
-	<<elseif $hatchling == 1 && $egg == 0>>Your lone hatchling perks up as you enter and loudly demands <<linkappend "you entertain them.">> <<set _play to random(3)>>
+
+<br> <br>
+	<<if $eggs.length >= $hatchlings.length && $hatchlings.length >= 2>>The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
+	<<elseif $hatchlings.length >= $eggs.length && $eggs.length >= 2>>The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
+	<<elseif $eggs.length >= 2 && $hatchlings.length == 0>>It's warmly quiet with only eggs in here. You take a moment to rest with them.
+	<<elseif $eggs.length == 1 && $hatchlings.length >= 2>>Your egg has been moved out of the way of its hyper siblings.
+	<<elseif $eggs.length == 1 && $hatchlings.length == 1>>You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
+	<<elseif $eggs.length == 1 && $hatchlings.length == 0>>There's a sole egg here. You take a moment to turn it and clean its shell.<<if $eggs[0].time >= 5>> You croon with satisfaction as it rocks under your ministrations.<</if>>
+	<<elseif $hatchlings.length >= 2 && $eggs.length == 0>>The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
+	<<elseif $hatchlings.length == 1 && $eggs.length == 0>>Your lone hatchling perks up as you enter and loudly demands <<linkappend "you entertain them.">> <<set _play to random(3)>>
 		<<if _play == 0>>
 			The hatchling shrieks with delight as you turn on them, and just as eagerly chases you around when you manage to catch them.
 		<<elseif _play == 1>>
@@ -52,15 +51,13 @@ Your Nursery is carved in the very back of your storage cavern; warm and protect
 		<</if>>
 		<</linkappend>>
 	<<else>>The nursery is empty. You examine its barren nests with a deep sense of sadness.
-	<</if>>
-<</nobr>>
+	<</if>> <br> <br>
 
 <<if $hydraEggTaken == true>>
-	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well.
+	In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. <br> <br>
 <<else>>
 <</if>>
 
-What would you like to do?
-
+What would you like to do? <br>
 [[Go back|Sandbox Central]]
-
+<</nobr>>
