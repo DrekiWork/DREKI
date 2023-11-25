@@ -1,0 +1,15 @@
+:: dragonList
+<<nobr>>
+    <<set _count = 0>>
+    <<for _drg to 0; _drg lt $dragons.length; _drg++>>
+        <<capture _drg>>
+            <<set _count += 1>>
+            <<if _count < 4>>
+                <<link "$dragons[_drg].name">> <<set $int to _drg>> <<goto "Interact">><</link>>, <<print $dragons[_drg].job>> | 
+            <<else>>
+                <<set _count = 0>>
+                <<link "$dragons[_drg].name">> <<set $int to _drg>> <<goto "Interact">><</link>>, <<print $dragons[_drg].job>> |<br>
+            <</if>>
+        <</capture>>
+    <</for>>
+<</nobr>>
