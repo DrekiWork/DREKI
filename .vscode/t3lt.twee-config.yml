@@ -1,0 +1,24 @@
+sugarcube-2:
+  macros:
+    eggmaker:
+      name: eggmaker
+    numberinput:
+      name: numberinput
+    dragonmaker:
+      name: dragonmaker
+    endday:
+      name: endday
+    eggOne:
+      name: eggOne
+    colOne:
+      name: colOne
+    hatchmaker:
+      name: hatchmaker
+    growUp:
+      name: growUp
+    updatebar:
+      name: updatebar
+    hatchDragon:
+      name: hatchDragon
+    wanderDragon:
+      name: wanderDragon

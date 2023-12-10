@@ -67,7 +67,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			Ultimately, you are stealing children; how many you can safely carry and take care of is of utmost importance. After a moment of stillness, you decide to take <<numberinput "_take" 1 0 _space>> <<linkreplace "of them.">>
 				<<replace "#choices">>
 					<<if _take == 0>>
-						... None of the eggs? No, that won't do. You're here, and they have so many - one or two or as many as your claws can carry won't go amiss. You shake your head and take <<numberinput "_take" 1 1 _space>> <<link "of them" [Nursery]>>
+						... None of the eggs? No, that won't do. You're here, and they have so many - one or two or as many as your claws can carry won't go amiss. You shake your head and take <<numberinput "_take" 1 1 _space>> <<link "of them" "Nursery">>
 							<<for _i to 0; _i < _take; _i++>>
 								<<eggmaker>>
 							<</for>>

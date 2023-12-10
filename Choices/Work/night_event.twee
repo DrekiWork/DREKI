@@ -1,4 +1,4 @@
-::Event_Join
+:: Event_Join
 <<nobr>>
     <<silently>>
         <<set _join to random(2, 5)>>
