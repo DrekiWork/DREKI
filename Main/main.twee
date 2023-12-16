@@ -33,7 +33,7 @@ Made by Recila!</sup>
 But this sets up the sidebar for printing stuff. Currently only prints, not formatted. Might start relegating stuff to places like storage, pop tab, etc? Already have a nursery, so...
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. -->
-<<if hasVisited("TutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>> <br> <br>
+<<if hasVisited("tutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>> <br> <br>
 
 Food: <<print $food>> / <<print $foodCap>> <br>
 Water: <<print $water>> / <<print $waterCap>> <br>
@@ -79,7 +79,7 @@ Gold: <<print $gold>> <br> <br>
 	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
 	<li>Dragons can be assigned dens!</li>
 	<li>The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?</li>
-	<li>FAVICON!!! FAVICOOOONNNN</li>
+	<li>FAVICON!!! FAVICOOOONNNN (needs internet connection, though...)</li>
 	<li>Cleaning up the code a bit...</li>
 	<li>Dragons now appear in a grid-adjacent formation in the pop screen! This takes up less space and looks a little nice. Not very, just a little.</li>
 	<li></li></ul>
@@ -87,7 +87,7 @@ Gold: <<print $gold>> <br> <br>
 	''Bugs Patched''
 	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li>
 	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li>
-	<li>Abandoned egg from theft event no longer has a missing </if> tag. Oops!</li>
+	<li>Abandoned egg from theft event no longer has a missing '/if' tag. Oops!</li>
 	<li></li></ul>
 	
 	''Bugs Created''

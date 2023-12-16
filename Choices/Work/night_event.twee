@@ -15,7 +15,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
           
         Once they are more or less settled in, [[you sleep.|Sandbox Central]]
             <<for _i to 0; _i lt _join; _i++>>
-                <<dragonmaker>>
+                <<dragonMaker>>
                 <<set $pop += 1>>
             <</for>>
         <</replace>><</link>> <br>
@@ -30,7 +30,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 
                         The dragons slump in relief - even if they are confused as to why you said you wouldn't take all of them, only to change your mind. Nevertheless, the leader thanks you profusely. You direct them toward their new sleeping area, and [[go to sleep yourself.|Sandbox Central]]
                         <<for _i to 0; _i lt _takeIn; _i++>>
-                          <<dragonmaker>>
+                          <<dragonMaker>>
                            <<set $pop += 1>>
                        <</for>>
                     <<elseif _takeIn < _join && _takeIn > 1>>
@@ -40,14 +40,14 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 
                         Their thanks are unsurprisingly subdued, but you put it out of mind as you [[go home.|Sandbox Central]]
                         <<for _i to 0; _i lt _takeIn; _i++>>
-                          <<dragonmaker>>
+                          <<dragonMaker>>
                            <<set $pop += 1>>
                        <</for>> 
                     <<elseif _takeIn == 1>>
                         You choose to take one of the dragons. <br> <br>
 
                         You indicate the only dragon you'll be taking, and direct them to their new sleeping area. The remainder pull away quietly, and leave without your further direction. You were hoping to tell them where they might find another colony, but... oh well. You watch them for a moment, ensuring they leave, before turning and [[going to get some sleep.|Sandbox Central]]
-                        <<dragonmaker>>
+                        <<dragonMaker>>
                     <<else>>
                         You choose to take none of the dragons. <br> <br>
 

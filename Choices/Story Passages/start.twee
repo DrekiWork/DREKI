@@ -17,9 +17,10 @@ You are a Dragon that has left their colony; sent out with the great honor of fo
 		<<option "Founder">>
 		<<option "Inspirer">>
 		<<option "Leader">>
+		<<option "Liege">>
 		<<option "Monarch">>
 		<<option "Overseer">>
-		<<option "Quing">>
+		<<option "Sovereign">>
 	<</listbox>>
 <</nobr>> to show your intent in creating this colony. Ambitious, of course - survival is harsh, and your travels have drained all your supplies.
 

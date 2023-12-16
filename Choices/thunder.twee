@@ -26,7 +26,7 @@ On mentioning that, you have <<print $shelter.ruts.amount>> ruts built, with <<p
 			<</if>>
 		There's a respectable number of dragons lazing about. You spot <<print $dragons[_a].name>> talking to <<print $dragons[_b].name>>, and feel pleased that they are comfortable enough to talk freely. <br> <br>
 
-		Would you like to interact with someone? Enter the number of your dragon. <<numberinput "$int" "0" 0 _derg>> [[Go|Interact]] <br> <br>
+		Would you like to interact with someone?<br> <br>
 		<<include "dragonList">>
 
 
@@ -42,7 +42,7 @@ On mentioning that, you have <<print $shelter.ruts.amount>> ruts built, with <<p
 			<</if>>
 		<</silently>>
 		There are a few dragons milling about here, such as <<print $dragons[_a].name>> and <<print $dragons[_b].name>>. <br> <br>
-		Would you like to interact with someone? Enter the number of your dragon. <<numberinput "$int" "0" 0 _derg>> [[Go|Interact]] <br>
+		Would you like to interact with someone?<br>
 		<<include "dragonList">>
 		
 	<<elseif $dragons.length == 1>>
@@ -50,7 +50,7 @@ On mentioning that, you have <<print $shelter.ruts.amount>> ruts built, with <<p
 				<<switch $dragons[0].personality>>
 				<<case "Aloof" "Formal">>
 					<<print $dragons[0].name>> tips their head in greeting. You speak with them for a short while, but when it becomes evident that they're just trying to humor you, you dismiss them. Did <<print $dragons[0].name>> always seems so distant...?
-				<<case "Hardworking">>
+				<<case "Hardworking" "Persistent">>
 					You approach <<print $dragons[0].name>>, and talk with them. They're happy for it, though they seem rather fixated on how to help the colony grow. Your hearts squeeze with affection, and when you say your farewells, you feel pleased knowing that your first is so reliable.
 				<<case "Placid" "Quiet">>
 					You greet <<print $dragons[0].name>>, and they nod slowly in reply. As you talk, it becomes evident that they're doing more listening than speaking; you make sure to offer more direct questions from then on, and listen carefully when they decide to answer. When the sun has moved forward, you excuse yourself and give them a fond brush with your wing as you leave.

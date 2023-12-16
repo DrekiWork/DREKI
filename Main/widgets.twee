@@ -1,5 +1,5 @@
 :: Widgets [widget] {"position":"250,0","size":"100,100"}
-<<widget "endday">> <<nobr>>
+<<widget "endDay">> <<nobr>>
 	<<growUp>>
 
 		/* Moves a day forward */
@@ -367,24 +367,26 @@
 	<<nobr>>
 	<<if $pop >= 2 and $firstCol === 0>>
 	<<set $firstCol += 1>><<linkappend "Something has happened...">>
+			<hr>
 			As you're doing your nightly rounds along the colony, you discover your first hatchling - your first egg, your shining-jewel - outside the nursery, watching you solemnly. You tilt your head in silent permission for them to speak. <br> <br>
 			
-			"I think I am ready for work," they say softly. "I am large and strong enough, and have been exploring the edges of the home-grounds. I know what is edible now, and how to navigate - you've taught me well." It sounds so much like a plead. "I wish to work, <<print $title>>. Please." <br> <br>
+			"I think I am ready for work," they say softly. "I am large and strong enough, and have been exploring the edges of the home-grounds. I know what is edible now, and how to navigate - you've taught me well." It sounds so much like a plead. "I wish to work, <<print $player.title>>. Please." <br> <br>
 			
 			You startle at the sound of your title - for all that you have raised them, your heart-of-hearts has referred to you as nothing but the purring-click that all hatchlings call their brooders. Certainly, you told them of who you are - //what// you are. But they never saw cause to address you as such. <br> <br>
 			
 			... They mean it. <br> <br>
 			
-			In respect to the gravity of their request, you assume your mantle of <<print $title>>, and, with quiet authority, inform them to be gone from the nursery by dawn. They will work now. The relief and gratitude in their eyes is painful as they disappear into the nursery - to say goodbye to their younger sibling, you assume. <br> <br>
+			In respect to the gravity of their request, you assume your mantle of <<print $player.title>>, and, with quiet authority, inform them to be gone from the nursery by dawn. They will work now. The relief and gratitude in their eyes is painful as they disappear into the nursery - to say goodbye to their younger sibling, you assume. <br> <br>
 			
 			Your chest feels tight as you continue your evening rounds. Has time really moved so quickly?
+			<hr>
 		<</linkappend>>
 	<</if>>
 <</nobr>>
 <</widget>>
 
 /*Creates an egg with a timer. The time is purely to make sure everyone hatches when they should.*/
-<<widget "eggmaker">>
+<<widget "eggMaker">>
 	<<silently>>
 		<<run $eggs.push( {
 			
@@ -396,7 +398,7 @@
 <</widget>>
 
 /* Creates hatchlings out of eggs. See dragonmaker for more info.*/
-<<widget "hatchmaker">>
+<<widget "hatchMaker">>
 	<<silently>>
 	
 		<<run $hatchlings.push( {
@@ -428,7 +430,7 @@
 	Currently, ages are egg, hatchling, winglet, adult. Winglets aren't implemented yet, and do nothing; only hatchlings and adults matter.
     First job is "slacker", which is a dragon that does nothing.
 */
-<<widget "dragonmaker">>
+<<widget "dragonMaker">>
 
 		<<run $dragons.push( {
 		
@@ -461,10 +463,10 @@
 			} )>>
 <</widget>>
 
-<<widget "updatebar">>
+<<widget "updateBar">>
 	<<silently>>
 		<<replace "#story-caption">>
-			<<display "StoryCaption">>
+			<<include "StoryCaption">>
 		<</replace>>
 	<</silently>>
 <</widget>>

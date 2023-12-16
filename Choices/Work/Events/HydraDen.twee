@@ -354,11 +354,11 @@
 													<<else>>
 													<</if>>
 													You shake your head once, tossing the greed from your mind. It pains you, but survival comes first, always. You can see what it is another time - if you dare to come back at all. <br> <br>
-													You creep forward to the towering mound of rotten flesh, and sink your claws in; it sinks easily, shivering in time with the hydra's slow breaths. It almost seems to be breathing. The idea is unnerving - almost horrifying - but you press onward to the nearest chunk of fresh meat. You dig in slowly, but with purpose. Every bite sinks into your throat pouch, bloating you uncomfortably - but there is so much. <br> <br>
+													You creep forward to the towering mound of rotten flesh, and sink your claws in; it parts easily, shivering in time with the hydra's slow breaths. It almost seems to be breathing itself. The idea is unnerving - almost horrifying - but you press onward to the nearest chunk of fresh meat. You dig in slowly, but with purpose. Every bite sinks into your throat pouch, bloating you uncomfortably - but there is so much. <br> <br>
 													Upon realizing your pouch is full, and that the hydra hasn't moved... you lick your teeth. <br> <br>
 													You leave the cave silently, returning home to drop off your food - then go straight back to the sleeping hydra's lair. Over and over and over again, until your food storage is fit to burst. And then, because you can, you devour some yourself on your last trip. It isn't particularly filling, but you feel... healthy for it. Perhaps from consuming the hydra's scales? <br> <br>
 													You eye some broken strips of the hydra's shed contemplatively, but ultimately ignore it in favor of leaving silently. You've taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. <br> <br>
-													[[You arrive home feeling quite smug.|Sandbox Central]]
+													[["You arrive home feeling quite smug."|Sandbox Central]]
 												<</replace>>
 											<</link>>, 
 											the same will likely happen. What to do...
@@ -375,7 +375,7 @@
 										You linger on this as you fly away, thoughts adrift and the shake never quite disappearing. <br> <br>
 										<<if $player.action >= 1>>
 										<span id="forageChoices">
-											You could [[hunt again|Food]]; look for 
+											You could [["hunt again"|Food]]; look for 
 											<<link "something else">>
 												<<replace "#forageChoices">>
 													[[Water]], [[wood|Wood]], 

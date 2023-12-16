@@ -22,3 +22,13 @@ sugarcube-2:
       name: hatchDragon
     wanderDragon:
       name: wanderDragon
+    dragonMaker:
+      name: dragonMaker
+    hatchMaker:
+      name: hatchMaker
+    eggMaker:
+      name: eggMaker
+    updateBar:
+      name: updateBar
+    endDay:
+      name: endDay

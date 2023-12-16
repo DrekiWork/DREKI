@@ -57,7 +57,7 @@
             <<set $shelter.ruts.amount += 1>>
     	    <<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
     	    <<set $stone -= 5>>
-            <<updatebar>>
+            <<updateBar>>
             You've got a home now! Notice how your Shelter Space is at zero. That means every (adult) colonist, including you, is sheltered. Keep a close eye on that! Sheltered dragons consume less resources than non-sheltered dragons - and dragons are big eaters as it is! If possible, it is <em>always</em> better to shelter your colonists rather than leave them out in the cold. <br> <br>
     
             Of course, building homes isn't the only reason you might need to build. You may need to expand your resource capacity, expand your nursery for eggs, build job stations for colonists, or, later on, build up defenses to protect your thunder. We'll get to those when we get to them, though! <br> <br>

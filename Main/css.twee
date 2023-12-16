@@ -4,6 +4,10 @@
 	border: 0px, 2px;
 }
 
+.hidden {
+	display: none;
+}
+
 /*! <<numberpool>> macro set for SugarCube v2 */
 div[id|="numberinput-body"] {
 	display: inline-block;
