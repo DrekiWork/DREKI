@@ -6,7 +6,7 @@
     <</silently>>
 There are <<print _join>> dragons at the edge of your home. Their scales are flaking, and their eyes sunken in; if they are spies or have another thunder to call home, they are far from well cared for. One of them steps hesitantly forward. <br> <br>
 
-        "Are you the <<print $player.title>>?" They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submision, muzzles grinding against the earth and eyes barely open to watch you. "I – <em>we</em> – apologize for the intrusion, <<print $player.title>>. We mean no harm, but... We have lost our home colony. We beg shelter of you, <<print $player.title>>. We will work. Please." <br> <br>
+        "Are you the <<print $player.title>>?" They ask. There is no demand in their voice, so you demean yourself to nod. The dragons collectively slump to the ground in a show of submission, muzzles grinding against the earth and eyes barely open to watch you. "I – <em>we</em> – apologize for the intrusion, <<print $player.title>>. We mean no harm, but... We have lost our home colony. We beg shelter of you, <<print $player.title>>. We will work. Please." <br> <br>
         
         You scrutinize the dragons. All told, your thefts might have made you enemies – had you been caught. Without that, there is no reason for another colony to attack you.  <br> <br> <br>
 
@@ -30,7 +30,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 
                         The dragons slump in relief - even if they are confused as to why you said you wouldn't take all of them, only to change your mind. Nevertheless, the leader thanks you profusely. You direct them toward their new sleeping area, and [[go to sleep yourself.|Sandbox Central]]
                         <<for _i to 0; _i lt _takeIn; _i++>>
-                          <<dragonMaker>>
+                          <<dragonWanderer>>
                            <<set $pop += 1>>
                        <</for>>
                     <<elseif _takeIn < _join && _takeIn > 1>>
@@ -40,14 +40,14 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
 
                         Their thanks are unsurprisingly subdued, but you put it out of mind as you [[go home.|Sandbox Central]]
                         <<for _i to 0; _i lt _takeIn; _i++>>
-                          <<dragonMaker>>
+                          <<dragonWanderer>>
                            <<set $pop += 1>>
                        <</for>> 
                     <<elseif _takeIn == 1>>
                         You choose to take one of the dragons. <br> <br>
 
                         You indicate the only dragon you'll be taking, and direct them to their new sleeping area. The remainder pull away quietly, and leave without your further direction. You were hoping to tell them where they might find another colony, but... oh well. You watch them for a moment, ensuring they leave, before turning and [[going to get some sleep.|Sandbox Central]]
-                        <<dragonMaker>>
+                        <<dragonWanderer>>
                     <<else>>
                         You choose to take none of the dragons. <br> <br>
 

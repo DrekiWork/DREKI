@@ -7,8 +7,6 @@ You are a dragon in a<<nobr>>
 	<</if>>
 <</nobr>>
 
-[[BugTest]]
-
 It's <<nobr>>
 	<<switch $player.action>>
 	<<case 5>>
@@ -59,13 +57,13 @@ It's <<nobr>>
 			time, 
 		<</if>>
 	and it can hold up to <<print $foodCap>> food. Your colony has stored 
-	<<if $food >= ($pop * 10)>>
+	<<if $food >= ($pop * 12)>>
 		plenty of food to feed your thunder. Still, more can't go amiss...
-	<<elseif $food >= ($pop * 7.5)>>
+	<<elseif $food >= ($pop * 10)>>
 		more than enough food to feed your thunder.
-	<<elseif $food >= ($pop * 5)>>
+	<<elseif $food >= ($pop * 7)>>
 		enough food for a few days.
-	<<elseif $food >= ($pop * 2)>>very little food, but some. Enough for yourself, at least. More is needed.
+	<<elseif $food >= ($pop * 4)>>very little food, but some. Enough for yourself, at least. More is needed.
 	<<elseif $food >= 1>>a truly small amount of food; you need to get more, or send someone else to forage. You'll starve.
 	<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>>
  Lining the edge of your storage cavern 

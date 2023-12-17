@@ -17,7 +17,7 @@
 			<<for _i to 0; _i lt $eggs.length; _i++>>
 				<<set $eggs[_i].time++>>
 				<<if $eggs[_i].time == 7>>
-					<<hatchmaker>>
+					<<hatchMaker>>
 					<<set $hatchling++>>
 					<<set _hatchcheck += 1>>
 					<<set $eggsHatched += 1>>
@@ -266,8 +266,10 @@
 					<<set _mats to random(1,2)>>
 					<<if _mats is 1>>
 						<<set _wood += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
+						<<set $wood += _wood>>
 					<<else>>
 						<<set _stone += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
+						<<set $stone += _stone>>
 					<</if>>
 					<<set _goldluck += (Math.round($dragons[_i].scavxp)) + random(0, 49)>>
 
@@ -415,7 +417,7 @@
 	<<for _i to 0; _i lt $hatchlings.length; _i++>>
 		<<set $hatchlings[_i].time++>>
 		<<if $hatchlings[_i].time == 15>>
-			<<dragonmaker>>
+			<<dragonMaker>>
 			<<run $hatchlings.splice(_i, 1)>>
 			<<set _growcheck += 1>>
 			<<set $pop += 1>>
@@ -461,6 +463,40 @@
 			exile: 0
 			
 			} )>>
+<</widget>>
+
+<<widget "dragonWanderer">>
+
+	<<run $dragons.push( {
+		
+			name: either($dNames),
+			
+			type: "Dragon",
+			
+			personality: either($dPers),
+			
+			age: "Adult",
+			
+			job: "slacker",
+
+			home: "none",
+			
+			foragexp: random(15),
+			
+			rainxp: random(15),
+			
+			scavxp: random(15),
+
+			buildxp: random(15),
+			
+			hunger: 0,
+			
+			thirst: 0,
+
+			exile: 0
+			
+		} )>>
+
 <</widget>>
 
 <<widget "updateBar">>

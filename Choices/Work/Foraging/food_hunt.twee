@@ -2,16 +2,12 @@
 <<nobr>>
 <<silently>>
 	<<set _forage = random(12)>>
-	<<if _forage == 12 && $cycles < 2>>
-		<<set _forage -= random(1, 11)>>
-	<<elseif _forage == 12 && $cycles >= 3>>
-	<<else>>
-	<</if>>
 	<<set _scene = random(2)>>
 	<<set $player.action -= 1>>
 <</silently>>
-	<<if _forage == 12 && $hydraEggTaken == true>>
-		
+	<<if _forage == 12>>
+		<<goto "HydraFoodEvent">>
+	
 	<<elseif _forage >= 8>>
 		<<set _collect = random(12, 15)>>
 		<<set $food += _collect>>

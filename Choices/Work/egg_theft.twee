@@ -10,7 +10,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 	<<else>>
 	<</if>>
 	<<set _take to 0>>
-	<<set _thief to random(0, 9)>>
+	<<set _thief to random(9)>>
 <</silently>>
 <<switch _thief>>
 
@@ -22,29 +22,30 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
 	<<case 2 3 4>>
-		<<eggmaker>>
+		<<eggMaker>>
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children. <br> <br>
-		<<if $eggs < $eggSpace>>
+		<<if $eggs.length < $eggSpace>>
 			As you're about to leave, however, you pause and look back at the unattended nursery. <br> <br>
 
-			You could take more. <<linkreplace "Do you?">> <<if _space >= 2>> <<set _space = 2>><</if>>
+			You could take more. <<linkreplace "Do you?">>
+				<<if _space >= 2>> <<set _space = 2>><</if>>
 			
-			You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<link "more.">> <br> <br>
-					<<if _take == 0>>
+				You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<linkappend "more.">> <br> <br>
+					<<for _i to 0; _i < _take; _i++>>
+						<<eggMaker>>
+					<</for>>
+					<<run console.log(_take)>>
+					<<if _take is 0>>
 						... Your grip tightens on your egg. You've taken enough risk without adding an egg they <em>want</em> to your crime. You leave the nursery, [[wrought with mixed feelings.|Nursery]]
-					<<elseif _take == 1>>
+					<<elseif _take is 1>>
 						You pluck another egg from the nest, assured that they will be raised as siblings - as they should have been. Brood-bonded, if not by blood. The idea pleases you, even as you [[arrange your eggs in their new home.|Nursery]]
 					<<else>>
 						You pull two more eggs into your arms, and feel a happy weight settle in your chest. The urge to take more grows, but you cannot safely carry them - so instead you satisfy yourself by nuzzling one of the remainder, and leaving before you attempt it. These three will be warm and loved [[in your home.|Nursery]]
-					<</if>>
-			<</link>>
+					<</if>> <br><br>
+				<</linkappend>>
 			<</linkreplace>>
-		<<if $eggs == $eggSpace>>
-			You settle your egg in its new nest, chirping and purring at them to familiarize the hatchling within with your voice. You don't have room for any more, you note; your nursery is, for its current capacity, perfectly full. The idea warms your hearts, [[burning away any guilt over your theft as you continue to speak.|Nursery]]
-		<<else>>
-			You place the egg delicately in their new home; churring and clicking at them all the while. There's room for more, you note. But for today, [[you are perfectly happy with your new treasure.|Nursery]]
-		<</if>>
+		
 		<</if>>
 			
 			
@@ -55,7 +56,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		You avert your eyes and continue home. [[None of them have seen you, after all.|Nursery]]
 		<<silently>>
 			<<for _i to 0; _i < _take; _i++>>
-				<<eggmaker>>
+				<<eggMaker>>
 			<</for>>
 		<</silently>><</linkappend>>
 
@@ -69,16 +70,16 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 					<<if _take == 0>>
 						... None of the eggs? No, that won't do. You're here, and they have so many - one or two or as many as your claws can carry won't go amiss. You shake your head and take <<numberinput "_take" 1 1 _space>> <<link "of them" "Nursery">>
 							<<for _i to 0; _i < _take; _i++>>
-								<<eggmaker>>
+								<<eggMaker>>
 							<</for>>
 						<</link>>
 					<<elseif _take == 1>>
-						<<eggmaker>>
+						<<eggMaker>>
 						Despite the greed tugging at your hearts, you restrain yourself and only take one - and it is for the better, as you hear someone pushing into the nursery. You throw yourself at them and fly, harder and faster than you thought you could. They don't follow for long - and though you scorn them for such pathetic dedication to their most vulnerable, you can't help but be grateful as you arrive home, [[safe and sound.|Nursery]]
 					<<else>>
 						You carefully pick up <<print _take>> eggs and creep out, feeling distinctly pleased with yourself. <<print _take>> new little ones. When you return, you arrange them carefully in their new nest, [[chirring all the while.|Nursery]]
 						<<for _i to 0; _i < _take; _i++>>
-								<<eggmaker>>
+								<<eggMaker>>
 						<</for>>
 					<</if>>
 				<</replace>>
