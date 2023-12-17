@@ -8,7 +8,7 @@
 		action : 5,
 		health : 10
 	}>>
-		<<set $ghunt = false>>
+	<<set $ghunt = false>>
 	
 		/* Number of eggs & how 'old' the eggs are; only keeps track of one of at a time! $theft keeps track of if you've stolen today. */
 	<<set $eggsHatched to 0>>
@@ -27,6 +27,11 @@
 	<<set $hatchlings to []>>
 	<<set $winglets to []>>
 	<<set $dragons to []>>
+
+		/* Setting up for various little details,,, like exiled / dehydrated / starved dragons deciding to come back, or keeping prisoners... */
+
+	<<set $goneDragons to []>>
+	<<set $prisoners to []>>
 	
 		/* Population count! */
 	<<set $pop to 1>>
@@ -39,7 +44,7 @@
 	<<set $stone to 0>>
 
 		/* Set up for types of resource storage, and the resource cap... Pool is water, deep cave is food, Dug-out is wood, possibly stone.  */
-	/* <<set $storage to {}>> -- for later pondering on if I want to make the storage one single unit. We'll see. */
+		/* <<set $storage to {}>> -- for later pondering on if I want to make the storage one single unit. We'll see. */
 	<<set $pool to { amount : 1, storage : 30}>>
 	<<set $waterCap to ($pool.amount * $pool.storage)>>
 	<<set $cavern to { amount : 1, storage : 30}>>
@@ -61,10 +66,19 @@
 	<<set $shelter.ruts to { 
 		amount : 0,
 		shelter : 1,
+		priceS : 5,
 		occupied: 0,
 		free : 0
 		}>>
-    <<set $home to (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
+	<<set $shelter.setts to {
+		amount : 0,
+		shelter : 1,
+		priceS : 5,	
+		priceW : 2,
+		free : 0,
+		occupied : 0
+	}>>
+    <<set $home = ($shelter.ruts.free + $shelter.setts.free)>>
 		
 		/* How many days you've been here, and how many moon cycles! */
 	<<set $days to 1>>
@@ -72,13 +86,57 @@
 	
 		/* Setting up potential dragon names, personalities, etc... */
 	
-	<<set $dNames to ["Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", "Baeliru", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", "Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", "Damon", "Darius", "Delbin", "Devlin", "Drobit", "Eirlys", "Eleri", "Ember", "Enzo", "Eivias", "Flame", "Flavius", "Fonsworthy", "Galadriel", "Gavin", "Gildas", "Gildor", "Grigori", "Gwyneth", "Gunnar", "Halen", "Halvor", "Haldor", "Hexus", "Helgi", "Iola", "Isaak", "Ilmarinen", "Ivor", "Jaren", "Jarvis", "Jed", "Jormungandr", "Kael", "Kasiya", "Kosoko", "Laird", "Lateef", "Legna", "Lindar", "Liraz", "Lirien", "Lutalo", "Magnus", "Malefor", "Maximos", "Mazi", "Nestor", "Nevin", "Nils", "Obasi", "Odahviing", "Oswin", "Paarthurnax", "Pyra", "Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", "Sadiki", "Sif", "Skipper", "Smaug", "Spry", "Spyro", "Seren", "Sunburn", "Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Ulric", "Unika", "Ullr", "Urgost", "Useni", "Valen", "Varalys", "Varda", "Vathek", "Volteer", "Woden", "Wren", "Yara", "Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"]>>
+	<<set $dNames to [
+		"Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
+		"Baeliru", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", 
+		"Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", 
+		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
+		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
+		"Flame", "Flavius", "Fonsworthy", 
+		"Galadriel", "Gavin", "Gildas", "Gildor", "Grigori", "Gwyneth", "Gunnar", 
+		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
+		"Iola", "Isaak", "Ilmarinen", "Ivor", 
+		"Jaren", "Jarvis", "Jed", "Jormungandr", 
+		"Kael", "Kasiya", "Kosoko", 
+		"Laird", "Lateef", "Legna", "Lindar", "Liraz", "Lirien", "Lutalo", 
+		"Magnus", "Malefor", "Maximos", "Mazi", 
+		"Nestor", "Nevin", "Nils", 
+		"Obasi", "Odahviing", "Oswin", 
+		"Paarthurnax", "Pyra", 
+		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
+		"Sadiki", "Sif", "Skipper", "Smaug", "Spry", "Spyro", "Seren", "Sunburn", 
+		"Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", 
+		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
+		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
+		"Woden", "Wren", 
+		"Yara", 
+		"Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"
+	]>>
 	
-	<<set $dPers to ["Absentminded", "Abrasive", "Aloof", "Ambitious", "Caring", "Chatty", "Clever", "Confident", "Creative", "Curiosity", "Dependable", "Emotional", "Energetic", "Formal", "Friendly", "Generous", "Gentle", "Greedy", "Hardworking", "Impatient", "Independent", "Insecure", "Intelligent", "Lax", "Lazy", "Loyal", "Mellow", "Moody", "Nervous", "Organized", "Patient", "Persistent", "Placid", "Practical", "Quiet", "Rational", "Resourceful", "Responsible", "Selfish", "Selfless", "Sensitive", "Skeptical", "Spontaneous", "Thoughtful", "Tolerant", "Whimsical", "Witty"]>>
+	<<set $dPers to [
+		"Absentminded", "Abrasive", "Aloof", "Ambitious", 
+		"Caring", "Chatty", "Clever", "Confident", "Creative", "Curious", 
+		"Dependable", 
+		"Emotional", "Energetic", 
+		"Formal", "Friendly", 
+		"Generous", "Gentle", "Greedy", 
+		"Hardworking", 
+		"Impatient", "Independent", "Insecure", "Intelligent", 
+		"Lax", "Lazy", "Loyal", 
+		"Mellow", "Moody", 
+		"Nervous", 
+		"Organized", 
+		"Patient", "Persistent", "Placid", "Practical", 
+		"Quiet", 
+		"Rational", "Resourceful", "Responsible", 
+		"Selfish", "Selfless", "Sensitive", "Skeptical", "Spontaneous", 
+		"Thoughtful", "Tolerant", 
+		"Whimsical", "Witty"
+	]>>
 	
-	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult"]>>
+	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult", "Elder"]>>
 	
-	<<set $dJobs to ["hatchling", "slacker", "forager", "rainier", "builder", "scavenger", "salvager"]>>
+	<<set $dJobs to ["slacker", "forager", "rainier", "builder", "scavenger", "salvager"]>>
 
 		/* Setting up some flags... oh boy, flags! */
 

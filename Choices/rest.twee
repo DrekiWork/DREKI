@@ -1,39 +1,61 @@
 :: Rest [WIP] {"position":"1075,550","size":"100,100"}
-The end of the day is approaching.<<nobr>>
+The end of the day is approaching.<<nobr>> <br> <br>
+
 
 	<<set _exiled = []>>
-	<<for _i to 0; _i < $dragons.length; _i++>>
-		<<if $dragons[_i].exile == true>>
-			<<run _exiled.push($dragons[_i].name)>>
-		<<else>>
-		<</if>>
-	<</for>>
-	<<set $pop = $dragons.length>>
-	<<if _exiled.length > 2>>
-	<br> <br>
-		<<for _e to 0; _e > _exiled.length; _e++>>
-			<<if _e > (_exiled.length - 2)>>
-				<<print _exiled[_e]>>,
+		<<for _i to 0; _i < $dragons.length; _i++>>
+			<<if $dragons[_i].left == "exile">>
+				<<run _exiled.push($dragons[_i].name)>>
+				<<run console.log(_exiled)>>
+				<<run console.log("here1")>>
+				<<set _rejoin = random(0, 10)>>
+				<<if _rejoin >= 8>>
+					<<set $dragons[_i].left == "stay">>
+					<<set $dragons[_i].origin == "exiled">>
+					<<run $goneDragons.push(clone($dragons[_i]))>>
+				<<else>>
+				<</if>>
+				<<run console.log("goneDragons" + $goneDragons)>>
+				<<if $dragons[_i].home !== "none">>
+					<<switch $dragons[_i].home>>
+						<<case "rut">>
+							<<set $shelters.ruts.free += 1>>
+							<<set $shelters.ruts.occupied -= 1>>
+						<<case "sett">>
+							<<set $shelters.setts.free += 1>>
+							<<set $shelters.setts.occupied -= 1>>
+					<</switch>>
+				<<else>>
+				<</if>>
 			<<else>>
-				and <<print _exiled[_e]>>
+			<</if>>
+			<<run $dragons.splice(_i, 1)>>
+		<</for>>
+		<<set $pop = ($dragons.length + 1)>>
+
+		<<run console.log("here2")>>
+	<<if _exiled.length >= 3>>
+		<<for _i to 0; _i < (_exiled.length); _i++>>
+			<<run console.log("hereLoop")>>
+			<<if _i <= (_exiled.length - 2)>>
+				<<print _exiled[_i]>>, 
+			<<else>>
+				and <<print _exiled[_i]>> 
 			<</if>>
 		<</for>>
-		group together and leave your camp quietly, never to return.
+		group together and leave your camp quietly, never to return.<br><br>
 	<<elseif _exiled.length == 2>>
-	<br> <br>
-		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your camp quietly, never to return.
+		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your camp quietly, never to return.<br><br>
 	<<elseif _exiled.length == 1>>
-	<br> <br>
-		<<print _exiled[0]>> leaves your camp quietly, never to return.
+		<<print _exiled>> leaves your camp quietly, never to return.<br><br>
 	<</if>>
-	<<set $dragons = $dragons.filter(
-		dragon => dragon.exile < 1
-	)>>
-<<endDay>>
-<<eggOne>>
-<<colOne>>
+	
+	<<endDay>>
+	<<eggOne>>
+	<<colOne>>
+	
 	<<if _forcount >= 2>>
-		<br> <br> Your <<print _forcount>> foragers come home with <<print _food>> food.
+		Your <<print _forcount>> foragers come home with <<print _food>> food.
 	<<elseif _forcount == 1>>
 		Your lone forager drops off some food.
 	<<else>>
@@ -67,25 +89,39 @@ The end of the day is approaching.<<nobr>>
 	<<else>>
 
 	<</if>>
+
+	<<if $hatchlings.length > 1>>
+		<<if _hatchFood > 0 && _hatchWater > 0>>
+			Your hatchlings present you with <<print _hatchFood>> food and <<print _hatchWater>> water that they found. How sweet!
+		<<elseif _hatchfood > 0 && _hatchWater == 0>>
+			Your hatchlings present you with <<print _hatchFood>> food that they found. How sweet!
+		<<elseif _hatchfood == 0 && _hatchWater > 0>>
+			Your hatchlings present you with <<print _hatchWater>> water that they found. How sweet!
+		<</if>>
+	<<elseif $hatchlings.length == 1>>
+		<<if _hatchFood > 0>>
+			Your hatchling presents you with <<print _hatchFood>> food that they found today. How sweet!
+		<</if>>
+		<<if _hatchWater > 0>>
+			Your hatchling presents you with <<print _hatchWater>> water that they found today. How sweet!
+		<</if>>
+	<<else>>
+		
+	<</if>>
  <br> <br>
 
-		<<if _hatchcheck gte 2 && _growcheck gte 2>>
-			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery, and <<print $growcheck>> hatchlings grew up and left the Nursery.<br> <br>
-		<<elseif _hatchcheck gte 2 && _growcheck is 1>>
-			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery, and a hatchling has grown up and left the Nursery.<br> <br>
-		<<elseif _hatchcheck gte 2 && _growcheck is 0>>
-			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery.<br> <br>
-		<<elseif _hatchcheck is 1 && _growcheck gte 2>>
-			 <br> <br>An egg has hatched, and <<print _growcheck>> hatchlings have grown up and left the Nursery.<br> <br>
-		<<elseif _hatchcheck is 1 && _growcheck is 1>>
-			 <br> <br>An egg has hatched in the Nursery, and a hatchling has grown up and left the Nursery.<br> <br>
-		<<elseif _hatchcheck is 1 && _growcheck is 0>>
-			 <br> <br>An egg has hatched in the Nursery.<br> <br>
-		<<elseif _hatchcheck is 0 & _growcheck gte 2>>
-			 <br> <br><<print _growcheck>> hatchlings have grown up and left the Nursery.<br> <br>
-		<<elseif _hatchcheck is 0 && _growcheck is 1>>
-			 <br> <br>A hatchling has grown up and left the Nursery.<br> <br>
+		<<if _hatchcheck >= 2>>
+			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery.
+		<<elseif _hatchcheck == 1>>
+			 <br> <br>An egg has hatched.
 		<<else>>
+		<</if>>
+		<<if _growcheck >= 2>>
+			<<print _growcheck>> hatchlings have grown up.<br><br>
+		<<elseif _growcheck == 1>>
+			A hatchling has grown up.<br><br>
+		<<else>>
+			<br><br>
 		<</if>>
 
 	<<if $player.health <= 0>>
@@ -93,7 +129,7 @@ The end of the day is approaching.<<nobr>>
 	<<else>>
 	<<if _pcHungry == true && _pcThirsty == true>>
 		<<set _remaining = ($player.health / 2)>>
-		Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating.
+		Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
 	<<elseif _pcHungry == true && _pcThirsty == false>>
 		Your stomach rumbles quietly. You didn't get to eat today, but you did have 4 water.
 	<<elseif _pcHungry == false && _pcThirsty == true>>
@@ -103,42 +139,47 @@ The end of the day is approaching.<<nobr>>
 	<</if>>
 
 	<<if $dragons.length == 0>>
-	<<if $hatchlings.length > 1>>
-		Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.
-	<<elseif $hatchlings.length == 1>>
-		Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.
-	<</if>>
+		<<if $hatchlings.length > 1>>
+			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.
+		<<elseif $hatchlings.length == 1>>
+			Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.
+		<<else>>
+		<</if>>
 	<<else>>
 
-	<<if $hatchlings.length > 0>>
-		Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water, and your
-	<<else>>
-		Your
+		<<if $hatchlings.length > 1>>
+			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water, and your
+		<<elseif $hatchlings.length == 1>>
+			Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water, and your
+		<<else>>
+			Your
+		<</if>>
+
+		<<if $shelter.ruts.amount >= ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+			colony eats <<print _eat>> food, and drinks <<print _drink>> water.
+		<<elseif $shelter.ruts.amount < ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+			colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
+		<</if>>
+		<<if _unfed gte 2 && _nowater gte 2>>
+			However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+		<<elseif _unfed gte 2 && _nowater == 1>>
+			However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.
+		<<elseif _unfed gte 2 && _nowater == 0>>
+			However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.
+		<<elseif _unfed == 1 && _nowater == 0>>
+			However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.
+		<<elseif _unfed == 1 && _nowater gte 2>>
+			However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+		<<elseif _unfed == 1 && _nowater == 1>>
+			However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+		<<elseif _unfed == 0 && _nowater gte 2>>
+			However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.
+		<<elseif _unfed == 0 && _nowater == 1>>
+			However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.
+		<</if>>
 	<</if>>
 
-    <<if $home >= 0 && _eat > 0 && _drink > 0>>
-	colony eats <<print _eat>> food, and drinks <<print _drink>> water.
-	<<elseif $home < 0 && _eat > 0 && _drink > 0>>
-		colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
-	<</if>>
-	<<if _unfed gte 2 && _nowater gte 2>>
-		However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
-	<<elseif _unfed gte 2 && _nowater == 1>>
-		However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.
-	<<elseif _unfed gte 2 && _nowater == 0>>
-		However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.
-	<<elseif _unfed == 1 && _nowater == 0>>
-		However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.
-	<<elseif _unfed == 1 && _nowater gte 2>>
-		However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
-	<<elseif _unfed == 1 && _nowater == 1>>
-		However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
-	<<elseif _unfed == 0 && _nowater gte 2>>
-		However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.
-	<<elseif _unfed == 0 && _nowater == 1>>
-		However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.
-	<</if>> <br> <br>
-	<</if>>
+	<br><br>
 
 	
 	<<if $dragons.length >= 1>>

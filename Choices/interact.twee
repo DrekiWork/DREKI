@@ -1,7 +1,17 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
 	<<set _name to $dragons[$int].name>>
-	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. Currently, they're a <<print $dragons[$int].job>>.
+	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. 
+		<<switch $dragons[$int].origin>>
+			<<case "stay">>
+				They hatched in your colony, and have been here ever since.
+			<<case "wanderer">>
+				They arrived to beg for shelter. You're unsure from where they came, but they are part of you colony now.
+			<<case "exiled">>
+				You once exiled them; they returned to plead lenience, and you granted it.
+			<<case "deprived">>
+				They left after going without for too long, but returned upon finding the world beyond to be crueler than life in the colony.
+		<</switch>>
 	<br> <br>
 	<<if $dragons[$int].hunger > 1>>
 		<<print _name>> is hungry; they haven't eaten in <<print $dragons[$int].hunger>> days. If they don't eat, they'll leave.
@@ -23,8 +33,8 @@
 			You have some empty ruts; would you like to assign <<print $dragons[$int].name>> to a 
 			<<link "rut">>
 				<<set $dragons[$int].home = "rut">>
-				<<set $home -= 1>>
 				<<set $shelter.ruts.free -= 1>>
+				<<set $shelter.ruts.occupied += 1>>
 				<<run Engine.show()>>
 			<</link>>?
 		<<else>>
@@ -37,6 +47,7 @@
 				<<set $dragons[$int].home = "none">>
 				<<set $home += 1>>
 				<<set $shelter.ruts.free += 1>>
+				<<set $shelter.ruts.occupied -= 1>>
 				<<run Engine.show()>>
 			<</link>> if you like...
 		<<else>>
@@ -134,9 +145,10 @@
 				<<set $int++>>
 				<<goto "Interact">>
 			<</if>><</link>><br>
-	<<if $dragons[$int].exile == 0>>
+	<<if $dragons[$int].left == "stay">>
 		<<linkreplace "Exile">>
-			<<set $dragons[$int].exile = 1>>
+			<<set $dragons[$int].left = "exile">>
+			They will leave at sunset.
 		<</linkreplace>>
 	<<else>>
 		They will leave at sunset.

@@ -1,9 +1,7 @@
 :: Story JavaScript [script]
 
-//Stops people from going backwards at all by limiting the saved 'backsteps' to one (the current page.) I'm pretty sure?
-//Config.history.maxStates = 1;
-
-//Alternative is 'Config.history.controls = false;', which will remove history controls (back and forward arrows) without stoppping it from saving previous pages.
+//'Config.history.controls = false;', removes history controls (back and forward arrows) without stoppping it from saving previous pages.
+//Set to 'true' for testing reasons.
 
 Config.history.controls = true;
 

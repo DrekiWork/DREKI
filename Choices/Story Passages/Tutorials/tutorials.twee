@@ -6,7 +6,7 @@
         <<replace "#TutChoice">>
             DREKI is a colony management sim based around your ever-growing thunder. Look to the left, at your sidebar. <br> <br>
     
-            Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, and stone. You will also see Shelter Space - which we'll talk about later - and gold. But for now, we'll focus on the ones with two numbers next to them.<br> <br>
+            Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, stone, and gold. You will also see Shelter Space - which we'll talk about later. But for now, we'll focus on the first section of your sidebar.<br> <br>
     
             The <em>left</em> number represents how much you have in storage, and the <em>right</em> is how much space you have to store said materials. Currently, you have nothing! Let's fix that. <br> <br>
     
@@ -46,24 +46,30 @@
 <</nobr>>
     
 :: buildTut
-    <<nobr>>
+<<nobr>>
     <span id="BuildTut">
-    With food and water taken care of, you need a shelter. If you look at the left sidebar, you may have already noticed <em>Shelter Space</em>, which sits at -1. Every adult colonist needs some kind of shelter - this includes you. The most basic kind of shelter available are ruts; pits just large enough for a single dragon with stones atop to protect them from the weather. <br> <br>
+    With food and water taken care of, you need a shelter. If you look at the left sidebar, you may have already noticed <em>Shelter Space</em>, which sits at '0 / 1'. The left number is how many ruts you have built, total. The right number is how many colonists you have—yourself included. Every adult colonist needs some kind of shelter - this includes you, and the total number of dragons you have are on the right. The most basic kind of shelter available are ruts; pits just large enough for a single dragon with stones atop to protect them from the weather. <br> <br>
     
     In-game, there will be a specifc menu organized by building type for your construction needs. Each building requires different amounts of building supplies - <em>wood</em> and <em>stone</em>. Ruts only need 5 stone, for their rooves. <br> <br>
     
     <<link "Click here">>
-        <<replace "#BuildTut">>
-            <<set $shelter.ruts.amount += 1>>
-    	    <<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
-    	    <<set $stone -= 5>>
-            <<updateBar>>
-            You've got a home now! Notice how your Shelter Space is at zero. That means every (adult) colonist, including you, is sheltered. Keep a close eye on that! Sheltered dragons consume less resources than non-sheltered dragons - and dragons are big eaters as it is! If possible, it is <em>always</em> better to shelter your colonists rather than leave them out in the cold. <br> <br>
-    
-            Of course, building homes isn't the only reason you might need to build. You may need to expand your resource capacity, expand your nursery for eggs, build job stations for colonists, or, later on, build up defenses to protect your thunder. We'll get to those when we get to them, though! <br> <br>
-    
-            For now, the <<print $player.title>> has had a long day of travel and gathering. Let's let them [[sleep...|restTut]]
-        <</replace>>
+        <<nobr>>
+            <<replace "#BuildTut">>
+                <<nobr>>
+                    <<set $shelter.ruts.amount += 1>>
+            	    <<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) - $pop)>>
+            	    <<set $stone -= 5>>
+                    <<updateBar>>
+                    You've got a home now! Notice how your Shelter Space is at 1 / 1. That means the amount of shelter space is equal to the amount of colonists, and thus, everyone will be sheltered. Keep a close eye on that! Sheltered dragons consume less resources than non-sheltered dragons - and dragons are big eaters as it is! If possible, it is <em>always</em> better to shelter your colonists rather than leave them out in the cold. <br> <br>
+        
+                    When you have colonists, you can either manually assign them to shelters by interacting with them, or let them find their own homes—by default, social policy lets them find their own place, but you can change that if you want more granular control.
+            
+                    Of course, building homes isn't the only reason you might need to build. You may need to expand your resource capacity, expand your nursery for eggs, build job stations for colonists, or, later on, build up defenses to protect your thunder. We'll get to those when we get to them, though! <br> <br>
+            
+                    For now, the <<print $player.title>> has had a long day of travel and gathering. Let's let them [[sleep...|restTut]]
+                <</nobr>>
+            <</replace>>
+        <</nobr>>
     <</link>> to build a rut for your <<print $player.title>>.
     </span>
 <</nobr>>
@@ -77,7 +83,7 @@
     You ate 3 food and drank 4 water. This settled, you curl up to sleep.
     <br> <br> <br>
     
-    At the end of each day, your colony will deliver their spoils, and you and yours will all eat. The founding dragon - that's you! - always needs 3 food and 4 water. Your thunder will need varying amounts based on what kind of creature they are, how old they are, and - if they are adults - what sort of job they have and if they are sheltered. A forager snacks on the job, so they need less food in the evening, but may drink more water. A rainier drinks, but needs food. A scavenger has neither benefit, and needs lots of food and water. <br> <br>
+    At the end of each day, your colony will deliver their spoils, and you and yours will all eat. The founding dragon - that's you! - always needs 3 food and 4 water. Your thunder will need varying amounts based on what kind of creature they are, how old they are, and - if they are adults - what sort of job they have and if they are sheltered. A forager snacks on the job, so they need less food in the evening, but may drink more water. A rainier drinks water while working, but needs more food for their hard work. A scavenger has neither benefit, so eats and drinks a lot, but a slacker does nothing all day, and eats and drinks less overall. <br> <br>
     
     If a colonist goes without, they get unhappy! Three days without food and water will drive any adult colonist away, and not eating may outright <em>kill</em> any hatchlings; after all, they're too young to leave on their own. If the <<print $player.title>> doesn't eat or drink, they take some damage; how long they can go without depends on how healthy they already are. A less healthy <<print $player.title>> will end up dying faster than a well-taken-care-of one, so keep your food and water topped up! The game doesn't end until your dragon's life does, no matter what happens to the thunder.<br> <br>
     

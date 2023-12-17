@@ -15,7 +15,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
           
         Once they are more or less settled in, [[you sleep.|Sandbox Central]]
             <<for _i to 0; _i lt _join; _i++>>
-                <<dragonMaker>>
+                <<dragonWanderer>>
                 <<set $pop += 1>>
             <</for>>
         <</replace>><</link>> <br>

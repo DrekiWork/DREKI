@@ -14,14 +14,14 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 <</silently>>
 <<switch _thief>>
 
-	<<case 0 1>>
+	<<case 0>>
 			As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br> <br>
 
 			... You can't do this, can you? <br> <br>
 
 			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
-	<<case 2 3 4>>
+	<<case 1 2 3>>
 		<<eggMaker>>
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children. <br> <br>
@@ -49,7 +49,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<</if>>
 			
 			
-	<<case 5 6 7>>
+	<<case 4 5 6 7>>
 		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose. <br> <br>
 		With trembling claws, you claim <<numberinput "_take" 2 1 3>> <<linkappend "for your own.">> <br> <br>
 		As you disappear from sight of the nursery, to glide towards your own home - you see no more than a dozen dragons take flight to search for the thief. For you.

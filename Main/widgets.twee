@@ -1,35 +1,48 @@
 :: Widgets [widget] {"position":"250,0","size":"100,100"}
 <<widget "endDay">> <<nobr>>
-	<<growUp>>
 
-		/* Moves a day forward */
-			<<set $days += 1>>
-            <<if $days == 30>>
-                <<set $cycles += 1>>
-                <<set $days = 0>>
-            <<else>>
-            <</if>>
+	/* Moves a day forward */
+		<<set $days += 1>>
+		<<if $days == 30>>
+			<<set $cycles += 1>>
+			<<set $days = 0>>
+		<<else>>
+		<</if>>
 			
 	/* Ages up your eggs if you have them, or stops it running when you don't have eggs! */
 		<<set _growcheck = 0>>
 		<<set _hatchcheck = 0>>
-			
-			<<for _i to 0; _i lt $eggs.length; _i++>>
+		<<for _i to 0; _i lt $eggs.length; _i++>>
+			<<silently>>
 				<<set $eggs[_i].time++>>
 				<<if $eggs[_i].time == 7>>
 					<<hatchMaker>>
 					<<set $hatchling++>>
+					<<run $eggs.splice(_i, 1)>>
 					<<set _hatchcheck += 1>>
 					<<set $eggsHatched += 1>>
 				<<else>>
 				<</if>>
+			<</silently>>
 			<</for>>
-			
-			/* Removes eggs that are older than a week, clearing up the array. god fuckin' bless. */
-			<<set $eggs = $eggs.filter(egg => egg.time < 7)>>
+
+	/* Ages up hatchlings and sees if they need to grow up. */
+		<<for _i to 0; _i lt $hatchlings.length; _i++>>
+			<<set $hatchlings[_i].time++>>
+			<<if $hatchlings[_i].time == 15>>
+				<<dragonMaker>>
+				<<run $hatchlings.splice(_i, 1)>>
+				<<set _growcheck += 1>>
+				<<set $pop += 1>>
+				<<if $firstCol == 0>>
+					<<set _firstHatchiUp = 1>>
+				<</if>>
+			<</if>>
+		<</for>>
+
+	/* Gets rid of exiled dragons before they're counted for resource consumption. */
 		
-		/* Determines if your dragons are adequetely sheltered, and thus, if they eat a normal amount, or more. */
-		
+	/* Determines if your dragons are adequetely sheltered, and thus, if they eat a normal amount, or more. */
 			<<set _hungry = 0>>
 			<<set _thirsty = 0>>
 			<<set _unfed = 0>>
@@ -40,7 +53,7 @@
 			<<set _drink = 0>>
 			<<set _hatchDrink = 0>>
 
-		/* Set-up for: counting supplies brought in, counting workers. */
+	/* Set-up for: counting supplies brought in, counting workers. */
 			<<set _food = 0>>
 			<<set _forcount = 0>>
 			<<set _water = 0>>
@@ -49,7 +62,7 @@
 			<<set _stone = 0>>
 			<<set _scavcount = 0>>
 			
-		/* Setup food & water consumption */
+	/* Player feeding and watering themselves + resetting actions. */
 			<<set $theft = false>>
 			<<set _pcHungry = false>>
 			<<set _pcThirsty = false>>
@@ -70,16 +83,34 @@
 				<<set $player.health += 1>>
 			<</if>>
 
-		/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
+	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			<<if $dragons.length > 0>>
-				<<set _goldDiv = ($gold^(1/100))>>
+				<<set _goldDiv = ($gold^(1/10))>>
 				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / $pop))))>>
 			<<else>>
 			<</if>>
 
-			<<if $hatchlings.length > 0>>
+	
+	/* Checks if there are hatchlings to feed, and feeds them. */
+		<<if $hatchlings.length > 0>>
 			
+			<<set _hatchFood = 0>>
+			<<set _hatchWater = 0>>
+		
 			<<for _i to 0; _i < $hatchlings.length; _i++>>
+
+				<<if $hatchlings.time >= 9>>
+					<<set _findChance = random(10)>>
+					<<if _findchance >= 9>>
+						<<set _findType = random(1)>>
+						<<if _findType == 0>>
+							<<set _hatchFood += random(2, 7)>>
+						<<else>>
+							<<set _hatchWater += random(2, 7)>>
+						<</if>>
+					<</if>>
+				<<else>>
+				<</if>>
 				<<if $food >= (_eat + 4)>>
 					<<set $hatchlings[_i].hunger = 0>>
 					<<set _hatchEat += 4>>
@@ -98,19 +129,24 @@
 					<<set _nowater += 1>>
 				<</if>>
 			<</for>>
-			<</if>>
+			
+			<<set $food += _hatchFood>>
+			<<set $water += _hatchWater>>
 
-			<<if $dragons.length >= 1>>
+		<</if>>
+
+
+	/* Checking how many dragons are homeless, and—if social policy is set for it—gives them homes. */
+		<<if $dragons.length >= 1>>
 			<<set _newHouse = []>>
 			<<set _homeless = []>>
 
 			<<for _i to 0; _i < $dragons.length; _i++>>
-				<<run console.log("Made it here.")>>
 				<<if $findSleep == true>>
 					<<if $dragons[_i].home !== "none">>
 
 					<<else>>
-						<<if $shelter.free >= 1 || $home >= 1>>
+						<<if $shelter.ruts.free >= 1 || $home >= 1>>
 							<<set $dragons[_i].home = "rut">>
 							<<set $shelter.ruts.free -= 1>>
 							<<set $home -= 1>>
@@ -125,11 +161,15 @@
 					<<else>>
 					<</if>>
 				<</if>>
+
+	
+	/* Feeding dragons based on jobs and if they are housed. */
+
+	<<run console.log($food)>>
+	<<run console.log($water)>>
 				
-				<<switch $dragons[_i].job>>
-
+			<<switch $dragons[_i].job>>
 				<<case "slacker">>
-
 					<<if $dragons[_i].home !== "none">>
 						<<if $food >= (_eat + 3)>>
 							<<set $dragons[_i].hunger = 0>>
@@ -159,7 +199,7 @@
 							<<set _unfed += 1>>
 						<</if>>
 
-						<<if $water >= (_water + 4)>>
+						<<if $water >= (_drink + 4)>>
 							<<set $dragons[_i].thirst = 0>>
 							<<set _drink += 4>>
 						<<else>>
@@ -170,7 +210,6 @@
 					<</if>>
 
 				<<case "forager">>
-					
 					<<set _forcount += 1>>
 					<<set $dragons[_i].foragexp += 0.1>>
 					<<set _food += (Math.round($dragons[_i].foragexp * _goldbonus) + random(3))>>
@@ -185,7 +224,7 @@
 							<<set _unfed += 1>>
 						<</if>>
 
-						<<if $water >= (_water + 4)>>
+						<<if $water >= (_drink + 4)>>
 							<<set $dragons[_i].thirst = 0>>
 							<<set _drink += 4>>
 						<<else>>
@@ -204,7 +243,7 @@
 							<<set _unfed += 1>>
 						<</if>>
 
-						<<if $water >= (_water + 5)>>
+						<<if $water >= (_drink + 5)>>
 							<<set $dragons[_i].thirst = 0>>
 							<<set _drink += 5>>
 						<<else>>
@@ -215,7 +254,6 @@
 					<</if>>
 
 				<<case "rainier">>
-
 					<<set _watcount += 1>>
 					<<set $dragons[_i].rainxp += 0.1>>
 					<<set _water += (Math.round($dragons[_i].rainxp * _goldbonus) + random(3))>>
@@ -230,7 +268,7 @@
 							<<set _unfed += 1>>
 						<</if>>
 
-						<<if $water >= (_water + 1)>>
+						<<if $water >= (_drink + 1)>>
 							<<set $dragons[_i].thirst = 0>>
 							<<set _drink += 1>>
 						<<else>>
@@ -260,7 +298,6 @@
 					<</if>>
 
 				<<case "scavenger">>
-
 					<<set _scavcount += 1>>
 					<<set $dragons[_i].scavxp += 0.1>>
 					<<set _mats to random(1,2)>>
@@ -301,7 +338,7 @@
 							<<set _unfed += 1>>
 						<</if>>
 
-						<<if $water >= (_water + 7)>>
+						<<if $water >= (_drink + 7)>>
 							<<set $dragons[_i].thirst = 0>>
 							<<set _drink += 7>>
 						<<else>>
@@ -310,12 +347,14 @@
 							<<set _nowater += 1>>
 						<</if>>
 					<</if>>
-				<</switch>>
-			<</for>>
-		<</if>>
+			<</switch>>
+		<</for>>
+	<</if>>
 
-		<<set $food -= (_eat + _hatchEat)>>
-		<<set $water -= (_drink + _hatchDrink)>>
+	
+
+		<<set $food += (_food - (_eat + _hatchEat))>>
+		<<set $water += (_water - (_drink + _hatchDrink))>>
 
 		<<if $food > $foodCap>>
 			<<set $food = $foodCap>>
@@ -325,6 +364,9 @@
 		<</if>>
 		<<if $wood > $woodCap>>
 			<<set $wood = $woodCap>>
+		<</if>>
+		<<if $stone > $stoneCap>>
+			<<set $stone = $stoneCap>>
 		<</if>>
 
 		<<if $food <= 0>>
@@ -336,8 +378,25 @@
 
 		<<for _i to 0; _i < $dragons.length; _i++>>
 			<<if $dragons[_i].hunger >= 3 || $dragons[_i].thirst >= 3>>
+				<<set _rejoin = random(0,10)>>
+				<<if _rejoin >= 8>>
+					<<set $dragons[_i].left = "stay">>
+					<<set $dragons[_i].origins = "deprivation">>
+					<<run $goneDragons.push(clone($dragons[_i]))>>
+				<</if>>
 				<<run _left.push($dragons[_i].name)>>
 				<<set $pop -= 1>>
+				<<switch $dragons[_i].home>>
+					<<case "none">>
+
+					<<case "rut">>
+						<<set $shelters.ruts.free += 1>>
+						<<set $shelters.ruts.occupied -= 1>>
+					
+					<<case "sett">>
+						<<set $shelters.setts.free += 1>>
+						<<set $shelters.setts.occupied -= 1>>
+				<</switch>>
 			<<else>>
 			<</if>>
 		<</for>>
@@ -352,6 +411,7 @@
 			
 <</nobr>><</widget>>
 
+<<nobr>>
 <<widget "eggOne">><<nobr>>
 	<<if $eggsHatched >= 1 and $eggEvent === 0>>
 	<<set $eggEvent += 1>> <<linkappend "Something has happened...">>
@@ -367,7 +427,7 @@
 
 <<widget "colOne">>
 	<<nobr>>
-	<<if $pop >= 2 and $firstCol === 0>>
+	<<if _firstHatchiUp == 1 and $firstCol === 0>>
 	<<set $firstCol += 1>><<linkappend "Something has happened...">>
 			<hr>
 			As you're doing your nightly rounds along the colony, you discover your first hatchling - your first egg, your shining-jewel - outside the nursery, watching you solemnly. You tilt your head in silent permission for them to speak. <br> <br>
@@ -386,6 +446,7 @@
 	<</if>>
 <</nobr>>
 <</widget>>
+<</nobr>>
 
 /*Creates an egg with a timer. The time is purely to make sure everyone hatches when they should.*/
 <<widget "eggMaker">>
@@ -412,19 +473,6 @@
 	<</silently>>
 <</widget>>
 
-<<widget "growUp">>
-	<<nobr>>
-	<<for _i to 0; _i lt $hatchlings.length; _i++>>
-		<<set $hatchlings[_i].time++>>
-		<<if $hatchlings[_i].time == 15>>
-			<<dragonMaker>>
-			<<run $hatchlings.splice(_i, 1)>>
-			<<set _growcheck += 1>>
-			<<set $pop += 1>>
-		<</if>>
-	<</for>>
-	<</nobr>>
-<</widget>>
 
 /*
 	Generates a dragon---
@@ -441,6 +489,8 @@
 			type: "Dragon",
 			
 			personality: either($dPers), 
+
+			time: 15,
 			
 			age: "Adult", 
 			
@@ -460,7 +510,9 @@
 			
 			thirst: 0,
 
-			exile: 0
+			left: "stay",
+
+			origin: "stay"
 			
 			} )>>
 <</widget>>
@@ -474,6 +526,8 @@
 			type: "Dragon",
 			
 			personality: either($dPers),
+
+			time: random(15,40),
 			
 			age: "Adult",
 			
@@ -493,16 +547,18 @@
 			
 			thirst: 0,
 
-			exile: 0
+			left: "stay",
+
+			origin: "wanderer"
 			
 		} )>>
 
 <</widget>>
 
 <<widget "updateBar">>
-	<<silently>>
+	<<nobr>>
 		<<replace "#story-caption">>
 			<<include "StoryCaption">>
 		<</replace>>
-	<</silently>>
+	<</nobr>>
 <</widget>>

@@ -10,8 +10,9 @@ You need to make something, but what? What does your colony need right now?<<nob
 					<<set $shelter.ruts.amount += 1>>
 					<<set $shelter.ruts.free += 1>>
 					<<set $home = ($shelter.ruts.free - 1)>>
-					<<set $stone -= 5>>
+					<<set $stone -= $shelter.ruts.priceS>>
 					<<run Engine.show()>>
+					<<updateBar>>
 			<</button>>
 		<<else>>''You don't have enough!'' You are missing <<print (5 - $stone)>> stone!
 		<</if>><br><br>
@@ -28,7 +29,10 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<</if>>
 	</div>
 <br> <br>
+
+
 	<<link "Storage">> <<toggleclass "#storage" "hidden">> <</link>>
+
 	<div id="storage" class="hidden">
 		''Pool'' <br>
 		Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
@@ -37,12 +41,12 @@ You need to make something, but what? What does your colony need right now?<<nob
 				<<set $waterCap = ($pool.amount * $pool.storage)>>
 				<<set $stone -= 10>>
 				<<run Engine.show()>>
+				<<updateBar>>
 		<</button>>
 	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
 	<</if>>
-	
-	
 <br> <br>
+
 		''Cavern'' <br>
 		Cost: 10 stone and 10 wood to build. You've already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have <<print $cavern.amount>>. <br>
 		<<if $stone >= 10 && $wood >= 10>><<button "Build">>
@@ -51,6 +55,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 				<<set $stone -= 10>>
 				<<set $wood -= 10>>
 				<<run Engine.show()>>
+				<<updateBar>>
 		<</button>>
 	<<else>>
 		<<if $stone < 10 && $wood < 10>>
@@ -62,6 +67,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<</if>>
 	<</if>>
 <br> <br>
+
 		''Dug-out'' <br>
 		Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
 		<<if $stone >= 15 && $wood >= 15>><<button "Build">>
@@ -71,6 +77,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 				<<set $stone -= 15>>
 				<<set $wood -= 15>>
 				<<run Engine.show()>>
+				<<updateBar>>
 		<</button>>
 	<<else>>''You don't have enough!'' 
 		<<if $stone < 15 && $wood < 15>>

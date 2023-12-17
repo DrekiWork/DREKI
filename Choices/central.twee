@@ -7,6 +7,8 @@ You are a dragon in a<<nobr>>
 	<</if>>
 <</nobr>>
 
+[[BugTest]]
+
 It's <<nobr>>
 	<<switch $player.action>>
 	<<case 5>>
@@ -68,7 +70,7 @@ It's <<nobr>>
 	<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>>
  Lining the edge of your storage cavern 
 	<<if $pool.amount > 1>>
-		are your <<print $pool.amount>> collection pools that can store up to <<print $waterCap>>.
+		are your <<print $pool.amount>> collection pools that can store up to <<print $waterCap>> water.
 	<<else>>
 		is your collection pool, that can hold up to <<print $waterCap>> water.
 	<</if>>

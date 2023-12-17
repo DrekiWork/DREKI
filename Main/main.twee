@@ -33,24 +33,54 @@ Made by Recila!</sup>
 But this sets up the sidebar for printing stuff. Currently only prints, not formatted. Might start relegating stuff to places like storage, pop tab, etc? Already have a nursery, so...
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. -->
-<<if hasVisited("tutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>> <br> <br>
 
-Food: <<print $food>> / <<print $foodCap>> <br>
-Water: <<print $water>> / <<print $waterCap>> <br>
-Wood: <<print $wood>> / <<print $woodCap>> <br>
-Stone: <<print $stone>> / <<print $stoneCap>> <br>
-Shelter Space: <<print $home>> <br> <br>
+<<if hasVisited("tutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>>
+	<br>
+	
+	<hr>
+	<table>
+		<tr>
+			<td>Food: &ensp;</td>
+				<td><<print $food>> </td> <td> &ensp; / &ensp; </td> <td> <<print $foodCap>> </td>
+		</tr>
+		<tr>
+			<td>Water: &ensp;</td>
+				<td> <<print $water>> </td> <td> / </td> <td> <<print $waterCap>> </td> <br>
+		</tr>
+		<tr>
+			<td>Wood: &ensp;</td> 
+				<td> <<print $wood>> </td> <td> / </td> <td> <<print $woodCap>> </td>
+		</tr>
+		<tr>
+			<td>Stone: &ensp;</td>
+				<td> <<print $stone>> </td> <td> / </td> <td> <<print $stoneCap>> </td>
+		</tr>
+		<tr>
+			<td>&emsp;</td>
+		</tr>
+		<tr>
+			<td>Gold: &ensp;</td> <td><<print $gold>></td> <td></td>
+		</tr>
+	</table>
 
-Gold: <<print $gold>> <br> <br>
+	<hr>
+	<table>
+		<tr>
+			<td>Shelter Space: </td>
+				<td>&ensp;<<print $shelter.ruts.amount>></td> <td>&ensp;/&ensp;</td> <td><<print ($dragons.length + 1)>></td>
+		</tr>
+	</table>
 
-<<if $dragons.length > 0 && $shelter.ruts.amount > 0.>>
-''SOCIAL POLICIES'' <br>
-	Do you want dragons to find their own places to sleep?
-	<<cycle "$findSleep" autoselect>>
-		<<option "Yes." true>>
-		<<option "No." false>>
-	<</cycle>>
-<</if>>
+	<hr>
+
+	<<if $dragons.length > 0 && $shelter.ruts.amount > 0>>
+	''SOCIAL POLICIES'' <br>
+		Do you want dragons to find their own places to sleep?
+		<<cycle "$findSleep" autoselect>>
+			<<option "Yes." true>>
+			<<option "No." false>>
+		<</cycle>>
+	<</if>>
 <<else>>
 	Welcome to DREKI: Thunder Simulator!
 <</if>>
@@ -58,6 +88,7 @@ Gold: <<print $gold>> <br> <br>
 
 
 :: StoryMenu [Special] {"position":"100,375","size":"100,100"}
+
 <<link "Patchnotes">>
 	<<script>>
 	Dialog.setup("Patchnotes");
