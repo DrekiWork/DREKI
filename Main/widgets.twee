@@ -146,10 +146,28 @@
 					<<if $dragons[_i].home !== "none">>
 
 					<<else>>
-						<<if $shelter.ruts.free >= 1 || $home >= 1>>
+						<<if $shelter.ruts.free >= 1 && $shelter.setts.free >= 1>>
+							<<set _housing to random(0,1)>>
+							<<if _housing == 0>>
+								<<set $dragons[_i].home = "rut">>
+								<<set $shelter.ruts.free -= 1>>
+								<<set $shelter.ruts.occupied += 1>>
+							<<else>>
+								<<set $dragons[_i].home = "sett">>
+								<<set $shelter.setts.free -= 1>>
+								<<set $shelter.setts.occupied += 1>>
+							<</if>>
+							<<set $home -= 1>>
+							<<run _newHouse.push($dragons[_i].name)>>
+						<<elseif $shelter.ruts.free >= 1>>
 							<<set $dragons[_i].home = "rut">>
 							<<set $shelter.ruts.free -= 1>>
-							<<set $home -= 1>>
+							<<set $shelter.ruts.occupied += 1>>
+							<<run _newHouse.push($dragons[_i].name)>>
+						<<elseif $shelter.setts.free >= 1>>
+							<<set $dragons[_i].home = "sett">>
+							<<set $shelter.setts.free -= 1>>
+							<<set $shelter.setts.occupied += 1>>
 							<<run _newHouse.push($dragons[_i].name)>>
 						<<else>>
 							<<run _homeless.push($dragons[_i].name)>>
@@ -382,6 +400,8 @@
 				<<if _rejoin >= 8>>
 					<<set $dragons[_i].left = "stay">>
 					<<set $dragons[_i].origins = "deprivation">>
+					<<set $dragons[_i].hunger = 0>>
+					<<set $dragons[_i].thirst = 0>>
 					<<run $goneDragons.push(clone($dragons[_i]))>>
 				<</if>>
 				<<run _left.push($dragons[_i].name)>>
@@ -560,5 +580,31 @@
 		<<replace "#story-caption">>
 			<<include "StoryCaption">>
 		<</replace>>
+	<</nobr>>
+<</widget>>
+
+<<widget "updateHome">>
+	<<nobr>>
+		<<set $home = ($shelter.ruts.free + $shelter.setts.free)>>
+	<</nobr>>
+<</widget>>
+
+<<widget "addRut">>
+	<<nobr>>
+		<<set $dragons[$int].home = "rut">>
+		<<set $shelter.ruts.free -= 1>>
+		<<set $shelter.ruts.occupied += 1>>
+		<<set $home -= 1>>
+		<<run Engine.show()>>
+	<</nobr>>
+<</widget>>
+
+<<widget "addSett">>
+	<<nobr>>
+		<<set $dragons[$int].home = "sett">>
+		<<set $shelter.setts.free -= 1>>
+		<<set $shelter.setts.occupied += 1>>
+		<<set $home -= 1>>
+		<<run Engine.show()>>
 	<</nobr>>
 <</widget>>

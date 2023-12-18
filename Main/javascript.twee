@@ -3,7 +3,7 @@
 //'Config.history.controls = false;', removes history controls (back and forward arrows) without stoppping it from saving previous pages.
 //Set to 'true' for testing reasons.
 
-Config.history.controls = true;
+Config.history.controls = false;
 
 //Autosave set up... Not in use currently, for sanity reasons, but will be set to autosave on rest.
 

@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.24.1
+<sup>pre-pre-alpha 0.0.25.0
 Made by Recila!</sup>
 
 
@@ -105,22 +105,19 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Pre-Alpha 0.0.24.3 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.25.0 </h2><<nobr>>
 	''New!''
-	<ul><li>Tutorial added! Though barebones, it'll walk you through a gathering round, building, and sleeping.</li>
-	<li>Dragons can be assigned dens!</li>
-	<li>The beginnings of social policies! Starting with, do you want dragons to find their own places to sleep? Or do you want to micromanage that part of their life too?</li>
-	<li>FAVICON!!! FAVICOOOONNNN (needs internet connection, though...)</li>
-	<li>Cleaning up the code a bit...</li>
-	<li>Dragons now appear in a grid-adjacent formation in the pop screen! This takes up less space and looks a little nice. Not very, just a little.</li>
-	<li></li></ul>
+	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
+	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back.</li>
+	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used. I'll update this once I've made that mean something!</li>
+	<li></li></ul><br>
+
+	''QoL''
+	<ul><li>No more big reload on building...</li>
+	<li></li></ul><br>
 
 	''Bugs Patched''
-	<ul><li>Hatchlings now tell you that they've eaten even if you're the only adult. :)</li>
-	<li>The game should no longer try to check if you have any homeless dragons when you don't even have dragons.</li>
-	<li>Abandoned egg from theft event no longer has a missing '/if' tag. Oops!</li>
-	<li></li></ul>
+	<ul><li></li></ul><br>
 	
 	''Bugs Created''
-	<ul><li>Ruts are being funky junky and I'm not sure why they're no longer counting right...</li>
-	</ul><</nobr>>
+	<ul><li></li></ul><br><</nobr>>

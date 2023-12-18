@@ -1,5 +1,6 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
+	<<updateHome>>
 	<<set _name to $dragons[$int].name>>
 	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. 
 		<<switch $dragons[$int].origin>>
@@ -27,112 +28,125 @@
 	<<else>>
 		They're well-hydrated.
 	<</if>>
-	<<if $dragons[$int].home == "none">>
-		They don't have a home to themselves yet.
-		<<if $home > $pop>>
-			You have some empty ruts; would you like to assign <<print $dragons[$int].name>> to a 
-			<<link "rut">>
-				<<set $dragons[$int].home = "rut">>
-				<<set $shelter.ruts.free -= 1>>
-				<<set $shelter.ruts.occupied += 1>>
-				<<run Engine.show()>>
-			<</link>>?
-		<<else>>
-			There's no shelter available either; you might have to build more.
-		<</if>>
-	<<else>>
-		They're housed in a <<print $dragons[$int].home>>, and
-		<<if $dragons[$int].home == "rut">>
-			live alone. You can <<link "kick them out">>
+	<<switch $dragons[$int].home>>
+		<<case "none">>
+			They don't have a home to themselves yet.
+			<<if $home >= 1>>
+				You have some free space; would you like to assign <<print $dragons[$int].name>> to a 
+				<<linkappend "shelter?">>
+					<<if $shelter.ruts.free >= 1 && $shelter.setts.free >= 1>>
+							A 
+						<<link "rut">>
+							<<addRut>>
+						<</link>> 
+						or a 
+						<<link "sett">>
+							<<addSett>>
+						<</link>>?
+					<<elseif $shelter.ruts.free >= 1>>
+						You only have <<link "ruts">> <<addRut>> <</link>> available.
+					<<else>>
+						You only have <<link "sets">> <<addSett>> <</link>> available.
+					<</if>>
+				<</linkappend>>
+			<<else>>
+				There's no shelter available either; you might have to build more.
+			<</if>>
+		
+		<<case "rut">>
+			They're housed in a <<print $dragons[$int].home>>, and live alone. They seem a little cramped in there... You can <<link "kick them out">>
 				<<set $dragons[$int].home = "none">>
 				<<set $home += 1>>
 				<<set $shelter.ruts.free += 1>>
 				<<set $shelter.ruts.occupied -= 1>>
 				<<run Engine.show()>>
-			<</link>> if you like...
-		<<else>>
-			live alone, though there's space for others. You can <<link "kick them out">>
+				<</link>> if you like...
+		
+		<<case "sett">>
+			They're housed in a <<print $dragons[$int].home>>, and live alone. There's enough space for them to stretch comfortably, and they've decorated a little. You can <<link "kick them out">>
 				<<set $dragons[$int].home = "none">>
 				<<set $home += 1>>
 				<<set $shelter.ruts.free += 1>>
+				<<set $shelter.ruts.occupied -= 1>>
 				<<run Engine.show()>>
-			<</link>> if you like...
-		<</if>>
-	<</if>> <br> <br>
+				<</link>> if you like...
+		<</switch>><br> <br>
+
+
 		<<switch $dragons[$int].job>>.
-		<<case "slacker">>
-			As with all dragons, they are an instinctive master of the art of doing nothing. Would you like to give <<print $dragons[$int].name>> a job?<br>
+			<<case "slacker">>
+				As with all dragons, they are an instinctive master of the art of doing nothing. Would you like to give <<print $dragons[$int].name>> a job?<br>
 
-			&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-				&emsp;&emsp;Foragers collect food for your colony.<br>
-			&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-				&emsp;&emsp;Rainiers gather water for your colony.<br>
-			&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-				&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br><br>
-
-		<<case "forager">>
-				<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
-			They've worked for <<print _xp>> days as a forager.
-				<<if _xp >= 50>>
-					They're fairly comfortable gathering food by now.
-				<<elseif _xp >= 20>>
-					They're getting used to foraging.
-				<<elseif _xp >= 10>>
-					They've learned how to avoid poisonous plants at least.
-				<<else>>
-					They're pretty new to it.
-				<</if>>
-				Would you like to change their job?<br>
-				&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+				&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
+					&emsp;&emsp;Foragers collect food for your colony.<br>
 				&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
 					&emsp;&emsp;Rainiers gather water for your colony.<br>
 				&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br><br>
 
-		<<case "rainier">>
-			<<silently>>
-				<<set _xp to Math.round($dragons[$int].rainxp * 10)>>
-			<</silently>>
-			They've worked for <<print _xp>> days as a rainier.
-				<<if _xp >= 50>>
-					They're fairly comfortable around water by now.
-				<<elseif _xp >= 20>>
-					They're getting used to redirecting water.
-				<<elseif _xp >= 10>>
-					They've at least learned how to avoid muddying up the water.
-				<<else>>
-					They're pretty new to it.
-				<</if>>
-				Would you like to change their job?<br>
-				&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-				&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Foragers collect food for your colony.<br>
-				&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+			<<case "forager">>
+					<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
+				They've worked for <<print _xp>> days as a forager.
+					<<if _xp >= 50>>
+						They're fairly comfortable gathering food by now.
+					<<elseif _xp >= 20>>
+						They're getting used to foraging.
+					<<elseif _xp >= 10>>
+						They've learned how to avoid poisonous plants at least.
+					<<else>>
+						They're pretty new to it.
+					<</if>>
+					Would you like to change their job?<br>
+					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Rainiers gather water for your colony.<br>
+					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
 
-		<<case "scavenger">>
-			<<silently>>
-				<<set _xp to Math.round($dragons[$int].scavxp * 10)>>
-			<</silently>>
-			They've worked for <<print _xp>> days as a scavenger.
-				<<if _xp >= 50>>
-					They're fairly comfortable collecting building materials by now.
-				<<elseif _xp >= 20>>
-					They're getting used to the hard labor of hauling wood and stone.
-				<<elseif _xp >= 10>>
-					They've learned how to carve stone into useable material, and have stopped breaking the timber they haul back.
-				<<else>>
-					They're pretty new to it.
-				<</if>>
-				Would you like to change their job?<br>
-				&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-				&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Foragers collect food for your colony.<br>
-				&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Rainiers gather water for your colony.<br><br>
+			<<case "rainier">>
+				<<silently>>
+					<<set _xp to Math.round($dragons[$int].rainxp * 10)>>
+				<</silently>>
+				They've worked for <<print _xp>> days as a rainier.
+					<<if _xp >= 50>>
+						They're fairly comfortable around water by now.
+					<<elseif _xp >= 20>>
+						They're getting used to redirecting water.
+					<<elseif _xp >= 10>>
+						They've at least learned how to avoid muddying up the water.
+					<<else>>
+						They're pretty new to it.
+					<</if>>
+					Would you like to change their job?<br>
+					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Foragers collect food for your colony.<br>
+					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+
+			<<case "scavenger">>
+				<<silently>>
+					<<set _xp to Math.round($dragons[$int].scavxp * 10)>>
+				<</silently>>
+				They've worked for <<print _xp>> days as a scavenger.
+					<<if _xp >= 50>>
+						They're fairly comfortable collecting building materials by now.
+					<<elseif _xp >= 20>>
+						They're getting used to the hard labor of hauling wood and stone.
+					<<elseif _xp >= 10>>
+						They've learned how to carve stone into useable material, and have stopped breaking the timber they haul back.
+					<<else>>
+						They're pretty new to it.
+					<</if>>
+					Would you like to change their job?<br>
+					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Foragers collect food for your colony.<br>
+					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Rainiers gather water for your colony.<br><br>
 
 		<</switch>>
 	

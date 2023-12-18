@@ -79,6 +79,8 @@
 		occupied : 0
 	}>>
     <<set $home = ($shelter.ruts.free + $shelter.setts.free)>>
+	<<set $builtRut = false>>
+	<<set $builtSett = false>>
 		
 		/* How many days you've been here, and how many moon cycles! */
 	<<set $days to 1>>
@@ -87,13 +89,13 @@
 		/* Setting up potential dragon names, personalities, etc... */
 	
 	<<set $dNames to [
-		"Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
+		"Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
 		"Baeliru", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", 
-		"Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Conan", "Copano", "Cosmos", "Cyprin", "Cyril", "Cyrus", 
+		"Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
 		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
 		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
 		"Flame", "Flavius", "Fonsworthy", 
-		"Galadriel", "Gavin", "Gildas", "Gildor", "Grigori", "Gwyneth", "Gunnar", 
+		"Galadriel", "Gavin", "Gildas", "Gildor", "Gimli", "Grigori", "Gwyneth", "Gunnar", 
 		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
 		"Iola", "Isaak", "Ilmarinen", "Ivor", 
 		"Jaren", "Jarvis", "Jed", "Jormungandr", 
@@ -104,8 +106,8 @@
 		"Obasi", "Odahviing", "Oswin", 
 		"Paarthurnax", "Pyra", 
 		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
-		"Sadiki", "Sif", "Skipper", "Smaug", "Spry", "Spyro", "Seren", "Sunburn", 
-		"Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", 
+		"Sadiki", "Sif", "Seren", "Skipper", "Smaug", "Spry", "Spyro", "Storm", "Sunburn", 
+		"Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
 		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
 		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
 		"Woden", "Wren", 
@@ -116,18 +118,18 @@
 	<<set $dPers to [
 		"Absentminded", "Abrasive", "Aloof", "Ambitious", 
 		"Caring", "Chatty", "Clever", "Confident", "Creative", "Curious", 
-		"Dependable", 
+		"Dependable", "Dreamy", 
 		"Emotional", "Energetic", 
 		"Formal", "Friendly", 
 		"Generous", "Gentle", "Greedy", 
-		"Hardworking", 
+		"Hardworking", "Harsh", 
 		"Impatient", "Independent", "Insecure", "Intelligent", 
 		"Lax", "Lazy", "Loyal", 
 		"Mellow", "Moody", 
-		"Nervous", 
-		"Organized", 
+		"Nervous", "Negligent", 
+		"Organized", "Obsessive", 
 		"Patient", "Persistent", "Placid", "Practical", 
-		"Quiet", 
+		"Quiet", "Queer", "Quaint", 
 		"Rational", "Resourceful", "Responsible", 
 		"Selfish", "Selfless", "Sensitive", "Skeptical", "Spontaneous", 
 		"Thoughtful", "Tolerant", 

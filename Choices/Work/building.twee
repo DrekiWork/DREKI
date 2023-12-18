@@ -4,93 +4,155 @@ You need to make something, but what? What does your colony need right now?<<nob
 
 	<<link "Shelter">> <<toggleclass "#shelter" "hidden">> <</link>>
 		<div id="shelter" class="hidden">
-		''Rut'' <br>
-		Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
-			<<if $stone >= 5>><<button "Build">>
-					<<set $shelter.ruts.amount += 1>>
-					<<set $shelter.ruts.free += 1>>
-					<<set $home = ($shelter.ruts.free - 1)>>
-					<<set $stone -= $shelter.ruts.priceS>>
-					<<run Engine.show()>>
-					<<updateBar>>
-			<</button>>
-		<<else>>''You don't have enough!'' You are missing <<print (5 - $stone)>> stone!
-		<</if>><br><br>
-
-		''Nest'' <br>
-		Cost: 3 wood. By prying apart and feathering wood, you create a nest for three eggs. You currently have <<print $nest>>. <br>
-		<<if $wood >= 3>><<button "Build">>
-				<<set $nest += 1>>
-				<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
-				<<set $wood -= 3>>
-				<<run Engine.show()>>
-		<</button>><<else>>
-		''You don't have enough!'' You are missing <<print (3 - $wood)>> wood!
-	<</if>>
-	</div>
+		<<include "buildShelters">>
+		</div>
 <br> <br>
 
 
 	<<link "Storage">> <<toggleclass "#storage" "hidden">> <</link>>
 
 	<div id="storage" class="hidden">
-		''Pool'' <br>
-		Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
-			<<if $stone >= 10>><<button "Build">>
-				<<set $pool.amount += 1>>
-				<<set $waterCap = ($pool.amount * $pool.storage)>>
-				<<set $stone -= 10>>
-				<<run Engine.show()>>
-				<<updateBar>>
-		<</button>>
-	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
-	<</if>>
-<br> <br>
-
-		''Cavern'' <br>
-		Cost: 10 stone and 10 wood to build. You've already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have <<print $cavern.amount>>. <br>
-		<<if $stone >= 10 && $wood >= 10>><<button "Build">>
-				<<set $cavern.amount += 1>>
-				<<set $foodCap = ($cavern.amount * $cavern.storage)>>
-				<<set $stone -= 10>>
-				<<set $wood -= 10>>
-				<<run Engine.show()>>
-				<<updateBar>>
-		<</button>>
-	<<else>>
-		<<if $stone < 10 && $wood < 10>>
-			''You don't have enough!'' You are missing <<print (10 - $stone)>> stone, and <<print (10 - $wood)>> wood!
-		<<elseif $stone < 10 && $wood >= 10>>
-			''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
-		<<elseif $stone >= 10 && $wood < 10>>
-			''You don't have enough!'' You are missing <<print (10 - $wood)>> wood!
-		<</if>>
-	<</if>>
-<br> <br>
-
-		''Dug-out'' <br>
-		Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
-		<<if $stone >= 15 && $wood >= 15>><<button "Build">>
-				<<set $dugOut.amount += 1>>
-				<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-				<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
-				<<set $stone -= 15>>
-				<<set $wood -= 15>>
-				<<run Engine.show()>>
-				<<updateBar>>
-		<</button>>
-	<<else>>''You don't have enough!'' 
-		<<if $stone < 15 && $wood < 15>>
-			You are missing <<print (15 - $stone)>> stone, and <<print (15 - $wood)>> wood!
-		<<elseif $stone < 15 && $wood >= 15>>
-			You are missing <<print (15 - $stone)>> stone!
-		<<elseif $stone >= 15 && $wood < 15>>
-			You are missing <<print (15 - $wood)>> wood!
-		<</if>>
-	<</if>>
-<br> <br>
+		<<include "buildStorage">>
 	</div>
 
  <br> <br> <br>
 
 <</nobr>>You are pretty sure [[you're done here.|Sandbox Central]]
+
+:: buildShelters
+<<nobr>>
+	''Rut'' <br>
+	Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
+		<<if $stone >= 5>><<button "Build">>
+				<<set $shelter.ruts.amount += 1>>
+				<<set $shelter.ruts.free += 1>>
+				<<set $home = ($shelter.ruts.amount + $shelter.setts.amount)>>
+				<<set $stone -= $shelter.ruts.priceS>>
+				<<updateBar>>
+				<<set $builtRut = true>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+		<</button>>
+	<<else>>''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone!
+	<</if>><br><br>
+	
+	<<if $builtRut == true>>
+		''Sett'' <br>
+		Cost: 3 stone, 2 wood, and a free rut to build. Those ruts are pretty tiny... with a little bit of wooden support, some more stone, and a lot of digging, a rut can be expanded so the lucky dragon within can be more comfortable. You currently have <<print $shelter.setts.amount>>. <br>
+			<<if $stone >= 5 && $wood >= 2 && $shelter.ruts.free >= 1>><<button "Build">>
+					<<set $shelter.ruts.amount -= 1>>
+					<<set $shelter.ruts.free -= 1>>
+					<<set $shelter.setts.amount += 1>>
+					<<set $shelter.setts.free += 1>>
+					<<set $home = ($shelter.ruts.amount + $shelter.setts.amount)>>
+					<<set $stone -= $shelter.setts.priceS>>
+					<<set $wood -= $shelter.setts.priceW>>
+					<<updateBar>>
+					<<if $builtSett == false>>
+						<<set $builtSett = true>>
+					<</if>>
+					<<replace "#shelter">>
+						<<include "buildShelters">>
+					<</replace>>
+			<</button>>
+		
+			<<elseif $stone < 5 && $wood >= 2 && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone!
+			<<elseif $stone >= 5 && $wood < 2 && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood!
+			<<elseif $stone >= 5 && $wood >= 2 && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing an empty rut!
+			<<elseif $stone < 5 && $wood < 2 && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and <<print ($shelter.setts.priceW - $wood)>> wood!
+			<<elseif $stone < 5 && $wood >= 2 && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and an empty rut!
+			<<elseif $stone >= 5 && $wood < 2 && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood and an empty rut!
+			<<else>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone, <<print ($shelter.setts.priceW - $wood)>> wood, and an empty rut!
+			<</if>><br><br>
+	<</if>>
+	
+	
+	''Nest'' <br>
+	Cost: 3 wood. By prying apart and feathering wood, you create a nest for three eggs. You currently have <<print $nest>>. <br>
+	<<if $wood >= 3>>
+		<<button "Build">>
+			<<set $nest += 1>>
+			<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+			<<set $wood -= 3>>
+			<<replace "#shelter">>
+				<<include "buildShelters">>
+			<</replace>>
+		<</button>>
+	<<else>>
+		''You don't have enough!'' You are missing <<print (3 - $wood)>> wood!
+	<</if>>
+<</nobr>>
+
+
+:: buildStorage
+<<nobr>>
+	''Pool'' <br>
+	Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
+		<<if $stone >= 10>><<button "Build">>
+			<<set $pool.amount += 1>>
+			<<set $waterCap = ($pool.amount * $pool.storage)>>
+			<<set $stone -= 10>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
+	<</if>>
+	<br> <br>
+	
+	''Cavern'' <br>
+	Cost: 10 stone and 10 wood to build. You've already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have <<print $cavern.amount>>. <br>
+	<<if $stone >= 10 && $wood >= 10>><<button "Build">>
+			<<set $cavern.amount += 1>>
+			<<set $foodCap = ($cavern.amount * $cavern.storage)>>
+			<<set $stone -= 10>>
+			<<set $wood -= 10>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>
+	<<if $stone < 10 && $wood < 10>>
+		''You don't have enough!'' You are missing <<print (10 - $stone)>> stone, and <<print (10 - $wood)>> wood!
+	<<elseif $stone < 10 && $wood >= 10>>
+		''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
+	<<elseif $stone >= 10 && $wood < 10>>
+		''You don't have enough!'' You are missing <<print (10 - $wood)>> wood!
+	<</if>>
+	<</if>>
+	<br> <br>
+	
+	''Dug-out'' <br>
+	Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
+	<<if $stone >= 15 && $wood >= 15>><<button "Build">>
+			<<set $dugOut.amount += 1>>
+			<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $stone -= 15>>
+			<<set $wood -= 15>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>''You don't have enough!'' 
+	<<if $stone < 15 && $wood < 15>>
+		You are missing <<print (15 - $stone)>> stone, and <<print (15 - $wood)>> wood!
+	<<elseif $stone < 15 && $wood >= 15>>
+		You are missing <<print (15 - $stone)>> stone!
+	<<elseif $stone >= 15 && $wood < 15>>
+		You are missing <<print (15 - $wood)>> wood!
+	<</if>>
+	<</if>>
+	<br> <br>
+<</nobr>>

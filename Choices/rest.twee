@@ -265,12 +265,23 @@ The end of the day is approaching.<<nobr>> <br> <br>
 		[[It's time for another day.|Sandbox Central]]
 			<</if>>
 		<<elseif _eventChance == 4>>
-			<<set _event = random(1)>>
+			<<set _event = random(2)>>
 			<<switch _event>>
 				<<case 0>>
-					Before you can settle down to bed, there comes a commotion [[at the edge of your home.|Event_Join]]
+					Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
 				<<case 1>>
-					As you start to close your nightly patrol, [[you see something in the darkness.|Event_Intruder]]
+					As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
+				<<case 2>>
+					<<if $goneDragons.length > 0>>
+						While flying over your territory's perimeter, you [[spot someone familiar...|eventReturn]]
+					<<else>>
+						<<set _random to random(1)>>
+						<<if _random is 1>>
+							Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
+						<<else>>
+							As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
+						<</if>>
+					<</if>>
 			<</switch>>
 		<<else>>
 		[[It's time for another day.|Sandbox Central]]

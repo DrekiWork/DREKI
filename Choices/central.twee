@@ -7,8 +7,6 @@ You are a dragon in a<<nobr>>
 	<</if>>
 <</nobr>>
 
-[[BugTest]]
-
 It's <<nobr>>
 	<<switch $player.action>>
 	<<case 5>>
@@ -51,7 +49,7 @@ It's <<nobr>>
 <br>
  Your storage is located in a fissure carved through the cliff face; though you aren't sure how it got there, there's room enough for you to safely hide away your thunder's necessities. <<linkreplace "Check inside?">>
 
-	Inside, you've expanded your food cavern 
+	<br>Inside, you've expanded your food cavern 
 	<<print $cavern.amount>> 
 		<<if $cavern.amount > 1>>
 			times, 
