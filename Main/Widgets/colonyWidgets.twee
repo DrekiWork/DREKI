@@ -1,0 +1,42 @@
+:: colonyWidgets [widget]
+<<nobr>>
+
+    <<widget "buildQueue">>
+        <<if $buildQueue.length > 0>>
+            <<if $dragons.job.some("builder") == true>>
+
+                <<switch $buildQueue[0]>>
+                    <<case "hollow">>
+                        <<if $buildTime >= 1>>
+                            <<if $stone >= ($shelter.hollows.priceS / $shelter.hollows.buildTime) && $wood >= ($shelter.hollows.priceW / $shelter.hollows.buildTime)>>
+                                <<set $buildTime -= 1>>
+                                <<set $stone -= $shelter.hollows.priceS>>
+                                <<set $wood -= $shelter.hollows.priceW>>
+                            <<else>>
+                                <<set _resourceDown = true>>
+                            <</if>>
+                            
+                        <<elseif $buildTime == 0>>
+                            <<set $shelter.hollows.amount += 1>>
+                            <<set $shelter.hollows.free += 1>>
+                            <<set $buildTime = -1>>
+                            <<run $buildQueue.splice(0,1)>>
+
+                        <<else>>
+                            <<set $buildTime = $shelter.hollows.buildTime>>
+                            <<set _startBuild = true>>
+                            
+                        <</if>>
+
+                    <<case default>>
+
+                <</switch>>
+            <<else>>
+                <<set _needBuilder = true>>
+            <</if>>
+        <<else>>
+            <<set _buildIdle>>
+        <</if>>
+    <</widget>>
+
+<</nobr>>

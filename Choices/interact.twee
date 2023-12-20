@@ -82,7 +82,9 @@
 				&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
 					&emsp;&emsp;Rainiers gather water for your colony.<br>
 				&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br><br>
+					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br>
+				&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Builders construct things for the colony.<br><br>
 
 			<<case "forager">>
 					<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
@@ -102,7 +104,9 @@
 					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Rainiers gather water for your colony.<br>
 					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
+					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Builders construct things for the colony.<br><br>
 
 			<<case "rainier">>
 				<<silently>>
@@ -124,7 +128,9 @@
 					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Foragers collect food for your colony.<br>
 					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
+					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Builders construct things for the colony.<br><br>
 
 			<<case "scavenger">>
 				<<silently>>
@@ -146,7 +152,33 @@
 					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Foragers collect food for your colony.<br>
 					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Rainiers gather water for your colony.<br><br>
+						&emsp;&emsp;Rainiers gather water for your colony.<br>
+					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Builders construct things for the colony.<br><br>
+			
+			<<case "builder">>
+				<<silently>>
+					<<set _xp to Math.round($dragons[$int].buildxp * 10)>>
+				<</silently>>
+				They've worked for <<print _xp>> days as a builder.
+					<<if _xp >= 50>>
+						They're fairly comfortable assembling structures by now.
+					<<elseif _xp >= 20>>
+						They're getting used to the delicate placement and heavy lifting necessary to construct buildings.
+					<<elseif _xp >= 10>>
+						They've learned how to ensure a building will hold itself together for a while.
+					<<else>>
+						They're pretty new to it.
+					<</if>>
+					Would you like to change their job?<br>
+					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Foragers collect food for your colony.<br>
+					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Rainiers gather water for your colony.<br>
+					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
 
 		<</switch>>
 	
