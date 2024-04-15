@@ -1,36 +1,6 @@
 :: Building [WIP] {"position":"950,550","size":"100,100"}
 You need to make something, but what? What does your colony need right now?<<nobr>>
 
-	<<set _slacker = 0>>
-	<<set _forager = 0>>
-	<<set _rainier = 0>>
-	<<set _scavenger = 0>>
-	<<set _salvager = 0>>
-	<<set _builder = 0>>
-
-	<<for _i to 0; _i > $dragons.length; _i++>>
-		<<switch $dragons[_i].job>>
-			<<case "slacker">>
-				<<set _slacker += 1>>
-			
-			<<case "forager">>
-				<<set _forager += 1>>
-
-			<<case "rainier">>
-				<<set _rainier += 1>>
-
-			<<case "scavenger">>
-				<<set _scavenger += 1>>
-
-			<<case "salvager">>
-				<<set _salvager += 1>>
-
-			<<case "builder">>
-				<<set _builder += 1>>
-
-		<</switch>>
-	<</for>>
-
 <br> <br>
 
 	<<link "Shelter">> <<toggleclass "#shelter" "hidden">> <</link>>
@@ -105,7 +75,10 @@ You need to make something, but what? What does your colony need right now?<<nob
 			<</if>><br><br>
 	<</if>>
 
-	<<if _builder > 0>>
+	<<set _builder = $dragons.some(builder)>>
+	<<run console.log(_builder)>>
+
+	<<if _builder == true>>
 		''Hollow'' <br>
 		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. <br>
 			<<button "Build">>

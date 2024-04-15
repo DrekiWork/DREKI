@@ -30,3 +30,5 @@ sugarcube-2:
       name: addRut
     addSett:
       name: addSett
+    buildQueue:
+      name: buildQueue

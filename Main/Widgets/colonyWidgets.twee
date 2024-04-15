@@ -2,7 +2,9 @@
 <<nobr>>
 
     <<widget "buildQueue">>
+        <<run console.log("Ran build queue.")>>
         <<if $buildQueue.length > 0>>
+            <<run console.log($dragons.job.some("builder"))>>
             <<if $dragons.job.some("builder") == true>>
 
                 <<switch $buildQueue[0]>>

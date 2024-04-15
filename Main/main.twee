@@ -67,7 +67,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
-				<td>&ensp;<<print $shelter.ruts.amount>></td> <td>&ensp;/&ensp;</td> <td><<print ($dragons.length + 1)>></td>
+				<td>&ensp;<<print ($shelter.ruts.amount + $shelter.setts.amount)>></td> <td>&ensp;/&ensp;</td> <td><<print ($dragons.length + 1)>></td>
 		</tr>
 	</table>
 
