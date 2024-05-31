@@ -32,3 +32,9 @@ sugarcube-2:
       name: addSett
     buildQueue:
       name: buildQueue
+    countWorkers:
+      name: countWorkers
+    addHollow:
+      name: addHollow
+    errorPopup:
+      name: errorPopup

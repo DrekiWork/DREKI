@@ -34,19 +34,20 @@
 			<<if $home >= 1>>
 				You have some free space; would you like to assign <<print $dragons[$int].name>> to a 
 				<<linkappend "shelter?">>
-					<<if $shelter.ruts.free >= 1 && $shelter.setts.free >= 1>>
-							A 
-						<<link "rut">>
-							<<addRut>>
-						<</link>> 
-						or a 
-						<<link "sett">>
+					<<if $shelter.setts.free >= 1>>
+						<<link "Sett">>
 							<<addSett>>
-						<</link>>?
-					<<elseif $shelter.ruts.free >= 1>>
-						You only have <<link "ruts">> <<addRut>> <</link>> available.
-					<<else>>
-						You only have <<link "sets">> <<addSett>> <</link>> available.
+						<</link>>
+					<</if>>
+					<<if $shelter.ruts.free >= 1>>
+						<<link "Rut">>
+							<<addRut>>
+						<</link>>
+					<</if>>
+					<<if $shelter.hollows.free >= 1>>
+						<<link "Hollow">>
+							<<addHollow>>
+						<</link>>
 					<</if>>
 				<</linkappend>>
 			<<else>>
@@ -56,7 +57,6 @@
 		<<case "rut">>
 			They're housed in a <<print $dragons[$int].home>>, and live alone. They seem a little cramped in there... You can <<link "kick them out">>
 				<<set $dragons[$int].home = "none">>
-				<<set $home += 1>>
 				<<set $shelter.ruts.free += 1>>
 				<<set $shelter.ruts.occupied -= 1>>
 				<<run Engine.show()>>
@@ -65,9 +65,15 @@
 		<<case "sett">>
 			They're housed in a <<print $dragons[$int].home>>, and live alone. There's enough space for them to stretch comfortably, and they've decorated a little. You can <<link "kick them out">>
 				<<set $dragons[$int].home = "none">>
-				<<set $home += 1>>
-				<<set $shelter.ruts.free += 1>>
-				<<set $shelter.ruts.occupied -= 1>>
+				<<set $shelter.setts.free += 1>>
+				<<set $shelter.setts.occupied -= 1>>
+				<<run Engine.show()>>
+				<</link>> if you like...
+		<<case "sett">>
+			They're housed in a <<print $dragons[$int].home>>; it's spartan and thoroughly uncomfortable. You can <<link "kick them out">>
+				<<set $dragons[$int].home = "none">>
+				<<set $shelter.hollows.free += 1>>
+				<<set $shelter.hollows.occupied -= 1>>
 				<<run Engine.show()>>
 				<</link>> if you like...
 		<</switch>><br> <br>

@@ -117,7 +117,7 @@
 
 <<widget "updateHome">>
 	<<nobr>>
-		<<set $home = ($shelter.ruts.free + $shelter.setts.free)>>
+		<<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) + ($shelter.setts.amount * $shelter.setts.shelter) + ($shelter.hollows.shelter * $shelter.hollows.amount))>>
 	<</nobr>>
 <</widget>>
 
@@ -126,7 +126,7 @@
 		<<set $dragons[$int].home = "rut">>
 		<<set $shelter.ruts.free -= 1>>
 		<<set $shelter.ruts.occupied += 1>>
-		<<set $home -= 1>>
+		<<updateHome>>
 		<<run Engine.show()>>
 	<</nobr>>
 <</widget>>
@@ -136,7 +136,27 @@
 		<<set $dragons[$int].home = "sett">>
 		<<set $shelter.setts.free -= 1>>
 		<<set $shelter.setts.occupied += 1>>
-		<<set $home -= 1>>
+		<<updateHome>>
 		<<run Engine.show()>>
+	<</nobr>>
+<</widget>>
+
+<<widget "addHollow">>
+	<<nobr>>
+		<<set $dragons[$int].home = "Hollow">>
+		<<set $shelter.hollows.free -= 1>>
+		<<set $shelter.hollows.occupied += 1>>
+		<<updateHome>>
+		<<run Engine.show()>>
+	<</nobr>>
+<</widget>>
+
+<<widget "errorPopup">>
+	<<nobr>>
+		<<script>>
+			Dialog.setup("Error!");
+			Dialog.wiki(Story.get("ErrorDialog").processText());
+			Dialog.open();
+		<</script>>
 	<</nobr>>
 <</widget>>

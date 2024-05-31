@@ -2,43 +2,68 @@
 <<nobr>>
 
     <<widget "buildQueue">>
-        <<run console.log("Ran build queue.")>>
+        <<run console.log("Build queue start.")>>
         <<if $buildQueue.length > 0>>
-            <<run console.log($dragons.job.some("builder"))>>
-            <<if $dragons.job.some("builder") == true>>
+            <<if _buildcount > 0>>
+                <<run console.log("There were builders.")>>
 
                 <<switch $buildQueue[0]>>
                     <<case "hollow">>
+                        <<run console.log("Registered hollow.")>>
                         <<if $buildTime >= 1>>
-                            <<if $stone >= ($shelter.hollows.priceS / $shelter.hollows.buildTime) && $wood >= ($shelter.hollows.priceW / $shelter.hollows.buildTime)>>
+                            <<run console.log("started building.")>>
+                            <<set _buildStone = Math.round($shelter.hollows.priceS / $shelter.hollows.buildTime)>>
+                            <<set _buildWood = Math.round($shelter.hollows.priceW / $shelter.hollows.buildTime)>>
+                            <<if $stone >= _buildStone && $wood >= _buildWood>>
                                 <<set $buildTime -= 1>>
-                                <<set $stone -= $shelter.hollows.priceS>>
-                                <<set $wood -= $shelter.hollows.priceW>>
+                                <<set _buildStone = ($shelter.hollows.priceS / $shelter.hollows.buildTime)>>
+                                <<set _buildWood = ($shelter.hollows.priceW / $shelter.hollows.buildTime)>>
+                                <<set $stone -= _buildStone>>
+                                <<set $wood -= _buildWood>>
                             <<else>>
                                 <<set _resourceDown = true>>
                             <</if>>
+                            <<set $builderStatus to 2>>
                             
                         <<elseif $buildTime == 0>>
+                            <<run console.log("finished building.")>>
                             <<set $shelter.hollows.amount += 1>>
                             <<set $shelter.hollows.free += 1>>
+                            <<set _finished to "hollow">>
                             <<set $buildTime = -1>>
                             <<run $buildQueue.splice(0,1)>>
+                            <<set $builderStatus to 3>>
 
                         <<else>>
+                            <<run console.log("Got ready.")>>
                             <<set $buildTime = $shelter.hollows.buildTime>>
                             <<set _startBuild = true>>
+                            <<set $builderStatus to 1>>
                             
                         <</if>>
 
-                    <<case default>>
-
+                    <<default>>
+                        <<run console.log("Trying to build something not recognized by the queue?! Item is: " + $buildQueue[0])>>
+                        <<errorPopup "buildQueueWeird">>
                 <</switch>>
             <<else>>
+                <<run console.log("No builders.")>>
                 <<set _needBuilder = true>>
             <</if>>
         <<else>>
-            <<set _buildIdle>>
+            <<run console.log("Nothing to build.")>>
+            <<set $builderStatus = 0>>
         <</if>>
+    <</widget>>
+
+    <<widget "countWorkers">>
+        <<set _wantedCount = 0>>
+        <<for _i = 0; _i < $dragons.length; _i++>>
+            <<if $dragons[_i].job == _wantedWorker>>
+                <<set _wantedCount++>>
+            <<else>>
+            <</if>>
+        <</for>>
     <</widget>>
 
 <</nobr>>
