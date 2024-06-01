@@ -1,40 +1,43 @@
 :: Rest [WIP] {"position":"1075,550","size":"100,100"}
-The end of the day is approaching.<<nobr>> <br> <br>
-
+The end of the day is approaching.<<nobr>>
 
 	<<set _exiled = []>>
 		<<for _i to 0; _i < $dragons.length; _i++>>
 			<<if $dragons[_i].left == "exile">>
+				<<if $dragons[_i].home !== "none">>
+					<<switch $dragons[_i].home>>
+					
+					<<case "rut">>
+						<<set $dragons[_i].home = "none">>
+						<<set $shelter.ruts.free += 1>>
+						<<set $shelter.ruts.occupied -= 1>>
+					<<case "sett">>
+						<<set $dragons[_i].home = "none">>
+						<<set $shelter.setts.free += 1>>
+						<<set $shelter.setts.occupied -= 1>>
+					<</switch>>
+				<<else>>
+				<</if>>
 				<<run _exiled.push($dragons[_i].name)>>
 				<<run console.log(_exiled)>>
-				<<run console.log("here1")>>
 				<<set _rejoin = random(0, 10)>>
 				<<if _rejoin >= 8>>
 					<<set $dragons[_i].left == "stay">>
 					<<set $dragons[_i].origin == "exiled">>
 					<<run $goneDragons.push(clone($dragons[_i]))>>
 				<<else>>
+					<<set _e = _i>>
+					<<run $dragons.splice(_i, 1)>>
+					<<set _i-->>
 				<</if>>
 				<<run console.log("goneDragons" + $goneDragons)>>
-				<<if $dragons[_i].home !== "none">>
-					<<switch $dragons[_i].home>>
-						<<case "rut">>
-							<<set $shelters.ruts.free += 1>>
-							<<set $shelters.ruts.occupied -= 1>>
-						<<case "sett">>
-							<<set $shelters.setts.free += 1>>
-							<<set $shelters.setts.occupied -= 1>>
-					<</switch>>
-				<<else>>
-				<</if>>
 			<<else>>
 			<</if>>
-			<<run $dragons.splice(_i, 1)>>
+			<<run console.log("post-exile: " + $dragons.length)>>
 		<</for>>
 		<<set $pop = ($dragons.length + 1)>>
-
-		<<run console.log("here2")>>
 	<<if _exiled.length >= 3>>
+		<br><br>
 		<<for _i to 0; _i < (_exiled.length); _i++>>
 			<<run console.log("hereLoop")>>
 			<<if _i <= (_exiled.length - 2)>>
@@ -45,8 +48,10 @@ The end of the day is approaching.<<nobr>> <br> <br>
 		<</for>>
 		group together and leave your camp quietly, never to return.<br><br>
 	<<elseif _exiled.length == 2>>
+		<br><br>
 		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your camp quietly, never to return.<br><br>
 	<<elseif _exiled.length == 1>>
+		<br><br>
 		<<print _exiled>> leaves your camp quietly, never to return.<br><br>
 	<</if>>
 	
@@ -67,7 +72,8 @@ The end of the day is approaching.<<nobr>> <br> <br>
 		A single rainier ushers in some water.
 	<<else>>
 		
-	<</if>>	
+	<</if>>
+
 	<<if _scavcount gte 2>>
 		Your <<print _scavcount>> scavengers return, bringing <<print _wood>> wood and <<print _stone>> stone.
 			<<if _goldluck gte 50>>
@@ -90,54 +96,118 @@ The end of the day is approaching.<<nobr>> <br> <br>
 
 	<</if>>
 
+	<<if _buildcount >= 2>>
+		<<if $buildQueue.length > 0>>
+			<<switch $builderStatus>>
+				<<case 1>>
+					Your <<print _buildcount>> builders have completed the planning stage for a <<print $buildQueue[0]>>.<br><br>
+				<<case 2>>
+					Your <<print _buildcount>> builders are working on a <<print $buildQueue[0]>>.
+					<<if _resourceDown == false>>
+							if you have enough materials, they should be done in <<print $buildTime>> day<<if $buildTime >= 2>>s<</if>>.
+						<<else>>
+							they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
+						<</if>><br><br>
+				<<case 3>>
+					Your <<print _buildcount>> builders have finished work on a <<print _finished>>!
+					<<if $buildQueue.length > 0>>
+						Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.<br><br>
+					<<else>>
+						They've got nothing else to build, so they'll be waiting for your next plans.<br><br>
+					<</if>>
+			<</switch>>
+		<<else>>
+			<br><br>
+		<</if>>
+	<<elseif _buildcount == 1>>
+		<<if $buildQueue.length > 0>>
+			<<switch $builderStatus>>
+				<<case 1>>
+					Your builder has completed the planning stage for a <<print $buildQueue[0]>>.<br><br>
+				<<case 2>>
+					<<if $buildTime >= 1>>
+						Your builder is working on a <<print $buildQueue[0]>>;
+						<<if _resourceDown == false>>
+							if you have enough materials, they should be done in <<print $buildTime>> day<<if $buildTime >= 2>>s<</if>>.
+						<<else>>
+							they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
+						<</if>><br><br>
+					<<else>>
+						Your builder has finished work on a <<print _finished>>!
+						<<if $buildQueue.length > 0>>
+							Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.<br><br>
+						<<else>>
+							They've got nothing else to build, so they'll be waiting for your next plans.<br><br>
+						<</if>>
+					<</if>>
+			<</switch>>
+		<<else>>
+		<</if>>
+	<<else>>
+		<br><br>
+	<</if>>
+
 	<<if $hatchlings.length > 1>>
 		<<if _hatchFood > 0 && _hatchWater > 0>>
-			Your hatchlings present you with <<print _hatchFood>> food and <<print _hatchWater>> water that they found. How sweet!
+			Your hatchlings present you with <<print _hatchFood>> food and <<print _hatchWater>> water that they found. How sweet! <br><br>
 		<<elseif _hatchfood > 0 && _hatchWater == 0>>
-			Your hatchlings present you with <<print _hatchFood>> food that they found. How sweet!
+			Your hatchlings present you with <<print _hatchFood>> food that they found. How sweet!<br><br>
 		<<elseif _hatchfood == 0 && _hatchWater > 0>>
-			Your hatchlings present you with <<print _hatchWater>> water that they found. How sweet!
+			Your hatchlings present you with <<print _hatchWater>> water that they found. How sweet!<br><br>
 		<</if>>
 	<<elseif $hatchlings.length == 1>>
 		<<if _hatchFood > 0>>
-			Your hatchling presents you with <<print _hatchFood>> food that they found today. How sweet!
+			Your hatchling presents you with <<print _hatchFood>> food that they found today. How sweet!<br><br>
 		<</if>>
 		<<if _hatchWater > 0>>
-			Your hatchling presents you with <<print _hatchWater>> water that they found today. How sweet!
+			Your hatchling presents you with <<print _hatchWater>> water that they found today. How sweet!<br><br>
 		<</if>>
 	<<else>>
 		
 	<</if>>
- <br> <br>
-
-		<<if _hatchcheck >= 2>>
-			 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery.
-		<<elseif _hatchcheck == 1>>
-			 <br> <br>An egg has hatched.
-		<<else>>
-		<</if>>
-		<<if _growcheck >= 2>>
+	
+	<<if _hatchcheck >= 2>>
+		 <br> <br><<print _hatchcheck>> eggs have hatched in the Nursery.
+		 <<if _growcheck >= 2>>
 			<<print _growcheck>> hatchlings have grown up.<br><br>
 		<<elseif _growcheck == 1>>
 			A hatchling has grown up.<br><br>
 		<<else>>
 			<br><br>
 		<</if>>
+	<<elseif _hatchcheck == 1>>
+		 <br> <br>An egg has hatched.
+		 <<if _growcheck >= 2>>
+			<<print _growcheck>> hatchlings have grown up.<br><br>
+		<<elseif _growcheck == 1>>
+			A hatchling has grown up.<br><br>
+		<<else>>
+			<br><br>
+		<</if>>
+	<<else>>
+		<<if _growcheck >= 2>>
+			<<print _growcheck>> hatchlings have grown up.<br><br>
+		<<elseif _growcheck == 1>>
+			A hatchling has grown up.<br><br>
+		<<else>>
+		<</if>>
+	<</if>>
 
 	<<if $player.health <= 0>>
 			[[...|SandboxDeath]]
 	<<else>>
-	<<if _pcHungry == true && _pcThirsty == true>>
-		<<set _remaining = ($player.health / 2)>>
-		Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
-	<<elseif _pcHungry == true && _pcThirsty == false>>
-		Your stomach rumbles quietly. You didn't get to eat today, but you did have 4 water.
-	<<elseif _pcHungry == false && _pcThirsty == true>>
-		Your throat feels terribly dry. You ate 3 food, but had no water.
-	<<else>>
-		You ate 3 food and 4 water.
-	<</if>>
-
+		<<if _pcHungry == true && _pcThirsty == true>>
+			<<set _remaining = ($player.health / 2)>>
+			Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
+		<<elseif _pcHungry == true && _pcThirsty == false>>
+			Your stomach rumbles quietly. You didn't get to eat today, but you did have 4 water.
+		<<elseif _pcHungry == false && _pcThirsty == true>>
+			Your throat feels terribly dry. You ate 3 food, but had no water.
+		<<else>>
+			You ate 3 food and 4 water.
+		<</if>>
+		
+	1
 	<<if $dragons.length == 0>>
 		<<if $hatchlings.length > 1>>
 			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.
@@ -155,33 +225,34 @@ The end of the day is approaching.<<nobr>> <br> <br>
 			Your
 		<</if>>
 
-		<<if $shelter.ruts.amount >= ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+		<<if $home >= ($dragons.length + 1) && _eat > 0 && _drink > 0>>
 			colony eats <<print _eat>> food, and drinks <<print _drink>> water.
-		<<elseif $shelter.ruts.amount < ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+		<<elseif $home < ($dragons.length + 1) && _eat > 0 && _drink > 0>>
 			colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
 		<</if>>
 		<<if _unfed gte 2 && _nowater gte 2>>
-			However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+			However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
 		<<elseif _unfed gte 2 && _nowater == 1>>
-			However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.
+			However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.<br><br>
 		<<elseif _unfed gte 2 && _nowater == 0>>
-			However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.
+			However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.<br><br>
 		<<elseif _unfed == 1 && _nowater == 0>>
-			However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.
+			However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.<br><br>
 		<<elseif _unfed == 1 && _nowater gte 2>>
-			However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+			However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
 		<<elseif _unfed == 1 && _nowater == 1>>
-			However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.
+			However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
 		<<elseif _unfed == 0 && _nowater gte 2>>
-			However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.
+			However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.<br><br>
 		<<elseif _unfed == 0 && _nowater == 1>>
-			However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.
+			However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.<br><br>
+		<<else>>
+			<br><br>
 		<</if>>
 	<</if>>
-
-	<br><br>
-
 	
+	<<run console.log("end day " + $home)>>
+
 	<<if $dragons.length >= 1>>
 		<<if _newHouse.length > 2>>
 			<<for _i to 0; _i < _newHouse.length; _i++>>
@@ -192,54 +263,252 @@ The end of the day is approaching.<<nobr>> <br> <br>
 				<</if>>
 			<</for>>
 			found unoccupied places to sleep for the night. They probably won't leave now.
-			<<if _homeless.length > 2>>
-			<<for _i to 0; _i < _homeless.length; _i++>>
-				<<if _i < (_homeless.length - 2)>>
-					<<print _homeless[_i]>>, 
+			<<if _changedHome.length > 2>>
+				<<for _i to 0; _i < _changedHome.length; _i++>>
+					<<if _i < (_changedHome.length - 2)>>
+						<<print _changedHome[_i]>>, 
+					<<else>>
+						and <<print _changedHome[_i]>>
+					<</if>>
+				<</for>>
+				have swapped homes after finding somewhere better to live.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
 				<<else>>
-				and <<print _homeless[_i]>>
+					<br><br>
 				<</if>>
-			<</for>>
-			don't have anywhere to sleep yet.
-		<<elseif _homeless.length == 2>>
-			<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
-		<<elseif _homeless.length == 1>>
-			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
-		<</if>> <br> <br>
+			<<elseif _changedHome.length == 2>>
+				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<elseif _changedHome.length == 1>>
+				<<print _changedHome>> has moved into a new, better home.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<else>>
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<</if>>
 		<<elseif _newHouse.length == 2>>
-			<<print _newHouse[0]>> and <<print _newHouse[1]>> found unoccupied places to sleep for the night. They probably won't leave now.
-			<<if _homeless.length > 2>>
-			<<for _i to 0; _i < _homeless.length; _i++>>
-				<<if _i < (_homeless.length - 2)>>
-					<<print _homeless[_i]>>, 
+			<<print _newHouse[0]>> and <<print _newHouse[1]>> have found unoccupied places to slep for the night. They probably won't leave now.
+			<<if _changedHome.length > 2>>
+				<<for _i to 0; _i < _changedHome.length; _i++>>
+					<<if _i < (_changedHome.length - 2)>>
+						<<print _changedHome[_i]>>, 
+					<<else>>
+						and <<print _changedHome[_i]>>
+					<</if>>
+				<</for>>
+				have swapped homes after finding somewhere better to live.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
 				<<else>>
-				and <<print _homeless[_i]>>
+					<br><br>
 				<</if>>
-			<</for>>
-			don't have anywhere to sleep yet.
-		<<elseif _homeless.length == 2>>
-			<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
-		<<elseif _homeless.length == 1>>
-			<<print _homeless[0]>> doesn't have anywhere to sleep yet.
-		<</if>> <br> <br>
+			<<elseif _changedHome.length == 2>>
+				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<elseif _changedHome.length == 1>>
+				<<print _changedHome>> has moved into a new, better home.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<else>>
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<</if>>
 		<<elseif _newHouse.length == 1>>
 			<<print _newHouse[0]>> found an unoccupied place to sleep for the night. They probably won't leave now.
-			<<if _homeless.length > 2>>
-			<<for _i to 0; _i < _homeless.length; _i++>>
-				<<if _i < (_homeless.length - 2)>>
-					<<print _homeless[_i]>>, 
+			<<if _changedHome.length > 2>>
+				<<for _i to 0; _i < _changedHome.length; _i++>>
+					<<if _i < (_changedHome.length - 2)>>
+						<<print _changedHome[_i]>>, 
+					<<else>>
+						and <<print _changedHome[_i]>>
+					<</if>>
+				<</for>>
+				have swapped homes after finding somewhere better to live.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
 				<<else>>
-				and <<print _homeless[_i]>>
+					<br><br>
 				<</if>>
-			<</for>>
-			don't have anywhere to sleep yet.
-			<<elseif _homeless.length == 2>>
-				<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.
-			<<elseif _homeless.length == 1>>
-				<<print _homeless[0]>> doesn't have anywhere to sleep yet.
-			<</if>> <br> <br>
+			<<elseif _changedHome.length == 2>>
+				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<elseif _changedHome.length == 1>>
+				<<print _changedHome>> has moved into a new, better home.
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					<br><br>
+				<</if>>
+			<<else>>
+				<<if _homeless.length > 2>>
+					<<for _i to 0; _i < _homeless.length; _i++>>
+						<<if _i < (_homeless.length - 2)>>
+							<<print _homeless[_i]>>, 
+						<<else>>
+							and <<print _homeless[_i]>>
+						<</if>>
+					<</for>>
+					don't have anywhere to sleep yet.
+				<<elseif _homeless.length == 2>>
+						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
+				<<elseif _homeless.length == 1>>
+						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
+				<<else>>
+					
+				<</if>>
+			<</if>>
+		<<else>>
+
 		<</if>>
 	<<else>>
+
 	<</if>>
 	
 	<<if _left.length >= 2>>
@@ -247,9 +516,9 @@ The end of the day is approaching.<<nobr>> <br> <br>
 			<<if _i !== (_left.length - 1)>>
 				<<print _left[_i]>>, 
 			<<elseif _i == (_left.length - 1)>>
-				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<</nobr>>
+				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<br> <br> <</nobr>>
 	<<elseif _left.length == 1>>
-		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br> 
+		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br> <br> 
 	<</if>>
 	
 		<<set _eventChance to random(15)>>

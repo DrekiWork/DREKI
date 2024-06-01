@@ -62,6 +62,9 @@
 	}>>
 
 		/* Setting homes up, I guess? Gonna have to figure out if I want to convert this to a datamap or array or something... ugh. */
+	<<set $buildQueue to []>>
+	<<set $buildTime to -1>>
+	<<set $builderStatus to -1>>
 	<<set $shelter to {}>>
 	<<set $shelter.ruts to { 
 		amount : 0,
@@ -78,7 +81,16 @@
 		free : 0,
 		occupied : 0
 	}>>
-    <<set $home = ($shelter.ruts.free + $shelter.setts.free)>>
+	<<set $shelter.hollows to {
+		amount : 0,
+		shelter : 10,
+		priceS : 30,
+		priceW : 20,
+		buildTime : 3,
+		free: 0,
+		occupied : 0
+	}>>
+    <<set $home = (($shelter.ruts.shelter * $shelter.ruts.amount) + ($shelter.setts.shelter * $shelter.setts.amount) + ($shelter.hollows.shelter * $shelter.hollows.amount))>>
 	<<set $builtRut = false>>
 	<<set $builtSett = false>>
 		

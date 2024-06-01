@@ -1,5 +1,6 @@
 :: Building [WIP] {"position":"950,550","size":"100,100"}
 You need to make something, but what? What does your colony need right now?<<nobr>>
+
 <br> <br>
 
 	<<link "Shelter">> <<toggleclass "#shelter" "hidden">> <</link>>
@@ -26,7 +27,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<<if $stone >= 5>><<button "Build">>
 				<<set $shelter.ruts.amount += 1>>
 				<<set $shelter.ruts.free += 1>>
-				<<set $home = ($shelter.ruts.amount + $shelter.setts.amount)>>
+				<<updateHome>>
 				<<set $stone -= $shelter.ruts.priceS>>
 				<<updateBar>>
 				<<set $builtRut = true>>
@@ -45,7 +46,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 					<<set $shelter.ruts.free -= 1>>
 					<<set $shelter.setts.amount += 1>>
 					<<set $shelter.setts.free += 1>>
-					<<set $home = ($shelter.ruts.amount + $shelter.setts.amount)>>
+					<<updateHome>>
 					<<set $stone -= $shelter.setts.priceS>>
 					<<set $wood -= $shelter.setts.priceW>>
 					<<updateBar>>
@@ -73,6 +74,25 @@ You need to make something, but what? What does your colony need right now?<<nob
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone, <<print ($shelter.setts.priceW - $wood)>> wood, and an empty rut!
 			<</if>><br><br>
 	<</if>>
+
+	<<set _wantedWorker = "builder">>
+	<<countWorkers>>
+	<<if _wantedCount > 0>>
+		''Hollow'' <br>
+		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. <<print $buildQueue.count("hollow")>><br>
+			<<button "Build">>
+				<<run $buildQueue.push(
+					"hollow"
+				)>>
+				<<run console.log("buildQueue is: " + $buildQueue)>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+			<</button>><br><br>
+	<<else>>
+		''Hollow''<br>
+		You think you could make a large area for many dragons to sleep in, but you're not how to go about doing so... maybe if you had some dragons that specialized in building?
+	<</if>><br><br>
 	
 	
 	''Nest'' <br>
@@ -82,6 +102,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 			<<set $nest += 1>>
 			<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
 			<<set $wood -= 3>>
+			<<updateBar>>
 			<<replace "#shelter">>
 				<<include "buildShelters">>
 			<</replace>>

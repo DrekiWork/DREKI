@@ -24,26 +24,28 @@ It's <<nobr>>
 	<</switch>>
 <</nobr>>
 
+[[BugTest]]
+
  The bulk of your colony is sprawled around a clearing in a forest, and backed against a sheer cliff. There's <<nobr>>
-	<<if $shelter.ruts.amount > 1>>
-		<<set _noHome = ($dragons.length - ($shelter.ruts.amount * $shelter.ruts.shelter))>>
-		<<print $shelter.ruts.amount>> ruts around, giving shelter to the same number of dragons. 
+	<<if $home > 1>>
+		<<set _noHome = ($dragons.length - $home)>>
+		enough room for <<print $home>> dragons to find a place to sleep - perhaps even comfortably. 
 		<<if _noHome > 1>>
 			However, you have <<print _noHome>> dragons that still need somewhere to sleep.
 		<<elseif _noHome == 1>>
-			However, you have one dragon that doesn't have a shelter.
+			However, you have one dragon that doesn't have a place to rest.
 		<<else>>
 		<</if>>
-	<<elseif $shelter.ruts.amount == 1>>
-		one rut, occupied by yourself.
+	<<elseif $home == 1>>
+		one spot to sleep, occupied by yourself.
 		<<if $dragons.length > 1>>
 			However, you have <<print $dragons.length>> dragons that still need somewhere to sleep.
 		<<elseif $dragons.length == 1>>
-			However, you have one dragon that doesn't have a shelter.
+			However, you have one dragon that doesn't have a place to rest.
 		<<else>>
 		<</if>>
 	<<else>>
-		no ruts, and not even you have a place to hide away from inclement weather and the cold of night.
+		nowhere to shelter; not even you have a place to hide away from inclement weather and the cold of night.
 	<</if>>
 <br>
 <br>
@@ -78,6 +80,7 @@ It's <<nobr>>
 	<<elseif $water >= ($pop * 7.5)>>doesn't really need water; you have enough for some days, at least.
 	<<elseif $water >= ($pop * 5)>>has some water, though the ditch you've lined for it is still concerningly empty.
 	<<else>>needs water, desperately.<</if>>
+Near the entrance, safely away from the weather, is your dugout. You've expanded it <<print $dugOut.amount>> <<if $dugOut.amount > 1>>times<<else>>time<</if>>, and it can hold up to <<print $woodCap>> each of wood and stone.
 <</linkreplace>>
 <</nobr>>
 
@@ -105,9 +108,9 @@ What do you want to do?
 			<</linkappend>>
 		<br> &emsp;[[Treasure]]
 		<</linkappend>> <br>
-		<<if $eggs < $eggSpace && $theft == false>>
+		<<if $eggs.length < $eggSpace && $theft == false>>
 			[[Get eggs|Egg theft]] <br>
-		<<elseif $eggs >= $eggSpace && $theft == false>>
+		<<elseif $eggs.length >= $eggSpace && $theft == false>>
 			You don't see a point in risking yourself for eggs that you don't have room for. <br>
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>
