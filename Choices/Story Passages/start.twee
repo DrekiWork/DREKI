@@ -1,7 +1,7 @@
 :: START [WIP] {"position":"800,100","size":"100,100"}
 Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human, for humans, who want to pretend to be a dragon for a while. It's relaxing.
 
-``NOTICE``
+<strong>NOTICE</strong>
 DREKI is in <em>PRE-PRE-ALPHA!</em> Things are not present that will be in the future. Things <em>are</em> present that will be replaced, reworked, or outright removed. Stuff is going to break. The game is so unbalanced it's actually funny. (Get gold; you'll see.) The math is wonky and things are so, so weird. This is by no means a final product. It's not even a beta product. I hesitate to say this is a <em>product</em>, beyond the idea that it was somehow produced by someone with no coding experience and certainly no production experience. <em><strong>THINGS ARE GOING TO BREAK.</strong></em>
 
 Save files are going to be incompatible between updates, generally even minor ones. DREKI is unstable, and may behave in unexpected ways. If that is acceptable, then by all means, carry on! And thank you for your time; it means the world to a baby dev.
@@ -11,6 +11,10 @@ If you run into an error, submit it on GitHub at the <a href="https://github.com
 With all that said, what would you like to do?
 
 [[Start a colony in Free Play|Game Setter]]
+<<link "Cheater / Testing">>
+	<<set $cheat = true>>
+	<<goto "Sandbox Central">>
+<</link>>
 <!-- [[Go through the Story|Prologue]]
 &emsp;<em>Note: This currently only leads to the prologue, which then loops back to the sandbox starter.</em> -->
 <<link "Quit">><<script>>window.close()<</script>><</link>>

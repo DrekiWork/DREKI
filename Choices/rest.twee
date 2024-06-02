@@ -207,13 +207,13 @@ The end of the day is approaching.<<nobr>>
 			You ate 3 food and 4 water.
 		<</if>>
 		
-	1
 	<<if $dragons.length == 0>>
 		<<if $hatchlings.length > 1>>
-			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.
+			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.<br><br>
 		<<elseif $hatchlings.length == 1>>
-			Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.
+			Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.<br><br>
 		<<else>>
+			<br><br>
 		<</if>>
 	<<else>>
 

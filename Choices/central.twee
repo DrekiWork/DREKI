@@ -24,8 +24,6 @@ It's <<nobr>>
 	<</switch>>
 <</nobr>>
 
-[[BugTest]]
-
  The bulk of your colony is sprawled around a clearing in a forest, and backed against a sheer cliff. There's <<nobr>>
 	<<if $home > 1>>
 		<<set _noHome = ($dragons.length - $home)>>
