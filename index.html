@@ -245,60 +245,97 @@ Config.saves.onSave = function (save, details) {
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">&lt;&lt;nobr&gt;&gt;
+}());</script><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-passagedata pid="1" name="BugTest" tags="" position="100,100" size="100,100">&lt;&lt;nobr&gt;&gt;
     Select &quot;Go&quot; at bottom of page after making decisions, especially if having built anything. That&#39;s the only way the game will remember and properly change your shit. DO NOT IGNORE IT.
     
-    &lt;h2&gt;Resources&lt;/h2&gt;
-        Food: &lt;br&gt;
-        &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$food&quot; $food&gt;&gt; &lt;br&gt;
-        &amp;nbsp;Storage Caverns: &lt;&lt;numberbox &quot;$cavern.amount&quot; $cavern.amount&gt;&gt; &lt;br&gt;
+    &lt;details&gt;
+    &lt;summary&gt;&lt;h3&gt;Resources&lt;/h3&gt;&lt;/summary&gt;
+        &#39;&#39;//Food://&#39;&#39; &lt;br&gt;
+            &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$food&quot; $food&gt;&gt; &lt;br&gt;
+            &amp;nbsp;Storage Caverns: &lt;&lt;numberbox &quot;$cavern.amount&quot; $cavern.amount&gt;&gt; &lt;br&gt;
+            &amp;nbsp;Cavern Capacity: &lt;&lt;numberbox &quot;$cavern.storage&quot; $cavern.storage&gt;&gt; &lt;br&gt;&lt;br&gt;
     
-        Water: &lt;br&gt;
-        &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$water&quot; $water&gt;&gt; &lt;br&gt;
-        &amp;nbsp;Storage Pools: &lt;&lt;numberbox &quot;$pool.amount&quot; $pool.amount&gt;&gt; &lt;br&gt;
+        &#39;&#39;//Water://&#39;&#39; &lt;br&gt;
+            &amp;nbsp;Amount: &lt;&lt;numberbox &quot;$water&quot; $water&gt;&gt; &lt;br&gt;
+            &amp;nbsp;Storage Pools: &lt;&lt;numberbox &quot;$pool.amount&quot; $pool.amount&gt;&gt; &lt;br&gt;
+            &amp;nbsp;Pool Capacity: &lt;&lt;numberbox &quot;$pool.storage&quot; $pool.storage&gt;&gt; &lt;br&gt;&lt;br&gt;
     
-        Buildng Mats: &lt;br&gt;
+        &#39;&#39;//Building Mats://&#39;&#39; &lt;br&gt;
         &amp;nbsp;Wood: &lt;br&gt;
             &amp;nbsp;&amp;nbsp;Amount: &lt;&lt;numberbox &quot;$wood&quot; $wood&gt;&gt; &lt;br&gt;
     
         &amp;nbsp;Stone: &lt;br&gt;
             &amp;nbsp;&amp;nbsp;Amount: &lt;&lt;numberbox &quot;$stone&quot; $stone&gt;&gt; &lt;br&gt;
     
-        &amp;nbsp;Wood &amp; Stone Dug-outs: &lt;&lt;numberbox &quot;$dugOut.amount&quot; $dugOut.amount&gt;&gt; &lt;br&gt; &lt;br&gt;
+        &amp;nbsp;Dug-outs: &lt;&lt;numberbox &quot;$dugOut.amount&quot; $dugOut.amount&gt;&gt; &lt;br&gt;
+        &amp;nbsp;Dug-out Capacity: &lt;&lt;numberbox &quot;$dugOut.storage&quot; $dugOut.storage&gt;&gt; &lt;br&gt;&lt;br&gt;
+
+        &#39;&#39;//Gold://&#39;&#39; &lt;br&gt;
+        &amp;nbsp;Gold: &lt;&lt;numberbox &quot;$gold&quot; $gold&gt;&gt;&lt;br&gt;
+        &lt;hr&gt;
+    &lt;/details&gt;
+
+    &lt;details&gt;
+    &lt;summary&gt;&lt;h3&gt;Buildings&lt;/h3&gt;&lt;/summary&gt;
+        &#39;&#39;//Shelter//&#39;&#39;&lt;br&gt;
+         Don&#39;t set these lower than the amount currently in use. The number of free / occupied can go into negatives and fuck things over. I&#39;m not sure what that would do in total, but you can only manage that if you cheat, so... Don&#39;t do it.&lt;br&gt;
+        Ruts: &lt;&lt;numberbox &quot;$shelter.ruts.amount&quot; $shelter.ruts.amount&gt;&gt; &lt;br&gt;
+        &amp;nbsp;//Occupied ruts: &lt;&lt;print $shelter.ruts.occupied&gt;&gt;//&lt;br&gt;
+        Setts: &lt;&lt;numberbox &quot;$shelter.setts.amount&quot; $shelter.setts.amount&gt;&gt; &lt;br&gt;
+        &amp;nbsp;//Occupied setts: &lt;&lt;print $shelter.setts.occupied&gt;&gt;//&lt;br&gt;
+        Hollows: &lt;&lt;numberbox &quot;$shelter.hollows.amount&quot; $shelter.hollows.amount&gt;&gt; &lt;br&gt;
+        &amp;nbsp;//Occupied hollows: &lt;&lt;print $shelter.hollows.occupied&gt;&gt;//&lt;br&gt;&lt;br&gt;
     
-    
-    &lt;h2&gt;Buildings&lt;/h2&gt;
-        Shelters work a bit differently to other buildings. The amount in the number box is basically saying &quot;build this many more&quot;. I haven&#39;t implemented removing shelters yet – I&#39;m a little bit foolish – so just use this to build more, never less. &lt;br&gt;
-        &lt;&lt;set _rutAmount = 0&gt;&gt;
-        Ruts: &lt;&lt;numberbox &quot;_rutAmount&quot; _rutAmount&gt;&gt; &lt;br&gt;
-    
-        Nests: &lt;&lt;numberbox &quot;$nest&quot; $nest&gt;&gt; &lt;br&gt; &lt;br&gt;
-    
-    
-    &lt;h2&gt;Dragons&lt;/h2&gt;
-    &lt;h3&gt;NOTE:&lt;/h3&gt; One click, one thing. I promise it&#39;s working, the screen just won&#39;t reload. Don&#39;t spam this, and DO NOT. &lt;em&gt;DO. NOT.&lt;/em&gt; Add more total eggs / hatchlings than you have eggspace.
-    Gimme: &lt;br&gt;
+        &#39;&#39;//Nursery//&#39;&#39;&lt;br&gt;
+        Hatchlings / Eggs cheated in don&#39;t care if there aren&#39;t enough nests to hold them, afaik. If something breaks because you have more eggs / hatchis than nests, that&#39;s on you.&lt;br&gt;
+        Nests: &lt;&lt;numberbox &quot;$nest&quot; $nest&gt;&gt;&lt;br&gt;
+        &lt;hr&gt;
+
+    &lt;/details&gt;
+
+    &lt;details&gt;
+    &lt;summary&gt;&lt;h3&gt;Colonists&lt;/h3&gt;&lt;/summary&gt;
+    &#39;&#39;//Dragons//&#39;&#39;&lt;br&gt;
+     One click, one thing. I promise it&#39;s working; you won&#39;t see the update until you hit &quot;Go&quot; at the bottom and reload the sidebar. Don&#39;t spam this (for your sanity), and &lt;em&gt;DO. NOT.&lt;/em&gt; Add more total eggs / hatchlings than you have eggspace. Colony dragon creates a dragon that was hatched in your colony, wanderer creates a dragon that joined via wanderer event.&lt;br&gt;
+    Gimme: 
         &lt;&lt;link &quot;Egg&quot;&gt;&gt;
             &lt;&lt;eggMaker&gt;&gt;
         &lt;&lt;/link&gt;&gt; | 
         &lt;&lt;link &quot;Hatchling&quot;&gt;&gt;
             &lt;&lt;hatchMaker&gt;&gt;
         &lt;&lt;/link&gt;&gt; | 
-        &lt;&lt;link &quot;Dragon&quot;&gt;&gt;
+        &lt;&lt;link &quot;Colony Dragon&quot;&gt;&gt;
             &lt;&lt;dragonMaker&gt;&gt;
-        &lt;&lt;/link&gt;&gt; &lt;br&gt; &lt;br&gt;
+        &lt;&lt;/link&gt;&gt; |
+        &lt;&lt;link &quot;Wanderer&quot;&gt;&gt;
+            &lt;&lt;dragonWanderer&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+        &lt;hr&gt;
+    &lt;/details&gt;
+    &lt;details&gt;
+    &lt;summary&gt;&lt;h3&gt;Misc. Triggers&lt;/h3&gt;&lt;/summary&gt;
+    &#39;&#39;//Hydra//&#39;&#39;&lt;br&gt;
+    [[Hydra Den Event|HydraFoodEvent]]&lt;br&gt;
+    &lt;&lt;linkreplace &quot;Take hydra&#39;s egg?&quot;&gt;&gt;
+        &lt;&lt;set $hydraEggTaken = true&gt;&gt;
+        Took the egg.
+    &lt;&lt;/linkreplace&gt;&gt;&lt;br&gt;
+    &lt;&lt;linkreplace &quot;Seen the hydra?&quot;&gt;&gt;
+        &lt;&lt;set $hydraSeen = true&gt;&gt;
+        Seen the hydra.
+    &lt;&lt;/linkreplace&gt;&gt;&lt;br&gt;&lt;br&gt;
+
+    &#39;&#39;//Lake Creatures//&#39;&#39;&lt;br&gt;
+    &lt;&lt;linkreplace &quot;Seen the creatures?&quot;&gt;&gt;
+        &lt;&lt;set $infestedNotice = true&gt;&gt;
+        Seen the lake creatures.
+    &lt;&lt;/linkreplace&gt;&gt;
+    &lt;hr&gt;
+    &lt;/details&gt;
+    
     
     &lt;&lt;link &quot;Go&quot;&gt;&gt;
-        &lt;&lt;set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))&gt;&gt;
-        &lt;&lt;for _i to 0; _i lt _rutAmount; _i++&gt;&gt;
-            &lt;&lt;set $shelter.ruts.amount += 1&gt;&gt;
-    	    &lt;&lt;set $shelter.ruts.free += 1&gt;&gt;
-    	    &lt;&lt;set $home = ($shelter.ruts.free - 1)&gt;&gt;
-        &lt;&lt;/for&gt;&gt;
-        &lt;&lt;set $waterCap = ($pool.amount * $pool.storage)&gt;&gt;
-        &lt;&lt;set $foodCap = ($cavern.amount * $cavern.storage)&gt;&gt;
-        &lt;&lt;set $woodCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
-    	&lt;&lt;set $stoneCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
+        &lt;&lt;updateHome&gt;&gt;
         &lt;&lt;updateBar&gt;&gt;
     &lt;&lt;/link&gt;&gt; | 
     
@@ -321,8 +358,11 @@ But this sets up the sidebar for printing stuff. Currently only prints, not form
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. --&gt;
 
-&lt;&lt;if hasVisited(&quot;tutorialOpen&quot;)&gt;&gt;Cycle &lt;&lt;print $cycles&gt;&gt;, Day &lt;&lt;print $days&gt;&gt;
+&lt;&lt;if hasVisited(&quot;tutorialOpen&quot;) || $cheat == true&gt;&gt;Cycle &lt;&lt;print $cycles&gt;&gt;, Day &lt;&lt;print $days&gt;&gt;
 	&lt;br&gt;
+	&lt;&lt;if $cheat == true&gt;&gt;
+		&lt;&lt;link &quot;Cheating&quot;&gt;&gt;&lt;&lt;goto &quot;BugTest&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
 	
 	&lt;hr&gt;
 	&lt;table&gt;
@@ -396,6 +436,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. --&gt;
 	&lt;li&gt;Builders! And they do something! And you get told when they do something!&lt;/li&gt;
 	&lt;li&gt;Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They&#39;re only buildable with builders!&lt;/li&gt;
 	&lt;li&gt;There&#39;s detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they&#39;re getting into.&lt;/li&gt;
+	&lt;li&gt;Oh boy descriptions! They&#39;re bare-bones right now, but they exist, which is cool.&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;
 
 	&#39;&#39;QoL&#39;&#39;
@@ -523,7 +564,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 
 [[insert text here|Game Setter]]</tw-passagedata><tw-passagedata pid="14" name="START" tags="WIP" position="800,100" size="100,100">Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human, for humans, who want to pretend to be a dragon for a while. It&#39;s relaxing.
 
-``NOTICE``
+&lt;strong&gt;NOTICE&lt;/strong&gt;
 DREKI is in &lt;em&gt;PRE-PRE-ALPHA!&lt;/em&gt; Things are not present that will be in the future. Things &lt;em&gt;are&lt;/em&gt; present that will be replaced, reworked, or outright removed. Stuff is going to break. The game is so unbalanced it&#39;s actually funny. (Get gold; you&#39;ll see.) The math is wonky and things are so, so weird. This is by no means a final product. It&#39;s not even a beta product. I hesitate to say this is a &lt;em&gt;product&lt;/em&gt;, beyond the idea that it was somehow produced by someone with no coding experience and certainly no production experience. &lt;em&gt;&lt;strong&gt;THINGS ARE GOING TO BREAK.&lt;/strong&gt;&lt;/em&gt;
 
 Save files are going to be incompatible between updates, generally even minor ones. DREKI is unstable, and may behave in unexpected ways. If that is acceptable, then by all means, carry on! And thank you for your time; it means the world to a baby dev.
@@ -533,6 +574,10 @@ If you run into an error, submit it on GitHub at the &lt;a href=&quot;https://gi
 With all that said, what would you like to do?
 
 [[Start a colony in Free Play|Game Setter]]
+&lt;&lt;link &quot;Cheater / Testing&quot;&gt;&gt;
+	&lt;&lt;set $cheat = true&gt;&gt;
+	&lt;&lt;goto &quot;Sandbox Central&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
 &lt;!-- [[Go through the Story|Prologue]]
 &amp;emsp;&lt;em&gt;Note: This currently only leads to the prologue, which then loops back to the sandbox starter.&lt;/em&gt; --&gt;
 &lt;&lt;link &quot;Quit&quot;&gt;&gt;&lt;&lt;script&gt;&gt;window.close()&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="Game Setter" tags="WIP" position="800,300" size="100,100">You are a dragon that has left their colony; sent out with the great honor of founding a new home. You were trained for such your entire life. With this in mind - and perhaps, some vanity - you have chosen the title of &lt;&lt;nobr&gt;&gt;
@@ -1944,8 +1989,6 @@ It&#39;s &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;/switch&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-[[BugTest]]
-
  The bulk of your colony is sprawled around a clearing in a forest, and backed against a sheer cliff. There&#39;s &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;if $home &gt; 1&gt;&gt;
 		&lt;&lt;set _noHome = ($dragons.length - $home)&gt;&gt;
@@ -2120,12 +2163,42 @@ What do you want to do?
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Interact" tags="WIP" position="400,700" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;&lt;updateHome&gt;&gt;
 	&lt;&lt;set _name to $dragons[$int].name&gt;&gt;
-	&lt;&lt;textbox &quot;$dragons[$int].name&quot; $dragons[$int].name&gt;&gt; is one of your dragons; they&#39;re &lt;&lt;if $dragons[$int].age == &quot;Adult&quot;&gt;&gt;fully grown, &lt;&lt;else&gt;&gt;pretty young &lt;&lt;/if&gt;&gt;and have shown themselves to be &lt;&lt;print $dragons[$int].personality&gt;&gt;. 
+	&lt;&lt;textbox &quot;$dragons[$int].name&quot; $dragons[$int].name&gt;&gt; is one of your dragons. They&#39;re a fully grown
+	&lt;&lt;if $dragons[$int].appearance.size == &quot;normal&quot;&gt;&gt;
+		&lt;&lt;print $dragons[$int].appearance.color&gt;&gt; dragon with
+		&lt;&lt;if $dragons[$int].appearance.pattern == &quot;plain&quot;&gt;&gt;
+			no particular pattern on their scales.
+		&lt;&lt;else&gt;&gt;
+			a &lt;&lt;print $dragons[$int].appearance.pattern&gt;&gt; pattern across their scales.
+		&lt;&lt;/if&gt;&gt;
+	&lt;&lt;else&gt;&gt;
+		abnormally &lt;&lt;print $dragons[$int].appearance.size&gt;&gt; &lt;&lt;print $dragons[$int].appearance.color&gt;&gt; dragon
+		&lt;&lt;if $dragons[$int].appearance.pattern == &quot;plain&quot;&gt;&gt;
+			with no particular pattern on their scales.
+		&lt;&lt;else&gt;&gt;
+			with &lt;&lt;print $dragons[$int].appearance.pattern&gt;&gt; patterns across their scales.
+		&lt;&lt;/if&gt;&gt;
+	&lt;&lt;/if&gt;&gt;
+	&lt;&lt;switch $dragons[$int].appearance.visquirk&gt;&gt;
+		&lt;&lt;case &quot;sharp teeth&quot;&gt;&gt;
+			Their canines are especially long, and poke out from their mouth.
+		&lt;&lt;case &quot;raggedy&quot;&gt;&gt;
+			They look perpetually dishevelled.
+		&lt;&lt;case &quot;stub-tail&quot;&gt;&gt;
+			Their tail is notably short, despite having clearly grown in normally.
+		&lt;&lt;case &quot;clean&quot;&gt;&gt;
+			They&#39;re particularly well-groomed, with not so much as a chipped claw.
+		&lt;&lt;case &quot;dull&quot;&gt;&gt;
+			Their coloration is notably dull, with very little brightness at all.
+		&lt;&lt;default&gt;&gt;
+		
+	&lt;&lt;/switch&gt;&gt;
+	Over time, &lt;&lt;print $dragons[$int].name&gt;&gt; has shown themselves to be &lt;&lt;print $dragons[$int].personality&gt;&gt;. 
 		&lt;&lt;switch $dragons[$int].origin&gt;&gt;
 			&lt;&lt;case &quot;stay&quot;&gt;&gt;
 				They hatched in your colony, and have been here ever since.
 			&lt;&lt;case &quot;wanderer&quot;&gt;&gt;
-				They arrived to beg for shelter. You&#39;re unsure from where they came, but they are part of you colony now.
+				They arrived to beg for shelter. You&#39;re unsure from where they came, but they are part of your colony now.
 			&lt;&lt;case &quot;exiled&quot;&gt;&gt;
 				You once exiled them; they returned to plead lenience, and you granted it.
 			&lt;&lt;case &quot;deprived&quot;&gt;&gt;
@@ -2554,13 +2627,13 @@ What do you want to do?
 			You ate 3 food and 4 water.
 		&lt;&lt;/if&gt;&gt;
 		
-	1
 	&lt;&lt;if $dragons.length == 0&gt;&gt;
 		&lt;&lt;if $hatchlings.length &gt; 1&gt;&gt;
-			Your hatchlings eat &lt;&lt;print _hatchEat&gt;&gt; food and drink &lt;&lt;print _hatchDrink&gt;&gt; water.
+			Your hatchlings eat &lt;&lt;print _hatchEat&gt;&gt; food and drink &lt;&lt;print _hatchDrink&gt;&gt; water.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;elseif $hatchlings.length == 1&gt;&gt;
-			Your hatchling eats &lt;&lt;print _hatchEat&gt;&gt; food and drinks &lt;&lt;print _hatchDrink&gt;&gt; water.
+			Your hatchling eats &lt;&lt;print _hatchEat&gt;&gt; food and drinks &lt;&lt;print _hatchDrink&gt;&gt; water.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;else&gt;&gt;
+			&lt;br&gt;&lt;br&gt;
 		&lt;&lt;/if&gt;&gt;
 	&lt;&lt;else&gt;&gt;
 
@@ -2905,7 +2978,7 @@ What do you want to do?
 	&lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Pop" tags="WIP" position="475,550" size="100,100">You have &lt;&lt;if $pop gte 3&gt;&gt;&lt;&lt;print ($pop - 1)&gt;&gt; other dragons&lt;&lt;elseif $pop == 2&gt;&gt;1 other dragon&lt;&lt;/if&gt;&gt; living in your colony, using the same amount of shelter space.
 
-On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts built, with &lt;&lt;print $home&gt;&gt; space available for more dragons. One day, you&#39;ll be able to build more than just ruts. Today is not that day.
+On mentioning that, you have &lt;&lt;print ($shelter.ruts.amount + $shelter.setts.amount + $shelter.hollows.amount)&gt;&gt; homes built, with &lt;&lt;print $home&gt;&gt; space available for dragons to live in.
 
 &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;if $dragons.length gte 50&gt;&gt;
@@ -2952,22 +3025,24 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 	&lt;&lt;elseif $dragons.length == 1&gt;&gt;
 		You can see &lt;&lt;print $dragons[0].name&gt;&gt;. &lt;&lt;linkappend &quot;Do you want to talk to them?&quot;&gt;&gt; &lt;br&gt; &lt;br&gt;
 				&lt;&lt;switch $dragons[0].personality&gt;&gt;
-				&lt;&lt;case &quot;Aloof&quot; &quot;Formal&quot;&gt;&gt;
+				&lt;&lt;case &quot;aloof&quot; &quot;formal&quot;&gt;&gt;
 					&lt;&lt;print $dragons[0].name&gt;&gt; tips their head in greeting. You speak with them for a short while, but when it becomes evident that they&#39;re just trying to humor you, you dismiss them. Did &lt;&lt;print $dragons[0].name&gt;&gt; always seems so distant...?
-				&lt;&lt;case &quot;Hardworking&quot; &quot;Persistent&quot;&gt;&gt;
+				&lt;&lt;case &quot;hardworking&quot; &quot;persistent&quot;&gt;&gt;
 					You approach &lt;&lt;print $dragons[0].name&gt;&gt;, and talk with them. They&#39;re happy for it, though they seem rather fixated on how to help the colony grow. Your hearts squeeze with affection, and when you say your farewells, you feel pleased knowing that your first is so reliable.
-				&lt;&lt;case &quot;Placid&quot; &quot;Quiet&quot;&gt;&gt;
+				&lt;&lt;case &quot;placid&quot; &quot;quiet&quot;&gt;&gt;
 					You greet &lt;&lt;print $dragons[0].name&gt;&gt;, and they nod slowly in reply. As you talk, it becomes evident that they&#39;re doing more listening than speaking; you make sure to offer more direct questions from then on, and listen carefully when they decide to answer. When the sun has moved forward, you excuse yourself and give them a fond brush with your wing as you leave.
-				&lt;&lt;case &quot;Chatty&quot; &quot;Whimsical&quot;&gt;&gt;
+				&lt;&lt;case &quot;chatty&quot; &quot;whimsical&quot;&gt;&gt;
 					&lt;&lt;print $dragons[0].name&gt;&gt; bounds over to you, apparently having seen you, and cries out a cheerful &quot;Good flying, &lt;&lt;print $title&gt;&gt;!&quot; You&#39;re drawn into a conversation about anything and everything that has caught their attention - the weather, meals, the colony, a particular stone or the way water glittered off the collection ditches today. You listen with more amusement than anything, and chime in where you can. As the sun&#39;s shifting becomes obvious, you excuse yourself. Still, they sneak in a last head rub before you go.
-				&lt;&lt;case &quot;Abrasive&quot; &quot;Clever&quot;&gt;&gt;
+				&lt;&lt;case &quot;abrasive&quot; &quot;clever&quot;&gt;&gt;
 					You approach and greet &lt;&lt;print $dragons[0].name&gt;&gt;; they return it warmly, but as you converse, they&#39;re becoming increasingly tactless. As your first hatchling, you&#39;re willing to accept it - even laugh at some of their comments - but it&#39;s quickly wearing on you. Eventually, you say your farewells and leave them to it.
-				&lt;&lt;case &quot;Caring&quot; &quot;Gentle&quot;&gt;&gt;
+				&lt;&lt;case &quot;caring&quot; &quot;gentle&quot;&gt;&gt;
 					&lt;&lt;print $dragons[0].name&gt;&gt; greets you warmly as you approach. You talk with them for some time, and though you trail over a great deal of interests - both yours and theirs - &lt;&lt;print $dragons[0].name&gt;&gt; is attentive and thoughtful throughout. When you leave, you do so reluctantly, though feeling lighter than you had before.
-				&lt;&lt;case &quot;Confident&quot;&gt;&gt;
+				&lt;&lt;case &quot;confident&quot;&gt;&gt;
 					When you walk over to &lt;&lt;print $dragons[0].name&gt;&gt;, they offer a rather loud &quot;Good flying, &lt;&lt;print $title&gt;&gt;!&quot; - and the rest of the conversation follows much the same; you listen with great amusement to their boasting, and only chime in now and then to ensure they know you&#39;re listening. The time for you to leave eventually comes, however, and they strut away first - leaving you to shake your head fondly at their back.
-				&lt;&lt;case &quot;Absentminded&quot; &quot;Lax&quot; &quot;Mellow&quot;&gt;&gt;
+				&lt;&lt;case &quot;absentminded&quot; &quot;lax&quot; &quot;mellow&quot;&gt;&gt;
 					&lt;&lt;print $dragons[0].name&gt;&gt; hums as you greet them, evidently a little lost in their own world. You chat with them, and though they mostly make agreeable noises and only really contribute once or twice, you still appreciate the conversation. You make sure to nuzzle their head as you leave. They absently nudge you back.
+				&lt;&lt;default&gt;&gt;
+					&lt;&lt;print $dragons[0].name&gt;&gt; greets you pleasantly. You have a friendly conversation, but nothing about it sticks out to you. As you part ways, you wonder if you know your only colony member all that well...
 				&lt;&lt;/switch&gt;&gt;
 	&lt;&lt;/linkappend&gt;&gt;
 
@@ -3131,7 +3206,7 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 
 	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			&lt;&lt;if $dragons.length &gt; 0&gt;&gt;
-				&lt;&lt;set _goldDiv = ($gold^(1/10))&gt;&gt;
+				&lt;&lt;set _goldDiv = ($gold^(1/100))&gt;&gt;
 				&lt;&lt;set _goldbonus = (Math.round(Math.sqrt((_goldDiv / ($dragons.length + 1)))))&gt;&gt;
 			&lt;&lt;else&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
@@ -3686,6 +3761,17 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 			time: 15,
 			
 			age: &quot;Adult&quot;, 
+
+			appearance: {
+
+				size: either($dSize),
+
+				color: either($dColor),
+
+				pattern: either($dPattern),
+
+				visquirk: either($dVisQuirk)
+			},
 			
 			job: &quot;slacker&quot;, 
 
@@ -3723,6 +3809,17 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 			time: random(15,40),
 			
 			age: &quot;Adult&quot;,
+
+			appearance: {
+
+				size: either($dSize),
+
+				color: either($dColor),
+
+				pattern: either($dPattern),
+
+				visquirk: either($dVisQuirk)
+			},
 			
 			job: &quot;slacker&quot;,
 
@@ -3750,6 +3847,10 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 
 &lt;&lt;widget &quot;updateBar&quot;&gt;&gt;
 	&lt;&lt;nobr&gt;&gt;
+		&lt;&lt;set $waterCap = ($pool.amount * $pool.storage)&gt;&gt;
+		&lt;&lt;set $foodCap = ($cavern.amount * $cavern.storage)&gt;&gt;
+		&lt;&lt;set $woodCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
+			&lt;&lt;set $stoneCap = ($dugOut.amount * $dugOut.storage)&gt;&gt;
 		&lt;&lt;replace &quot;#story-caption&quot;&gt;&gt;
 			&lt;&lt;include &quot;StoryCaption&quot;&gt;&gt;
 		&lt;&lt;/replace&gt;&gt;
@@ -3802,6 +3903,10 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 	&lt;&lt;/nobr&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="StoryInit" tags="Special" position="100,0" size="100,100">&lt;&lt;silently&gt;&gt;
     /* Setting the variables to what they need to be! */
+
+		/* The cheat flag, determining if you&#39;re, y&#39;know, a cheater. Or a tester, I don&#39;t judge. */
+
+	&lt;&lt;set $cheat to false&gt;&gt;
 
 		/* Getting the player set up... */
 	&lt;&lt;set $player to {
@@ -3902,25 +4007,25 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 		/* Setting up potential dragon names, personalities, etc... */
 	
 	&lt;&lt;set $dNames to [
-		&quot;Abaddon&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alaric&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;, &quot;Apara&quot;, &quot;Aragorn&quot;, &quot;Arden&quot;, &quot;Argus&quot;, &quot;Aric&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Athine&quot;, &quot;Aysaelo&quot;, &quot;Azizi&quot;, 
-		&quot;Baeliru&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, 
-		&quot;Caedialo&quot;, &quot;Caius&quot;, &quot;Camo&quot;, &quot;Caspar&quot;, &quot;Cedric&quot;, &quot;Cigam&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyclone&quot;, &quot;Cynder&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, 
+		&quot;Abaddon&quot;, &quot;Adula&quot;, &quot;Ajax&quot;, &quot;Alban&quot;, &quot;Alaric&quot;, &quot;Alcar&quot;, &quot;Alduin&quot;, &quot;Altair&quot;, &quot;Alvar&quot;, &quot;Andor&quot;, &quot;Angelus&quot;, &quot;Apara&quot;, &quot;Aragorn&quot;, &quot;Arden&quot;, &quot;Argus&quot;, &quot;Aric&quot;, &quot;Asher&quot;, &quot;Astor&quot;, &quot;Athine&quot;, &quot;Aysaelo&quot;, &quot;Azizi&quot;, 
+		&quot;Baeliru&quot;, &quot;Bakari&quot;, &quot;Baruti&quot;, &quot;Blaze&quot;, &quot;Boldar&quot;, &quot;Boris&quot;, &quot;Brantley&quot;, &quot;Brigid&quot;, &quot;Bruno&quot;, 
+		&quot;Cadmus&quot;, &quot;Caedialo&quot;, &quot;Caius&quot;, &quot;Camo&quot;, &quot;Caspar&quot;, &quot;Cedric&quot;, &quot;Cigam&quot;, &quot;Clay&quot;, &quot;Conan&quot;, &quot;Copano&quot;, &quot;Cosmos&quot;, &quot;Cyclone&quot;, &quot;Cynder&quot;, &quot;Cyprin&quot;, &quot;Cyril&quot;, &quot;Cyrus&quot;, 
 		&quot;Damon&quot;, &quot;Darius&quot;, &quot;Delbin&quot;, &quot;Devlin&quot;, &quot;Drobit&quot;, 
 		&quot;Eirlys&quot;, &quot;Eleri&quot;, &quot;Ember&quot;, &quot;Enzo&quot;, &quot;Eivias&quot;, 
 		&quot;Flame&quot;, &quot;Flavius&quot;, &quot;Fonsworthy&quot;, 
-		&quot;Galadriel&quot;, &quot;Gavin&quot;, &quot;Gildas&quot;, &quot;Gildor&quot;, &quot;Gimli&quot;, &quot;Grigori&quot;, &quot;Gwyneth&quot;, &quot;Gunnar&quot;, 
+		&quot;Galadriel&quot;, &quot;Gavin&quot;, &quot;Ghidora&quot;, &quot;Gildas&quot;, &quot;Gildor&quot;, &quot;Gimli&quot;, &quot;Greyoll&quot;, &quot;Grigori&quot;, &quot;Gwyneth&quot;, &quot;Gunnar&quot;, 
 		&quot;Halen&quot;, &quot;Halvor&quot;, &quot;Haldor&quot;, &quot;Hexus&quot;, &quot;Helgi&quot;, 
 		&quot;Iola&quot;, &quot;Isaak&quot;, &quot;Ilmarinen&quot;, &quot;Ivor&quot;, 
 		&quot;Jaren&quot;, &quot;Jarvis&quot;, &quot;Jed&quot;, &quot;Jormungandr&quot;, 
 		&quot;Kael&quot;, &quot;Kasiya&quot;, &quot;Kosoko&quot;, 
 		&quot;Laird&quot;, &quot;Lateef&quot;, &quot;Legna&quot;, &quot;Lindar&quot;, &quot;Liraz&quot;, &quot;Lirien&quot;, &quot;Lutalo&quot;, 
-		&quot;Magnus&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, 
+		&quot;Magnus&quot;, &quot;Makar&quot;, &quot;Malefor&quot;, &quot;Maximos&quot;, &quot;Mazi&quot;, &quot;Miasmar&quot;, 
 		&quot;Nestor&quot;, &quot;Nevin&quot;, &quot;Nils&quot;, 
 		&quot;Obasi&quot;, &quot;Odahviing&quot;, &quot;Oswin&quot;, 
 		&quot;Paarthurnax&quot;, &quot;Pyra&quot;, 
 		&quot;Rhiannon&quot;, &quot;Rhys&quot;, &quot;Ragnar&quot;, &quot;Ramses&quot;, &quot;Revilo&quot;, 
-		&quot;Sadiki&quot;, &quot;Sif&quot;, &quot;Seren&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Storm&quot;, &quot;Sunburn&quot;, 
-		&quot;Terrador&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Torin&quot;, &quot;Trondo&quot;, &quot;Twister&quot;, 
+		&quot;Sadiki&quot;, &quot;Sif&quot;, &quot;Seren&quot;, &quot;Skipper&quot;, &quot;Smaug&quot;, &quot;Soot&quot;, &quot;Spry&quot;, &quot;Spyro&quot;, &quot;Storm&quot;, &quot;Sunburn&quot;, 
+		&quot;Tamlin&quot;, &quot;Tanwen&quot;, &quot;Terrador&quot;, &quot;Theodorix&quot;, &quot;Thor&quot;, &quot;Tirion&quot;, &quot;Titan&quot;, &quot;Todor&quot;, &quot;Tomas&quot;, &quot;Torin&quot;, &quot;Trondo&quot;, &quot;Twister&quot;, 
 		&quot;Ulric&quot;, &quot;Unika&quot;, &quot;Ullr&quot;, &quot;Urgost&quot;, &quot;Useni&quot;, 
 		&quot;Valen&quot;, &quot;Varalys&quot;, &quot;Varda&quot;, &quot;Vathek&quot;, &quot;Volteer&quot;, 
 		&quot;Woden&quot;, &quot;Wren&quot;, 
@@ -3929,24 +4034,41 @@ On mentioning that, you have &lt;&lt;print $shelter.ruts.amount&gt;&gt; ruts bui
 	]&gt;&gt;
 	
 	&lt;&lt;set $dPers to [
-		&quot;Absentminded&quot;, &quot;Abrasive&quot;, &quot;Aloof&quot;, &quot;Ambitious&quot;, 
-		&quot;Caring&quot;, &quot;Chatty&quot;, &quot;Clever&quot;, &quot;Confident&quot;, &quot;Creative&quot;, &quot;Curious&quot;, 
-		&quot;Dependable&quot;, &quot;Dreamy&quot;, 
-		&quot;Emotional&quot;, &quot;Energetic&quot;, 
-		&quot;Formal&quot;, &quot;Friendly&quot;, 
-		&quot;Generous&quot;, &quot;Gentle&quot;, &quot;Greedy&quot;, 
-		&quot;Hardworking&quot;, &quot;Harsh&quot;, 
-		&quot;Impatient&quot;, &quot;Independent&quot;, &quot;Insecure&quot;, &quot;Intelligent&quot;, 
-		&quot;Lax&quot;, &quot;Lazy&quot;, &quot;Loyal&quot;, 
-		&quot;Mellow&quot;, &quot;Moody&quot;, 
-		&quot;Nervous&quot;, &quot;Negligent&quot;, 
-		&quot;Organized&quot;, &quot;Obsessive&quot;, 
-		&quot;Patient&quot;, &quot;Persistent&quot;, &quot;Placid&quot;, &quot;Practical&quot;, 
-		&quot;Quiet&quot;, &quot;Queer&quot;, &quot;Quaint&quot;, 
-		&quot;Rational&quot;, &quot;Resourceful&quot;, &quot;Responsible&quot;, 
-		&quot;Selfish&quot;, &quot;Selfless&quot;, &quot;Sensitive&quot;, &quot;Skeptical&quot;, &quot;Spontaneous&quot;, 
-		&quot;Thoughtful&quot;, &quot;Tolerant&quot;, 
-		&quot;Whimsical&quot;, &quot;Witty&quot;
+		&quot;absentminded&quot;, &quot;abrasive&quot;, &quot;aloof&quot;, &quot;ambitious&quot;, 
+		&quot;caring&quot;, &quot;chatty&quot;, &quot;clever&quot;, &quot;confident&quot;, &quot;creative&quot;, &quot;curious&quot;, 
+		&quot;dependable&quot;, &quot;dreamy&quot;, 
+		&quot;emotional&quot;, &quot;energetic&quot;, 
+		&quot;formal&quot;, &quot;friendly&quot;, 
+		&quot;generous&quot;, &quot;gentle&quot;, &quot;greedy&quot;, 
+		&quot;hardworking&quot;, &quot;harsh&quot;, 
+		&quot;impatient&quot;, &quot;independent&quot;, &quot;insecure&quot;, &quot;intelligent&quot;, 
+		&quot;lax&quot;, &quot;lazy&quot;, &quot;loyal&quot;, 
+		&quot;mellow&quot;, &quot;moody&quot;, 
+		&quot;nervous&quot;, &quot;negligent&quot;, 
+		&quot;organized&quot;, &quot;obsessive&quot;, 
+		&quot;patient&quot;, &quot;persistent&quot;, &quot;placid&quot;, &quot;practical&quot;, 
+		&quot;quiet&quot;, &quot;queer&quot;, &quot;quaint&quot;, 
+		&quot;rational&quot;, &quot;resourceful&quot;, &quot;responsible&quot;, 
+		&quot;selfish&quot;, &quot;selfless&quot;, &quot;sensitive&quot;, &quot;skeptical&quot;, &quot;spontaneous&quot;, 
+		&quot;thoughtful&quot;, &quot;tolerant&quot;, 
+		&quot;whimsical&quot;, &quot;witty&quot;
+	]&gt;&gt;
+
+	&lt;&lt;set $dSize to [&quot;small&quot;, &quot;normal&quot;, &quot;normal&quot;, &quot;normal&quot;, &quot;normal&quot;, &quot;large&quot;]&gt;&gt;
+
+	&lt;&lt;set $dColor to [&quot;red&quot;, &quot;blue&quot;, &quot;yellow&quot;, &quot;green&quot;]&gt;&gt;
+
+	&lt;&lt;set $dPattern to [
+		&quot;freckled&quot;, 
+		&quot;piebald&quot;, 
+		&quot;plain&quot;, &quot;plain&quot;, &quot;plain&quot;, &quot;plain&quot;, &quot;plain&quot;,
+		&quot;smooth&quot;, 
+		&quot;spotted&quot;, &quot;striped&quot;
+	]&gt;&gt;
+
+	&lt;&lt;set $dVisQuirk to [
+		&quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, 
+		&quot;sharp teeth&quot;, &quot;raggedy&quot;, &quot;stub-tail&quot;, &quot;clean&quot;, &quot;dull&quot;
 	]&gt;&gt;
 	
 	&lt;&lt;set $dAge to [&quot;Egg&quot;, &quot;Hatchling&quot;, &quot;Winglet&quot;, &quot;Adult&quot;, &quot;Elder&quot;]&gt;&gt;

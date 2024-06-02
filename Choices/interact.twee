@@ -2,12 +2,42 @@
 <<nobr>>
 	<<updateHome>>
 	<<set _name to $dragons[$int].name>>
-	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons; they're <<if $dragons[$int].age == "Adult">>fully grown, <<else>>pretty young <</if>>and have shown themselves to be <<print $dragons[$int].personality>>. 
+	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons. They're a fully grown
+	<<if $dragons[$int].appearance.size == "normal">>
+		<<print $dragons[$int].appearance.color>> dragon with
+		<<if $dragons[$int].appearance.pattern == "plain">>
+			no particular pattern on their scales.
+		<<else>>
+			a <<print $dragons[$int].appearance.pattern>> pattern across their scales.
+		<</if>>
+	<<else>>
+		abnormally <<print $dragons[$int].appearance.size>> <<print $dragons[$int].appearance.color>> dragon
+		<<if $dragons[$int].appearance.pattern == "plain">>
+			with no particular pattern on their scales.
+		<<else>>
+			with <<print $dragons[$int].appearance.pattern>> patterns across their scales.
+		<</if>>
+	<</if>>
+	<<switch $dragons[$int].appearance.visquirk>>
+		<<case "sharp teeth">>
+			Their canines are especially long, and poke out from their mouth.
+		<<case "raggedy">>
+			They look perpetually dishevelled.
+		<<case "stub-tail">>
+			Their tail is notably short, despite having clearly grown in normally.
+		<<case "clean">>
+			They're particularly well-groomed, with not so much as a chipped claw.
+		<<case "dull">>
+			Their coloration is notably dull, with very little brightness at all.
+		<<default>>
+		
+	<</switch>>
+	Over time, <<print $dragons[$int].name>> has shown themselves to be <<print $dragons[$int].personality>>. 
 		<<switch $dragons[$int].origin>>
 			<<case "stay">>
 				They hatched in your colony, and have been here ever since.
 			<<case "wanderer">>
-				They arrived to beg for shelter. You're unsure from where they came, but they are part of you colony now.
+				They arrived to beg for shelter. You're unsure from where they came, but they are part of your colony now.
 			<<case "exiled">>
 				You once exiled them; they returned to plead lenience, and you granted it.
 			<<case "deprived">>

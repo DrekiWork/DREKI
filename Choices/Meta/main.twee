@@ -34,8 +34,11 @@ But this sets up the sidebar for printing stuff. Currently only prints, not form
 
 Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 
-<<if hasVisited("tutorialOpen")>>Cycle <<print $cycles>>, Day <<print $days>>
+<<if hasVisited("tutorialOpen") || $cheat == true>>Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
+	<<if $cheat == true>>
+		<<link "Cheating">><<goto "BugTest">><</link>>
+	<</if>>
 	
 	<hr>
 	<table>
@@ -117,6 +120,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	<li>Builders! And they do something! And you get told when they do something!</li>
 	<li>Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They're only buildable with builders!</li>
 	<li>There's detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they're getting into.</li>
+	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
 	<li></li></ul><br>
 
 	''QoL''

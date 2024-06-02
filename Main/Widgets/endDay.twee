@@ -83,7 +83,7 @@
 
 	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 			<<if $dragons.length > 0>>
-				<<set _goldDiv = ($gold^(1/10))>>
+				<<set _goldDiv = ($gold^(1/100))>>
 				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / ($dragons.length + 1)))))>>
 			<<else>>
 			<</if>>

@@ -2,57 +2,94 @@
 <<nobr>>
     Select "Go" at bottom of page after making decisions, especially if having built anything. That's the only way the game will remember and properly change your shit. DO NOT IGNORE IT.
     
-    <h2>Resources</h2>
-        Food: <br>
-        &nbsp;Amount: <<numberbox "$food" $food>> <br>
-        &nbsp;Storage Caverns: <<numberbox "$cavern.amount" $cavern.amount>> <br>
+    <details>
+    <summary><h3>Resources</h3></summary>
+        ''//Food://'' <br>
+            &nbsp;Amount: <<numberbox "$food" $food>> <br>
+            &nbsp;Storage Caverns: <<numberbox "$cavern.amount" $cavern.amount>> <br>
+            &nbsp;Cavern Capacity: <<numberbox "$cavern.storage" $cavern.storage>> <br><br>
     
-        Water: <br>
-        &nbsp;Amount: <<numberbox "$water" $water>> <br>
-        &nbsp;Storage Pools: <<numberbox "$pool.amount" $pool.amount>> <br>
+        ''//Water://'' <br>
+            &nbsp;Amount: <<numberbox "$water" $water>> <br>
+            &nbsp;Storage Pools: <<numberbox "$pool.amount" $pool.amount>> <br>
+            &nbsp;Pool Capacity: <<numberbox "$pool.storage" $pool.storage>> <br><br>
     
-        Buildng Mats: <br>
+        ''//Building Mats://'' <br>
         &nbsp;Wood: <br>
             &nbsp;&nbsp;Amount: <<numberbox "$wood" $wood>> <br>
     
         &nbsp;Stone: <br>
             &nbsp;&nbsp;Amount: <<numberbox "$stone" $stone>> <br>
     
-        &nbsp;Wood & Stone Dug-outs: <<numberbox "$dugOut.amount" $dugOut.amount>> <br> <br>
+        &nbsp;Dug-outs: <<numberbox "$dugOut.amount" $dugOut.amount>> <br>
+        &nbsp;Dug-out Capacity: <<numberbox "$dugOut.storage" $dugOut.storage>> <br><br>
+
+        ''//Gold://'' <br>
+        &nbsp;Gold: <<numberbox "$gold" $gold>><br>
+        <hr>
+    </details>
+
+    <details>
+    <summary><h3>Buildings</h3></summary>
+        ''//Shelter//''<br>
+         Don't set these lower than the amount currently in use. The number of free / occupied can go into negatives and fuck things over. I'm not sure what that would do in total, but you can only manage that if you cheat, so... Don't do it.<br>
+        Ruts: <<numberbox "$shelter.ruts.amount" $shelter.ruts.amount>> <br>
+        &nbsp;//Occupied ruts: <<print $shelter.ruts.occupied>>//<br>
+        Setts: <<numberbox "$shelter.setts.amount" $shelter.setts.amount>> <br>
+        &nbsp;//Occupied setts: <<print $shelter.setts.occupied>>//<br>
+        Hollows: <<numberbox "$shelter.hollows.amount" $shelter.hollows.amount>> <br>
+        &nbsp;//Occupied hollows: <<print $shelter.hollows.occupied>>//<br><br>
     
-    
-    <h2>Buildings</h2>
-        Shelters work a bit differently to other buildings. The amount in the number box is basically saying "build this many more". I haven't implemented removing shelters yet – I'm a little bit foolish – so just use this to build more, never less. <br>
-        <<set _rutAmount = 0>>
-        Ruts: <<numberbox "_rutAmount" _rutAmount>> <br>
-    
-        Nests: <<numberbox "$nest" $nest>> <br> <br>
-    
-    
-    <h2>Dragons</h2>
-    <h3>NOTE:</h3> One click, one thing. I promise it's working, the screen just won't reload. Don't spam this, and DO NOT. <em>DO. NOT.</em> Add more total eggs / hatchlings than you have eggspace.
-    Gimme: <br>
+        ''//Nursery//''<br>
+        Hatchlings / Eggs cheated in don't care if there aren't enough nests to hold them, afaik. If something breaks because you have more eggs / hatchis than nests, that's on you.<br>
+        Nests: <<numberbox "$nest" $nest>><br>
+        <hr>
+
+    </details>
+
+    <details>
+    <summary><h3>Colonists</h3></summary>
+    ''//Dragons//''<br>
+     One click, one thing. I promise it's working; you won't see the update until you hit "Go" at the bottom and reload the sidebar. Don't spam this (for your sanity), and <em>DO. NOT.</em> Add more total eggs / hatchlings than you have eggspace. Colony dragon creates a dragon that was hatched in your colony, wanderer creates a dragon that joined via wanderer event.<br>
+    Gimme: 
         <<link "Egg">>
             <<eggMaker>>
         <</link>> | 
         <<link "Hatchling">>
             <<hatchMaker>>
         <</link>> | 
-        <<link "Dragon">>
+        <<link "Colony Dragon">>
             <<dragonMaker>>
-        <</link>> <br> <br>
+        <</link>> |
+        <<link "Wanderer">>
+            <<dragonWanderer>>
+        <</link>>
+        <hr>
+    </details>
+    <details>
+    <summary><h3>Misc. Triggers</h3></summary>
+    ''//Hydra//''<br>
+    [[Hydra Den Event|HydraFoodEvent]]<br>
+    <<linkreplace "Take hydra's egg?">>
+        <<set $hydraEggTaken = true>>
+        Took the egg.
+    <</linkreplace>><br>
+    <<linkreplace "Seen the hydra?">>
+        <<set $hydraSeen = true>>
+        Seen the hydra.
+    <</linkreplace>><br><br>
+
+    ''//Lake Creatures//''<br>
+    <<linkreplace "Seen the creatures?">>
+        <<set $infestedNotice = true>>
+        Seen the lake creatures.
+    <</linkreplace>>
+    <hr>
+    </details>
+    
     
     <<link "Go">>
-        <<set $eggSpace = (($nest * 3) - ($hatchlings.length + $eggs.length))>>
-        <<for _i to 0; _i lt _rutAmount; _i++>>
-            <<set $shelter.ruts.amount += 1>>
-    	    <<set $shelter.ruts.free += 1>>
-    	    <<set $home = ($shelter.ruts.free - 1)>>
-        <</for>>
-        <<set $waterCap = ($pool.amount * $pool.storage)>>
-        <<set $foodCap = ($cavern.amount * $cavern.storage)>>
-        <<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-    	<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+        <<updateHome>>
         <<updateBar>>
     <</link>> | 
     

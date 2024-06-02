@@ -45,6 +45,17 @@
 			time: 15,
 			
 			age: "Adult", 
+
+			appearance: {
+
+				size: either($dSize),
+
+				color: either($dColor),
+
+				pattern: either($dPattern),
+
+				visquirk: either($dVisQuirk)
+			},
 			
 			job: "slacker", 
 
@@ -82,6 +93,17 @@
 			time: random(15,40),
 			
 			age: "Adult",
+
+			appearance: {
+
+				size: either($dSize),
+
+				color: either($dColor),
+
+				pattern: either($dPattern),
+
+				visquirk: either($dVisQuirk)
+			},
 			
 			job: "slacker",
 
@@ -109,6 +131,10 @@
 
 <<widget "updateBar">>
 	<<nobr>>
+		<<set $waterCap = ($pool.amount * $pool.storage)>>
+		<<set $foodCap = ($cavern.amount * $cavern.storage)>>
+		<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
 		<<replace "#story-caption">>
 			<<include "StoryCaption">>
 		<</replace>>

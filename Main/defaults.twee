@@ -2,6 +2,10 @@
 <<silently>>
     /* Setting the variables to what they need to be! */
 
+		/* The cheat flag, determining if you're, y'know, a cheater. Or a tester, I don't judge. */
+
+	<<set $cheat to false>>
+
 		/* Getting the player set up... */
 	<<set $player to {
 		title : "Founder",
@@ -101,25 +105,25 @@
 		/* Setting up potential dragon names, personalities, etc... */
 	
 	<<set $dNames to [
-		"Abaddon", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
-		"Baeliru", "Bakari", "Baruti", "Boldar", "Boris", "Brigid", "Bruno", 
-		"Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
+		"Abaddon", "Adula", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
+		"Baeliru", "Bakari", "Baruti", "Blaze", "Boldar", "Boris", "Brantley", "Brigid", "Bruno", 
+		"Cadmus", "Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Clay", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
 		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
 		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
 		"Flame", "Flavius", "Fonsworthy", 
-		"Galadriel", "Gavin", "Gildas", "Gildor", "Gimli", "Grigori", "Gwyneth", "Gunnar", 
+		"Galadriel", "Gavin", "Ghidora", "Gildas", "Gildor", "Gimli", "Greyoll", "Grigori", "Gwyneth", "Gunnar", 
 		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
 		"Iola", "Isaak", "Ilmarinen", "Ivor", 
 		"Jaren", "Jarvis", "Jed", "Jormungandr", 
 		"Kael", "Kasiya", "Kosoko", 
 		"Laird", "Lateef", "Legna", "Lindar", "Liraz", "Lirien", "Lutalo", 
-		"Magnus", "Malefor", "Maximos", "Mazi", 
+		"Magnus", "Makar", "Malefor", "Maximos", "Mazi", "Miasmar", 
 		"Nestor", "Nevin", "Nils", 
 		"Obasi", "Odahviing", "Oswin", 
 		"Paarthurnax", "Pyra", 
 		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
-		"Sadiki", "Sif", "Seren", "Skipper", "Smaug", "Spry", "Spyro", "Storm", "Sunburn", 
-		"Terrador", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
+		"Sadiki", "Sif", "Seren", "Skipper", "Smaug", "Soot", "Spry", "Spyro", "Storm", "Sunburn", 
+		"Tamlin", "Tanwen", "Terrador", "Theodorix", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
 		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
 		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
 		"Woden", "Wren", 
@@ -128,24 +132,41 @@
 	]>>
 	
 	<<set $dPers to [
-		"Absentminded", "Abrasive", "Aloof", "Ambitious", 
-		"Caring", "Chatty", "Clever", "Confident", "Creative", "Curious", 
-		"Dependable", "Dreamy", 
-		"Emotional", "Energetic", 
-		"Formal", "Friendly", 
-		"Generous", "Gentle", "Greedy", 
-		"Hardworking", "Harsh", 
-		"Impatient", "Independent", "Insecure", "Intelligent", 
-		"Lax", "Lazy", "Loyal", 
-		"Mellow", "Moody", 
-		"Nervous", "Negligent", 
-		"Organized", "Obsessive", 
-		"Patient", "Persistent", "Placid", "Practical", 
-		"Quiet", "Queer", "Quaint", 
-		"Rational", "Resourceful", "Responsible", 
-		"Selfish", "Selfless", "Sensitive", "Skeptical", "Spontaneous", 
-		"Thoughtful", "Tolerant", 
-		"Whimsical", "Witty"
+		"absentminded", "abrasive", "aloof", "ambitious", 
+		"caring", "chatty", "clever", "confident", "creative", "curious", 
+		"dependable", "dreamy", 
+		"emotional", "energetic", 
+		"formal", "friendly", 
+		"generous", "gentle", "greedy", 
+		"hardworking", "harsh", 
+		"impatient", "independent", "insecure", "intelligent", 
+		"lax", "lazy", "loyal", 
+		"mellow", "moody", 
+		"nervous", "negligent", 
+		"organized", "obsessive", 
+		"patient", "persistent", "placid", "practical", 
+		"quiet", "queer", "quaint", 
+		"rational", "resourceful", "responsible", 
+		"selfish", "selfless", "sensitive", "skeptical", "spontaneous", 
+		"thoughtful", "tolerant", 
+		"whimsical", "witty"
+	]>>
+
+	<<set $dSize to ["small", "normal", "normal", "normal", "normal", "large"]>>
+
+	<<set $dColor to ["red", "blue", "yellow", "green"]>>
+
+	<<set $dPattern to [
+		"freckled", 
+		"piebald", 
+		"plain", "plain", "plain", "plain", "plain",
+		"smooth", 
+		"spotted", "striped"
+	]>>
+
+	<<set $dVisQuirk to [
+		"none", "none", "none", "none", "none", "none", "none", "none", "none", "none", 
+		"sharp teeth", "raggedy", "stub-tail", "clean", "dull"
 	]>>
 	
 	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult", "Elder"]>>
