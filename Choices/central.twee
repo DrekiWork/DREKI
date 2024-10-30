@@ -65,7 +65,7 @@ It's <<nobr>>
 		enough food for a few days.
 	<<elseif $food >= ($pop * 4)>>very little food, but some. Enough for yourself, at least. More is needed.
 	<<elseif $food >= 1>>a truly small amount of food; you need to get more, or send someone else to forage. You'll starve.
-	<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>>
+	<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>><br>
  Lining the edge of your storage cavern 
 	<<if $pool.amount > 1>>
 		are your <<print $pool.amount>> collection pools that can store up to <<print $waterCap>> water.
@@ -77,7 +77,7 @@ It's <<nobr>>
 	<<elseif $water >= ($pop * 10)>>probably too much to drink; you have to skim the water now and again to keep it clean of insects, but you'd rather have too much water than too little for your burgeoning colony.
 	<<elseif $water >= ($pop * 7.5)>>doesn't really need water; you have enough for some days, at least.
 	<<elseif $water >= ($pop * 5)>>has some water, though the ditch you've lined for it is still concerningly empty.
-	<<else>>needs water, desperately.<</if>>
+	<<else>>needs water, desperately.<</if>><br>
 Near the entrance, safely away from the weather, is your dugout. You've expanded it <<print $dugOut.amount>> <<if $dugOut.amount > 1>>times<<else>>time<</if>>, and it can hold up to <<print $woodCap>> each of wood and stone.
 <</linkreplace>>
 <</nobr>>
@@ -113,6 +113,22 @@ What do you want to do?
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>
 		<</if>>
+		<<linkappend "Go somewhere.">>
+			<<if $infestedNotice == true && $kelpieExtinction == false>>
+				[[Infested Lake|Kelpie lake]]<br>
+			<<elseif $infestedNotice == true && $kelpieExtinction == true>>
+				[[Empty Lake|Kelpie lake]]<br>
+			<<else>>
+			<</if>>
+			<<if $hydraSeen == true && $hydraEggTaken == false>>
+				[[Hydra's Den|Hydra Den]]
+			<<elseif $hydraSeen == true && $hydraEggTaken == true>>
+				You don't dare risk visiting the hydra <em>now</em>.
+			<<elseif $hydraBeat == true>>
+				[[Abandoned Hydra Den|Hydra Den]]
+			<<else>>
+			<</if>>
+		<</linkappend>>
 	<<else>>
 		You've been away from your colony for long enough. <br>
 	<</if>>

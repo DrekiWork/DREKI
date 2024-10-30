@@ -1,0 +1,48 @@
+:: Hydra Den
+<<nobr>>
+    <<if $hydraBeat == true>>
+        <<switch visited()>>
+
+            <<default>>
+                <<set _foodCollect = random(1,7)>>
+                <<set $food += _foodCollect>>
+                <<set _stoneCollect = random(3,14)>>
+                <<set $stone += _stoneCollect>>
+                
+                The cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
+
+                You don't care to linger for long. There isn't much of value, really; you take your <<print _foodCollect>> scraps and <<print _stoneCollect>> stones and [[go home.|Sandbox Central]]
+
+            <<case 1>>
+                Your flight to the Hydra's nest – or what <em>was</em> its nest, you suppose – is fraught with nerves. The wind seems to fight your wings, as though urging you back. Your hearts begin to pound; a familiar tremble rises along your spinal crests as the waterfall emerges in your view. It's changed since you last saw it. The basin and the river it flows into have been gouged, presumably by the Hydra's exit. The trees that once shrouded the pool have been torn apart; crushed or pushed aside with what seems to be minimal effort. Though the beast is dead and there is no more of a threat, you cannot bring yourself to land.<br>
+
+                Even from this distance, the path it carved seems monumental in comparison to yourself. Your best guess is that the width of its track must be equal to your full wingspan. Perhaps slightly larger – and its weight heavy enough to let the basin's water flow down a new bed. Not far, admittedly; the ground slopes gently to a hill, where the water has begun to pool at its base.<br>
+
+                You investigate the forming lake; it will not last. Though you are able to snap up an immature fish, you can see the sediment piling already. It will form another river in time, or perhaps close itself off entirely.<br>
+
+                ... You are, of course, stalling.<br>
+
+                The air stinks of meat, rotting or beginning to, as you swoop down by the cave entrance. It fills the air and sits heavily in your lungs. You're sure that if you so much as tapped your teeth together – or if your claws were to scrape over flint – the fetid fumes would doubtlessly erupt. Admittedly, that had been true before, but now? Perhaps that little spark would collapse the den entirely, and spare you from looking for any more of its brood. You still have its egg, after all; you must know if there are more, for the safety of your colony.<br>
+
+                This knowledge does not make your entry any less nerve-wracking. The cave walls are scarred by the hydra's passing; its belly has ground some smaller pebbles into shards that clatter away from your claws. The drop, when you reach it, is no more: the edge has been shattered, crumbled by the beast's bulk as it left. You don't risk trying to maneuver the slope regardless. Your wings carry you into the den proper, over jagged rocks and cracked stone. Were you not here for a purpose, you might be tempted to haul some back to the colony.<br>
+
+                You do not want to be here, still. The further into the den you go, the more raw your nerves. The mound of corpses has collapsed— no, not collapsed. You allow yourself to sink lower than what stalactites still cling to the ceiling. If the heap had previously been a rotting thing of gluttony and greed, the messs that greets you now is no less than an image of the massive serpent's wrath. There is no floor to the cavern, not anymore. There is no stone to be seen, no rock nor dirt: there is only bodies. Tossed with abandon to the far edges of the cavern, crushed under the hydra, bones and blood and fermenting flesh cover the ground more thoroughly than shrubs over fertile soil. You cannot tell one corpse from the next; the bodies blend into each other, bones broken into flesh not their own, meat ground together and blood dried and rancid pooling into a horrific new landscape.<br>
+
+                There is simply too much. You don't even feel horrified; you <em>can't</em>. Numbness like frost settles over you, hiding away whatever response you ought to be having and softening them to distant things. No more than old memories, blurred and vague. How could there be so much death in one location, truly? How could there still be life flourishing above when it seemed all you had ever met, seen, or hunted was festering on the ground, scattered in an eruption of rage? Once there stood a hill made purely of death, but now you must tread in it. The solidity of ground, when you sink enough into the meat to reach it, seems wholly incongruous. You are not precisely wading – but the topmost edge of your curved claws only barely clears the shallower carnage. Strange. It feels like you should sink in more, like you did the mound; sink into the meat and flesh until it wormed under your scales and melded with your flesh. It seemed, perhaps, the innumerable and indistinguishable bodies should pull you to pieces and let yours join and fester.<br>
+
+                You don't have much warning. One moment, you have landed in the massacre. The next, you are heaving into it, your stomach unable to bear the combination of the stench, the wet meat squelching against you, the feel of its rotting juices sluicing between your scales— You heave again, retching nothing but bile. Only when your gut is well and truly empty are you able to move forward. You avoid the deeper patches. Already, you can guess that there is nothing. What could have survived such a violent display? An egg or a hatchling would only have been crushed by it – left to rot just as surely as the rest of these bodies. Yet you must look.<br>
+
+                Unlike before, you feel no temptation to the meat. If there is any that is not yet foul, it isn't worth finding – and should you do so, it would be too contaminated regardless. Inedible. Even moving through it, your body arching and wings mantled away from the gore, you feel... unclean. More than your claws. More than the sickness that must be brewing in the untended remains of the hydra's horde. It waxes and wanes as you sift through the gore, curdling with particularly vile carcasses and easing as you work through what might be generously described as old carrion. Perhaps even scavengers would deem parts of the massacre fit for consumption, if they were desperate enough. You suspect they're still driven away by the lingering scent of the hydra.<br>
+
+                By the time you have cleared enough of the cavern to be satisfied – or perhaps desperate enough to leave that you are willing to sacrifice thoroughness for speed – you can no longer smell the rancid air. It coats your throat and lungs still; you can feel the slime of rot lingering, but you cannot smell it anymore. Your claws are wholly miscolored by your searching, and your body aches from the unnatural posture you've adopted to put as much space between yourself and the carnage. You don't care. There are no eggs, gleaming in the mess. There are no hatchling hydras writhing through the bodies as though it were only muck. You do not need to stay. You will not stay. You <em>cannot</em> stay, not today. Not this time. Fire burns down your wings as you flap them, forcing yourself airborne. You maneuver through the cave with ease, racing out the tunnel as though the hydra itself was following you out. Cold water splashes atop you, forcing you down— you follow eagerly, dropping into the basin.<br>
+
+                You swim for as long as you can, taking the opportunity to polish yourself with the sand at the bottom. You scrape and rub and half-bury yourself, desperate to clean away the disgusting sensation clinging to you. You surface once, then twice, and finally a third time. Some of your scales have been scoured off; they will regrow, thankfully, but you do not feel wholly yourself.<br>
+
+                ... It does not matter. You've done what you needed to. As clean as you can feel, [[you take to the skies for home.|Sandbox Central]]
+
+            
+
+        <</switch>>
+    <<else>>
+    <</if>>
+<</nobr>>

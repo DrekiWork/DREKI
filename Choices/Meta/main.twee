@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.25.4
+<sup>pre-pre-alpha 0.0.25.6
 Made by Recila!</sup>
 
 
@@ -111,16 +111,19 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 <</link>>
 
 :: Patchnotes
-	<h2> Pre-Pre-Alpha 0.0.25.5 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.25.8 </h2><<nobr>>
 	''New!''
 	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
 	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back. You don't have to take them in, of course.</li>
-	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used. I'll update this once I've made that mean something!</li>
 	<li>Dragons prefer Better Buildings! What's that mean? Dragons, in order, prefer: setts, ruts, then hollows. They'll try to move in from most to least preferred, and dragons with a lower value home will try to move up.</li>
+	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
 	<li>Builders! And they do something! And you get told when they do something!</li>
+	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used, and are one of two new buildings. The second are...</li>
 	<li>Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They're only buildable with builders!</li>
 	<li>There's detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they're getting into.</li>
-	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
+	<li>There's a new way to start the game, as well as a quit-out option! The quit does... exactly what you think it does, while the Cheat / Testing option lets you use the BugTest screen.</li>
+	<li>Defense buildings exist! And a defense score. I've figured out how fights are going to work, horray!</li>
+	<li>Soldiers exist and are necessary for certain defensive structures (outposts). Also they have a small chance of hunting... but when they DO, they bring back a minimum of 15 food.</li>
 	<li></li></ul><br>
 
 	''QoL''
@@ -131,6 +134,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	<li>Some minor rewording to make things nicer.</li>
 	<li>Social policies are no longer permanently visible, saving precious screen real estate. (Click on it to display, or again to hide.)</li>
 	<li>Central's "check inside" for the storage fissure also displays a summary of your dugout. I think I should just remove the inventory check in the populace screen at this point...</li>
+	<li>BugTest has been moved from central, and placed on the sidebar for easy access. The page itself has also been cleaned up and given a couple more options, with more explanations and finer control.</li>
 	<li></li></ul><br>
 
 	''Bugs Patched''
@@ -143,5 +147,15 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	
 	''Bugs Created''
 	<ul><li><<print $player.title>> / The Player is in a weird position right now of schrodinger's shelter. They both are and are not sheltered.</li>
-	<li>Returning dragons may list their reason for leaving the colony as 'Wanderer' if they were a, well, wanderer before they joined. Not sure what's happening there, but it's purely flavor.</li>
-	<li></li></ul><br><</nobr>>
+	<li>Returning dragons may list their reason for leaving the colony as 'Wanderer' if they were a, well, wanderer before they joined. Not sure what's happening there, but it's purely flavor and not a high-priority bug.</li>
+	<li></li></ul><br>
+	
+	''Current Focus?''
+	<ul><li>Hydra event.</li>
+	<ul><li>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</li>
+	<li><strike>Soldiers: New job for your dragons. They eat and drink a lot, and only really counter this by occasionally hunting. But they're super necessary for raids, and it's better to have a couple and not need them, than to need them and not have them.</strike></li>
+	<li><strike>Defensive structures.</strike></li>
+	<li>Flavor involving all of these things, of course. Gotta let you know they're present in central.</li>
+	<li>The actual... y'know... raid...</li></ul>
+	<li>Random Events.</li>
+	<li>Visiting specific locations.</li></ul><</nobr>>

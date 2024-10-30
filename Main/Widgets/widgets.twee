@@ -69,6 +69,8 @@
 
 			buildxp: 0,
 			
+			soldierxp: 0,
+			
 			hunger: 0, 
 			
 			thirst: 0,
@@ -116,6 +118,8 @@
 			scavxp: random(15),
 
 			buildxp: random(15),
+
+			soldierxp: random(15),
 			
 			hunger: 0,
 			
@@ -147,6 +151,47 @@
 	<</nobr>>
 <</widget>>
 
+<<widget "updateDefense">><<nobr>>
+
+	/* Start with soldier counts. Each individual soldier is half a point.
+	I'll update this to eventually vary based on experience (probably to a plateau instead of exponential). For now: this. */
+		<<countWorkers "soldier">>
+		<<set _soldierTotal = (_wantedCount * 0.5)>>
+
+	/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
+	Full surround grants a 1 point bonus per building.) */
+		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
+			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 1)>>
+		<<else>>
+			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 0.5)>>
+		<</if>>
+
+	/* Checking outposts. Outposts need to be held by soldiers. No soldiers, no bonus. */
+		<<if _wantedCount >= $defenseBuildings.outpost.amount>>
+			<<set _outpostTotal += ($defenseBuildings.outpost.amount * 2)>>
+		<<else>>
+			<<set _temp = ($defenseBuildings.outpost.amount - _wantedCount)>>
+			<<set _outpostTotal = (($defenseBuildings.outpost.amount - _temp) * 2)>>
+		<</if>>
+
+	/* Checking moats. Alter to be exponential (rounded)?
+	Presence of horrible little lake creatures (kelpies) gives buff.
+	Randomized for hungry beasties. */
+		<<if $defenseBuildings.moat.creatures == false>>
+			<<set _moatTotal = ($defenseBuildings.moat.amount * 3)>>
+		<<else>>
+			<<set _moatTotal = (($defenseBuildings.moat.amount * 3) + 15)>>
+		<</if>>
+
+	/* Checking rockfalls. Rockfalls need to be loaded to work.
+	Not loaded? No damage. Rest in rubble. */
+		<<set _rockfallTotal += ($defenseBuildings.rockfall.loaded * 5)>>
+
+	/* And the final result. Hurrah. */
+		<<set $defenseTotal = (_soldierTotal + _palisadeTotal + _outpostTotal + moatTotal + rockfallTotal)>>
+
+<</nobr>><</widget>>
+
 <<widget "addRut">>
 	<<nobr>>
 		<<set $dragons[$int].home = "rut">>
@@ -177,12 +222,10 @@
 	<</nobr>>
 <</widget>>
 
-<<widget "errorPopup">>
-	<<nobr>>
-		<<script>>
-			Dialog.setup("Error!");
-			Dialog.wiki(Story.get("ErrorDialog").processText());
-			Dialog.open();
-		<</script>>
-	<</nobr>>
-<</widget>>
+<<widget "errorPopup">><<nobr>>
+	<<script>>
+		Dialog.setup("Error!");
+		Dialog.wiki(Story.get("ErrorDialog").processText());
+		Dialog.open();
+	<</script>>
+<</nobr>><</widget>>

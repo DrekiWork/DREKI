@@ -6,7 +6,7 @@
 
     <<case true>>
 
-	    <<set _collect = random(3,15)>>
+	    <<set _collect = random(5,17)>>
     	<<set $food += _collect>>
 	    You're gliding lazily over your territory when you realize where you're going - the hydra's den. The allure of its food stores were callng you - but you can't do that now. Not until the hydra is dead, or your thunder is destroyed. <br> <br>
 	    You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with <<print _collect>> food. <br> <br>
@@ -58,7 +58,7 @@
 									You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 									You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra's tongue flicks. <br> <br>
 									It sees you. <br> <br>
-									You grab what you can and <em>run</em>. A rush of hissed air rises behind you, and you more feel than hear the rumble of its great body untangling as it begins pursuit. It doesn't matter - you're gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. <br> <br>
+									You grab what you can and <em>run</em>. A rush of hissed air rises behind you, and you more feel than hear the scraping rumble of its great body untangling. It doesn't matter - you're gone. You take off, panting between the meat and your teeth and the panic choking you as you flee. <br> <br>
 									You don't stop until you're home - and even then you tremble. It takes some time until you've recovered enough to see that you collected <<print _collect>> food. <br> <br>
 									... Was it worth it? 
 									<br> <br>
@@ -78,7 +78,7 @@
 											; or you can simply [[stay home.|Sandbox Central]]
 										</span>
 									<<else>>
-										It's time to [[go home.|Sandbox Central]]
+										You decide to [[stay home.|Sandbox Central]]
 									<</if>>
 								<<elseif _danger == 2>>
 									<<set _collect = Math.round(_collect /= (_danger * 2))>>
@@ -108,7 +108,7 @@
 												<</link>>; or you can simply [[stay home.|Sandbox Central]]
 											</span>
 										<<else>>
-											It's time to [[go home.|Sandbox Central]]
+											You decide to [[stay home.|Sandbox Central]]
 										<</if>>
 
 									<<elseif _danger == 1>>
@@ -120,7 +120,7 @@
 										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. <br> <br>
 										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... <br> <br>
-										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of panic rather than anything the hydra would do to you. <br> <br>
+										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of terror rather than anything the hydra would do to you. <br> <br>
 										Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: <<print _collect>> food. Not bad, given the pressure you were working under. <br> <br>
 										<<if $player.action >= 1>>
 											<span id="forageChoices">
@@ -137,7 +137,7 @@
 												<</link>>; or you can simply [[stay home.|Sandbox Central]]
 											</span>
 										<<else>>
-											It's time to [[go home.|Sandbox Central]]
+											You decide to [[stay home.|Sandbox Central]]
 										<</if>>
 									<<else>>
 										<<set $food += _collect>>
@@ -167,14 +167,14 @@
 												; or you can simply [[stay home.|Sandbox Central]]
 											</span>
 										<<else>>
-											It's time to [[go home.|Sandbox Central]]
+											You decide to [[stay home.|Sandbox Central]]
 										<</if>>
 									<</if>>
 								<</replace>>
 							<</link>>, or you can 
 							<<link "leave">>
 								<<replace "#c2">>
-									<<set _collect to random(10)>>
+									<<set _collect to random(12)>>
 									Fear in your hearts and survival on your mind, you slink away from the hydra. There are better - less potentially fatal - ways to gather a meal for you and yours. This is not the way. <br> <br>
 									<<if _collect >= 0>>
 										<<set $food += _collect>>
@@ -268,7 +268,7 @@
 																<</replace>>
 															<</link>> 
 															at risk of being heard and taking only what little food you collected at the beginning... 
-															<<timed 5s>>
+															<<timed 7s>>
 																<<linkappend "Or...">> <br> <br>
 																	Your throat dries. You have 
 																	<<if $dragons.length > 20>>
@@ -277,8 +277,7 @@
 																		<<link "take the egg">>
 																			<<replace "#c4">>
 																				<<set $hydraEggTaken = true>>
-																				<<set $hydraTime = 15>>
-																				<<set $defenseTalk = 1>>
+																				<<set $hydraTime = random(10,20)>>
 																				A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																				Exhilaration. Determination. Terror. <br> <br>
 																				With gentle claws, as delicate as you would be with a dragon's egg, you pull the hydra's free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can't help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. <br> <br>
@@ -290,7 +289,7 @@
 																				You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. <br> <br>
 																				Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching. <br> <br>
 																				Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. <br> <br>
-																				[[You will be ready.|Sandbox Central]]
+																				[[You will be ready.|DefenseTalk]]
 																			<</replace>>
 																		<</link>>, or you could 
 																		<<link "leave" "Sandbox Central">>
@@ -304,8 +303,7 @@
 																		<<link "take the egg">>
 																			<<replace "#c4">>
 																				<<set $hydraEggTaken = true>>
-																				<<set $hydraTime = 15>>
-																				<<set $defenseTalk = 1>>
+																				<<set $hydraTime = random(10,20)>>
 																				A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																				Exhilaration. Determination. Terror. <br> <br>
 																				With gentle claws, as delicate as you would be with a dragon's egg, you pull the hydra's free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can't help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. <br> <br>
@@ -317,7 +315,7 @@
 																				You explain what it is - what it means. That there will be a furious serpent clawing towards your thunder soon, that you will all need to stockpile and prepare defenses to fight it off. You tell them that the hydra is huge, that it will be implacable; there will be nothing to expect beyond a fight to the death. Its, or yours. <br> <br>
 																				Your thunder is silent for some time. You grant them this, placing your attention instead on the egg in your grasp. It is not burst from your flight, and the hatchling within is still twitching, living. So strange to have a soft shell, to be so small for its immense parent. <br> <br>
 																				Eventually, one of the dragons approaches you. They offer to carve a space to keep the egg - you agree, naturally - and begin to direct the rest of your colony while they take the growing hydra off of you. There is so much to do. <br> <br>
-																				[[You will be ready.|Sandbox Central]]
+																				[[You will be ready.|DefenseTalk]]
 																			<</replace>>
 																		<</link>>, 
 																		or you could 
@@ -358,7 +356,7 @@
 													Upon realizing your pouch is full, and that the hydra hasn't moved... you lick your teeth. <br> <br>
 													You leave the cave silently, returning home to drop off your food - then go straight back to the sleeping hydra's lair. Over and over and over again, until your food storage is fit to burst. And then, because you can, you devour some yourself on your last trip. It isn't particularly filling, but you feel... healthy for it. Perhaps from consuming the hydra's scales? <br> <br>
 													You eye some broken strips of the hydra's shed contemplatively, but ultimately ignore it in favor of leaving silently. You've taken all you can store; any more would go to waste. As you leave, you hear the hydra shift again - and it puts a speed to your flight as you exit the cave. <br> <br>
-													[["You arrive home feeling quite smug."|Sandbox Central]]
+													[[You arrive home feeling quite smug.|Sandbox Central]]
 												<</replace>>
 											<</link>>, 
 											the same will likely happen. What to do...

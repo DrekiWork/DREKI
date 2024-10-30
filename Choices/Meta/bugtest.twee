@@ -83,7 +83,15 @@
     <<linkreplace "Seen the creatures?">>
         <<set $infestedNotice = true>>
         Seen the lake creatures.
-    <</linkreplace>>
+    <</linkreplace>><br><br>
+
+    ''//Defenses//''<br>
+    Defenses active?
+    <<cycle "$defenseTalk" autoselect>>
+        <<option "Yes." true>>
+        <<option "No." false>>
+	<</cycle>><br>
+    <<link "Run defenseCalc widget?">><<updateDefense>><</link>>
     <hr>
     </details>
     

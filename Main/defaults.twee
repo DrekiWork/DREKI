@@ -57,14 +57,6 @@
 	<<set $woodCap to ($dugOut.amount * $dugOut.storage)>>
 	<<set $stoneCap to ($dugOut.amount * $dugOut.storage)>>
 
-	<<set $defense to []>>
-	<<set $defense.enable to true>>
-	<<set $defense.types to {
-		barricade : 0,
-		traps : 0,
-		training : 0,
-	}>>
-
 		/* Setting homes up, I guess? Gonna have to figure out if I want to convert this to a datamap or array or something... ugh. */
 	<<set $buildQueue to []>>
 	<<set $buildTime to -1>>
@@ -97,6 +89,9 @@
     <<set $home = (($shelter.ruts.shelter * $shelter.ruts.amount) + ($shelter.setts.shelter * $shelter.setts.amount) + ($shelter.hollows.shelter * $shelter.hollows.amount))>>
 	<<set $builtRut = false>>
 	<<set $builtSett = false>>
+
+		/* A couple of miscellaneous buildings, as I need them. */
+	<<set $building = []>>
 		
 		/* How many days you've been here, and how many moon cycles! */
 	<<set $days to 1>>
@@ -171,15 +166,51 @@
 	
 	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult", "Elder"]>>
 	
-	<<set $dJobs to ["slacker", "forager", "rainier", "builder", "scavenger", "salvager"]>>
+	<<set $dJobs to ["slacker", "forager", "rainier", "builder", "scavenger", "salvager", "soldier"]>>
 
 		/* Setting up some flags... oh boy, flags! */
 
 		/* Default social policies... */
 	<<set $findSleep to true>>
+	<<set $jobHunt to false>>
+
+		/* General defense stuff... */
+	<<set $defenseTalk = false>>
+	<<set $defenseTotal = 0>>
+	<<set $defenseBuildings = []>>
+	<<set $defenseBuildings.palisade = {
+		amount : 0,
+		max : 10,
+		priceS : 30,
+		priceW : 50,
+		buildTime: 1
+	}>>
+	<<set $defenseBuildings.moat = {
+		amount : 0,
+		max : 3,
+		creatures : false,
+		priceS : 150,
+		priceW : 70,
+		buildTime : 10
+	}>>
+	<<set $defenseBuildings.rockfall = {
+		amount : 0,
+		max : 4,
+		priceS : 70,
+		priceW : 20,
+		buildTime : 3,
+		loaded : 0,
+		empty : 0
+	}>>
+	<<set $defenseBuildings.outpost = {
+		amount : 0,
+		max : 5,
+		priceS: 25,
+		priceW: 25
+	}>>
+
 
 		/* These set up the Hydra. */
-	<<set $defenseTalk = 0>>
 	<<set $hydraSeen to false>>
 	<<set $hydraEggTaken to false>>
 	<<set $hydraTime = -1>>
@@ -187,5 +218,6 @@
 
 		/* These relate to the lake creatures! */
 	<<set $infestedNotice to false>>
+	<<set $kelpieExtinction to false>>
 <</silently>>
 

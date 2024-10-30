@@ -2,15 +2,91 @@
 <<nobr>>
 <!--
     Leader settles for discussion w/ self on what needs to be done to prep for Hydra Raid.
-     > Set up Guards. Guards protect the colony & surrounding territory. They are trained in battle and as they gain experience, they are more confident in fights. Mechanically, this translates to good health + harder hits. Unfortunately, they eat and drink more to fuel their training, and don't otherwise contribute to the colony. When you need them, you're grateful they're there, but when you don't, they're borderline parasites.
+     > Set up Guards. Guards protect the colony & surrounding territory. They are trained in battle and as they gain experience, they are more confident in fights. Mechanically, this translates to good health + harder hits. Unfortunately, they eat and drink more to fuel their training, and don't otherwise contribute to the colony. When you need them, you're grateful they're there, but when you don't, they're functionally parasites. Might hunt sometimes.
      > Set up Fortifications. Fortifications are various barricades, offensive traps, choke-points, and hides for your dragons to retreat to & attack from. Fortifications are classified as:
         > Protective. Barricades, moats, overhangs, deep-shelters, etc. Lessens damage taken during raids, and provides shelter for non-combative dragons (including hatchlings.) Building none of these means that you trust your ability to rebuild, and don't mind watching children die.
         > Offensive. Traps, choke-points, attack nests, etc. Damages and slows attackers while allowing your dragons to risk themselves slightly less in attacking. Not building these mean you either trust your numbers & skill levels, or that you're pulling a zerg rush and praying to Sun & Moon that it works.
         > Pre-Emptive, and Post. Scout points, retreat zones, secondary stockpiles, etc. Gives you warnings about where the raider is, where you can go if things start getting really, really bad, and what you have left to recover with. Not building these is akin to deciding that you are either arrogant enough to believe you need no forewarning and can survive any losses you take, or panicked enough to forget that you'll have to rebuild.
  -->
+	<<set $defenseTalk = 1>>
+
+    Your first order of business is getting your colony functioning once more. You send most to their duties – you don't have work enough for all of them, not yet, and the colony must still be cared for. You stall a trio; you don't care to check who, and you certainly don't care for their jobs at the moment. Whatever they were doing may wait until your priority tasks are complete. You send them off to gather wood and stone, with instruction to build an outpost near the hydra's den.<br />
+
+    That will be only the first of many. You will need to build. There are fortifications to be raised; offensive and defensive both. Outposts, walls, traps... One structure you remember to be crude and laborious, but effective – a perfect stalling tactic for the oncoming battle... though, given the size and might of the beast, perhaps it might be best regarded as natural disaster. Something akin to a rolling flood that you are hoping to wear down before it truly brings itself to bear.<br />
+
+    Your decision has been made. There is no reason for you to linger on what-ifs.<br />
+
+    Next will be soldiers. Your dragons are – for all that they have lived in a developing colony – <em>soft</em>. You've not trained any for battle, nor had them spar with each other. Play-fighting in their free-time, though useful, is nothing compared the honed edges their fangs, claws, and flame may bring to bear. With luck, planning, and thorough preperation, they will not need to confront the hydra directly. They will only need to act as sentries or arm traps, rather than put themselves in the fore to die. Soldiers are rather expensive; their constant vigilance and training demand large meals, but in this instance, they will be worthwhile. They will have to be.<br />
+
+    Last, but equally important: stores. You have no idea how long the battle will last; you need food and water in abundance to keep your colony going. When the hydra is close, there will be no going out. You will not risk your thunder trying to hunt for scraps when the beast is carving a path of devastation through your lands. Not if you have any other option.
+
 <</nobr>>
 
 :: HydraRaid
 <<nobr>>
+    <<countWorkers "soldier">>
+    The day is come.
+    <<if _wantedCount >= 2>>
+        One of your soldiers rushes towards you, practically plummeting from the air in their hurry. Their training only barely constrains the fear in their announcement. Not that you needed the warning. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+
+    <<elseif _wantedCount = 1>>
+        Your lone scout dives towards you from the wall, not bothering to call out. You know what's coming. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+
+    <<else>>
+
+    <</if>>
+
+    You can hear the trees crumbling before the hydra's immense bulk, the ground's subtle tremors growing more vicious as it marches forth. Your colony swarms around you; anyone unrelated to the coming seige pushes into the depths of the storage caverns. Those left dart about; some simply flitting with anxious need to follow their training, others coldly aware of what will happen under a moment of inattention.<br><br>
+
+    You take to the skies, adrenaline buzzing in your veins. You don't feel your hearts. Your pulse is nothing more than a roar so loud it reverbrates in your bones; absently, you wonder if your thunder can hear it. As you clear the treeline, you see the hydra—and the world must freeze as you catch sight of it.<br><br>
+
+    It is not large. Not huge or even enormous; it is <em>monstrous</em> in the light. In its cavern it was a still thing, as much a part of the landscape as it was a serpent, yet in the daylight it is <em>more.</em> The truth of the beast is that its heads clear the trees with furious purpose; its limbs shatter anything that might endeavor to slow it as the rest of its impossible bulk gouges the land with depth and width that would take a cycle for five dragons - all in a single, vicious movement. This is not a beast, not a monster nor serpent: it is a force of nature. Its scales gleam, deep and glorious blue in daylight, polished by sap wept from the trampled forest. Its three heads hiss as they spot your colony - a sound so deep and forceful as to be more kin with screeching winds than any noise you could produce.<br><br>
+
+    <<updateDefense>>
+
+    /* Defenses order: -Outpost-, moat, palisade, rockfall, soldiers. */
+
+    <<if _wantedCount >= $defenseBuildings.outpost.amount && $defenseBuildings.outpost.amount >= $defenseBuildings.outpost.max>>
+            /* Fully armed outpost */
+        In the distance, you can see your scouts; they dart from their outposts as the hydra approaches, harrying the beast with almost suicidal bravery. Their attacks do little but annoy it, and you swear one gets eaten - only to soar back into sight with fire exploding from their maw. Yet this annoyance buys valuable time for traps to be checked and your colony to finish evacuating. Not only that, but you have built enough for a scout to disengage on occasion and feed information to you; where scales have been scraped off, or which head is slower to react. Information you can use, should it come to a battle.<br><br>
+
+    <<elseif _wantedCount >= $defenseBuildings.outpost.amount && $defenseBuildings.outpost.amount > 0>>
+            /* Partial outpost but fully armed */
+        In the distance you can see your scouts; you don't have as many outposts as you would have liked, but your soldiers are behaving admirably. They harry the hydra, taking as few risks as possible while still annoying it; you cannot be certain of the efficacy of their work, but you hope it is enough. Especially when not a one can afford to disengage to report on what they're noticing about the hydra.<br><br>
+
+    <<elseif _wantedCount < $defenseBuildings.outpost.amount && _wantedCount > 0 && $defenseBuildings.outpost.amount >= $defenseBuildings.outpost.max>>
+            /* Unarmed max outpost */
+        In the distance, you can see your outposts; though you've built as many as you feel you need, some are not occupied, and you feel the lack keenly in the risk your soldiers have to take. Every time one sweeps too near a mouth, your hearts feel as though they might stop - but no one dies. Not yet, at least. Still, with their lower numbers, they are less effective than you would have hoped.<br><br>
+
+    <<elseif _wantedCount < $defenseBuildings.outpost.amount && _wantedCount > 0 && $defenseBuildings.outpost.amount > 0>>
+            /* Unarmed less than max outpost */
+         In the distance you can see your scouts; you don't have as many outposts as you would have liked, but your soldiers are behaving admirably... as many of them that can, that is. Even with your less than ideal amount of outposts, you didn't have enough soldiers to fill even that much. Those you do have are doing their best, but it is obvious that harrying the hydra with so few is terrifyingly dangerous work. If the hydra doesn't kill them, perhaps exhaustion will.<br><br>
+
+    <<elseif _wantedCount == 0 && $defenseBuildings.outpost.amount > 0>>
+            /* Unarmed outposts */
+        In the distance, you can see your outposts... but they are empty, and the hydra storms past as though they are nothing. You swallow, but ultimately do not linger on the missed opportunity.<br><br>
+    
+    <<else>>
+            /* No outposts */
+        The hydra storms through the forest utterly unopposed; you recall thinking you should build outposts, but seeing its relentless pace makes you reconsider. Whatever scouts you placed would have been doubtlessly killed... though the time they would have bought might have helped.<br><br>
+
+    <</if>>
+    <<run console.log("outpost = " + _outpostTotal)>> /* console logging numerical value of outposts */
+
+    <<updateDefense>>
+
+    <<if $defenseTotal > 50>>
+
+    Hooray, you won!
+
+    <<elseif $defenseTotal <= 50>>
+
+    You won, but at what cost?
+
+    <<elseif $defenseTotal <= 30>>
+
+    You lost.
+
+    <</if>>
 
 <</nobr>>

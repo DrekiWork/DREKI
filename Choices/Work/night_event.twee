@@ -128,7 +128,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
             You tilt your head slightly, considering.
 
         <<case "Absentminded" "Dreamy" "Whimsical">>
-            It's <<print $goneDragons[_i].name>>. You aren't certain why they would be here after leaving, but if they meaan ill... You don't think they would, though. From what you remember, <<print $goneDragons[_i].name>> wasn't wholly present in the world. Not enough for an attack, at least.<br><br>
+            It's <<print $goneDragons[_i].name>>. You aren't certain why they would be here after leaving, but if they mean ill... You don't think they would, though. From what you remember, <<print $goneDragons[_i].name>> wasn't wholly present in the world. Not enough for an attack, at least.<br><br>
 
             You fly closer, observing <<print $goneDragons[_i].name>>'s movements. They don't notice you; not until you're practically upon them, and even then they only smile at you with some relief. They look worse for wear; their scales are gritty, their body thin. You bite down on your empathy – they are not yours anymore – and question what they're doing at your territory. They seem confused by the question.<br><br>
 
@@ -144,34 +144,36 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
         <<case "Insecure" "Nervous" "Emotional" "Sensitive">>
             You barely make it more than a full length before the dragon before you spots you, rises, and begins to rush towards you. You roll out of the way, feeling their slipstream sweep by you. You spin to see them doing the same—and realize with a start that it's <<print $goneDragons[_i].name>>.
 
-            "<<print $player.title>>!" They cry, shooting towards you once more. They pull up short, sunken eyes huge and crests rattling with emotion. "<<print $player.title>>, I'm sorry, I— I thought I could live out there, but I – it's too much! It's too cruel! Please, let me back, I want to come back!"<br><br>
+            "<<print $player.title>>!" They cry, shooting towards you once more. They pull up short, sunken eyes huge and crests rattling with emotion. "<<print $player.title>>, I'm sorry, I— I thought I could live out there, but I — it's too much! It's too cruel! Please, let me back, I want to come back!"<br><br>
 
             You stare in bewilderment at the trembling former-colonist. They're clearly in a rough state; wherever they went, it did not treat them kindly. Their wings can barely carry them, and they look utterly gaunt.
             
-        <<case "Abrasive" "Aloof" "Harsh" "Impatient">>
+        <<case "Abrasive" "Aloof" "Harsh" "Impatient" "Independent" "Moody">>
             The dragon in the distance puffs small bursts of flame as you approach, clearly fuming to themselves. As you recognize <<print $goneDragons[_i].name>>, you decide – somewhat dryly – that yes, they would be stewing, wouldn't they?<br><br>
 
             You call out, not bothering to introduce yourself to a previous colonymate, and instead simply demand to know why they're here. They grimace, teeth flashing. "... To come back," they admit. It sounds only a little like plucking a scale would have been easier. "I was... <em>fine</em>, but... Not anymore. So I'm coming home."<br><br>
 
             Despite the absolute confidence in their statement, you contemplate them warily. Even now, <<print $goneDragons[_i].name>> is struggling to keep their impatience to themselves.
-        
+
+        <<case "Dependable" "Hardworking" "Loyal" "Practical" "Rational" "Responsible">>
+            You're as surprised as not to see <<print $goneDragons[_i].name>> hovering at your border. They are visibly struggling to maintain the lift necessary, but no less remain where they are. Relief mingles with the exhaustion in their posture as they spot you. "<<print $player.title>>," they greet, dipping their already drooping head as much as they are able. "It is an honor to see you again."<br><br>
+
+            <<print $goneDragons[_i].name>> twitches when you demand to know why they're haunting your border. You can guess of course; such a <<print $goneDragons[_i].personality>> dragon would inevitably return... but you want to hear it after they had the audacity to abandon your colony.<br><br>
+
+            "... I wish to return. I made a mistake in leaving at all, <<print $player.title>>, and I want to rectify it—by any means I can," they say.
     <</switch>><br><br>
 
         /* "Ambitious", 
 		"Caring", "Chatty", "Clever", "Confident", "Creative", "Curious", 
-		"Dependable", 
 		"Energetic", 
 		"Formal", "Friendly", 
 		"Generous", "Gentle", "Greedy", 
-		"Hardworking", 
-		"Independent", "Intelligent", 
-		"Loyal", 
-		"Moody", 
+        "Intelligent", 
         "Negligent",
 		"Organized", 
-		"Patient", "Persistent", "Placid", "Practical", 
+		"Patient", "Persistent", "Placid", 
 		"Quiet", "Queer", "Quaint", 
-		"Rational", "Resourceful", "Responsible", 
+		"Resourceful", 
 		"Selfish", "Selfless", "Skeptical", "Spontaneous", 
 		"Thoughtful", "Tolerant", 
 		"Witty" */
@@ -188,7 +190,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
         <<run $dragons.push($goneDragons[_i])>>
         <br><br>
         <<replace "#choice">>
-            <<print $goneDragons[_i].name>> visibly relaxes as you assent. They follow you, close but not <em>too</em> closely; a distance you enforce with speed and warning puffs of smoke. Acceptance does not mean forgiveness, after all.<br>
+            <<print $goneDragons[_i].name>> visibly relaxes as you assent. They follow you, close but not <em>too</em> much so; a distance you enforce with speed and warning puffs of smoke. Acceptance does not mean forgiveness, after all.<br>
             As you return home, you let them get their bearings; you need to [[rest.|Sandbox Central]]
         <</replace>>
         <<run $goneDragons.splice(_i, 1)>>
@@ -196,7 +198,7 @@ There are <<print _join>> dragons at the edge of your home. Their scales are fla
     <<linkappend "Send them away.">>
         <<replace "#choice">>
             <<print $goneDragons[_i].name>> tenses as you refuse them. You tell them to leave. <em>Now.</em> They don't linger, and only fly faster as you roar a warning to their retreating back. If you see them again, you think you might actually have to kill them for the eviction to stick.<br>
-            As you return home, you let them get their bearings; you need to [[rest.|Sandbox Central]]
+            Smoke puffs from your nostrils as you fly back home. You need to [[rest.|Sandbox Central]]
             <<run $goneDragons.splice(_i, 1)>>
         <</replace>>
     <</linkappend>>

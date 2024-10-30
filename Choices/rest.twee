@@ -15,6 +15,12 @@ The end of the day is approaching.<<nobr>>
 						<<set $dragons[_i].home = "none">>
 						<<set $shelter.setts.free += 1>>
 						<<set $shelter.setts.occupied -= 1>>
+
+					<<case "hollow">>
+						<<set $dragons[_i].home = "none">>
+						<<set $shelter.hollows.free += 1>>
+						<<set $shelter.hollows.occupied -= 1>>
+						
 					<</switch>>
 				<<else>>
 				<</if>>
@@ -66,6 +72,17 @@ The end of the day is approaching.<<nobr>>
 	<<else>>
 		
 	<</if>>
+
+	<<if _soldierHunt == true>>
+		<<if _soldcount >= 2>>
+			Your soldiers went hunting today, apparently. They brought back <<print _soldierHunt>> food.
+		<<else>>
+			Your solider went hunting today, apparently. They brought back <<print _soldierHunt>> food.
+		<</if>>
+	<<else>>
+		
+	<</if>>
+
 	<<if _watcount gte 2>>
 		Your <<print _watcount>> rainiers return, having swept <<print _water>> water into your collection pools.
 	<<elseif _watcount is 1>>

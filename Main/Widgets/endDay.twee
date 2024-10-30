@@ -263,6 +263,14 @@
 								<<set _buildcount += 1>>
 								<<set $dragons[_i].buildxp += 0.1>>
 
+							<<case "soldier">>
+								<<set _soldcount += 1>>
+								<<set $dragons[_i].soldierxp += 0.1>>
+								<<set _huntluck = random(-50, 75)>>
+								<<if _huntluck >= 60>>
+									<<set _soldierHunt += (Math.round($dragons[_i].soldierexp * _goldbonus) + random(15,30))>>
+								<</if>>
+
 							<<case default>>
 
 								
@@ -275,7 +283,7 @@
 					<<run console.log("post-Pass " + $home)>>
 					
 				<<else>>
-					<<set $food += _food>>
+					<<set $food += (_food> + _soldierHunt)>
 					<<set $water += _water>>
 					<<set $stone += _stone>>
 					<<set $wood += _wood>>
@@ -480,6 +488,52 @@
 										<<set _nowater += 1>>
 									<</if>>
 								<</if>>
+
+							<<case "soldier">>
+								<<if $dragons[_i].home !== "none">>
+									<<if $food >= (_eat + 5)>>
+										<<set $dragons[_i].hunger = 0>>
+										<<set _eat += 5>>
+									<<else>>
+										<<set $dragons[_i].hunger += 1>>
+										<<set _hungry += 5>>
+										<<set _unfed += 1>>
+									<</if>>
+
+									<<if $water >= (_drink + 4)>>
+										<<set $dragons[_i].thirst = 0>>
+										<<set _drink += 4>>
+									<<else>>
+										<<set $dragons[_i].thirst += 1>>
+										<<set _thirsty += 4>>
+										<<set _nowater += 1>>
+									<</if>>
+								<<else>>
+									<<if $food >= (_eat + 6)>>
+										<<set $dragons[_i].hunger = 0>>
+										<<set _eat += 5>>
+									<<else>>
+										<<set $dragons[_i].hunger += 1>>
+										<<set _hungry += 6>>
+										<<set _unfed += 1>>
+									<</if>>
+
+									<<if $water >= (_drink + 5)>>
+										<<set $dragons[_i].thirst = 0>>
+										<<set _drink += 5>>
+									<<else>>
+										<<set $dragons[_i].thirst += 1>>
+										<<set _thirsty += 5>>
+										<<set _nowater += 1>>
+									<</if>>
+								<</if>>
+
+							<<default>>
+								<<errorPopup "endDayFeed">>
+								<<run console.log("endDayFeed sourced from: "$dragons[_i].name + $dragons[_i].job)>>
+								<<set _errorDragon = $dragons[_i].name>>
+								<<set _errorJob = $dragons[_i].job>>
+
 						<</switch>>
 					<</for>>
 				<</if>>

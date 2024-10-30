@@ -6,6 +6,11 @@
         <<case "buildQueueWeird">>
             The build queue tried to build something that doesn't exist!<br>
             Item name: <<print $buildQueue[0]>>.
+
+        <<case "endDayFeed">>
+            endDay tried to feed a dragon with an unrecognized job!<br>
+            The dragon in question was: <<print _errorDragon>>, <<print _errorJob>>. Shame on them.
+
         <<default>>
             Whoops! Not sure. Please let Recila know what you were up to and they should be able to figure it out.
     <</switch>>

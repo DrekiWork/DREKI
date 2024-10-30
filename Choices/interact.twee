@@ -1,14 +1,13 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
-	<<updateHome>>
 	<<set _name to $dragons[$int].name>>
 	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons. They're a fully grown
 	<<if $dragons[$int].appearance.size == "normal">>
-		<<print $dragons[$int].appearance.color>> dragon with
+		<<print $dragons[$int].appearance.color>>
 		<<if $dragons[$int].appearance.pattern == "plain">>
-			no particular pattern on their scales.
+			 dragon.
 		<<else>>
-			a <<print $dragons[$int].appearance.pattern>> pattern across their scales.
+			 dragon with a <<print $dragons[$int].appearance.pattern>> pattern across their scales.
 		<</if>>
 	<<else>>
 		abnormally <<print $dragons[$int].appearance.size>> <<print $dragons[$int].appearance.color>> dragon
@@ -120,7 +119,9 @@
 				&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
 					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br>
 				&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br><br>
+						&emsp;&emsp;Builders construct things for the colony.<br>
+				&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
 
 			<<case "forager">>
 					<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
@@ -142,7 +143,9 @@
 					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
 					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br><br>
+						&emsp;&emsp;Builders construct things for the colony.<br>
+					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
 
 			<<case "rainier">>
 				<<silently>>
@@ -166,7 +169,9 @@
 					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
 					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br><br>
+						&emsp;&emsp;Builders construct things for the colony.<br>
+					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
 
 			<<case "scavenger">>
 				<<silently>>
@@ -190,7 +195,9 @@
 					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Rainiers gather water for your colony.<br>
 					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br><br>
+						&emsp;&emsp;Builders construct things for the colony.<br>
+					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
 			
 			<<case "builder">>
 				<<silently>>
@@ -214,7 +221,35 @@
 					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
 						&emsp;&emsp;Rainiers gather water for your colony.<br>
 					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
+					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
+			
+			<<case "soldier">>
+				<<silently>>
+					<<set _xp to Math.round($dragons[$int].soldierxp * 10)>>
+				<</silently>>
+				They've guarded your colony for <<print _xp>> days as a soldier.
+					<<if _xp >= 50>>
+						They're so used to being alert that they've started pre-emptively checking locations before allowing anyone in.
+					<<elseif _xp >= 20>>
+						They've adjusted to silently standing guard for hours on end.
+					<<elseif _xp >= 10>>
+						They're getting some confidence in combat.
+					<<else>>
+						They're pretty new to their post.
+					<</if>>
+					Would you like to change their job?<br>
+					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
+					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Foragers collect food for your colony.<br>
+					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Rainiers gather water for your colony.<br>
+					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
+					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
+						&emsp;&emsp;Builders construct things for the colony.<br><br>
 
 		<</switch>>
 	
