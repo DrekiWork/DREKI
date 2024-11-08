@@ -164,6 +164,34 @@ The end of the day is approaching.<<nobr>>
 		<br><br>
 	<</if>>
 
+	<<if $defenseBuildings.rockfall.empty > 0 && $autoLoad == true>>
+		<<set _rockfallStoneCost += ($defenseBuildings.rockfall.empty * 10)>>
+		<<set _rockfallsEmpty += $defenseBuildings.rockfall.empty>>
+		<<if $stone >= _rockfallStoneCost>>
+			<<set $defenseBuildings.rockfall.loaded += $defenseBuildings.rockfall.empty>>
+			<<set $defenseBuildings.rockfall.empty = 0>>
+			<<set $stone -= _rockfallStoneCost>>
+			Your colony loads up your rockfalls. It takes <<print _rockfallStoneCost>> stone, and some heavy lifting, but before sundown your last line of defense is ready for use.<br><br>
+		<<else>>
+			<<set _loadableRockfalls += $defenseBuildings.rockfall.empty>>
+			<<if _rockfallsEmpty >= 2>>
+				<<for _i to _rockfallsEmpty; _i > 0; _i-->>
+					<<set _rockfallsEmpty -= 1>>
+					<<set _rockfallStoneCost = (_rockfallsEmpty * 10)>>
+					<<if _rockfallStoneCost > $stone>>
+						<<set $stone -= _rockfallStoneCost>>
+						<<set $defenseBuildings.rockfall.loaded += _rockfallsEmpty>>
+						<<set $defenseBuildings.rockfall.empty -= _rockfallsEmpty>>
+						Your colony loads as many as they can. That ends up being <<print _rockfallsEmpty>> rockfall<<if _rockfallsEmpty > 1>>s<</if>>, costing <<print _rockfallStoneCost>> stone.<br><br>
+					<</if>>
+				<</for>>
+			<<else>>
+				One of your thunder informs you they can't load the rockfall; you need <<print (10 - $stone)>> more stone.<br><br>
+			<</if>>
+		<</if>>
+	<<elseif $autoLoad == false>>
+	<</if>>
+
 	<<if $hatchlings.length > 1>>
 		<<if _hatchFood > 0 && _hatchWater > 0>>
 			Your hatchlings present you with <<print _hatchFood>> food and <<print _hatchWater>> water that they found. How sweet! <br><br>
@@ -512,7 +540,7 @@ The end of the day is approaching.<<nobr>>
 							and <<print _homeless[_i]>>
 						<</if>>
 					<</for>>
-					don't have anywhere to sleep yet.
+					don't have anywhere to sleep yet.<br><br>
 				<<elseif _homeless.length == 2>>
 						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
 				<<elseif _homeless.length == 1>>
@@ -533,9 +561,9 @@ The end of the day is approaching.<<nobr>>
 			<<if _i !== (_left.length - 1)>>
 				<<print _left[_i]>>, 
 			<<elseif _i == (_left.length - 1)>>
-				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<br> <br> <</nobr>>
+				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<br><br><</nobr>>
 	<<elseif _left.length == 1>>
-		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br> <br> 
+		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br><br>
 	<</if>>
 	
 		<<set _eventChance to random(15)>>

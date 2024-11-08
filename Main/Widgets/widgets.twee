@@ -135,10 +135,11 @@
 
 <<widget "updateBar">>
 	<<nobr>>
+		<<run console.log("updateBar")>>
 		<<set $waterCap = ($pool.amount * $pool.storage)>>
 		<<set $foodCap = ($cavern.amount * $cavern.storage)>>
 		<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-			<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+		<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
 		<<replace "#story-caption">>
 			<<include "StoryCaption">>
 		<</replace>>
@@ -147,6 +148,7 @@
 
 <<widget "updateHome">>
 	<<nobr>>
+		<<run console.log("updateHome")>>
 		<<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) + ($shelter.setts.amount * $shelter.setts.shelter) + ($shelter.hollows.shelter * $shelter.hollows.amount))>>
 	<</nobr>>
 <</widget>>
@@ -156,12 +158,13 @@
 	/* Start with soldier counts. Each individual soldier is half a point.
 	I'll update this to eventually vary based on experience (probably to a plateau instead of exponential). For now: this. */
 		<<countWorkers "soldier">>
-		<<set _soldierTotal = (_wantedCount * 0.5)>>
+		<<set _soldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
+		<<set _soldierTotal = (_soldiers * 0.5)>>
 
 	/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
 	Full surround grants a 1 point bonus per building.) */
 		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
-			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 1)>>
+			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 1.25)>>
 		<<else>>
 			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 0.5)>>
 		<</if>>
@@ -180,15 +183,18 @@
 		<<if $defenseBuildings.moat.creatures == false>>
 			<<set _moatTotal = ($defenseBuildings.moat.amount * 3)>>
 		<<else>>
-			<<set _moatTotal = (($defenseBuildings.moat.amount * 3) + 15)>>
+			<<set _moatTotal = (($defenseBuildings.moat.amount * 3) + random(15, 35))>>
 		<</if>>
 
 	/* Checking rockfalls. Rockfalls need to be loaded to work.
 	Not loaded? No damage. Rest in rubble. */
 		<<set _rockfallTotal += ($defenseBuildings.rockfall.loaded * 5)>>
 
+	/* A measure for the leader themselves. You're a vicious one! */
+		<<set _leaderDefenseDamage += ($player.health * 0.5)>>
+
 	/* And the final result. Hurrah. */
-		<<set $defenseTotal = (_soldierTotal + _palisadeTotal + _outpostTotal + moatTotal + rockfallTotal)>>
+		<<set $defenseTotal = (_soldierTotal + _palisadeTotal + _outpostTotal + _moatTotal + _rockfallTotal + _leaderDefenseDamage)>>
 
 <</nobr>><</widget>>
 

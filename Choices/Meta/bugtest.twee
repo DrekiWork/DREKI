@@ -91,6 +91,9 @@
         <<option "Yes." true>>
         <<option "No." false>>
 	<</cycle>><br>
+
+    [[Go to DefenseTalk?|DefenseTalk]]<br>
+    
     <<link "Run defenseCalc widget?">><<updateDefense>><</link>>
     <hr>
     </details>

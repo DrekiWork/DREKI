@@ -1,5 +1,7 @@
-:: Hydra Den
+:: HydraDen
 <<nobr>>
+    <<set $player.action -= 1>>
+    
     <<if $hydraBeat == true>>
         <<switch visited()>>
 
@@ -43,6 +45,67 @@
             
 
         <</switch>>
+
     <<else>>
+
+        <<goto "HydraFoodEvent">>
+
+    <</if>>
+<</nobr>>
+
+:: KelpieLake
+<<nobr>>
+    <<set $player.action -= 1>>
+
+    <<if $kelpieExtinction == false>>
+        As the lake comes into sight, you feel a pre-emptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
+
+        <div id="decision">
+            ... Why did you come here again?<br>
+            <<link "Gather water.">>
+                <<replace "#decision">>
+                    <<set _collect = random(12,19)>>
+                    <<set $food += _collect>>
+                    You sigh and march to the water's edge. The bare edge of a fin flicks in the light; almost pretty, really. A shame they're so vicious. As you take to the air over the lake, no less than seven of the creatures lunge for your shadow. You spit fire at them, driving them back as quickly as they appeared, and take the opportunity to gather as much water into your throat pouch as you can—over and over, until you're as full as you care to be, with these beasts after your neck.<br><br>
+                    The <<print _collect>> water you got is, at least, [[a nice reward for your efforts.|Sandbox Central]]
+                <</replace>>
+            <</link>>
+            <<link "Gather food.">>
+                <<replace "#decision">>
+                    <<set _collect = random(7,12)>>
+                    <<set $food += _collect>>
+                    You take to the air, not bothering to get to the water's edge first; the beasts are on your shadow in an instant regardless, practically frothing the water with their own hunger. How they aren't hurting each other is beyond you, with the way their writhing bodies twist and tangle into one indistinct mass. It makes things easier for you, at least. When one lunges, too impatient to wait any longer, your jaws close around its skull. The crunch is almost more satisfying than its sudden limpness. The lake-creatures pile after the blood that drips down as though they are starved—and maybe they are—as you carry the corpse to shore.<br><br>
+                    You only do this once more before a close call has you deciding to leave, carrying your two prizes - worth <<print _collect>> food by your estimation - [[back home.|Sandbox Central]]
+                <</replace>>
+            <</link>>
+            <<link "Just to be here.">>
+                <<replace "#decision">>
+                    <<set _scene = random(2)>>
+                    <<switch _scene>>
+                        <<case 0>>
+                            You settle on the shoreline, watching the lake. The beasts only occasionally show themselves; the peek of a head above water, a shimmer of scales or fins. It's a warm day today, pleasantly so—and though you love your thunder, having this time to yourself is... pleasant. Very pleasant, indeed. You close your eyes as you stretch out every limb you have; your legs, your wings, your tail... The warmth permeats you nicely. You hardly notice that you're drifting to sleep until you wake up some time later, slightly groggy.<br><br>
+                            With a wonderful nap added to your day, you stand up and stretch. It takes only a little while before you [[leave for home.|Sandbox Central]]
+                        <<case 1>>
+                            You wander to the waterline, hyperaware of the beasts just beneath the surface. The water is far too shallow for them to come close, but your wariness is, you think, justified. You sit down, enjoying the way you're cooled from below as Sun warms your scales... you even spread your wings, letting yourself soak up more light. Though you don't <em>quite</em> close your eyes, you do let them drift half-way shut. You're still alert! Just... relaxed.<br><br>
+                            You don't know how long you sit like that until you realize you're being watched. It's one eye at first; a lone beast poking its head from the water to observe you. Then another. Then five. Thirteen. They dip and reappear, and it takes an embarrasssingly long time for you to realize that they're trading placese; observing you as you are now observing them. How... disquieting. They plainly aren't of <em>your</em> intelligence, or even that of an upright animal, but there seems to be something going on in their skulls. You wonder, suddenly, if they recognize you.<br><br>
+                            The thought is upsetting enough that you choose not to linger any longer. And the staring. You take off while the beasts watch, [[heading home.|Sandbox Central]]
+                        <<case 2>>
+                            It doesn't take long for you to grow bored—and with your boredom comes... ideas. You snap idly at the larger bugs venturing stupidly near you; nothing worth calling even a snack to something of your size, but it's entertainment. At least until you spot a lake-beast poking its eyes from the water to observe you. You snap at another bug—and have a brilliant idea. You don't swallow this one, instead taking to the air. The beast watches, unmoving and unblinking, as you glide over the lake; strangely, none of the other creatures follow your shadow like you're used to. But that's fine. You only need the one.<br><br>
+                            So bored are you, that you drop your bug directly onto the beast. It recoils instantly, snapping at the surface - only to realize a moment later that you've dropped food. Sure, not a lot; even for a beast a bit over a quarter your size, a bug is a bug. But the lake-creature eats it anyway. It follows you as you go back to shore for another insect, and snaps that up too.<br><br>
+                            You don't really know how long you spend with your silly game, but the beasts don't lunge at <em>you</em> when you sweep too close to the water; they wait, barely, for your insect payloads. You aren't sure what this means, but it occurs that you might be able to make use of this... somehow. [[You think about it on your way home.|Sandbox Central]]
+                    <</switch>>
+                <</replace>>
+            <</link>>
+            /* <<if $dragons.length > 10>>
+                <<link "Get rid of the beasts.">>
+                    <<replace "#decision">>
+                    <</replace>>
+                <</link>>
+            <</if>> */
+        </div>
+        
+
+    <<else>>
+
     <</if>>
 <</nobr>>

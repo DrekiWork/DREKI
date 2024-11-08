@@ -10,9 +10,17 @@
 	<<set $player to {
 		title : "Founder",
 		action : 5,
-		health : 10
+		health : 10,
+		specials : []
 	}>>
 	<<set $ghunt = false>>
+	<<set $visitPlaces = false>>
+
+		/* A special array for special things. =) */
+
+	<<set $treasures to [
+
+	]>>
 	
 		/* Number of eggs & how 'old' the eggs are; only keeps track of one of at a time! $theft keeps track of if you've stolen today. */
 	<<set $eggsHatched to 0>>
@@ -26,13 +34,14 @@
 	<<set $nest = 0>>
 	<<set $eggSpace = ($nest * 3)>>
 	
-		/* Number of winglets/worker dragons. Slackers aren't employed, foragers go for food... */
+		/* Number of winglets/worker dragons. Also dead ones. :) */
 	<<set $eggs to []>>
 	<<set $hatchlings to []>>
 	<<set $winglets to []>>
 	<<set $dragons to []>>
+	<<set $dead to []>>
 
-		/* Setting up for various little details,,, like exiled / dehydrated / starved dragons deciding to come back, or keeping prisoners... */
+		/* Setting up for various little details... like exiled / dehydrated / starved dragons deciding to come back, or keeping prisoners... */
 
 	<<set $goneDragons to []>>
 	<<set $prisoners to []>>
@@ -160,7 +169,7 @@
 	]>>
 
 	<<set $dVisQuirk to [
-		"none", "none", "none", "none", "none", "none", "none", "none", "none", "none", 
+		"none", "none", "none", "none", "none", "none", "none", "none", "none", 
 		"sharp teeth", "raggedy", "stub-tail", "clean", "dull"
 	]>>
 	
@@ -191,7 +200,7 @@
 		creatures : false,
 		priceS : 150,
 		priceW : 70,
-		buildTime : 10
+		buildTime : 7
 	}>>
 	<<set $defenseBuildings.rockfall = {
 		amount : 0,
@@ -209,6 +218,8 @@
 		priceW: 25
 	}>>
 
+		/* Defense policies... */
+	<<set $autoLoad = true>>
 
 		/* These set up the Hydra. */
 	<<set $hydraSeen to false>>

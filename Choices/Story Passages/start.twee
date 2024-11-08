@@ -4,9 +4,9 @@ Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human,
 <strong>NOTICE</strong>
 DREKI is in <em>PRE-PRE-ALPHA!</em> Things are not present that will be in the future. Things <em>are</em> present that will be replaced, reworked, or outright removed. Stuff is going to break. The game is so unbalanced it's actually funny. (Get gold; you'll see.) The math is wonky and things are so, so weird. This is by no means a final product. It's not even a beta product. I hesitate to say this is a <em>product</em>, beyond the idea that it was somehow produced by someone with no coding experience and certainly no production experience. <em><strong>THINGS ARE GOING TO BREAK.</strong></em>
 
-Save files are going to be incompatible between updates, generally even minor ones. DREKI is unstable, and may behave in unexpected ways. If that is acceptable, then by all means, carry on! And thank you for your time; it means the world to a baby dev.
+Save files are going to be incompatible between updates, generally even minor ones. DREKI is unstable, and may behave in unexpected ways. If that is acceptable, then by all means, carry on! And thank you for your time; it means the world to a new dev.
 
-If you run into an error, submit it on GitHub at the <a href="https://github.com/DrekiWork/DREKI/issues">issues page</a>, or drop a notice wherever you found the game (either Git or itch, probably). It'll get seen and addressed.
+If you run into an error, submit it on GitHub at the <a href="https://github.com/DrekiWork/DREKI/issues">issues page</a>, or drop a notice wherever you found the game (either <a href="https://github.com/DrekiWork/DREKI">Github</a> or <a href="https://drekidev.itch.io/dreki">itch.io</a>, probably). It'll get seen and addressed.
 
 With all that said, what would you like to do?
 
@@ -27,6 +27,7 @@ You are a dragon that has left their colony; sent out with the great honor of fo
 		<<option "Benefactor">>
 		<<option "Creator">>
 		<<option "Dictator">>
+		<<option "Divinity">>
 		<<option "Founder">>
 		<<option "Inspirer">>
 		<<option "Leader">>

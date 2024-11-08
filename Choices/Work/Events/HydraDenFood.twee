@@ -1,6 +1,7 @@
 :: HydraFoodEvent 
 <<nobr>>
 <<set _danger = random(0, 3)>>
+<<set $visitPlaces = true>>
 
 <<switch $hydraEggTaken>>
 
@@ -277,7 +278,7 @@
 																		<<link "take the egg">>
 																			<<replace "#c4">>
 																				<<set $hydraEggTaken = true>>
-																				<<set $hydraTime = random(10,20)>>
+																				<<set $hydraTime = random(25,30)>>
 																				A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																				Exhilaration. Determination. Terror. <br> <br>
 																				With gentle claws, as delicate as you would be with a dragon's egg, you pull the hydra's free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can't help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. <br> <br>
@@ -303,7 +304,7 @@
 																		<<link "take the egg">>
 																			<<replace "#c4">>
 																				<<set $hydraEggTaken = true>>
-																				<<set $hydraTime = random(10,20)>>
+																				<<set $hydraTime = random(25,30)>>
 																				A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																				Exhilaration. Determination. Terror. <br> <br>
 																				With gentle claws, as delicate as you would be with a dragon's egg, you pull the hydra's free from its rotting nest. The egg is surprisingly soft, though you can feel the body forming within. You can't help it - you cradle the egg. You hold it close in one arm as you line up your flight. A wave of calm rolls over you as you lunge into the air. <br> <br>

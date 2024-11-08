@@ -30,6 +30,7 @@
 		<<elseif _scene == 1>>
 			<<if $infestedNotice is false>>
 				<<set $infestedNotice to true>>
+				<<set $visitPlaces = true>>
 				You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole lake is infested with them! Ultimately, you return home with only <<print _collect>> water for your near-death experience. <br> <br>
 			<<elseif $infestedNotice is true>>
 				<<set _extra = random(5, 8)>>

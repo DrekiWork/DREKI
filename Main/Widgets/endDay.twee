@@ -283,7 +283,7 @@
 					<<run console.log("post-Pass " + $home)>>
 					
 				<<else>>
-					<<set $food += (_food> + _soldierHunt)>
+					<<set $food += (_food> + _soldierHunt)>>
 					<<set $water += _water>>
 					<<set $stone += _stone>>
 					<<set $wood += _wood>>

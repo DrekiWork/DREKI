@@ -160,6 +160,7 @@
                         <<elseif $buildTime == 0>>
                             <<run console.log("finished building.")>>
                             <<set $defenseBuildings.rockfall.amount += 1>>
+                            <<set $defenseBuildings.rockfall.empty += 1>>
                             <<set _finished to "rockfall">>
                             <<set $buildTime = -1>>
                             <<run $buildQueue.deleteAt(0)>>

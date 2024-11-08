@@ -1,0 +1,11 @@
+:: HydraHeart
+<<nobr>>
+    <<run $player.specials.push("Hydra")>>
+    You wake with a start, lost and somewhat confused. You're surrounded by gore, for one thing; another is that you feel... <em>empty.</em> Un-whole. You are full, fit to burst from your gluttony, yet your belly aches for something...<br>
+    It takes you a moment to get your bearings. The hydra. The victory. Yes, you remember; and you remember feasting yourself into unconsciousness. Your thunder is in no better state, you observe. Though temperance was never a particularly draconic trait either. You pull yourself up enough to make out that you are still half-buried in the corpse—that explains your surroundings—and to realize that you are holding... something. Or a piece of it at least. You peer, bleary-eyed, at the thing in your claws. Under your foot.<br>
+    A heart.<br>
+    You have no idea what possesses you to take a bite of it.<br>
+    You have no idea why you feel... something, for doing so. Something settled; a placidity in your very soul. The heart is easily as large as your head, yet you must eat it. So you do. Piece by piece. Muscle and fibre and fat all, it is yours. And it is delicous; dense and tender, a hardy meal.<br>
+    You think you are changing, but you cannot imagine how. Or why. You only consume the heart.<br>
+    [[When it is done, you sleep.|OOC Chat]]
+<</nobr>>

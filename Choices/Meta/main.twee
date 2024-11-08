@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.25.6
+<sup>pre-pre-alpha 0.0.30
 Made by Recila!</sup>
 
 
@@ -78,13 +78,28 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 
 	<<if $dragons.length > 0 && $shelter.ruts.amount > 0>>
 		<details>
-			<summary>SOCIAL POLICIES ▼</summary>
+			<summary><h3>POLICIES ▼</h3></summary>
 			<center>———</center>
-			Do you want dragons to find their own places to sleep?
+			<details>
+				<summary><h4>Social ▼</h4></summary>
+				Do you want dragons to find their own places to sleep?
 			<<cycle "$findSleep" autoselect>>
 				<<option "Yes." true>>
 				<<option "No." false>>
-			<</cycle>>
+			<</cycle>><br>
+			</details>
+
+			<center>——</center>
+		
+			<<if $defenseTalk == true>><details>
+			<summary><h4>Defense ▼</h4></summary>
+			Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
+				<<option "Yes." true>>
+				<<option "No." false>>
+			<</cycle>><br>
+			</details>
+
+			<center>——</center><</if>>
 		</details>
 	<</if>>
 <<else>>
@@ -111,6 +126,10 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 <</link>>
 
 :: Patchnotes
+	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
+	<em><strong><u>THE HYDRA IS DONE. (mostly).</u></strong></em>
+
+
 	<h2> Pre-Pre-Alpha 0.0.25.8 </h2><<nobr>>
 	''New!''
 	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
@@ -152,10 +171,46 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	
 	''Current Focus?''
 	<ul><li>Hydra event.</li>
-	<ul><li>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</li>
+	<ul><li><strike>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</strike></li>
 	<li><strike>Soldiers: New job for your dragons. They eat and drink a lot, and only really counter this by occasionally hunting. But they're super necessary for raids, and it's better to have a couple and not need them, than to need them and not have them.</strike></li>
 	<li><strike>Defensive structures.</strike></li>
 	<li>Flavor involving all of these things, of course. Gotta let you know they're present in central.</li>
-	<li>The actual... y'know... raid...</li></ul>
+	<li><strike>The actual... y'know... raid...</strike></li></ul>
 	<li>Random Events.</li>
-	<li>Visiting specific locations.</li></ul><</nobr>>
+	<li>Visiting specific locations.</li></ul>
+	<</nobr>>
+
+:: OOC Chat
+<<nobr>>
+	Hello, this is the dev here! I've some words to share...<br><br>
+
+	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the demo.
+	<<if $hydraBeat == true>>
+		<<if $player.special[0] == "Hydra">>
+			A truly well-deserved congratulations on achieving the special raid ending, too; that's no easy feat! I hope you've enjoyed. Though there's no more major / pseudo-story content to be found, you can continue to play in your current colony for as long as you like.<br><br>
+		<<else>>
+			You've beaten the big boss of the current content, and a hearty congratulations is in order! That's no mean feat... though there's something extra you've missed. Maybe if you had stronger defenses, you'd find something more? but that's neither here nor there. Congratulations no less, and a hearty <em>well done!</em> You're free to continue playing this colony to your heart's content, or you can try again with that raid and maybe get the special ending. Good luck!<br><br>
+		<</if>>
+
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. Should have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		
+		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
+
+		Once more, from the bottom of my heart—thank you for playing. May the wind stay under your wings, and I hope you continue to enjoy DREKI.<br><br>
+
+		[[Now, back to the game.|Sandbox Central]]
+
+	<<else>>
+
+		... sort of! The hydra is intended to be a tough fight, after all. You can always try again! Either way, I hope you've enjoyed what you've played so far.<br><br>
+
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. Should have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		
+		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
+
+		Once more, from the bottom of my heart—thank you for playing. May the wind stay under your wings, and I hope you continue to enjoy DREKI.<br><br>
+
+		[[Now, back to the game.|START]]
+
+	<</if>>
+<</nobr>>
