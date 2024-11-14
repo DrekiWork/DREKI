@@ -123,13 +123,17 @@
 				<<else>>
 					&emsp;&emsp;Your dugouts are full of wood.
 				<</if>>
-			<br> &emsp;&emsp;[[Stone]]
+			<br> <<if $stone < $stoneCap>>
+					&emsp;&emsp;[[Stone]]
+				<<else>>
+					&emsp;&emsp;Your dugouts are full of stone.
+				<</if>>
 			<</linkappend>>
 		<br> &emsp;[[Treasure]]
 		<</linkappend>> <br>
-		<<if $eggs.length < $eggSpace && $theft == false>>
+		<<if $eggSpace > 0 && $theft == false>>
 			[[Get eggs|Egg theft]] <br>
-		<<elseif $eggs.length >= $eggSpace && $theft == false>>
+		<<elseif $eggSpace <= 0 && $theft == false>>
 			You don't see a point in risking yourself for eggs that you don't have room for. <br>
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>
@@ -137,17 +141,17 @@
 		<<if $visitPlaces == true>>
 			<<linkappend "Go somewhere.">>
 				<<if $infestedNotice == true && $kelpieExtinction == false>>
-					[[Infested Lake|KelpieLake]]<br>
+					<br>&emsp;[[Infested Lake|KelpieLake]]
 				<<elseif $infestedNotice == true && $kelpieExtinction == true>>
-					[[Empty Lake|KelpieLake]]<br>
+					<br>&emsp;[[Empty Lake|KelpieLake]]
 				<<else>>
 				<</if>>
 				<<if $hydraSeen == true && $hydraEggTaken == false>>
-					[[Hydra's Den|HydraDen]]
+					<br>&emsp;[[Hydra's Den|HydraDen]]
 				<<elseif $hydraSeen == true && $hydraEggTaken == true>>
-					You don't dare risk visiting the hydra <em>now</em>.
+					<br>&emsp;You don't dare risk visiting the hydra <em>now</em>.
 				<<elseif $hydraBeat == true>>
-					[[Abandoned Hydra Den|HydraDen]]
+					<br>&emsp;[[Abandoned Hydra Den|HydraDen]]
 				<<else>>
 				<</if>>
 			<</linkappend>><br>

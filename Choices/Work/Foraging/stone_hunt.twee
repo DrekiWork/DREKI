@@ -8,6 +8,10 @@
 	<<if _forage >= 8>>
 		<<set _collect = random(12, 15)>>
 		<<set $stone += _collect>>
+		<<if $stone > $stoneCap>>
+			<<set $stone = $stoneCap>>
+		<<else>>
+		<</if>>
 		<<if _scene == 0>>
 			<<set _goldChance = random(5)>>
 			While preparing to leave for your patrol, you hear a truly magnificent bellow from the earth. Before you've recovered from the resulting quake, an object - beautifully alight - arcs through the sky before crashing down just beyond your lands. You take off immediately to investigate, only to find the rather large remnants of some kind of boulder. The warmth of it feels pleasant on your claws as you begin to pick up the most useful shards, which end up totalling <<print _collect>> stone. 

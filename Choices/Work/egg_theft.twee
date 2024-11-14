@@ -4,7 +4,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 <<silently>>
 	<<set $theft++>>
 	<<set $player.action-->>
-	<<set _space to ($eggSpace - $eggs)>>
+	<<set _space to ($eggSpace)>>
 	<<if _space > 3>>
 		<<set _space = 3>>
 	<<else>>
@@ -25,7 +25,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		<<eggMaker>>
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children. <br> <br>
-		<<if $eggs.length < $eggSpace>>
+		<<if $eggSpace > 1>>
 			As you're about to leave, however, you pause and look back at the unattended nursery. <br> <br>
 
 			You could take more. <<linkreplace "Do you?">>
@@ -51,7 +51,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			
 	<<case 4 5 6 7>>
 		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose. <br> <br>
-		With trembling claws, you claim <<numberinput "_take" 2 1 3>> <<linkappend "for your own.">> <br> <br>
+		With trembling claws, you claim <<numberinput "_take" 1 1 _space>> <<linkappend "for your own.">> <br> <br>
 		As you disappear from sight of the nursery, to glide towards your own home - you see no more than a dozen dragons take flight to search for the thief. For you.
 		You avert your eyes and continue home. [[None of them have seen you, after all.|Nursery]]
 		<<silently>>

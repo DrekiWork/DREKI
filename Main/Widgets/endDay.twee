@@ -1,5 +1,5 @@
 :: endDayWidget [widget]
-<<widget "endDay">> <<nobr>>
+<<widget "endDay">><<nobr>>
 
 	/* Moves a day forward */
 		<<set $days += 1>>
@@ -34,6 +34,7 @@
 				<<if $firstCol == 0>>
 					<<set _firstHatchiUp = 1>>
 				<</if>>
+				<<set $eggSpace to (($nest * 3) - ($eggs.length + $hatchlings.length))>>
 			<</if>>
 		<</for>>
 		
@@ -45,8 +46,12 @@
 			<<set _left = []>>
 			<<set _eat = 0>>
 			<<set _hatchEat = 0>>
+			<<set _hatchHungry = 0>>
+			<<set _hatchUnfed = 0>>
 			<<set _drink = 0>>
 			<<set _hatchDrink = 0>>
+			<<set _hatchThirsty = 0>>
+			<<set _hatchNoWater = 0>>
 
 	/* Set-up for: counting supplies brought in, counting workers. */
 			<<set _food = 0>>
@@ -57,6 +62,8 @@
 			<<set _stone = 0>>
 			<<set _scavcount = 0>>
             <<set _buildcount = 0>>
+			<<set _soldcount = 0>>
+			<<set _soldierHunt = 0>>
 			
 	/* Player feeding and watering themselves + resetting actions. */
 			<<set $theft = false>>
@@ -109,13 +116,14 @@
 					<</if>>
 				<<else>>
 				<</if>>
+
 				<<if $food >= (_eat + 4)>>
 					<<set $hatchlings[_i].hunger = 0>>
 					<<set _hatchEat += 4>>
 				<<else>>
 					<<set $hatchlings[_i].hunger += 1>>
-					<<set _hungry += 4>>
-					<<set _unfed += 1>>
+					<<set _hatchHungry += 4>>
+					<<set _hatchUnfed += 1>>
 				<</if>>
 
 				<<if $water >= (_water + 3)>>
@@ -123,11 +131,11 @@
 					<<set _hatchDrink += 3>>
 				<<else>>
 					<<set $hatchlings[_i].thirst += 1>>
-					<<set _thirsty += 3>>
-					<<set _nowater += 1>>
+					<<set _hatchThirsty += 3>>
+					<<set _hatchNoWater += 1>>
 				<</if>>
 			<</for>>
-			
+
 			<<set $food += _hatchFood>>
 			<<set $water += _hatchWater>>
 
@@ -242,6 +250,7 @@
 								<<set _forcount += 1>>
 								<<set $dragons[_i].foragexp += 0.1>>
 								<<set _food += (Math.round($dragons[_i].foragexp * _goldbonus) + random(3))>>
+								<<run console.log("food: " + _food)>>
 
 							<<case "rainier">>
 								<<set _watcount += 1>>
@@ -253,7 +262,7 @@
 								<<set $dragons[_i].scavxp += 0.1>>
 								<<set _goldluck = random(-50,75)>>
 								<<set _scavPick = random(1,2)>>
-								<<if _scavPick = 1>>
+								<<if _scavPick == 1>>
 									<<set _wood += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
 								<<else>>
 									<<set _stone += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
@@ -283,7 +292,7 @@
 					<<run console.log("post-Pass " + $home)>>
 					
 				<<else>>
-					<<set $food += (_food> + _soldierHunt)>>
+					<<set $food += (_food + _soldierHunt)>>
 					<<set $water += _water>>
 					<<set $stone += _stone>>
 					<<set $wood += _wood>>
@@ -605,9 +614,8 @@
 			
 <</nobr>><</widget>>
 
-<<nobr>>
-<<widget "eggOne">>
-    <<nobr>>
+
+<<widget "eggOne">><<nobr>>
         <<if $eggsHatched >= 1 and $eggEvent === 0>>
         <<set $eggEvent += 1>><<linkappend "Something has happened...">>
 				<hr>
@@ -622,11 +630,9 @@
 			<</linkappend>>
 		<<else>>
         <</if>>
-    <</nobr>>
-<</widget>>
+<</nobr>><</widget>>
 
-<<widget "colOne">>
-	<<nobr>>
+<<widget "colOne">><<nobr>>
         <<if _firstHatchiUp == 1 and $firstCol === 0>>
         <<set $firstCol += 1>><<linkappend "Something has happened...">>
                 <hr>
@@ -645,7 +651,5 @@
             <</linkappend>>
 		<<else>>
         <</if>>
-    <</nobr>>
-<</widget>>
-<</nobr>>
+<</nobr>><</widget>>
 

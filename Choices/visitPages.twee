@@ -65,22 +65,25 @@
             <<link "Gather water.">>
                 <<replace "#decision">>
                     <<set _collect = random(12,19)>>
-                    <<set $food += _collect>>
+                    <<set $water += _collect>>
+                    <hr><br>
                     You sigh and march to the water's edge. The bare edge of a fin flicks in the light; almost pretty, really. A shame they're so vicious. As you take to the air over the lake, no less than seven of the creatures lunge for your shadow. You spit fire at them, driving them back as quickly as they appeared, and take the opportunity to gather as much water into your throat pouch as you can—over and over, until you're as full as you care to be, with these beasts after your neck.<br><br>
                     The <<print _collect>> water you got is, at least, [[a nice reward for your efforts.|Sandbox Central]]
                 <</replace>>
-            <</link>>
+            <</link>><br>
             <<link "Gather food.">>
                 <<replace "#decision">>
                     <<set _collect = random(7,12)>>
                     <<set $food += _collect>>
+                    <hr><br>
                     You take to the air, not bothering to get to the water's edge first; the beasts are on your shadow in an instant regardless, practically frothing the water with their own hunger. How they aren't hurting each other is beyond you, with the way their writhing bodies twist and tangle into one indistinct mass. It makes things easier for you, at least. When one lunges, too impatient to wait any longer, your jaws close around its skull. The crunch is almost more satisfying than its sudden limpness. The lake-creatures pile after the blood that drips down as though they are starved—and maybe they are—as you carry the corpse to shore.<br><br>
                     You only do this once more before a close call has you deciding to leave, carrying your two prizes - worth <<print _collect>> food by your estimation - [[back home.|Sandbox Central]]
                 <</replace>>
-            <</link>>
+            <</link>><br>
             <<link "Just to be here.">>
                 <<replace "#decision">>
                     <<set _scene = random(2)>>
+                    <hr><br>
                     <<switch _scene>>
                         <<case 0>>
                             You settle on the shoreline, watching the lake. The beasts only occasionally show themselves; the peek of a head above water, a shimmer of scales or fins. It's a warm day today, pleasantly so—and though you love your thunder, having this time to yourself is... pleasant. Very pleasant, indeed. You close your eyes as you stretch out every limb you have; your legs, your wings, your tail... The warmth permeats you nicely. You hardly notice that you're drifting to sleep until you wake up some time later, slightly groggy.<br><br>
@@ -95,13 +98,15 @@
                             You don't really know how long you spend with your silly game, but the beasts don't lunge at <em>you</em> when you sweep too close to the water; they wait, barely, for your insect payloads. You aren't sure what this means, but it occurs that you might be able to make use of this... somehow. [[You think about it on your way home.|Sandbox Central]]
                     <</switch>>
                 <</replace>>
-            <</link>>
+            <</link>><br>
             /* <<if $dragons.length > 10>>
                 <<link "Get rid of the beasts.">>
                     <<replace "#decision">>
+                        <hr><br>
                     <</replace>>
                 <</link>>
             <</if>> */
+            Or you can just [[go home.|Sandbox Central]]
         </div>
         
 

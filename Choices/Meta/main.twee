@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.30
+<sup>pre-pre-alpha 0.0.30.3
 Made by Recila!</sup>
 
 
@@ -76,32 +76,33 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 
 	<hr>
 
-	<<if $dragons.length > 0 && $shelter.ruts.amount > 0>>
+	
+	<details>
+		<summary><h3>POLICIES ▼</h3></summary>
+		<center>———</center>
 		<details>
-			<summary><h3>POLICIES ▼</h3></summary>
-			<center>———</center>
-			<details>
-				<summary><h4>Social ▼</h4></summary>
-				Do you want dragons to find their own places to sleep?
-			<<cycle "$findSleep" autoselect>>
-				<<option "Yes." true>>
-				<<option "No." false>>
-			<</cycle>><br>
-			</details>
-
-			<center>——</center>
-		
-			<<if $defenseTalk == true>><details>
-			<summary><h4>Defense ▼</h4></summary>
-			Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
-				<<option "Yes." true>>
-				<<option "No." false>>
-			<</cycle>><br>
-			</details>
-
-			<center>——</center><</if>>
+			<summary><h4>Social ▼</h4></summary>
+			<<if $dragons.length > 0 && $builtRut == true>>
+					Do you want dragons to find their own places to sleep?
+				<<cycle "$findSleep" autoselect>>
+					<<option "Yes." true>>
+					<<option "No." false>>
+				<</cycle>>
+			<</if>><br>
 		</details>
-	<</if>>
+
+		<center>——</center>
+	
+		<<if $defenseTalk == true>><details>
+		<summary><h4>Defense ▼</h4></summary>
+		Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
+			<<option "Yes." true>>
+			<<option "No." false>>
+		<</cycle>><br>
+		</details>
+
+		<center>——</center><</if>>
+	</details>
 <<else>>
 	Welcome to DREKI: Thunder Simulator!
 <</if>>
@@ -128,6 +129,21 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 :: Patchnotes
 	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
 	<em><strong><u>THE HYDRA IS DONE. (mostly).</u></strong></em>
+
+	<h2> Pre-Pre-Alpha 0.0.30.3 </h2>
+	Firts of the housekeeping sweeps.
+	<<nobr>>
+		''Bugs Patched''
+		<ul><li>Dragon renaming works.</li>
+		<li>Rockfalls work.</li>
+		<li>Edited bugfix page to work. Press go, always.</li>
+		<li>Lightly re-arranged buildpage.</li>
+		<li>Your cup shall not overfloweth with stone. (Stone caps work when foraging for it; no more stone overflow.)</li>
+		<li>Dragons assign themselves to home... again.</li>
+		<li>Builders should build now. :)</li>
+		<li>Gold will not come back NaN when your scavs find it.</li>
+		<li></li></ul>
+	<</nobr>>
 
 
 	<h2> Pre-Pre-Alpha 0.0.25.8 </h2><<nobr>>

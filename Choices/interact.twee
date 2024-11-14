@@ -1,7 +1,7 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
 	<<set _name to $dragons[$int].name>>
-	<<textbox "$dragons[$int].name" $dragons[$int].name>> is one of your dragons. They're a fully grown
+	<<textbox "$dragons[$int].name" $dragons[$int].name>><<button "Rename">><<run Engine.show()>><</button>> is one of your dragons. They're a fully grown
 	<<if $dragons[$int].appearance.size == "normal">>
 		<<print $dragons[$int].appearance.color>>
 		<<if $dragons[$int].appearance.pattern == "plain">>
@@ -43,6 +43,7 @@
 				They left after going without for too long, but returned upon finding the world beyond to be crueler than life in the colony.
 		<</switch>>
 	<br> <br>
+
 	<<if $dragons[$int].hunger > 1>>
 		<<print _name>> is hungry; they haven't eaten in <<print $dragons[$int].hunger>> days. If they don't eat, they'll leave.
 	<<elseif $dragons[$int].hunger == 1>>
@@ -98,7 +99,7 @@
 				<<set $shelter.setts.occupied -= 1>>
 				<<run Engine.show()>>
 				<</link>> if you like...
-		<<case "sett">>
+		<<case "hollow">>
 			They're housed in a <<print $dragons[$int].home>>; it's spartan and thoroughly uncomfortable. You can <<link "kick them out">>
 				<<set $dragons[$int].home = "none">>
 				<<set $shelter.hollows.free += 1>>
@@ -253,15 +254,26 @@
 
 		<</switch>>
 	
-	<<link "Next dragon">>
+	<<link "Next Dragon">>
 		<<set $dragons[$int].name to _name>>
-			<<if $int gte ($dragons.length - 1)>>
-				<<set $int to 0>>
-				<<goto "Interact">>
-			<<else>>
-				<<set $int++>>
-				<<goto "Interact">>
-			<</if>><</link>><br>
+		<<if $int gte ($dragons.length - 1)>>
+			<<set $int to 0>>
+			<<goto "Interact">>
+		<<else>>
+			<<set $int++>>
+			<<goto "Interact">>
+		<</if>>
+	<</link>><br>
+	<<link "Previous Dragon">>
+		<<set $dragons[$int].name to _name>>
+		<<if $int == 0>>
+			<<set $int = ($dragons.length - 1)>>
+			<<goto "Interact">>
+		<<else>>
+			<<set $int-->>
+			<<goto "Interact">>
+		<</if>>
+	<</link>><br>
 	<<if $dragons[$int].left == "stay">>
 		<<linkreplace "Exile">>
 			<<set $dragons[$int].left = "exile">>

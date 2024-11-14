@@ -186,7 +186,7 @@
 		/* General defense stuff... */
 	<<set $defenseTalk = false>>
 	<<set $defenseTotal = 0>>
-	<<set $defenseBuildings = []>>
+	<<set $defenseBuildings = {}>>
 	<<set $defenseBuildings.palisade = {
 		amount : 0,
 		max : 10,
@@ -215,7 +215,8 @@
 		amount : 0,
 		max : 5,
 		priceS: 25,
-		priceW: 25
+		priceW: 25,
+		buildTime : 2
 	}>>
 
 		/* Defense policies... */

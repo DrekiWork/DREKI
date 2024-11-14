@@ -31,12 +31,15 @@
 			<<if $infestedNotice is false>>
 				<<set $infestedNotice to true>>
 				<<set $visitPlaces = true>>
-				You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole lake is infested with them! Ultimately, you return home with only <<print _collect>> water for your near-death experience. <br> <br>
+				You find a lake! While scooping up water to bring home, however, a rather large creature surges up and takes a snap at your vulnerable neck. In addition to spilling some of the water you gathered, you realize that the whole lake is infested with them! Ultimately, you return home with only <<print _collect>> water for your near-death experience.<br><br>
+
+				You think <strong>you'll remember this place.</strong><br><br>
 			<<elseif $infestedNotice is true>>
 				<<set _extra = random(5, 8)>>
 				<<set $water += _extra>>
-				You find a lake! As you dive to scoop up water, however, you notice something under the surface - and pull up short. This is familiar. <em>Suspiciously</em> familiar. You flap hard, raising yourself higher, and then pull into a dive - only to yank yourself out of the way as something surges up from the water. Your ascent is marked by splashing and the sound of teeth snapping shut below you. <br> <br>
-				You spit fire irritably at the lake-creatures, resolving to one day come down and boil them. They'd taste great like that, you're sure. For now, you keep baiting them, snatching water where you can. Without the benefit of surprise, their tactics don't work nearly as well, and you find yourself satisfied with the <<print (_collect + _extra)>> water you gather. <br> <br>
+				You find a lake! As you dive to scoop up water, however, you notice something under the surface - and pull up short. This is familiar. <em>Suspiciously</em> familiar. You flap hard, raising yourself higher, and then pull into a dive - only to yank yourself out of the way as something surges up from the water. Your ascent is marked by splashing and the sound of teeth snapping shut below you.<br><br>
+
+				You spit fire irritably at the lake-creatures, resolving to one day come down and boil them. They'd taste great like that, you're sure. For now, you keep baiting them, snatching water where you can. Without the benefit of surprise, their tactics don't work nearly as well, and you find yourself satisfied with the <<print (_collect + _extra)>> water you gather.<br><br>
 			<</if>>
 		<<else>>
 			You haven't gone far before stumbling upon a stream trickling by your colony. Deciding to spare yourself trying to swallow all of it to return, you instead carve a shallow rut to your water storage. The flow stills before much longer, but your colony has <<print _collect>> more water than you started with. <br> <br>

@@ -2,8 +2,7 @@
 <<nobr>>
 	Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easy access to your food and water stores. Presently, you have
 		
-		<<set $eggSpace to ($nest * 3)>>
-		<<set $eggSpace to ($eggSpace - ($eggs.length + $hatchlings.length))>>
+		<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
 		
 		<<if $nest gte 2 || $nest is 0>>
 			<<print $nest>> nests 

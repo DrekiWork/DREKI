@@ -1,7 +1,7 @@
 :: Widgets [widget] {"position":"250,0","size":"100,100"}
 
 /*Creates an egg with a timer. The time is purely to make sure everyone hatches when they should.*/
-<<widget "eggMaker">>
+<<widget "eggMaker">><<nobr>>
 	<<silently>>
 		<<run $eggs.push( {
 			
@@ -10,20 +10,18 @@
 		} )>>
 	
 	<</silently>>
-<</widget>>
+<</nobr>><</widget>>
 
 /* Creates hatchlings out of eggs. See dragonmaker for more info.*/
-<<widget "hatchMaker">>
+<<widget "hatchMaker">><<nobr>>
 	<<silently>>
-	
 		<<run $hatchlings.push( {
 		
 			time: 7
 			
 			} )>>
-	
 	<</silently>>
-<</widget>>
+<</nobr>><</widget>>
 
 
 /*
@@ -32,7 +30,7 @@
 	Currently, ages are egg, hatchling, winglet, adult. Winglets aren't implemented yet, and do nothing; only hatchlings and adults matter.
     First job is "slacker", which is a dragon that does nothing.
 */
-<<widget "dragonMaker">>
+<<widget "dragonMaker">><<nobr>>
 
 		<<run $dragons.push( {
 		
@@ -80,9 +78,9 @@
 			origin: "stay"
 			
 			} )>>
-<</widget>>
+<</nobr>><</widget>>
 
-<<widget "dragonWanderer">>
+<<widget "dragonWanderer">><<nobr>>
 
 	<<run $dragons.push( {
 		
@@ -131,27 +129,23 @@
 			
 		} )>>
 
-<</widget>>
+<</nobr>><</widget>>
 
-<<widget "updateBar">>
-	<<nobr>>
-		<<run console.log("updateBar")>>
-		<<set $waterCap = ($pool.amount * $pool.storage)>>
-		<<set $foodCap = ($cavern.amount * $cavern.storage)>>
-		<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-		<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
-		<<replace "#story-caption">>
-			<<include "StoryCaption">>
-		<</replace>>
-	<</nobr>>
-<</widget>>
+<<widget "updateBar">><<nobr>>
+	<<run console.log("updateBar")>>
+	<<set $waterCap = ($pool.amount * $pool.storage)>>
+	<<set $foodCap = ($cavern.amount * $cavern.storage)>>
+	<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
+	<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+	<<replace "#story-caption">>
+		<<include "StoryCaption">>
+	<</replace>>
+<</nobr>><</widget>>
 
-<<widget "updateHome">>
-	<<nobr>>
+<<widget "updateHome">><<nobr>>
 		<<run console.log("updateHome")>>
 		<<set $home = (($shelter.ruts.amount * $shelter.ruts.shelter) + ($shelter.setts.amount * $shelter.setts.shelter) + ($shelter.hollows.shelter * $shelter.hollows.amount))>>
-	<</nobr>>
-<</widget>>
+<</nobr>><</widget>>
 
 <<widget "updateDefense">><<nobr>>
 
