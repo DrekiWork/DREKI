@@ -28,19 +28,17 @@ Made by Recila!</sup>
 
 :: StoryCaption [Special] {"position":"100,250","size":"100,100"}
 <<nobr>>
-<!-- nobr because comments apparently fuck with formatting? News to me!
 
-But this sets up the sidebar for printing stuff. Currently only prints, not formatted. Might start relegating stuff to places like storage, pop tab, etc? Already have a nursery, so...
-
-Note: Saving/Restarting part of sidebar by default. No need to add it. -->
-
-<<if hasVisited("tutorialOpen") || $cheat == true>>Cycle <<print $cycles>>, Day <<print $days>>
+	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
+<<if hasVisited("tutorialOpen") || $cheat == true>>
+	Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
 	<<if $cheat == true>>
 		<<link "Cheating">><<goto "BugTest">><</link>>
 	<</if>>
 	
 	<hr>
+		/* Table contains stores. Left is amount collected, right is amount the colony can have. */
 	<table>
 		<tr>
 			<td>Food: &ensp;</td>
@@ -67,6 +65,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	</table>
 
 	<hr>
+		/* Left contains amount of shelter space available, right is amount of dragons needing shelter... I should swap these. */
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
@@ -83,6 +82,8 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 		<details>
 			<summary><h4>Social ▼</h4></summary>
 			<<if $dragons.length > 0 && $builtRut == true>>
+					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
+					/* Autoselect is 'true'. */
 					Do you want dragons to find their own places to sleep?
 				<<cycle "$findSleep" autoselect>>
 					<<option "Yes." true>>
@@ -95,6 +96,8 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	
 		<<if $defenseTalk == true>><details>
 		<summary><h4>Defense ▼</h4></summary>
+			/* Lets rockfalls be loaded at day-end. */
+			/* Autoselect is 'true' */
 		Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
 			<<option "Yes." true>>
 			<<option "No." false>>
@@ -110,28 +113,42 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 
 
 :: StoryMenu [Special] {"position":"100,375","size":"100,100"}
+<<nobr>>
 
-<<link "Patchnotes">>
-	<<script>>
-	Dialog.setup("Patchnotes");
-	Dialog.wiki(Story.get("Patchnotes").processText());
-	Dialog.open();
-	<</script>>
-<</link>>
-<<link "World Notes">>
-	<<script>>
-	Dialog.setup("Encyclopedia");
-	Dialog.wiki(Story.get("EncyclopediaHome").processText());
-	Dialog.open();
-	<</script>>
-<</link>>
+	/* Creates a pop-up, letting the player examine patchnotes without losing what page they're on. */
+	<<link "Patchnotes">>
+		<<script>>
+			Dialog.setup("Patchnotes");
+			Dialog.wiki(Story.get("Patchnotes").processText());
+			Dialog.open();
+		<</script>>
+	<</link>>
+	<br>
+
+	/* I should really just remove this, but does the same as above - albeit for the world notes. */
+	/* Acts as a tutorial reminder, should anyone need that, plus lore repository. */
+	<<link "World Notes">>
+		<<script>>
+			Dialog.setup("Encyclopedia");
+			Dialog.wiki(Story.get("EncyclopediaHome").processText());
+			Dialog.open();
+		<</script>>
+	<</link>>
+<</nobr>>
 
 :: Patchnotes
+
+/* These are patchnotes. */
+/* Organized by new content - QoL adjustments - patched bugs - new bugs. */
+/* Should have a current focus tab somewhere... */
+/* One version previous is kept as reference (personal and player). */
+/* The gleeful tone is neecessary for personal success. */
+
 	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
-	<em><strong><u>THE HYDRA IS DONE. (mostly).</u></strong></em>
+	<em><strong><u>THE HYDRA IS DONE.</u></strong></em> (mostly)
 
 	<h2> Pre-Pre-Alpha 0.0.30.3 </h2>
-	Firts of the housekeeping sweeps.
+	First of the housekeeping sweeps.
 	<<nobr>>
 		''Bugs Patched''
 		<ul><li>Dragon renaming works.</li>
@@ -142,7 +159,7 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 		<li>Dragons assign themselves to home... again.</li>
 		<li>Builders should build now. :)</li>
 		<li>Gold will not come back NaN when your scavs find it.</li>
-		<li></li></ul>
+		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li></ul>
 	<</nobr>>
 
 
@@ -150,14 +167,14 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	''New!''
 	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
 	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back. You don't have to take them in, of course.</li>
-	<li>Dragons prefer Better Buildings! What's that mean? Dragons, in order, prefer: setts, ruts, then hollows. They'll try to move in from most to least preferred, and dragons with a lower value home will try to move up.</li>
+	<li>Dragons prefer Better Buildings! What's that mean? Dragons, in order, prefer: setts, ruts, then hollows. They'll try to move in to available shelters in that order, and dragons with a lower value home will try to move up.</li>
 	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
 	<li>Builders! And they do something! And you get told when they do something!</li>
 	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used, and are one of two new buildings. The second are...</li>
 	<li>Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They're only buildable with builders!</li>
 	<li>There's detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they're getting into.</li>
 	<li>There's a new way to start the game, as well as a quit-out option! The quit does... exactly what you think it does, while the Cheat / Testing option lets you use the BugTest screen.</li>
-	<li>Defense buildings exist! And a defense score. I've figured out how fights are going to work, horray!</li>
+	<li>Defense buildings exist! And a defense score. I've figured out how fights are going to work, horray! All defensive buildings need builders.</li>
 	<li>Soldiers exist and are necessary for certain defensive structures (outposts). Also they have a small chance of hunting... but when they DO, they bring back a minimum of 15 food.</li>
 	<li></li></ul><br>
 
@@ -190,14 +207,20 @@ Note: Saving/Restarting part of sidebar by default. No need to add it. -->
 	<ul><li><strike>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</strike></li>
 	<li><strike>Soldiers: New job for your dragons. They eat and drink a lot, and only really counter this by occasionally hunting. But they're super necessary for raids, and it's better to have a couple and not need them, than to need them and not have them.</strike></li>
 	<li><strike>Defensive structures.</strike></li>
-	<li>Flavor involving all of these things, of course. Gotta let you know they're present in central.</li>
+	<li><strike>Flavor involving all of these things, of course. Gotta let you know they're present in central.</strike></li>
 	<li><strike>The actual... y'know... raid...</strike></li></ul>
 	<li>Random Events.</li>
-	<li>Visiting specific locations.</li></ul>
+	<li><strike>Visiting specific locations.</strike></li></ul>
 	<</nobr>>
 
 :: OOC Chat
 <<nobr>>
+
+	/* This is the 'end demo' page. */
+	/* Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current 'end'. */
+	/* It includes hints on if the player has missed anything or if they've found it all, and a teaser on what's the next 'big' update. */
+	/* This page always returns to either the Sandbox, or to the game START. */
+
 	Hello, this is the dev here! I've some words to share...<br><br>
 
 	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the demo.

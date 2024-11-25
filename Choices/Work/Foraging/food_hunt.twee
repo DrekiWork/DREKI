@@ -6,7 +6,11 @@
 	<<set $player.action -= 1>>
 <</silently>>
 	<<if _forage == 12>>
-		<<goto "HydraFoodEvent">>
+		<<if $hydraBeat == false>>
+			<<goto "HydraFoodEvent">>
+		<<else>>
+			<<goto "HydraDen">>
+		<</if>>
 	
 	<<elseif _forage >= 8>>
 		<<set _collect = random(12, 15)>>

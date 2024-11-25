@@ -1,17 +1,25 @@
 :: Stone [WIP] {"position":"725,925","size":"100,100"}
 <<nobr>>
-<<silently>>
-	<<set _forage = random(9)>>
+
+		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
 	<<set $player.action -= 1>>
+
+		/* _forage acts as a scaling selector. */
+		/* It chooses a scene set, with higher numbers meaning higher yield. */
+		/* 0 - no forage found. */
+		/* 1-2 - A small yield, from 3-6. */
+		/* 3-7 - A moderate yield, the most common found. 7-11. */
+		/* 8-9 - A large yield. 12-15. */
+	<<set _forage = random(9)>>
+
+		/* With _forage chosen, _scene runs to determine what variation plays out. */
+		/* There are three possible scenes. This is all for fluff. */
 	<<set _scene = random(2)>>
-<</silently>>
+
+
 	<<if _forage >= 8>>
 		<<set _collect = random(12, 15)>>
-		<<set $stone += _collect>>
-		<<if $stone > $stoneCap>>
-			<<set $stone = $stoneCap>>
-		<<else>>
-		<</if>>
+
 		<<if _scene == 0>>
 			<<set _goldChance = random(5)>>
 			While preparing to leave for your patrol, you hear a truly magnificent bellow from the earth. Before you've recovered from the resulting quake, an object - beautifully alight - arcs through the sky before crashing down just beyond your lands. You take off immediately to investigate, only to find the rather large remnants of some kind of boulder. The warmth of it feels pleasant on your claws as you begin to pick up the most useful shards, which end up totalling <<print _collect>> stone. 
@@ -30,7 +38,6 @@
 
 	<<elseif _forage >= 3>>
 		<<set _collect = random(7, 11)>>
-		<<set $stone += _collect>>
 		<<if _scene == 0>>
 			You have found an abandoned colony. Your hearts stutter for a moment, and you search through it wildly. You find bones of adults and hatchlings, eggshells split open, all so very old. No living remnants, though. You went searching for supplies - and indeed the stones this colony used are in good shape - but it seems... in poor taste to do nothing for them. You pull up one of the slabs on a collapsing rut and gather the bones and shells in front of it, before taking your <<print _collect>> stone and leaving them to rest. You will try not to come back here. <br> <br>
 		<<elseif _scene == 1>>
@@ -41,7 +48,6 @@
 		
 	<<elseif _forage >= 1>>
 		<<set _collect = random(3, 6)>>
-		<<set $stone += _collect>>
 		<<if _scene == 0>>
 			You've decided to try your claw at cliff-carving, and it is going terribly. Your claws hurt. The cliff is unphased. Frustrated and well away from home, you belt fire and abuse against the cliff - only for the parts you were working at to crumble away. Even more frustrated and now somewhat humiliated, you take the <<print _collect>> stones that aren't entirely useless and head back home. <br> <br>
 		<<elseif _scene == 1>>
@@ -51,12 +57,23 @@
 		<</if>>
 		
 	<<else>>
+		<<set _collect = 0>>
 		Despite searching for quite some time, and with no little tenacity, when you find stones, they are simply clots of dirt and muck, or little more than pebbles. The closest to a worthwhile collection was a boulder, but you alone aren't strong enough to break it to smaller pieces, or simply haul it back as is. Despite your best efforts, you return home, frustrated and empty-clawed. <br> <br>
-<</if>>
-<<if $player.action >= 1>>
-	<span id="choices">You could <<if $stone < $stoneCap>>[[search again|Stone]]; <<else>><</if>>look for <<link "something else">><<replace "#choices">>[[Food]], [[water|Water]], <<if $ghunt == false>>[[wood|Wood]], or [[gold?|Treasure]]<<else>>or [[wood|Wood]]?<</if>> Alternatively, you could [[look again|Stone]] or [[go home|Sandbox Central]].<</replace>><</link>>; or you can simply [[stay home.|Sandbox Central]]</span>
-<<else>>
-	It's time to [[go home.|Sandbox Central]]
-<</if>>
+	<</if>>
+
+	
+	<<set $stone += _collect>>
+	<<if $stone > $stoneCap>>
+		<<set $stone = $stoneCap>>
+	<</if>>
+
+	/* This is what the player does next. If they haven't performed more than five actions (foraging, egg theft, visited locations), they can do stuff. */
+	/* Otherwise, they're sent home. */
+	<<if $player.action >= 1>>
+		<span id="choices">You could <<if $stone < $stoneCap>>[[search again|Stone]]; <<else>><</if>>look for <<link "something else">><<replace "#choices">>[[Food]], [[water|Water]], <<if $ghunt == false>>[[wood|Wood]], or [[gold?|Treasure]]<<else>>or [[wood|Wood]]?<</if>> Alternatively, you could [[look again|Stone]] or [[go home|Sandbox Central]].<</replace>><</link>>; or you can simply [[stay home.|Sandbox Central]]</span>
+	<<else>>
+		It's time to [[go home.|Sandbox Central]]
+	<</if>>
+
 <</nobr>>
 

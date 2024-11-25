@@ -73,13 +73,13 @@ The end of the day is approaching.<<nobr>>
 			<<countWorkers "soldier">>
 			<<if _wantedCount > 0>>
 				<<if $hydraTime < 5>>
-					A soldier approaches you grimly. They tell you the hydra will be upon your colony any day now.<br><br>
+					A soldier approaches you grimly. They tell you ''the hydra will be upon your colony any day now''.<br><br>
 				<<elseif $hydraTime < 10>>
-					A soldier approaches you, tension lining their body. They tell you the hydra is closing in.<br><br>
+					A soldier approaches you, tension lining their body. They tell you ''the hydra is closing in''.<br><br>
 				<<elseif $hydraTime <= 20>>
-					A soldier approaches you, somewhat nervously. They tell you the hydra is storming through the forest, but not close. Yet.<br><br>
+					A soldier approaches you, somewhat nervously. They tell you that despite storming through the forest, ''the hydra is not close''. Yet.<br><br>
 				<<elseif $hydraTime > 20>>
-					A soldier approaches you, professional. They tell you the hydra is still exploring outside its den; you suppose the beast hasn't been out of the waterfall cave in ages.<br><br>
+					A soldier approaches you, professional. They tell you ''the hydra is still exploring outside its den''; you suppose the beast hasn't been out of the waterfall cave in ages.<br><br>
 				<</if>>
 			<</if>>
 		<</if>>
@@ -90,7 +90,7 @@ The end of the day is approaching.<<nobr>>
 			Your lone forager drops off some food.
 		<</if>>
 
-		<<if _soldierHunt == true>>
+		<<if _soldierHunt > 0>>
 			<<if _soldcount >= 2>>
 				Your soldiers went hunting today, apparently. They brought back <<print _soldierHunt>> food.
 			<<else>>
@@ -592,39 +592,48 @@ The end of the day is approaching.<<nobr>>
 	<</if>>
 	
 	/* Dream chance, or a chance for some nightly event to happen. */
-		<<set _eventChance to random(15)>>
-		<<if _eventChance <= 3>>
-			<<set _dream to random(0, 5)>>
-			<<if _dream == 1>>
-		You dream of flying among the stars. They do not welcome you, but their light is guiding you to a far off point. [[You wake up before you see where.|Sandbox Central]]
-			<<elseif _dream == 2>>
-		You are back in your home colony, being lavished with love and attention; the Founder themselves smiles upon you, and gifts you endless piles of gold and treasure; you're lauded a hero, and everywhere you look are smiling, adoring faces. [[You wake up happy, if homesick.|Sandbox Central]]
-			<<elseif _dream == 3>>
-		You dream of battle, and glory. You dream of fighting for your life against beings that avoid your claws and teeth and flames with practiced ease. [[You drown in their violence.|Sandbox Central]]
-			<<else>>
-		[[It's time for another day.|Sandbox Central]]
-			<</if>>
-		<<elseif _eventChance == 4>>
-			<<set _event = random(2)>>
-			<<switch _event>>
-				<<case 0>>
-					Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
-				<<case 1>>
-					As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
-				<<case 2>>
-					<<if $goneDragons.length > 0>>
-						While flying over your territory's perimeter, you [[spot someone familiar...|eventReturn]]
+		<<run console.log("$currentEvent: " + $currentEvent)>>
+		<<switch $currentEvent>>
+			
+			<<case "HydraRaid">>
+				[[It's time for another day...|HydraRaid]]
+
+			<<case default>>
+				<<set _eventChance to random(15)>>
+				<<if _eventChance <= 3>>
+					<<set _dream to random(0, 5)>>
+					<<if _dream == 1>>
+				You dream of flying among the stars. They do not welcome you, but their light is guiding you to a far off point. [[You wake up before you see where.|Sandbox Central]]
+					<<elseif _dream == 2>>
+				You are back in your home colony, being lavished with love and attention; the Founder themselves smiles upon you, and gifts you endless piles of gold and treasure; you're lauded a hero, and everywhere you look are smiling, adoring faces. [[You wake up happy, if homesick.|Sandbox Central]]
+					<<elseif _dream == 3>>
+				You dream of battle, and glory. You dream of fighting for your life against beings that avoid your claws and teeth and flames with practiced ease. [[You drown in their violence.|Sandbox Central]]
 					<<else>>
-						<<set _random to random(1)>>
-						<<if _random is 1>>
-							Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
-						<<else>>
-							As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
-						<</if>>
+				[[It's time for another day.|Sandbox Central]]
 					<</if>>
-			<</switch>>
-		<<else>>
-		[[It's time for another day.|Sandbox Central]]
-		<</if>>
+				<<elseif _eventChance == 4>>
+					<<set _event = random(0,2)>>
+					<<switch _event>>
+						<<case 0>>
+							Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
+						<<case 1>>
+							As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
+						<<case 2>>
+							<<if $goneDragons.length > 0>>
+								While flying over your territory's perimeter, you [[spot someone familiar...|eventReturn]]
+							<<else>>
+								<<set _random to random(1)>>
+								<<if _random is 1>>
+									Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]
+								<<else>>
+									As you start to close your nightly patrol, [[you see something in the darkness.|eventIntruder]]
+								<</if>>
+							<</if>>
+					<</switch>>
+				<<else>>
+				[[It's time for another day.|Sandbox Central]]
+				<</if>> 
+		<</switch>>
 	<</if>>
+
 <</nobr>>

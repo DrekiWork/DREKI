@@ -8,11 +8,16 @@
 			<<set $days = 0>>
 		<<else>>
 		<</if>>
+		<<if $hydraTime > 0>>
+			<<set $hydraTime-->>
+		<<elseif $hydraTime == 0>>
+			<<set $currentEvent = "HydraRaid">>
+		<</if>>
 			
 	/* Ages up your eggs if you have them, or stops it running when you don't have eggs! */
 		<<set _growcheck = 0>>
 		<<set _hatchcheck = 0>>
-		<<for _i to 0; _i lt $eggs.length; _i++>>
+		<<for _i to 0; _i < $eggs.length; _i++>>
 			<<set $eggs[_i].time++>>
 			<<if $eggs[_i].time == 7>>
 				<<hatchMaker>>
@@ -64,6 +69,7 @@
             <<set _buildcount = 0>>
 			<<set _soldcount = 0>>
 			<<set _soldierHunt = 0>>
+			<<run console.log("_solderHunt 1: " + _soldierHunt)>>
 			
 	/* Player feeding and watering themselves + resetting actions. */
 			<<set $theft = false>>
@@ -277,7 +283,8 @@
 								<<set $dragons[_i].soldierxp += 0.1>>
 								<<set _huntluck = random(-50, 75)>>
 								<<if _huntluck >= 60>>
-									<<set _soldierHunt += (Math.round($dragons[_i].soldierexp * _goldbonus) + random(15,30))>>
+									<<set _soldierHunt += (Math.round($dragons[_i].soldierxp * _goldbonus) + random(15,30))>>
+									<<run console.log("_soldierHunt 2: " + _soldierHunt)>>
 								<</if>>
 
 							<<case default>>
@@ -292,6 +299,7 @@
 					<<run console.log("post-Pass " + $home)>>
 					
 				<<else>>
+					<<run console.log("_soldierHunt 3: " + _soldierHunt)>>
 					<<set $food += (_food + _soldierHunt)>>
 					<<set $water += _water>>
 					<<set $stone += _stone>>

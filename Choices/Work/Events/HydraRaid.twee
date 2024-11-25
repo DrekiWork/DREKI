@@ -30,7 +30,7 @@
     <<if _wantedCount >= 2>>
         One of your soldiers rushes towards you, practically plummeting from the air in their hurry. Their training only barely constrains the fear in their announcement. Not that you needed the warning. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
 
-    <<elseif _wantedCount = 1>>
+    <<elseif _wantedCount == 1>>
         Your lone scout dives towards you from the wall, not bothering to call out. You know what's coming. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
 
     <<else>>
@@ -163,6 +163,8 @@
 
 :: HydraRaidResults
 <<nobr>>
+    <<set $currentEvent = "none">>
+    <<unset $hydraTime>>
 
     <<if $defenseTotal <= 10>>
         You have lost.<br>
@@ -230,7 +232,7 @@
         You can't stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you've done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the <em>world</em> for your victory! You take to the air and plummet onto the hydra's corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren't already here, and the corpse becomes a buffet and mockery both!<br><br>
 
         <<link "The celebration lasts the entire night, and well into the morning." "HydraHeart">>
-            <<run $treasures.push("Hydra Bones", "Hydra Scales", "Hydra Skulls")>>
+            <<run $trophies.push("Hydra Bones", "Hydra Scales", "Hydra Skulls")>>
             <<set $food += _foodGain>>
             <<set $hydraBeat = true>>
             <<if $days == 30>>

@@ -11,7 +11,7 @@
                 <<set _stoneCollect = random(3,14)>>
                 <<set $stone += _stoneCollect>>
                 
-                The cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
+                The hydra's cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
 
                 You don't care to linger for long. There isn't much of value, really; you take your <<print _foodCollect>> scraps and <<print _stoneCollect>> stones and [[go home.|Sandbox Central]]
 
@@ -42,8 +42,6 @@
 
                 ... It does not matter. You've done what you needed to. As clean as you can feel, [[you take to the skies for home.|Sandbox Central]]
 
-            
-
         <</switch>>
 
     <<else>>
@@ -59,6 +57,8 @@
 
     <<if $kelpieExtinction == false>>
         As the lake comes into sight, you feel a pre-emptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
+
+        It's a pretty enough location, you can admit; half the lake is bordered by old trees and plentiful shrubbery; the rest opens to a glade, where the air is heady with pollen and little insects. If you pretend the scales occasionally flashing in the light belong to fish rather than 
 
         <div id="decision">
             ... Why did you come here again?<br>
@@ -82,7 +82,7 @@
             <</link>><br>
             <<link "Just to be here.">>
                 <<replace "#decision">>
-                    <<set _scene = random(2)>>
+                    <<set _scene = random(0,2)>>
                     <hr><br>
                     <<switch _scene>>
                         <<case 0>>
@@ -99,6 +99,12 @@
                     <</switch>>
                 <</replace>>
             <</link>><br>
+            /*<<link "Your moat">>
+                <<replace "#decision">>
+                    <hr><br>
+                    
+                <</replace>>
+            <</link>><br>*/
             /* <<if $dragons.length > 10>>
                 <<link "Get rid of the beasts.">>
                     <<replace "#decision">>
