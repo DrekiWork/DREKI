@@ -1,0 +1,45 @@
+:: START [WIP] {"position":"800,100","size":"100,100"}
+Hello and welcome to: DREKI! Dreki is a game about managing dragons, by a human, for humans, who want to pretend to be a dragon for a while. It's relaxing.<br>
+
+<strong>NOTICE</strong>
+DREKI is in <em>ALPHA!</em> Things are not present that will be in the future. Things <em>are</em> present that will be replaced, reworked, or outright removed. Stuff is going to break. The game is so unbalanced it's actually funny. (Get gold; you'll see.) The math is wonky and things are so, so weird. This is by no means a final product. It's not even a beta product. It is a project that was somehow produced by someone with no prior coding experience, learning how to do so. <em><strong>THINGS ARE GOING TO BREAK.</strong></em>
+
+Updates will occasionally break save files: there will be a warning on release, but keep that in mind regardless. I do my best to make sure changes are large enough to justify such instability, and to iron out issues, but I'm only human, and only one person. Things will escape me. If that is acceptable, then by all means, carry on! And thank you for your time; it means the world to a new dev.
+
+If you run into an error, submit it on GitHub at the <a href="https://github.com/DrekiWork/DREKI/issues">issues page</a>, or drop a notice wherever you found the game (either <a href="https://github.com/DrekiWork/DREKI">Github</a> or <a href="https://drekidev.itch.io/dreki">itch.io</a>, probably). It'll get seen and addressed. Feedback is king!
+
+With all that said, what would you like to do?
+
+[[Start a colony in Free Play|Game Setter]]
+<<link "Cheater / Testing">>
+	<<set $cheat = true>>
+	<<goto "Sandbox Central">>
+<</link>>
+<!-- [[Go through the Story|Prologue]]
+&emsp;<em>Note: This currently only leads to the prologue, which then loops back to the sandbox starter.</em> -->
+<<link "Quit">><<script>>window.close()<</script>><</link>>
+
+
+:: Game Setter [WIP] {"position":"800,300","size":"100,100"}
+You are a dragon that has left their colony; sent out with the great honor of founding a new home. You were trained for such your entire life. With this in mind - and perhaps, some vanity - you have chosen the title of <<nobr>>
+	<<listbox "$player.title" autoselect>>
+		<<option "Architect">>
+		<<option "Benefactor">>
+		<<option "Creator">>
+		<<option "Dictator">>
+		<<option "Divinity">>
+		<<option "Founder">>
+		<<option "Inspirer">>
+		<<option "Leader">>
+		<<option "Liege">>
+		<<option "Monarch">>
+		<<option "Overseer">>
+		<<option "Sovereign">>
+	<</listbox>>
+<</nobr>> to display your intent with your new colony. Ambitious, of course - survival is harsh, and your travels have drained all your supplies.
+
+For now, you have no food, no water, and no treasure.
+
+<em>For now</em>, you have only your claws and your wings.
+
+[[It is time to build a home.|tutorialOpen]]

@@ -1,0 +1,136 @@
+:: MetaWidgets [widget] {"position":"250,0","size":"100,100"}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+                    /* This widget page is for Information, Display, and Misc. */
+					/* Sidebar updates, stats, behind-the-scenes movement... */
+					/* Etc. */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
+	/* Updates the (side) bar. */
+<<widget "updateBar">><<nobr>>
+		/* Lets me know it ran for real. */
+	<<run console.log("updateBar")>>
+
+		/* Checking caps. */
+	<<set $waterCap = ($pool.amount * $pool.storage)>>
+	<<set $foodCap = ($cavern.amount * $cavern.storage)>>
+	<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
+	<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+
+		/* Reloads the caption. */
+	<<replace "#story-caption">>
+		<<include "StoryCaption">>
+	<</replace>>
+
+<</nobr>><</widget>>
+
+<<widget "updateHome">><<nobr>>
+			/* Lets me know it ran. */
+		<<run console.log("updateHome")>>
+
+			/* Sets home, as it should. See defaults.twee for more detail. */
+		<<set $home = (
+			($shelter.ruts.amount * $shelter.ruts.shelter) + 
+			($shelter.setts.amount * $shelter.setts.shelter) + 
+			($shelter.hollows.shelter * $shelter.hollows.amount)
+		)>>
+
+<</nobr>><</widget>>
+
+<<widget "updateDefense">><<nobr>>
+
+			/* Start with soldier counts. Each individual soldier is half a point.
+			I'll update this to eventually vary based on experience (probably to a plateau instead of exponential).
+			For now: this. */
+		<<countWorkers "soldier">>
+		<<set _soldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
+		<<set _soldierTotal = (_soldiers * 0.5)>>
+
+			/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
+			Full surround grants a 1 point bonus per building.) */
+		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
+			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 1.25)>>
+		<<else>>
+			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 0.5)>>
+		<</if>>
+
+			/* Checking outposts.
+			Outposts need to be held by soldiers. No soldiers, no bonus. */
+		<<if _wantedCount >= $defenseBuildings.outpost.amount>>
+			<<set _outpostTotal += ($defenseBuildings.outpost.amount * 2)>>
+		<<else>>
+			<<set _temp = ($defenseBuildings.outpost.amount - _wantedCount)>>
+			<<set _outpostTotal = (($defenseBuildings.outpost.amount - _temp) * 2)>>
+		<</if>>
+
+			/* Checking moats. Alter to be exponential (rounded)?
+			Presence of horrible little lake creatures (kelpies) gives buff.
+			Randomized for hungry beasties. */
+		<<if $defenseBuildings.moat.creatures == false>>
+			<<set _moatTotal = ($defenseBuildings.moat.amount * 3)>>
+		<<else>>
+			<<set _moatTotal = (($defenseBuildings.moat.amount * 3) + random(15, 35))>>
+		<</if>>
+
+			/* Checking rockfalls. Rockfalls need to be loaded to work.
+			Not loaded? No damage. Rest in rubble. */
+		<<set _rockfallTotal += ($defenseBuildings.rockfall.loaded * 5)>>
+
+			/* A measure for the leader themselves. You're a vicious one! */
+		<<set _leaderDefenseDamage += ($player.health * 0.5)>>
+
+			/* And the final result. Hurrah. */
+		<<set $defenseTotal = (
+			_soldierTotal + 
+			_palisadeTotal + 
+			_outpostTotal + 
+			_moatTotal + 
+			_rockfallTotal + 
+			_leaderDefenseDamage)>>
+
+<</nobr>><</widget>>
+
+	/* The following widgets assign dragons to houses. */
+
+<<widget "addRut">><<nobr>>
+
+	<<set $dragons[$int].home = "rut">>
+	<<set $shelter.ruts.free -= 1>>
+	<<set $shelter.ruts.occupied += 1>>
+	<<updateHome>>
+	<<run Engine.show()>>
+
+<</nobr>><</widget>>
+
+<<widget "addSett">><<nobr>>
+
+	<<set $dragons[$int].home = "sett">>
+	<<set $shelter.setts.free -= 1>>
+	<<set $shelter.setts.occupied += 1>>
+	<<updateHome>>
+	<<run Engine.show()>>
+
+<</nobr>><</widget>>
+
+<<widget "addHollow">><<nobr>>
+
+	<<set $dragons[$int].home = "Hollow">>
+	<<set $shelter.hollows.free -= 1>>
+	<<set $shelter.hollows.occupied += 1>>
+	<<updateHome>>
+	<<run Engine.show()>>
+
+<</nobr>><</widget>>
+
+
+	/* Pops a pop-up to let the user know something is wrong: and by extension, ME. */
+<<widget "errorPopup">><<nobr>>
+	<<script>>
+		Dialog.setup("Error!");
+		Dialog.wiki(Story.get("ErrorDialog").processText());
+		Dialog.open();
+	<</script>>
+<</nobr>><</widget>>

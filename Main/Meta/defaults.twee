@@ -11,6 +11,11 @@
 		title : "Founder",
 		action : 5,
 		health : 10,
+		home : {
+			built : false,
+			space : 0,
+			vanity : 0
+		},
 		specials : []
 	}>>
 
@@ -24,8 +29,12 @@
 
 		/* visitPlaces flag determines if the player has run into a special location. */
 		/* False means they haven't and can't choose to go to a special location from Sandbox. */
+		/* hasVisited checks if you've gone to a specific location, and disables it. No cheese! */
 	<<set $visitPlaces = false>>
-
+	<<set $hasVisited = {
+		hydraDen : false,
+		kelpieLake : false
+	}>>
 
 
 
@@ -36,23 +45,23 @@
 		/* Name list to be chosen from, in alphabetical order. */
 	<<set $dNames to [
 		"Abaddon", "Adula", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
-		"Baeliru", "Bakari", "Baruti", "Blaze", "Boldar", "Boris", "Brantley", "Brigid", "Bruno", 
+		"Baeliru", "Bakari", "Baruti", "Beroan", "Blaze", "Boldar", "Boris", "Brantley", "Briam", "Brigid", "Bruno", 
 		"Cadmus", "Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Clay", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
 		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
 		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
-		"Flame", "Flavius", "Fonsworthy", 
-		"Galadriel", "Gavin", "Ghidora", "Gildas", "Gildor", "Gimli", "Greyoll", "Grigori", "Gwyneth", "Gunnar", 
+		"Fírnen", "Flame", "Flavius", "Fonsworthy", 
+		"Galadriel", "Gavin", "Ghidora", "Gildas", "Gildor", "Gimli", "Glaedr","Greyoll", "Grigori", "Gwyneth", "Gunnar", 
 		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
 		"Iola", "Isaak", "Ilmarinen", "Ivor", 
 		"Jaren", "Jarvis", "Jed", "Jormungandr", 
 		"Kael", "Kasiya", "Kosoko", 
-		"Laird", "Lateef", "Legna", "Lindar", "Liraz", "Lirien", "Lutalo", 
+		"Laird", "Lateef", "Legna", "Lenora","Lindar", "Liraz", "Lirien", "Lutalo", 
 		"Magnus", "Makar", "Malefor", "Maximos", "Mazi", "Miasmar", 
-		"Nestor", "Nevin", "Nils", 
-		"Obasi", "Odahviing", "Oswin", 
+		"Nestor", "Nevin", "Nils", "Nithring", 
+		"Obasi", "Odahviing", "Ophelia", "Oswin", 
 		"Paarthurnax", "Pyra", 
 		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
-		"Sadiki", "Sif", "Seren", "Skipper", "Smaug", "Soot", "Spry", "Spyro", "Storm", "Sunburn", 
+		"Sadiki", "Saphira", "Sif", "Seren", "Skipper", "Shruikan", "Smaug", "Soot", "Spry", "Spyro", "Storm", "Sunburn", 
 		"Tamlin", "Tanwen", "Terrador", "Theodorix", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
 		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
 		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
@@ -195,6 +204,7 @@
 
 		/* Resource storage set-up. */
 		/* Pools for water, caverns for food, dugouts for wood and stone. */
+		/* Dugouts hold wood and stone, so they only need one cap. */
 		/* Gold has no limiting factor. */
 		/* Amount is how much of a storage building has been built, and storage is how much a single building can hold. */
 		/* So one pool holds thirty water; two pools means a colony can hold sixty water. */
@@ -215,8 +225,7 @@
 		amount : 1,
 		storage : 30
 	}>>
-	<<set $woodCap to ($dugOut.amount * $dugOut.storage)>>
-	<<set $stoneCap to ($dugOut.amount * $dugOut.storage)>>
+	<<set $buildingMaterialCap to ($dugOut.amount * $dugOut.storage)>>
 
 
 
@@ -336,6 +345,7 @@
 		creatures : false,
 		priceS : 150,
 		priceW : 70,
+		priceWa : 210,
 		buildTime : 7
 	}>>
 
@@ -365,6 +375,13 @@
 		/* $defenseTotal is the numerical representation of your defensiveness. */
 		/* 0 by default because no structures, but recalced when a new one is built. */
 	<<set $defenseTotal = 0>>
+
+
+
+
+/* ~~~~~~~~~~~~~ DIPLOMACY SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* Holdover until I actually do this. */
 
 
 
@@ -423,7 +440,9 @@
 		/* For the lake creatures (kelpies). */
 		/* $infestedNotice triggers if you've been to the kelpie lake once and enables visits from Sandbox. */
 		/* $kelpieExtinction triggers if PC decides to remove all kelpies from the lake while visiting. */
+		/* $lakeClaim is whether you've personally taken over the lake or are allowing it to develop on its own. */
 	<<set $infestedNotice to false>>
 	<<set $kelpieExtinction to false>>
+	<<set $lakeClaim = false>>
 <</nobr>>
 

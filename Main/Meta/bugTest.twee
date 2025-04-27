@@ -95,9 +95,15 @@
 
     [[Go to DefenseTalk?|DefenseTalk]]<br>
     
-    <<link "Run defenseCalc widget?">><<updateDefense>><</link>> <<>>
-    <hr>
-    </details>
+    <<link "Run defenseCalc widget?">><<updateDefense>><</link>><br>
+    
+    <<link "Run wantedCount widget?">>
+        <<countWorkers "slacker">>
+    <</link>>
+    <hr><br>
+
+    </details><br>
+
     
     
     <<link "Go">>

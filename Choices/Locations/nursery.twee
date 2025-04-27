@@ -1,6 +1,6 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
 <<nobr>>
-	Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easy access to your food and water stores. Presently, you have
+	Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easy access to your food and water stores. You have
 		
 		<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
 		
@@ -31,7 +31,7 @@
 			one hatchling.
 		<</if>>
 	
-	<br> <br>
+	<br><br>
 		<<if $eggs.length >= $hatchlings.length && $hatchlings.length >= 2>>The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
 		<<elseif $hatchlings.length >= $eggs.length && $eggs.length >= 2>>The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
 		<<elseif $eggs.length >= 2 && $hatchlings.length == 0>>It's warmly quiet with only eggs in here. You take a moment to rest with them.

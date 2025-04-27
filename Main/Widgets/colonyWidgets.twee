@@ -80,16 +80,26 @@
                         <<run console.log("registered moat.")>>
                         <<if $buildTime >= 1>>
                             <<run console.log("started building moat.")>>
-                            <<set _buildStone = Math.round($defenseBuildings.moat.priceS / $defenseBuildings.moat.buildTime)>>
-                            <<set _buildWood = Math.round($defenseBuildings.moat.priceW / $defenseBuildings.moat.buildTime)>>
-                            <<if $stone >= _buildStone && $wood >= _buildWood>>
-                                <<set $buildTime -= 1>>
-                                <<set $stone -= _buildStone>>
-                                <<set $wood -= _buildWood>>
-                            <<else>>
-                                <<set _resourceDown = true>>
+                            <<if $defenseBuildings.moat.amount < 2>>
+                                <<set _buildStone = Math.round($defenseBuildings.moat.priceS / $defenseBuildings.moat.buildTime)>>
+                                <<set _buildWood = Math.round($defenseBuildings.moat.priceW / $defenseBuildings.moat.buildTime)>>
+                                <<if $stone >= _buildStone && $wood >= _buildWood>>
+                                    <<set $buildTime -= 1>>
+                                    <<set $stone -= _buildStone>>
+                                    <<set $wood -= _buildWood>>
+                                <<else>>
+                                    <<set _resourceDown = true>>
+                                <</if>>
+                                <<set $builderStatus to 2>>
+                            <<elseif $defenseBuildings.moat.amount == 2>>
+                                <<set _buildWater = Math.round($defenseBuildings.moat.priceWa / $defenseBuildings.moat.buildTime)>>
+                                <<if $water >= _buildWater>>
+                                    <<set $buildTime -= 1>>
+                                    <<set $water -= _buildWater>>
+                                <<else>>
+                                    <<set _resourceDown = true>>
+                                <</if>>
                             <</if>>
-                            <<set $builderStatus to 2>>
                             
                         <<elseif $buildTime == 0>>
                             <<run console.log("finished building.")>>
@@ -204,8 +214,16 @@
     <</nobr>><</widget>>
 
     <<widget "countWorkers">><<nobr>>
-        <<set _wantedCount = $dragons.countWith(function (dragon) { return dragon.job === _args[0]; })>>
+        <<set _wantedCount = $dragons.countWith(function (dragon) {
+            return dragon.job === _args[0];
+        })>>
+        <<set _wantedNames = $dragons.filter(function (dragon) {
+            return dragon.job === _args[0];
+        }).map(function (dragon) {
+            return dragon.name;
+        })>>
         <<run console.log("wanted-found: " + _wantedCount)>>
+        <<run console.log("wanted-names: " + _wantedNames)>>
     <</nobr>><</widget>>
 
 <</nobr>>

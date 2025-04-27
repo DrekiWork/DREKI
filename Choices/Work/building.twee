@@ -34,8 +34,29 @@ You need to make something, but what? What does your colony need right now?<<nob
 
 :: buildShelters
 <<nobr>>
+	<<if $player.home.built !== true>>
+		''Your Lair''<br>
+		Cost: <<print $shelter.ruts.priceS>> stone to build... and 10 gold. Shamefully, you haven't built a home for yourself... a rut of your own would do for now, you think. You can improve it later.<br>
+			<<if $stone >= $shelter.ruts.priceS && $gold >= 10>>
+				<<button "Build">>
+				<<set $player.home.built = true>>
+				<<set $stone -= $shelter.ruts.priceS>>
+				<<set $gold -= 10>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+			<</button>>
+		<<elseif $stone < $shelter.ruts.priceS>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone!
+		<<elseif $gold < 10>>
+			''You don't have enough!'' You are missing <<print (10 - $gold)>> gold!
+		<<else>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone and <<print (10 - $gold)>> gold!
+		<</if>><br><br>
+	<</if>>
+
 	''Rut'' <br>
-	Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
+	Cost: <<print $shelter.ruts.priceS>> stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
 		<<if $stone >= 5>><<button "Build">>
 				<<set $shelter.ruts.amount += 1>>
 				<<set $shelter.ruts.free += 1>>
@@ -168,8 +189,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 	Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
 	<<if $stone >= 15 && $wood >= 15>><<button "Build">>
 			<<set $dugOut.amount += 1>>
-			<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-			<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 			<<set $stone -= 15>>
 			<<set $wood -= 15>>
 			<<updateBar>>
@@ -239,16 +259,16 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<br> <br>
 	''Moat'' <br>
 	<<if $defenseBuildings.moat.amount < $defenseBuildings.moat.max>>
-		Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood. Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory.
+		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
 		<<if $defenseBuildings.moat.amount == 0>>
-			You've yet to construct one.
+			You've yet to construct one. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 1>>
-			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however...
+			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however... Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 2>>
-			Your moat is reinforced with strategically placed wood and stone pylons. <<if $infestedNotice == true && $kelpieExtinction == false>>
-				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake.
+			Your moat is reinforced with strategically placed wood and stone pylons, and has several staves of the same to impale anything that falls in. <<if $infestedNotice == true && $kelpieExtinction == false>>
+				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake. For now, it would cost <<print $defenseBuildings.moat.priceWa>> water. to fill your moat.<br>
 			<<else>>
-				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water.
+				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water. Cost: <<print $defenseBuildings.moat.priceWa>> water.<br>
 			<</if>>
 		<</if>><br>
 		<<button "Build">>

@@ -1,5 +1,39 @@
-:: Rest [WIP] {"position":"1075,550","size":"100,100"}
-The end of the day is approaching.<<nobr>>
+:: Rest [WIP rest] {"position":"1075,550","size":"100,100"}
+<<nobr>>
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+													/* This is the REST page, where your colony's day is summarized. */
+			
+			/* All changes that happen automatically happen here, at the day's end. */
+			/* Your dragons bring home their hauls, have their daily meal, and report their work completion. */
+			/* Dragons that will leave do so at dusk as your colony winds down, whether they are hungry, exiled, or unhappy. */
+			/* Hatchlings and eggs are formally hatched and grown here, during the endDay widget. */
+			/* Events that are not triggered by foraging happen here (such as a thief attempting to steal your eggs, or wanderers begging to join). */
+			/* You might even dream! */
+			/* ... or die. */
+
+
+			/* To-Do: */
+				/* Re-organise. Information is currently scattered hap-hazardly. */
+					/* Improve general appearance. May be good to tab these? */
+				/* endDay should probably fire sooner. */
+				/* Update checking for: */
+					/* Exiles */
+					/* eggEvent */
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+	The end of the day is approaching.
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EXILE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* The following tracks exiled dragons. */
+		/* It goes through a loop to check each dragon for an exile flag. */
+		/* When an exiled dragon is found, it frees up the shelter they're in. */
+		/* The dragon then has a dice roll: if it's lucky, it is cloned into a returner's list. */
+		/* ($goneDragons) */
+		/* Otherwise, the dragon's name is placed in a temporary array. */
+		/* The array is printed out, then deleted. */
 
 	<<set _exiled = []>>
 		<<for _i to 0; _i < $dragons.length; _i++>>
@@ -60,12 +94,42 @@ The end of the day is approaching.<<nobr>>
 		<br><br>
 	<</if>>
 	
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ENDDAY ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* A widget that handles a LOT of things. */
+		/* Check the endDay.twee (or just endDay paragraph if on twine) for details. */
+		/* Summary: */
+			/* Updates days/cycles */
+			/* Ages up colonists */
+			/* Grows eggs/hatclings */
+			/* Collects & distributes colonist resources */
+				/* (Shelters, food, water) */
+			/* Resets daily counters */
+			/* Filters dragons leaving due to not having food/water */
+
 	<<endDay>>
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BABY EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Fires if an egg hatches for the first time, or a hatchling grows up for the first time. */
+		/* eggOne checks if this is the first egg. */
+		/* colOne checks for the first colonist. */
+		/* I'm sure there's a better way to do this. */
+
 	<<if $eggEvent !== 0>>
 	<<else>>
 		<<eggOne>>
 		<<colOne>>
 	<</if>>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WORKERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Displays worker results for the day. */
+		/* Soldiers: If they've hunted, OR if a special battle event is on the way. (Currently only hydra.) */
+		/* Foragers: Displays food amount gathered. */
+		/* Rainiers: Displays water amount gathered. */
+		/* Scavengers: Displays wood and/or stone gathered. */
+		/* Builders: What progress they've made on a project; how much they'll need; and how long it will take. Otherwise, alerts player to idleness. */
+			/* buildQueue is located under colonyWidgets. */
 
 	<<if $dragons.length >= 1>>
 		<<countWorkers "soldier">>
@@ -85,38 +149,38 @@ The end of the day is approaching.<<nobr>>
 		<</if>>
 		
 		<<if _forcount >= 2>>
-			Your <<print _forcount>> foragers come home with <<print _food>> food.
+			Your <<print _forcount>> foragers come home with <span class="food"><<print _food>> food</span>.
 		<<elseif _forcount == 1>>
-			Your lone forager drops off some food.
+			Your lone forager drops off <span class="food">some food</span>.
 		<</if>>
 
 		<<if _soldierHunt > 0>>
 			<<if _soldcount >= 2>>
-				Your soldiers went hunting today, apparently. They brought back <<print _soldierHunt>> food.
+				Your soldiers went hunting today, apparently. They brought back <span class="food"><<print _soldierHunt>> food</span>.
 			<<else>>
-				Your soldier went hunting today, apparently. They brought back <<print _soldierHunt>> food.
+				Your soldier went hunting today, apparently. They brought back <span class="food"><<print _soldierHunt>> food</span>.
 			<</if>>
 		<</if>>
 
 		<<if _watcount gte 2>>
-			Your <<print _watcount>> rainiers return, having swept <<print _water>> water into your collection pools.
+			Your <<print _watcount>> rainiers return, having swept <span class="water"><<print _water>> water</span> into your collection pools.
 		<<elseif _watcount is 1>>
-			A single rainier ushers in some water.
+			A single rainier ushers in <span class="water">some water</span>.
 		<</if>>
 
 		<<if _scavcount gte 2>>
-			Your <<print _scavcount>> scavengers return, bringing <<print _wood>> wood and <<print _stone>> stone.
+			Your <<print _scavcount>> scavengers return, bringing <span class="wood"><<print _wood>> wood</span> and <span class="stone"><<print _stone>> stone</span>.
 				<<if _goldluck gte 50>>
 					<<set _gold = random(12,41)>>
 					<<set $gold += _gold>>
-					They have also found <<print _gold>> gold!
+					They have also found <span class="gold"><<print _gold>> gold</span>!
 				<</if>>
 		<<elseif _scavcount is 1>>
-			Your scavenger hauls in <<if _wood gt 0>>wood.<<else>>stone.<</if>>
+			Your scavenger hauls in <<if _wood gt 0>><span class="wood">wood</span>.<<else>><span class="stone">stone</span>.<</if>>
 				<<if _goldluck gte 50>>
 					<<set _gold = random(5,13)>>
 					<<set $gold += _gold>>
-					They have also found <<print _gold>> gold!
+					They have also found <span class="gold"><<print _gold>> gold</span>!
 				<</if>>
 		<</if>>
 
@@ -126,11 +190,21 @@ The end of the day is approaching.<<nobr>>
 					<<case 1>>
 						Your <<print _buildcount>> builders have completed the planning stage for a <<print $buildQueue[0]>>.
 					<<case 2>>
-						Your <<print _buildcount>> builders are working on a <<print $buildQueue[0]>>.
+						Your <<print _buildcount>> builders are working on a <<print $buildQueue[0]>>;
 						<<if _resourceDown == false>>
 								if you have enough materials, they should be done in <<print $buildTime>> day<<if $buildTime >= 2>>s<</if>>.
 						<<else>>
-								they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
+								<<if _buildStone > 0 && _buildWood > 0 && _buildWater > 0>>
+									they have run out out of materials. You need <<print _buildStone>> stone, <<print _buildWood>> wood, and <<print _buildWater>> water for your builder to resume work.
+								<<elseif _buildStone > 0 && _buildWood > 0>>
+									they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
+								<<elseif _buildWater > 0>>
+									they have run out out of materials. You need <<print _buildWater>> water for your builder to resume work.
+								<<elseif _buildWood > 0>>
+									they have run out out of materials. You need <<print _buildWood>> wood for your builder to resume work.
+								<<elseif _buildStone > 0>>
+									they have run out out of materials. You need <<print _buildStone>> stone for your builder to resume work.
+								<</if>>
 						<</if>><br><br>
 					<<case 3>>
 						Your <<print _buildcount>> builders have finished work on a <<print _finished>>!
@@ -177,6 +251,12 @@ The end of the day is approaching.<<nobr>>
 		<br><br>
 	<</if>>
 
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MISC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Building actions being handled. Might move this to endDay. */
+		/* Currently only contains rockfall status, as determined by autoload. */
+		/* (Autoload is currently the only way to load the rockfalls...) */
+
 	<<if $defenseBuildings.rockfall.empty > 0 && $autoLoad == true>>
 		<<set _rockfallStoneCost = ($defenseBuildings.rockfall.empty * 10)>>
 		<<set _rockfallsEmpty = $defenseBuildings.rockfall.empty>>
@@ -207,20 +287,26 @@ The end of the day is approaching.<<nobr>>
 	<<elseif $autoLoad == false>>
 	<</if>>
 
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CHILDREN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Egg and hatchling information. */
+		/* First: hatchlings have a random chance to find either food or water and present it to you. How sweet. */
+		/* Then, any eggs that have hatched, or hatchies that have grown up. */
+
 	<<if $hatchlings.length > 1>>
 		<<if _hatchFood > 0 && _hatchWater > 0>>
-			Your hatchlings present you with <<print _hatchFood>> food and <<print _hatchWater>> water that they found. How sweet! <br><br>
+			Your hatchlings present you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
 		<<elseif _hatchfood > 0 && _hatchWater == 0>>
-			Your hatchlings present you with <<print _hatchFood>> food that they found. How sweet!<br><br>
+			Your hatchlings present you with <span class="food"><<print _hatchFood>></span> food that they found. How sweet!<br><br>
 		<<elseif _hatchfood == 0 && _hatchWater > 0>>
-			Your hatchlings present you with <<print _hatchWater>> water that they found. How sweet!<br><br>
+			Your hatchlings present you with <span class="water"><<print _hatchWater>></span> water that they found. How sweet!<br><br>
 		<</if>>
 	<<elseif $hatchlings.length == 1>>
 		<<if _hatchFood > 0>>
-			Your hatchling presents you with <<print _hatchFood>> food that they found today. How sweet!<br><br>
+			Your hatchling presents you with <span class="food"><<print _hatchFood>> food</span> that they found today. How sweet!<br><br>
 		<</if>>
 		<<if _hatchWater > 0>>
-			Your hatchling presents you with <<print _hatchWater>> water that they found today. How sweet!<br><br>
+			Your hatchling presents you with <span class="water"><<print _hatchWater>> water</span> that they found today. How sweet!<br><br>
 		<</if>>
 	<<else>>
 	<</if>>
@@ -252,18 +338,38 @@ The end of the day is approaching.<<nobr>>
 		<</if>>
 	<</if>>
 
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSUMPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* First: Check if player is dead. If yes, go directly to the game-over screen. */
+		/* Otherwise, feed and water player. */
+		/* Then hatchlings; hatchlings are not as complex as adults, so only a number of deprived children + what you were missing is given. */
+		/* Adults last; names of deprived colonists are provided, as well as what you were missing. */
+
 	<<if $player.health <= 0>>
 			[[...|SandboxDeath]]
 	<<else>>
-		<<if _pcHungry == true && _pcThirsty == true>>
-			<<set _remaining = ($player.health / 2)>>
-			Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
-		<<elseif _pcHungry == true && _pcThirsty == false>>
-			Your stomach rumbles quietly. You didn't get to eat today, but you did have 4 water.
-		<<elseif _pcHungry == false && _pcThirsty == true>>
-			Your throat feels terribly dry. You ate 3 food, but had no water.
+		<<if $player.home.built == true>>
+			<<if _pcHungry == true && _pcThirsty == true>>
+				<<set _remaining = ($player.health / 2)>>
+				Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
+			<<elseif _pcHungry == true>>
+				Your stomach rumbles quietly, but you were able to drink 4 water.
+			<<elseif _pcThirsty == true>>
+				Your throat feels terribly dry, but you were able to eat 3 food.
+			<<else>>
+				You eat 3 food and drink 4 water.
+			<</if>>
 		<<else>>
-			You ate 3 food and 4 water.
+			<<if _pcHungry == true && _pcThirsty == true>>
+				<<set _remaining = ($player.health / 2)>>
+				Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
+			<<elseif _pcHungry == true>>
+				Your stomach rumbles quietly, but you were able to drink 10 water.
+			<<elseif _pcThirsty == true>>
+				Your throat feels terribly dry, but you were able to eat 8 food.
+			<<else>>
+				You eat 8 food and drink 10 water.
+			<</if>>
 		<</if>>
 		
 	<<if $dragons.length == 0>>
@@ -296,9 +402,9 @@ The end of the day is approaching.<<nobr>>
 			<</if>>
 		<</if>>
 
-		<<if $home >= ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+		<<if $home >= ($dragons.length) && _eat > 0 && _drink > 0>>
 			The rest of your colony eats <<print _eat>> food, and drinks <<print _drink>> water.
-		<<elseif $home < ($dragons.length + 1) && _eat > 0 && _drink > 0>>
+		<<elseif $home < ($dragons.length) && _eat > 0 && _drink > 0>>
 			The rest of your colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
 		<</if>>
 		<<if _unfed gte 2 && _nowater gte 2>>
@@ -324,6 +430,10 @@ The end of the day is approaching.<<nobr>>
 	
 	<<run console.log("end day " + $home)>>
 
+
+		/* This section handles auto-housing, if the player has it enabled. */
+		/* The name and shelter type the dragon has moved into are displayed here. */
+		/* Dragons that are unsheltered are also listed, because unsheltered dragons consume more. */
 	<<if $dragons.length >= 1>>
 		<<if _newHouse.length > 2>>
 			<<for _i to 0; _i < _newHouse.length; _i++>>
@@ -579,8 +689,13 @@ The end of the day is approaching.<<nobr>>
 		<</if>>
 	<<else>>
 	<</if>>
-	
-	/* Notice of dragons leaving the colony voluntarily. */
+
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LEAVING DRAGONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Deprived dragons are listed here. */
+		/* This happens if they go three days without food, or three days without water. */
+
 	<<if _left.length >= 2>>
 		<<nobr>><<for _i to 0; _i < _left.length; _i++>>
 			<<if _i !== (_left.length - 1)>>
@@ -591,15 +706,22 @@ The end of the day is approaching.<<nobr>>
 		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br><br>
 	<</if>>
 	
-	/* Dream chance, or a chance for some nightly event to happen. */
-		<<run console.log("$currentEvent: " + $currentEvent)>>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Finally. */
+		/*  First, checks for a major event happening. */
+		/* If no major events are in progress, decides if the player will have a night event, a dream, or nothing. */
+		/* Dreams and one of the two night events are flavor. */
+		/* The second night event is wanderers attempting to join. */
+		
 		<<switch $currentEvent>>
 			
 			<<case "HydraRaid">>
 				[[It's time for another day...|HydraRaid]]
 
-			<<case default>>
+			<<case "none">>
 				<<set _eventChance to random(15)>>
+				<<run console.log("_eventChance: " + _eventChance)>>
 				<<if _eventChance <= 3>>
 					<<set _dream to random(0, 5)>>
 					<<if _dream == 1>>
@@ -633,6 +755,9 @@ The end of the day is approaching.<<nobr>>
 				<<else>>
 				[[It's time for another day.|Sandbox Central]]
 				<</if>> 
+			<<case default>>
+				<<run console.log("Defaulted on event. $currentEvent: " + $currentEvent)>>
+				[[It's time for another day.|Sandbox Central]]
 		<</switch>>
 	<</if>>
 

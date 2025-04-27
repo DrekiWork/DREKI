@@ -33,6 +33,7 @@ Made by Recila!</sup>
 <<if hasVisited("tutorialOpen") || $cheat == true>>
 	Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
+		/* Links to bugtest, my cheat page, if cheating is enabled on game set. */
 	<<if $cheat == true>>
 		<<link "Cheating">><<goto "BugTest">><</link>>
 	<</if>>
@@ -50,11 +51,11 @@ Made by Recila!</sup>
 		</tr>
 		<tr>
 			<td>Wood: &ensp;</td> 
-				<td> <<print $wood>> </td> <td> / </td> <td> <<print $woodCap>> </td>
+				<td> <<print $wood>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
 		</tr>
 		<tr>
 			<td>Stone: &ensp;</td>
-				<td> <<print $stone>> </td> <td> / </td> <td> <<print $stoneCap>> </td>
+				<td> <<print $stone>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
 		</tr>
 		<tr>
 			<td>&emsp;</td>
@@ -69,7 +70,7 @@ Made by Recila!</sup>
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
-				<td>&ensp;<<print ($home)>></td> <td>&ensp;/&ensp;</td> <td><<print ($dragons.length + 1)>></td>
+				<td>&ensp;</td> <td><<print $dragons.length>>&ensp;/&ensp;<<print ($home)>></td>
 		</tr>
 	</table>
 
@@ -137,7 +138,7 @@ Made by Recila!</sup>
 <</nobr>>
 
 :: Patchnotes
-
+<<nobr>>
 /* These are patchnotes. */
 /* Organized by new content - QoL adjustments - patched bugs - new bugs. */
 /* Should have a current focus tab somewhere... */
@@ -149,7 +150,6 @@ Made by Recila!</sup>
 
 	<h2> Pre-Pre-Alpha 0.0.30.3 </h2>
 	First of the housekeeping sweeps.
-	<<nobr>>
 		''Bugs Patched''
 		<ul><li>Dragon renaming works.</li>
 		<li>Rockfalls work.</li>
@@ -160,10 +160,9 @@ Made by Recila!</sup>
 		<li>Builders should build now. :)</li>
 		<li>Gold will not come back NaN when your scavs find it.</li>
 		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li></ul>
-	<</nobr>>
 
 
-	<h2> Pre-Pre-Alpha 0.0.25.8 </h2><<nobr>>
+	<h2> Pre-Pre-Alpha 0.0.25.8 </h2>
 	''New!''
 	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
 	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back. You don't have to take them in, of course.</li>
@@ -210,8 +209,9 @@ Made by Recila!</sup>
 	<li><strike>Flavor involving all of these things, of course. Gotta let you know they're present in central.</strike></li>
 	<li><strike>The actual... y'know... raid...</strike></li></ul>
 	<li>Random Events.</li>
-	<li><strike>Visiting specific locations.</strike></li></ul>
-	<</nobr>>
+	<li><strike>Visiting specific locations.</strike></li>
+	<li>Update PC to consume 8/10 when unsheltered, 3/4 when sheltered.</li></ul>
+<</nobr>>
 
 :: OOC Chat
 <<nobr>>
@@ -220,10 +220,12 @@ Made by Recila!</sup>
 	/* Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current 'end'. */
 	/* It includes hints on if the player has missed anything or if they've found it all, and a teaser on what's the next 'big' update. */
 	/* This page always returns to either the Sandbox, or to the game START. */
+	
+	/* CURRENT DEMO END: Hydra Raid. */
 
 	Hello, this is the dev here! I've some words to share...<br><br>
 
-	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the demo.
+	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the current 'story' content.
 	<<if $hydraBeat == true>>
 		<<if $player.special[0] == "Hydra">>
 			A truly well-deserved congratulations on achieving the special raid ending, too; that's no easy feat! I hope you've enjoyed. Though there's no more major / pseudo-story content to be found, you can continue to play in your current colony for as long as you like.<br><br>
@@ -231,7 +233,7 @@ Made by Recila!</sup>
 			You've beaten the big boss of the current content, and a hearty congratulations is in order! That's no mean feat... though there's something extra you've missed. Maybe if you had stronger defenses, you'd find something more? but that's neither here nor there. Congratulations no less, and a hearty <em>well done!</em> You're free to continue playing this colony to your heart's content, or you can try again with that raid and maybe get the special ending. Good luck!<br><br>
 		<</if>>
 
-		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. Should have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. If you have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
 		
 		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
 
@@ -241,9 +243,9 @@ Made by Recila!</sup>
 
 	<<else>>
 
-		... sort of! The hydra is intended to be a tough fight, after all. You can always try again! Either way, I hope you've enjoyed what you've played so far.<br><br>
+		The hydra is intended to be a tough fight; there's no shame in losing here. You can always try again! Either way, I hope you've enjoyed what you've played so far.<br><br>
 
-		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. Should have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. If you have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
 		
 		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
 
