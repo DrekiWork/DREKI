@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>pre-pre-alpha 0.0.30.3
+<sup>alpha 0.0.30.4
 Made by Recila!</sup>
 
 
@@ -146,10 +146,10 @@ Made by Recila!</sup>
 /* The gleeful tone is neecessary for personal success. */
 
 	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
-	<em><strong><u>THE HYDRA IS DONE.</u></strong></em> (mostly)
+	<em><strong><u>THE HYDRA IS DONE.</u></strong></em>
 
-	<h2> Pre-Pre-Alpha 0.0.30.3 </h2>
-	First of the housekeeping sweeps.
+	<h2> Pre-Pre-Alpha 0.0.30.4 </h2>
+	First of the housekeeping sweeps.<br><br>
 		''Bugs Patched''
 		<ul><li>Dragon renaming works.</li>
 		<li>Rockfalls work.</li>
@@ -159,7 +159,10 @@ Made by Recila!</sup>
 		<li>Dragons assign themselves to home... again.</li>
 		<li>Builders should build now. :)</li>
 		<li>Gold will not come back NaN when your scavs find it.</li>
-		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li></ul>
+		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li>
+		<li>Specific colonists, when referenced during events, shouldn't be calling an endless <nowiki>[function]</nowiki> loop.</li>
+		<li>No more bad conditional expression on trying to visit HydraDen.</li>
+		<li></li></ul>
 
 
 	<h2> Pre-Pre-Alpha 0.0.25.8 </h2>

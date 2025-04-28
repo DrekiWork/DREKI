@@ -312,7 +312,7 @@
 	<</if>>
 	
 	<<if _hatchcheck >= 2>>
-		<<print _hatchcheck>> eggs have hatched in the Nursery.
+		<strong><<print _hatchcheck>> eggs have hatched in the Nursery.
 		<<if _growcheck >= 2>>
 			<<print _growcheck>> hatchlings have grown up.<br><br>
 		<<elseif _growcheck == 1>>
@@ -320,8 +320,9 @@
 		<<else>>
 			<br><br>
 		<</if>>
+		</strong>
 	<<elseif _hatchcheck == 1>>
-		An egg has hatched.
+		<strong>An egg has hatched.
 		<<if _growcheck >= 2>>
 			<<print _growcheck>> hatchlings have grown up.<br><br>
 		<<elseif _growcheck == 1>>
@@ -329,11 +330,12 @@
 		<<else>>
 			<br><br>
 		<</if>>
+		</strong>
 	<<else>>
 		<<if _growcheck >= 2>>
-			<<print _growcheck>> hatchlings have grown up.<br><br>
+			<strong><<print _growcheck>> hatchlings have grown up.</strong><br><br>
 		<<elseif _growcheck == 1>>
-			A hatchling has grown up.<br><br>
+			<strong>A hatchling has grown up.</strong><br><br>
 		<<else>>
 		<</if>>
 	<</if>>
