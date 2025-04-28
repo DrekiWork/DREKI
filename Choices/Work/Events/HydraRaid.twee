@@ -2,15 +2,247 @@
 <<nobr>>
 <!--
     Leader settles for discussion w/ self on what needs to be done to prep for Hydra Raid.
-     > Set up Guards. Guards protect the colony & surrounding territory. They are trained in battle and as they gain experience, they are more confident in fights. Mechanically, this translates to good health + harder hits. Unfortunately, they eat and drink more to fuel their training, and don't otherwise contribute to the colony. When you need them, you're grateful they're there, but when you don't, they're borderline parasites.
+     > Set up Guards. Guards protect the colony & surrounding territory. They are trained in battle and as they gain experience, they are more confident in fights. Mechanically, this translates to good health + harder hits. Unfortunately, they eat and drink more to fuel their training, and don't otherwise contribute to the colony. When you need them, you're grateful they're there, but when you don't, they're functionally parasites. Might hunt sometimes.
      > Set up Fortifications. Fortifications are various barricades, offensive traps, choke-points, and hides for your dragons to retreat to & attack from. Fortifications are classified as:
         > Protective. Barricades, moats, overhangs, deep-shelters, etc. Lessens damage taken during raids, and provides shelter for non-combative dragons (including hatchlings.) Building none of these means that you trust your ability to rebuild, and don't mind watching children die.
         > Offensive. Traps, choke-points, attack nests, etc. Damages and slows attackers while allowing your dragons to risk themselves slightly less in attacking. Not building these mean you either trust your numbers & skill levels, or that you're pulling a zerg rush and praying to Sun & Moon that it works.
         > Pre-Emptive, and Post. Scout points, retreat zones, secondary stockpiles, etc. Gives you warnings about where the raider is, where you can go if things start getting really, really bad, and what you have left to recover with. Not building these is akin to deciding that you are either arrogant enough to believe you need no forewarning and can survive any losses you take, or panicked enough to forget that you'll have to rebuild.
  -->
+	<<set $defenseTalk = 1>>
+
+    Your first order of business is getting your colony functioning once more. You send your thunder to their duties – the colony must still be cared for. You needed only to tell them the news before you begin to plan.<br><br>
+    
+    You will need to build. There are fortifications to be raised; offensive and defensive both. Outposts, walls, traps... One structure you remember to be crude and laborious, but effective – a perfect stalling tactic for the oncoming battle... though, given the size and might of the beast, perhaps it might be best regarded as natural disaster. Something akin to a rolling flood that you are hoping to wear down before it truly brings itself to bear.<br><br>
+
+    Your decision has been made. There is no reason for you to linger on what-ifs.<br><br>
+
+    Next will be soldiers. Your dragons are – for all that they have lived in a developing colony – <em>soft</em>. You've not trained any for battle, nor had them spar with each other. Play-fighting in their free-time, though useful, is nothing compared the honed edges their fangs, claws, and flame may bring to bear. With luck, planning, and thorough preperation, they will not need to confront the hydra directly. They will only need to act as sentries or arm traps, rather than put themselves in the fore to die. Soldiers are rather expensive; their constant vigilance and training demand large meals, but in this instance, they will be worthwhile. They will have to be.<br><br>
+
+    Last, but equally important: evacuations. This... is not something you must handle personally. All told, if the hydra should wreak such chaos that an evacuation is necesssary, you will die to ensure your thunder may flee. You brought this upon them; it is only right. Though, should you survive even this much, you will need supplies. Wood and stone to rebuild your broken defenses, food and water for your recovering thunder.<br><br>
+
+    Thus decided, you take a moment to admire your home. It is humble, compared to your hundreds-strong origins. You were one of many, and the colony was already fat from surpassing challenges much worse than a mere hydra. This will only be your first. [[There is much to do.|Sandbox Central]]
 <</nobr>>
 
 :: HydraRaid
 <<nobr>>
+    <<countWorkers "soldier">>
+    The day is come.
+    <<if _wantedCount >= 2>>
+        One of your soldiers rushes towards you, practically plummeting from the air in their hurry. Their training only barely constrains the fear in their announcement. Not that you needed the warning. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+
+    <<elseif _wantedCount == 1>>
+        Your lone scout dives towards you from the wall, not bothering to call out. You know what's coming. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+
+    <<else>>
+
+    <</if>>
+
+    You can hear the trees crumbling before the hydra's immense bulk, the ground's subtle tremors growing more vicious as it marches forth. Your colony swarms around you; anyone unrelated to the coming seige pushes into the depths of the storage caverns. Those left dart about; some simply flitting with anxious need to follow their training, others coldly aware of what will happen under a moment of inattention.<br><br>
+
+    You take to the skies, adrenaline buzzing in your veins. You don't feel your hearts. Your pulse is nothing more than a roar so loud it reverbrates in your bones; absently, you wonder if your thunder can hear it. As you clear the treeline, you see the hydra—and the world must freeze as you catch sight of it.<br><br>
+
+    It is not large. Not huge or even enormous; it is <em>monstrous</em> in the light. In its cavern it was a still thing, as much a part of the landscape as it was a serpent, yet in the daylight it is <em>more.</em> The truth of the beast is that its heads clear the trees with furious purpose; its limbs shatter anything that might endeavor to slow it as the rest of its impossible bulk gouges the land with depth and width that would take a cycle for five dragons - all in a single, vicious movement. This is not a beast, not a monster nor serpent: it is a force of nature. Its scales gleam, deep and glorious blue in daylight, polished by sap wept from the trampled forest. Its three heads hiss as they spot your colony - a sound so deep and forceful as to be more kin with screeching winds than any noise you could produce.<br><br>
+
+    <<updateDefense>>
+
+    /* Defenses order: Outpost, moat, palisade, rockfall, soldiers. */
+
+    <<if _wantedCount >= $defenseBuildings.outpost.amount && $defenseBuildings.outpost.amount >= $defenseBuildings.outpost.max>>
+            /* Fully armed outpost */
+        In the distance, you can see your scouts; they dart from their outposts as the hydra approaches, harrying the beast with almost suicidal bravery. Their attacks do little but annoy it, and you swear one gets eaten - only to soar back into sight with fire exploding from their maw. Yet this annoyance buys valuable time for traps to be checked and your colony to finish evacuating. Not only that, but you have built enough for a scout to disengage on occasion and feed information to you; where scales have been scraped off, or which head is slower to react. Information you can use, should it come to a battle.<br><br>
+
+    <<elseif _wantedCount >= $defenseBuildings.outpost.amount && $defenseBuildings.outpost.amount > 0>>
+            /* Partial outpost but fully armed */
+        In the distance you can see your scouts; you don't have as many outposts as you would have liked, but your soldiers are behaving admirably. They harry the hydra, taking as few risks as possible while still annoying it; you cannot be certain of the efficacy of their work, but you hope it is enough. Especially when not a one can afford to disengage to report on what they're noticing about the hydra.<br><br>
+
+    <<elseif _wantedCount < $defenseBuildings.outpost.amount && _wantedCount > 0 && $defenseBuildings.outpost.amount >= $defenseBuildings.outpost.max>>
+            /* Unarmed max outpost */
+        In the distance, you can see your outposts; though you've built as many as you feel you need, some are not occupied, and you feel the lack keenly in the risk your soldiers have to take. Every time one sweeps too near a mouth, your hearts feel as though they might stop - but no one dies. Not yet, at least. Still, with their lower numbers, they are less effective than you would have hoped.<br><br>
+
+    <<elseif _wantedCount < $defenseBuildings.outpost.amount && _wantedCount > 0 && $defenseBuildings.outpost.amount > 0>>
+            /* Unarmed less than max outpost */
+         In the distance you can see your scouts; you don't have as many outposts as you would have liked, but your soldiers are behaving admirably... as many of them that can, that is. Even with your less than ideal amount of outposts, you didn't have enough soldiers to fill even that much. Those you do have are doing their best, but it is obvious that harrying the hydra with so few is terrifyingly dangerous work. If the hydra doesn't kill them, perhaps exhaustion will.<br><br>
+
+    <<elseif _wantedCount == 0 && $defenseBuildings.outpost.amount > 0>>
+            /* Unarmed outposts */
+        In the distance, you can see your outpost<<if $defenseBuildings.outpost.amount > 1>>s... but they are<<else>>... but it is<</if>> empty, and the hydra storms past as though they are nothing. You swallow, turning your attention from the missed opportunity.<br><br>
+    
+    <<else>>
+            /* No outposts */
+        The hydra storms through the forest utterly unopposed; you recall thinking you should build outposts, but seeing its relentless pace makes you reconsider. Whatever scouts you placed would have been doubtlessly killed... though the time they would have bought might have helped.<br><br>
+
+    <</if>>
+    <<run console.log("outpost = " + _outpostTotal)>> /* console logging numerical value of outposts */
+
+    <<if $defenseBuildings.moat.amount >= $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == true>>
+        /* Fully constructed moat + Kelpies */
+        <<set _foodGain += random(1, 10)>>
+        Though you've grown used to its bubbling waters, seeing your moat so agitated with the hydra's march is discomforting. You aren't sure how much it'll help against such a monumental beast, but in the shadows of it you swear you see scales flashing. Perhaps it will be enough. When the hydra inevitably ducks into the water, it flinches.. in more surprise than pain, you're sure. Buried staves sink into its body and limbs, and – drawn by the coming blood – your lake-beasts stir the water into a frothing pinkish frenzy. By the time the hydra manages to pull its chest free of the moat, scales and flesh have been torn from its body in hungry gouges. You're sure there are dead in those waters, but they did not go on empty bellies.<br><br>
+    
+    <<elseif $defenseBuildings.moat.amount >= $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == false>>
+        /* Fully constructed moat, no kelpies */
+        Your moat, normally so placid, has grown waves from the hydra's approaching weight. You aren't particularly hopeful for its effectiveness, but it will at least slow the beast down for a moment. The hydra steps into the moat—and recoils in what you're sure is more shock than pain. A broken scale falls off its forelimb, shattered by the hydra's own weight driving it into hidden staves. Still, the beast persists; though the staves are full trees and sharpened rocks, did the hydra not rend a forest to reach your home? Surely these must feel the same... yet when it clambers from the moat, you can see soaking logs fall from its bleeding body.<br><br>
+    
+    <<elseif $defenseBuildings.moat.amount == 2>>
+        /* Mostly constructed moat. */
+        The ditch you've had dug is wide enough to force the beast through instead of over, but still you worry. It tore through a forest, shattering boulders and trees alike; this is no different. Though the hydra hesitates for a moment at the trough, it pushes on... and despite its bulk, uses its serpentine body to attempt to maneuver through the staves. Many inevitably sink into its massive body, but not so many as you could have hoped for. But there's no time for further concern; its march continues, undaunted.<br><br>
+
+    <<elseif $defenseBuildings.moat.amount == 1>>
+        /* Kind of constructed moat. */
+        The moat you've dug is little more than a grand ditch — and one that has nothing more than slightly smoothed sides. The hydra storms through it, the force of its passing carving a rugged path against the sides. Though it has to claw its weight up from the center, this takes all of a momenet. You've hardly bought three heartbeats with this effort—you can only hope your other defenses will be enough...<br><br>
+
+    <<else>>
+        /* No moat. */
+        The hydra tears through the clearing leading to your home, snapping and hissing with anticipation. You had plans for this clearing, but perhaps your other defenses will be enough...<br><br>
+
+    <</if>>
+
+    <<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
+        /* Full palisade. */
+        The wood and stone wall beneath you shudders, but holds. Though useless against flying creatures such as yourself, the walls are near your own height and make for a vicious, bristling display outlining the perimeter of your home. The hydra, infuriated to near suicidal action, rushes forward regardless. Your palisade breaks on impact—but the logs sink into its bulk, ground in by the hydra's own momentum and the stone reinforcements pushing back.<br><br>
+    <<elseif $defenseBuildings.palisade.amount  >= 5>>
+        /* Over half palisade. */
+        Your palisade is mostly constructed, with enough space for any smaller beast to make their way in... but the hydra is not small. Though it swerves for the gap between the staves, its body is simply too huge to pass through unscathed. Heedless, the monster continues forward, only one head bothering to pull out a full-length stave from its side.<br><br>
+    <<elseif $defenseBuildings.palisade.amount > 0>>
+        /* Less half palisade. */
+        What passes for the beginning of a palisade does nothing to deter the hydra. The beast hurries on, teeth snapping with unbridled excitement to be so near your home... and its egg. You fly upward as the hydra surges forth, dread settling like a stone in your belly. Only through sheer careless violence does the hydra manage to impale its limb on a stave.<br><br>
+    <<else>>
+        /* No palisade. */
+        The hydra charges for your home, mouths open and eyes locked onto the cavern where your colony hides. You had the chance to build at least a token wall; you feel near ill with regret, but it is already decided.<br><br>
+    <</if>>
+
+    <<if $defenseBuildings.rockfall.loaded >= $defenseBuildings.rockfall.max>>
+        /* You have all rockfalls, and they're ready to use. */
+        <<set $defenseBuildings.rockfall.empty += $defenseBuildings.rockfall.loaded>>
+        <<set $defenseBuildings.rockfall.loaded = 0>>
+        As the hydra tears through the clearing, heads low and fixated on the cavern, you send up a burst of flame. The volunteers on the rockfalls roar—wood snaps, stones groan. A landslide crashes down upon the beast, boulders shattering scale and bone with each earth-shaking landing. The hydra shrieks in sudden agony; one of the heads is impaled by a shard of rock, the others battered and buried mercilessly by your final defense. The reek of its blood reaches you even at your altitude, now. With another fiery roar, you fold your wings and dive towards the monster, flames trailing your maw.<br><br>
+
+    <<elseif $defenseBuildings.rockfall.loaded > 0 && $defenseBuildings.rockfall.empty > 0>>
+        /* You have some rockfalls ready to use. */
+        <<set $defenseBuildings.rockfall.empty += $defenseBuildings.rockfall.loaded>>
+        <<set $defenseBuildings.rockfall.loaded = 0>>
+        The hydra charges forward, heads low and fixated on your storage cavern; you nearly forget to signal, almost choking on your own fire in your haste to spark one. A roar answers you from atop the cliff; your rockfall<<if $defenseBuildings.rockfall.loaded > 1>>s<</if>> creak. Wood snaps, and boulders tumbling down the cliff to shatter on the hydra. Its heads crash to the ground, partially buried by the near-landslide. You close your wings, teeth bared and throat filling with flame as you dive toward the beast.<br><br>
+
+    <<elseif $defenseBuildings.rockfall.loaded == 0 && $defenseBuildings.rockfall.empty > 0>>
+        /* You have rockfalls, but none loaded. */
+        As the hydra's final rush brings it upon your colony, you toss your head back and spew fire into the air... only to be met with silence. You whirl; to your horror, your rockfalls are empty and useless. The sheer idiocy of this fact—that you <em>forgot</em> to load your last and most important defense—fills you with almost as much humiliation as terror. The hydra bears down on the crevice, tearing through the cliff face with ease. You fold your wings and dive towards the beast, teeth bared and claws ready.<br><br>
+
+    <<else>>
+        /* No rockfalls. */
+        Sparks shoot between your teeth, but you don't signal. There's no point; you had plans for a final defense, but they were never brought to fruition. You can only watch numbly as the hydra begins to carve through the cliff face. It is not with hope that you dive toward the monster. Only grim certainty.<br><br>
+
+    <</if>>
+
+    <<if _wantedCount >= $defenseBuildings.outpost.amount>>
+        /* More soldiers than outposts.
+           _soldierExtra just used to determine how many spare you have. */
+        <<set _soldierExtra = (_wantedCount - $defenseBuildings.outpost.amount)>>
+        <<if _soldierExtra > 1>>
+            Your soldiers—ready and waiting for your charge—follow your dive with a wordless battlecry. The hydra struggles to adapt; its heads can't decide what to focus on, and get in each others' way as often as yours or your guards. Your teeth sink into any openings you find; you scrape and tear at scales to open more. The air fills with the stink of burning meat as your cohort cooks the hydra through its own defenses.<br><br>
+        <<else>>
+            Your lone soldier stays by your side. They dive with you, a roar just as vicious as your own tearing from their throat. With only two, distracting the hydra is a thankless job—but you manage. You must. You rip open wounds with hateful strength; you rip off chunks of flesh and sear its flesh with bursts of fire and you do not stay in one place. You hear the hydra shriek—a whistle of rancid air reverbrating in the air as your sole support sinks its teeth into an eye.<br><br>
+        <</if>><br><br>
+
+    <<elseif _wantedCount <= $defenseBuildings.outpost.amount && _wantedCount > 0>>
+        /* Only enough soldiers for outposts. */
+        You are alone as you dive, your battlecry the only in the air. Your soldiers are too busy recovering from their original harrying of the beast in the wood, and you will not risk them for mere scrapes on the monster's skin. You swoop between snapping teeth, racing for open wounds to shred them further with bared claws and sharpened fangs. One head is too slow, another misjudges its aim and swings in front of you—you crash into its eye and tear it out as you leap away, blowing fire into the freshly emptied socket.<br><br>
+
+    <<else>>
+        /* No soldiers. */
+        <<if $player.health > 4>>
+            There is no one to join you in your dive, no other battlecry to rise with yours. You are alone, and you will do your work. You land on one head, your claws sinking into its eye before you pull away, ripping out the torn organ on your way. The hydra shrieks—a victory for you, as it whirls to attack you and <em>only</em> you. You can't hesitate: you strike at open wounds and broken scales, cooking it where you cannot make it bleed.<br><br>
+        <<else>>
+            Your warcry is hoarse and weak. <em>You</em> are weak, but still you dive. Your claws skim the monster's open wounds; your flame is little more than a stream of sparks, but you are fighting. The stench of cooking flesh burns in your nostrils as you sear one of its eyes into melting from its socket—because if nothing else, you can buy time.<br><br>
+        <</if>>
+
+    <</if>>
+
+    [[For all this...|HydraRaidResults]]
+
+<</nobr>>
+
+:: HydraRaidResults
+<<nobr>>
+    <<set $currentEvent = "none">>
+    <<unset $hydraTime>>
+
+    <<if $defenseTotal <= 10>>
+        You have lost.<br>
+        The hydra ultimately knocks you away, having lost - at most - an eye to your efforts. You crash into the dirt and dust, hardly feeling the second impact; your vision is already spotting from being swatted like a songbird from the air. You can hardly breathe.<br>
+        You didn't do enough. Even as you realize your broken bones have split your skin, you know that. You did not prepare. You did not treat the hydra as a true threat and this is your deserved fate. You can't even watch as the monster tears through your colony, making a ruin of your home. It's all hidden by the beast's own bulk. But you hear; you hear your colony screaming, you hear your thunder fighting for their lives against a monster that <em>you</em> failed, totally and utterly, to defend them from.<br>
+        Were you ever even worthy as a leader, if this was all you mustered?<br><br>
+        
+        It doesn't matter now.<br><br>
+        
+        [[The world goes dark, and you die.|OOC Chat]]
+
+
+    <<elseif $defenseTotal <= 30>>
+        /* You failed. */
+        You have lost.<br>
+        The hydra swats you from the air; you hear a crunch more than you feel it, but you know even before your body reaches the ground that you will not be rising again. Breath rushes from your lungs as you crash into the dirt, but you don't feel that. You gasp for more; your throat fills with the scent of blood and smoke and dirt. You lay there, helpless, as the hydra tears apart your home. Your thunder is to become a ruin; the remains of your arrogance, to have stolen an egg you should never have seen.<br>
+        Yet the beast bleeds. You try to take comfort in that, as the untrained members of your thunder turn on the hydra with fury and fire. You have bled it for your greed, and though <em>you</em> are dying—so too will it. Your colony is ruthless with desperation and grief, and the last thing you see as the world begins to fade is your dragons—<em>yours!</em>—fighting in a stormcloud, with fire like lightning and roars loud as thunder.<br><br>
+
+        You did what you could; perhaps another will rule in your place, at the end of it all. A comforting thought.<br><br>
+        
+        [[Then the world goes dark, and you die.|OOC Chat]]
+
+    <<elseif $defenseTotal < 50>>
+        /* Damage and casualties. Collect your rewards. */
+        <<set $player.health-->>
+        <<set _foodGain += random(100,150)>>
+        <<set _dead = $dragons.randomMany(random(4,9))>>
+        You have won.<br>
+        The fight is long and difficult; you are not as hurt as you by rights <em>should</em> be, but the hydra was uncoordinated and hurt by the time you personally attacked it. The beast isn't dying for your efforts—it's dying for combined bloodloss, and you can only be grateful as it begins to sway, its struggles turning to clumsy flailing, to weak snapping, and, eventually, to writhing in the dust.<br>
+        Your home is a mess, your colony bloodied and battered—but here. Alive. You have <em>won!</em><br>
+        Your legs promptly give out on you. Dragons begin to creep, tentatively at first, then more quickly, towards the corpse. Invesitagative, curious, then - ultimately - victorious. Cheers and howls and bursts of celebratory flame erupt around you, your colony an explosion of noise and unbridled joy. It filters around your exhausted ears, until you're able to lift your head and voice to join the gleeful cacophony.<br>
+        Someone—<<print $dragons[random(0, ($dragons.length - 1))].name>>, you think—shoves a chunk of hydra meat into your open mouth with reckless joy. Your mouth is already rank with its blood, but somehow, the meat tastes sweet still as you swallow. By the time you manage to rise again, your colony has descended on the massive corpse like a ravenous wake of vultures. Some are tearing off skin, others are pulling away scales—many are rending flesh from bone, and you spot one nearly chest-deep in the monster...<br>
+        Though you see some that are unmoving. Even with the damage done, you recognize them.<br>
+        <<for _i to 0; _i < _dead.length; _i++>>
+            <<run $dead.push(   {
+                name: _dead[_i].name,
+                cause: "hydra raid"
+                })>>
+            <<print _dead[_i].name>>. 
+        <</for>><br>
+        <<print _dead.length>> dead. Better than you could have dared to hope, for so dangerous a seige. More than you had wanted, gone because of your arrogance - stealing an egg you never should have seen.<br>
+        You will bury them, soon.<br>
+        Today, you celebrate. You push yourself to your feet and are swarmed by your dragons, each and every one determined to praise you for leading the colony to victory—determined to lavish you in attention and food and as many beautiful scales as they can fit! Those that don't—the bare glimpses you catch of them—are dismantling the hydra's corpse, breaking away bones with hearty abandon.<br>
+        <<link "The celebration lasts well into the night." "OOC Chat">>
+            <<set $days += 1>>
+		    <<if $days == 30>>
+                <<set $cycles += 1>>
+                <<set $days = 0>>
+            <</if>>
+            <<set $food += _foodGain>>
+            <<set $hydraBeat = true>>
+            <<run $treasures.push("Hydra Scales", "Hydra Bones", "Hydra Skulls")>>
+        <</link>>
+
+    <<elseif $defenseTotal >= 50>>
+        /* Minimal damage, no casualties! Collect your rewards! */
+        <<set _foodGain += random(250,300)>>
+        You won. You <em>won!</em><br>
+        You descend upon the hydra, but the battle—if you can call it that—is a short affair. The hydra is already nearly beaten from your prior defenses; this last assault is just taking a matter of time to a matter of mere heartbeats. The extra effort it exerts attempting to fend off the attack is too much. The hydra collapses, spluttering weakly until it, eventually, goes still.<br>
+        You wait. You wait for a second wind. You wait for the beast to rise, fury incarnate. You wait for it to devour you whole or crush you to dust.<br>
+        It doesn't.<br>
+        It can't.<br>
+        You stare stupidly at the corpse, unable to believe your eyes. Even as your thunder begins to emerge from the cavern, you are still in shock—until the first roar goes up. You startle, snapped out of your disbelieving stupor as your colony begins to cheer; some take to the skies, unable to contain their jubilation—others tackle each other, the hydra; still more simply roar, gouts of fire exploding from their throats in sheer elation. It takes all of a moment for the colony to descend upon yourself and the soldiers, near crushing in their joy. In this moment it doesn't matter how many you are or aren't—the press of body grounds you to the here and now, the dead hydra, your first true challenge overcome with such overwhelming success! You lift your voice, as much shrieking as roaring with your elation, leading another chorus of victorious cries.<br>
+        Dragons break away from the mob to instead tear apart the monster's body. They rend scale from skin from meat from bone with elated, spiteful efficiency; determined to make a meal, a <em>treasure</em> of what they were only recently cowering from. Between the twisting mass of joy you try to count your dragons—you spy most, of course, but it doesn't truly strike you that you are victorious until you realize... there are no deaths. Oh, your home is a mess, and there is a track carved through your lands<<if $defenseBuildings.moat.creatures = true>>—you're sure there are some dead lake-creatures to pull from the waters<</if>>... But none of your colony are dead.<br>
+        You can't stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you've done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the <em>world</em> for your victory! You take to the air and plummet onto the hydra's corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren't already here, and the corpse becomes a buffet and mockery both!<br><br>
+
+        <<link "The celebration lasts the entire night, and well into the morning." "HydraHeart">>
+            <<run $trophies.push("Hydra Bones", "Hydra Scales", "Hydra Skulls")>>
+            <<set $food += _foodGain>>
+            <<set $hydraBeat = true>>
+            <<if $days == 30>>
+                <<set $cycles += 1>>
+                <<set $days = 0>>
+            <</if>>
+            <<set $player.action = 3>>
+            <<set $hydraBeat = true>>
+        <</link>>
+    
+    <</if>>
 
 <</nobr>>

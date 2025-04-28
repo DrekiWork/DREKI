@@ -1,0 +1,570 @@
+:: HydraDen
+<<nobr>>
+    <<set $player.action -= 1>>
+    <<set $hasVisited.hydraDen = true>>
+    
+        /* If you haven't beaten the hydra, this is a good way to trigger the event. */
+        /* This is mostly in place to allow players a chance to steal the egg again without total RNG reliance. */
+    <<if $hydraBeat == true>>
+        <<switch visited()>>
+                /* Visit cases will also exist for 2-4, 5-11, and 12-15. I just haven't written them yet. */
+
+            <<default>>
+                    /* Any visit after the fifteenth; grants food and stone by default. */
+                
+                <<set _foodCollect = random(1,7)>>
+                <<set $food += _foodCollect>>
+                <<set _stoneCollect = random(3,14)>>
+                <<set $stone += _stoneCollect>>
+                
+                The hydra's cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
+
+                You don't care to linger for long. There isn't much of value, really; you take your <span class="food"><<print _foodCollect>> scraps</span> and <span class="stone"><<print _stoneCollect>> stones</span> and [[go home.|Sandbox Central]]
+
+            <<case 1>>
+                    /* First visit. Making sure the hydra didn't leave any other surprises for you. */
+                    /* Purely fluff, of course. */
+                
+                Your flight to the Hydra's nest – or what <em>was</em> its nest, you suppose – is fraught with nerves. The wind seems to fight your wings, as though urging you back. Your hearts begin to pound; a familiar tremble rises along your spinal crests as the waterfall emerges in your view. It's changed since you last saw it. The basin and the river it flows into have been gouged, presumably by the Hydra's exit. The trees that once shrouded the pool have been torn apart; crushed or pushed aside with what seems to be minimal effort. Though the beast is dead and there is no more of a threat, you cannot bring yourself to land.<br>
+
+                Even from this distance, the path it carved seems monumental in comparison to yourself. Your best guess is that the width of its track must be equal to your full wingspan. Perhaps slightly larger – and its weight heavy enough to let the basin's water flow down a new bed. Not far, admittedly; the ground slopes gently to a hill, where the water has begun to pool at its base.<br>
+
+                You investigate the forming lake; it will not last. Though you are able to snap up an immature fish, you can see the sediment piling already. It will form another river in time, or perhaps close itself off entirely.<br>
+
+                ... You are, of course, stalling.<br>
+
+                The air stinks of meat, rotting or beginning to, as you swoop down by the cave entrance. It fills the air and sits heavily in your lungs. You're sure that if you so much as tapped your teeth together – or if your claws were to scrape over flint – the fetid fumes would doubtlessly erupt. Admittedly, that had been true before, but now? Perhaps that little spark would collapse the den entirely, and spare you from looking for any more of its brood. You still have its egg, after all; you must know if there are more, for the safety of your colony.<br>
+
+                This knowledge does not make your entry any less nerve-wracking. The cave walls are scarred by the hydra's passing; its belly has ground some smaller pebbles into shards that clatter away from your claws. The drop, when you reach it, is no more: the edge has been shattered, crumbled by the beast's bulk as it left. You don't risk trying to maneuver the slope regardless. Your wings carry you into the den proper, over jagged rocks and cracked stone. Were you not here for a purpose, you might be tempted to haul some back to the colony.<br>
+
+                You do not want to be here, still. The further into the den you go, the more raw your nerves. The mound of corpses has collapsed— no, not collapsed. You allow yourself to sink lower than what stalactites still cling to the ceiling. If the heap had previously been a rotting thing of gluttony and greed, the messs that greets you now is no less than an image of the massive serpent's wrath. There is no floor to the cavern, not anymore. There is no stone to be seen, no rock nor dirt: there is only bodies. Tossed with abandon to the far edges of the cavern, crushed under the hydra, bones and blood and fermenting flesh cover the ground more thoroughly than shrubs over fertile soil. You cannot tell one corpse from the next; the bodies blend into each other, bones broken into flesh not their own, meat ground together and blood dried and rancid pooling into a horrific new landscape.<br>
+
+                There is simply too much. You don't even feel horrified; you <em>can't</em>. Numbness like frost settles over you, hiding away whatever response you ought to be having and softening them to distant things. No more than old memories, blurred and vague. How could there be so much death in one location, truly? How could there still be life flourishing above when it seemed all you had ever met, seen, or hunted was festering on the ground, scattered in an eruption of rage? Once there stood a hill made purely of death, but now you must tread in it. The solidity of ground, when you sink enough into the meat to reach it, seems wholly incongruous. You are not precisely wading – but the topmost edge of your curved claws only barely clears the shallower carnage. Strange. It feels like you should sink in more, like you did the mound; sink into the meat and flesh until it wormed under your scales and melded with your flesh. It seemed, perhaps, the innumerable and indistinguishable bodies should pull you to pieces and let yours join and fester.<br>
+
+                You don't have much warning. One moment, you have landed in the massacre. The next, you are heaving into it, your stomach unable to bear the combination of the stench, the wet meat squelching against you, the feel of its rotting juices sluicing between your scales— You heave again, retching nothing but bile. Only when your gut is well and truly empty are you able to move forward. You avoid the deeper patches. Already, you can guess that there is nothing. What could have survived such a violent display? An egg or a hatchling would only have been crushed by it – left to rot just as surely as the rest of these bodies. Yet you must look.<br>
+
+                Unlike before, you feel no temptation to the meat. If there is any that is not yet foul, it isn't worth finding – and should you do so, it would be too contaminated regardless. Inedible. Even moving through it, your body arching and wings mantled away from the gore, you feel... unclean. More than your claws. More than the sickness that must be brewing in the untended remains of the hydra's horde. It waxes and wanes as you sift through the gore, curdling with particularly vile carcasses and easing as you work through what might be generously described as old carrion. Perhaps even scavengers would deem parts of the massacre fit for consumption, if they were desperate enough. You suspect they're still driven away by the lingering scent of the hydra.<br>
+
+                By the time you have cleared enough of the cavern to be satisfied – or perhaps desperate enough to leave that you are willing to sacrifice thoroughness for speed – you can no longer smell the rancid air. It coats your throat and lungs still; you can feel the slime of rot lingering, but you cannot smell it anymore. Your claws are wholly miscolored by your searching, and your body aches from the unnatural posture you've adopted to put as much space between yourself and the carnage. You don't care. There are no eggs, gleaming in the mess. There are no hatchling hydras writhing through the bodies as though it were only muck. You do not need to stay. You will not stay. You <em>cannot</em> stay, not today. Not this time. Fire burns down your wings as you flap them, forcing yourself airborne. You maneuver through the cave with ease, racing out the tunnel as though the hydra itself was following you out. Cold water splashes atop you, forcing you down— you follow eagerly, dropping into the basin.<br>
+
+                You swim for as long as you can, taking the opportunity to polish yourself with the sand at the bottom. You scrape and rub and half-bury yourself, desperate to clean away the disgusting sensation clinging to you. You surface once, then twice, and finally a third time. Some of your scales have been scoured off; they will regrow, thankfully, but you do not feel wholly yourself.<br>
+
+                ... It does not matter. You've done what you needed to. As clean as you can feel, [[you take to the skies for home.|Sandbox Central]]
+
+        <</switch>>
+
+    <<else>>
+            /* Sends the player to the hydra food event, because they clearly still need to take the egg. */
+        <<goto "HydraFoodEvent">>
+
+    <</if>>
+
+<</nobr>>
+
+
+:: KelpieLake
+<<nobr>>
+    <<set $player.action -= 1>>
+    <<set $hasVisited.kelpieLake = true>>
+
+    As the lake comes into sight, you feel a preemptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
+
+    It's a pretty enough location, you can admit; half the lake is bordered by old trees and plentiful shrubbery; the rest opens to a glade, where the air is heady with pollen and little insects. If you pretend the scales occasionally flashing in the light belong to fish rather than voracious beasts, you would be tempted to set up a second home here. Alas.
+    <br><br>
+
+    <div id="decision">
+        ... Why did you come here again?<br>
+        <<link "Gather water.">>
+            <<replace "#decision">>
+                <<set _collect = random(12,19)>>
+                <<set $water += _collect>>
+                <hr><br>
+                You sigh and march to the water's edge. The bare edge of a fin flicks in the light; almost pretty, really. A shame they're so vicious. As you take to the air over the lake, no less than seven of the creatures lunge for your shadow. You spit fire at them, driving them back as quickly as they appeared, and take the opportunity to gather as much water into your throat pouch as you can—over and over, until you're as full as you care to be, with these beasts after your neck.<br><br>
+                The <span class="water"><<print _collect>> water</span> you got is, at least, [[a nice reward for your efforts.|Sandbox Central]]
+            <</replace>>
+        <</link>><br>
+        <<link "Gather food.">>
+            <<replace "#decision">>
+                <<set _collect = random(7,12)>>
+                <<set $food += _collect>>
+                <hr><br>
+                You take to the air, not bothering to get to the water's edge first; the beasts are on your shadow in an instant regardless, practically frothing the water with their own hunger. How they aren't hurting each other is beyond you, with the way their writhing bodies twist and tangle into one indistinct mass. It makes things easier for you, at least. When one lunges, too impatient to wait any longer, your jaws close around its skull. The crunch is almost more satisfying than its sudden limpness. The lake-creatures pile after the blood that drips down as though they are starved—and maybe they are—as you carry the corpse to shore.<br><br>
+                You only do this once more before a close call has you deciding to leave, carrying your two prizes - worth <span class="food"><<print _collect>> food</span> by your estimation - [[back home.|Sandbox Central]]
+
+            <</replace>>
+        <</link>><br>
+        <<link "Just to be here.">>
+            <<replace "#decision">>
+                <<set _scene = random(0,2)>>
+                <hr><br>
+                <<switch _scene>>
+                    <<case 0>>
+                        You settle on the shoreline, watching the lake. The beasts only occasionally show themselves; the peek of a head above water, a shimmer of scales or fins. It's a warm day today, pleasantly so—and though you love your thunder, having this time to yourself is... nice. Very nice, indeed. You close your eyes as you stretch out every limb you have; your legs, your wings, your tail... The warmth permeats you. You hardly notice that you're drifting to sleep until you wake up some time later, slightly groggy.<br><br>
+
+                        With a wonderful nap added to your day, you stand up and stretch. It takes only a little while before you [[leave for home.|Sandbox Central]]
+                    <<case 1>>
+                        You wander to the waterline, hyperaware of the beasts just beneath the surface. The water is far too shallow for them to come close, but your wariness is, you think, justified. You sit down, enjoying the way you're cooled from below as Sun warms your scales... you even spread your wings, letting yourself soak up more light. Though you don't <em>quite</em> close your eyes, you do let them drift half-way shut. You're still alert! Just... relaxed.<br><br>
+
+                        You don't know how long you sit like that until you realize you're being watched. It's one eye at first; a lone beast poking its head from the water to observe you. Then another. Then five. Thirteen. They dip and reappear, and it takes an embarrasssingly long time for you to realize that they're trading places; observing you as you are now observing them. How... disquieting. They plainly aren't of <em>your</em> intelligence, or even that of the folk, but there seems to be something going on in their skulls. You wonder, suddenly, if they recognize you.<br><br>
+
+                        The thought is upsetting enough that you choose not to linger any longer. And the staring. You take off while the beasts watch, [[heading home.|Sandbox Central]]
+                    <<case 2>>
+                        It doesn't take long for you to grow bored—and with your boredom comes... ideas. You snap idly at the larger bugs venturing stupidly near you; nothing you can even taste to something of your size, but it's entertainment. At least until you spot a lake-beast poking its eyes from the water to observe you. You snap at another bug—and have a brilliant idea. You don't swallow this one, instead taking to the air. The beast watches, unmoving and unblinking, as you glide over the lake; strangely, none of the other creatures follow your shadow like you're used to. But that's fine. You only need the one.<br><br>
+
+                        So bored are you, that you drop your bug directly onto the beast. It recoils instantly, snapping at the surface - only to realize a moment later that you've dropped food. Sure, not a lot; even for a beast a bit over a quarter your size, a bug is a bug. But the lake-creature eats it anyway. It follows you as you go back to shore for another insect, and snaps that up too.<br><br>
+
+                        You don't really know how long you spend with your silly game, but the beasts don't lunge at <em>you</em> when you sweep too close to the water; they wait, barely, for your insect payloads. You aren't sure what this means, but it occurs that you might be able to make use of this... somehow. [[You think about it on your way home.|Sandbox Central]]
+                <</switch>>
+            <</replace>>
+        <</link>><br>
+        <<if $defenseBuildings.moat.amount == 3 && $defenseBuildings.moat.creatures == false>>
+            <<link "Your moat.">>
+                <<replace "#decision">>
+                    <hr><br>
+                    <<countWorkers "builder">>
+                    <<if $dragons.length > 10 && _wantedCount > 0>>
+                        <<set $player.action -=1>>
+                        <<set $defenseBuildings.moat.creatures = true>>
+                        <<set _meat = random(17,30)>>
+                        <<set _water = random(17,30)>>
+                        <<set $food += _meat>>
+                        <<set $water += _water>>
+                        <<if $food > $foodCap>>
+                            <<set $food = $foodCap>>
+                        <</if>>
+                        <<if $water > $waterCap>>
+                            <<set $water = $waterCap>>
+                        <</if>>
+                        <<updateBar>>
+                        <<set $dragonsHelpedMoveBeasts = true>>
+                        <hr><br>
+                        You ponder the lake, and the beasts within. They're a nuisance, certainly. Vicious things with insatiable hunger and a near-suicidal drive. You're sure they've hunted all the fish in the lake to extinction, and they plainly are only surviving off whatever visitors are stupid enough to approach. You're not sure how their population is so out of control - occasional cannibalism, maybe? - but their ferocity has caught your attention... and more importantly, that of your builders. And you think they just might be onto something.
+                        <br><br>
+                        No time like the present. You take to the skies, determined to gather up any and all available workers. You're sure they have better things to be doing; arguably <em>you</em> have more important work than indulging in this sort of fanciful thinking. But what's the point of being a <<print $player.title>> if not to occasionally indulge in your and your colony's odder ideas? When you've found <<print random(10,$dragons.length)>> dragons - most importantly among them a builder - you return to the lake. The beasts remain strangely still as you fly overhead. If you thought they were capable of such an emotion, you might think them scared.
+                        <br><br>
+                        Then one of the lake-creatures launches from the water, snapping and writhing in the air, and the rest follow, turning the lake into a frothing mash of teeth and scale. Your gathered colonists are understandably concerned about the eruption of violence - several of them have stumbled into the lake before, and you've issued warnings about the little monsters, but there is nothing quite like seeing a frenzy. You, personally, haven't actually seen the beasts get quite this worked up either... So you turn to your builder for their input, and are met with them watching the water intently.
+                        <br><br>
+                        Alright then.
+                        <br><br>
+                        You allow your builder the time they need to think. In the meanwhile, you turn to the rest of your colonists and order them to keep harrassing the lake-beasts. The more exhausted they are, the easier this will ultimately be. You start, of course. This is hardly your first time bothering the menaces, and there's a certain thrill to having their jaws snap shut mere scales from you. You dip and dive and whirl, even daring to swat a particularly close creature with your claws. Your colonists follow one by one, and the lake seems to more-so <em>boil</em> as the lake-beasts are worked into even more of a frenzy than they already were.
+                        <br><br>
+                        When this inevitably turns exhausting, and the sun has noticeably moved, you land on the shore. Your builder is still observing, but they hurry over to you with the same gleam they had when they wanted lake-beasts for your moat in the first place.
+                        <br><br>
+                        "Snatch one from the air," your builder says. You stare. Surely there's more to this? You did not play fool with these beasts for a patrol's worth of time to be told to <em>pick them up.</em> Your builder presses their wings closer, shuffling uncomfortably. Good. "No, no, I was... several are only barely clearing the water anymore. I was thinking about a way to - to hold them safely for travel. As long as their jaws are closed, they can't hurt you. No claws, no spines... All they have are teeth. But I need one of them to make sure."
+                        <br><br>
+                        Teeth that can break through scales. Your scathing intent must be obvious, because your builder hurries on without letting you speak. "Here, I'll show you! Please watch, <<print $player.title>>."
+                        <br><br>
+                        Their use of your title will not spare them punishment for interrupting you, but you do watch. Your builder flies low, easily baiting one of the creatures into lunging. They snatch it out of the air, pressing its head to their chest with one paw and holding the bulk of its body with the other. The beast writhes, but does in fact struggle to do much of anything - though you're sure its flailing tail is irritating. Your builder returns to you, clutching their catch tightly. They, understandably, do not land.
+                        <br><br>
+                        "You see! Though - I think we'll have to move quickly to put them in water again..."
+                        <br><br>
+                        Reasonable enough, though you don't like it. You dismiss your colonist with a flick of your wing and take off to tell the rest of the group the plan. They know better than to complain, at least. Thus begins the long process of hauling very upset beasts to your moat. Your first one suffocates, as do the next several — until one of your dragons comes up with the idea of carrying water in their throat-pouch to hydrate the beasts. You're not entirely certain how it works, but it does, and stocking the moat goes much quicker after that. By the time you've enough beasts that your builder is happy, yet another patrol's worth of time has passed, and your wings are sore. Your colonists are in much the same state.
+                        <br><br>
+                        Oh well. Even ignoring your now very dangerous moat, you've also gotten <span class="food"><<print _meat>> meat</span> from the dead beasts, and <span class="water"><<print _water>> water</span> leftover from hydrating the things. [[How nice.|Sandbox Central]]
+                    <<else>>
+                        ... Well you'd <em>like</em> to work on your moat, but you're not sure you have enough dragons to do so. <<if _wantedCount < 1>> Or builders. You'd like a professional opinion on how best to transport the things, and surely a builder would be able to figure that out?<</if>>
+                        <<if $player.action >= 4>>
+                            <br><br>
+                            Though, you do have a full day ahead of you... it would be horribly tedious, but you <em>could</em> probably pull enough of the little beasts to get a breeding population at least; going by the sheer number of them, they don't take much to populate an area. And if any die - that's food! It will just take your entire day to do so.
+                            <br><br>
+                            <div id ="decision2">
+                            <<link "Do it.">>
+                                <<replace "#decision2">>
+                                    <<set $dragonsHelpedMoveBeasts = false>>
+                                    <<set $player.action = 0>>
+                                    <<set _water = random(2,5)>>
+                                    <<set $water += _water>>
+                                    <<if $water > $waterCap>>
+                                        <<set $water = $waterCap>>
+                                    <</if>>
+                                    <<set _meat = random(20,50)>>
+                                    <<set $food += _meat>>
+                                    <<if $food > $foodCap>>
+                                        <<set $food = $foodCap>>
+                                    <</if>>
+                                    <<set $defenseBuildings.moat.creatures = true>>
+                                    <hr><br>
+                                    You probably weren't going to do anything in particular anyway.
+                                    <br><br>
+                                    Thus decided, you take to the air and enter a lazy glide over the lake. You don't bother with finesse or care; when one of the lake-creatures lunges, you snatch it in your claws like an errant hatchling. Also like an errant hatchling, it writhes furiously, hissing and snapping at you. You fiddle with its positioning a little until you find that, when held by its fins, upside-down, the beast goes limp. You're not sure if the position put it unconscious or if it's just some bizarre instinct, but it works. You take your first catch all the way home... only to find it dead on arrival. Its skin is cold and dry, which you suspect played into its death, though you're not sure how. You deposit it into your <span class="food">food stores</span> and try again.
+                                    <br><br>
+                                    And again.
+                                    <br><br>
+                                    ... and again.
+                                    <br><br>
+                                    Eventually, you realize they need water to breathe. And for some reason, their skin can't get <em>too</em> dry, but a little is fine. You're not sure why, but the former is cause enough for embarrassment. You're a dragon; the smartest creatures on the lands! How did you not realize they're like fish? You've a pile of dead animals at home by the time you figure it out, and even then, bringing the creatures back is far from easy. Spitting water on them is tricky to do mid-air, but you can't land every time you need to hydrate the things. Too often you would land too roughly and kill them, or drop them from too high to free your paws. No. And the constant landing and taking off is more exhausting than just flying, so it's really not an option. You're forced to figure out how to rotate mid-air so the water you spit onto them doesn't just fall to the ground, while doing so quickly enough that the creatures don't revitalize and make a lunge for your neck. That alone means killing a few in simple self-defense. But not <em>so</em> quickly that you don't have time to properly hydrate them—but also having to use just enough water that they'll live without wasting all of it and end up killing them anyway. It's all so incredibly <em>frustrating</em>! More than once you think about just giving up, and by the time you are able to consistantly carry lake-beasts to your moat, you have dropped a few out of pure spite for their unnecessarily aggressive behavior.
+                                    <br><br>
+                                    And because they're slippery, but that's beside the point. You can't just sink your claws into them - you tried! They die too easily! But you can just let them flop into your moat and they're - mostly - fine. Some ended up impaled on the pylons in the watere, and those that didn't cannibalized their injured fellows, but you have it figured out now.
+                                    <br><br>
+                                    By the time Moon is raising Her weary eye to observe your lands, you've gotten a breeding population (you hope) in your moat. At the very least you've successfully transported somewhere in the range of <<print random(12,20)>>, and you're sick of it. And tired. And altogether cranky. You deposit the remaining <span class="water"><<print _water>> water</span> from your throat pouch and get to butchering the creatures you failed to transport. Altogether, you end up with <span class="food"><<print _meat>> meat</span> from the dead, and a headache. You're not sure if it was worth it, but you're not sure it wasn't either. You're just... tired. You're going to sleep. [[You can think about it tomorrow.|Rest]]
+                                <</replace>>
+                            <</link>><br>
+                            <<link "Not worth it.">>
+                                <<replace "#decision2">>
+                                    <hr><br>
+                                    You can't. Actually, you <em>could</em>—but it wouldn't be worth your time. An entire day, just for some moat-monsters? You'd rather get more dragons and try again. You turn your back on the lake and [[head home.|Sandbox Central]]
+                                <</replace>>
+                            <</link>>
+                            </div>
+                        <<else>>
+                            <br><br>
+                            Perhaps <em>you</em> could try to haul the creatures... It would take your entire day, and absolutely be tedious beyond belief, but you <em>could</em> do it... if you had the time. You don't. Maybe if you arrived first thing in the day? Regardless, you turn your back on the lake and [[head home.|Sandbox Central]]
+                        <</if>>
+                    <</if>>
+                <</replace>>
+            <</link>><br>
+        <<elseif $defenseBuildings.moat.amount >= 1>>
+            <<linkappend "Your moat.">>
+                As you begin to think on taking the lake-creatures to your moat, it occurs that you haven't even put water in the thing. Maybe after you do that.
+            <</linkappend>><br>
+        <<else>>
+        <</if>>
+        <<if $dragons.length > 15>>
+            <<link "Get rid of the beasts.">>
+                <<replace "#decision">>
+                    <hr><br>
+                    <<if $defenseBuildings.moat.creatures == true>>
+                        <<set $kelpieExtinction = true>>
+                        <<set _meat = random(100, 150)>>
+                        <<set $food += _meat>>
+                        <<updateBar>>
+                        <hr><br>
+                        You watch the lake for a time longer, admiring the beasts' shimmering scales, and – perhaps – their acrobatics. It's not a difficult thing, to envy how freely they move in the water. It's like watching a hatchling find its wings. But you can glean no more use for the horrible things, and beauty is rarely enough of a redemption. You take to the skies, studying the lake's size. It's not large; too much for you to take on yourself, but with a small group... perhaps ten or so... you could manage it. You dip lower, examining your wingspan over the surface, blowing a rush of flame to see the water bubble.
+                        <br><br>
+                        This is certainly possible.
+                        <br><br>
+                        You swoop down for a drink before making your way back. Any dragons you encounter are promptly recruited to the lake, with orders to bring along anyone else they see. Nice as it is to have a busy colony, gathering them up is something of a chore... oh well. You suffer from your success. You swoop about a while longer, checking at home for any stragglers then breaking off to the lake. You're not sure how many you've personally summoned, but it was definitely less than the <<print random(11, ($dragons.length - 1))>> you find scattered about the lake. Most are basking in the glade, relishing a chance to soak up the sun without actually slacking off. Some are investigating the wood, plucking at the trees or shrubbery for goodies.
+                        <<if $dragonsHelpedMoveBeasts == true>>
+                            A few of your colonists are playing with the beasts, even; twirling over the water and teasing the hungry creatures with swats of their tails on heads. Having to move dozens of the things would grant anyone confidence, you suppose. And living with a moat of them.
+                        <<else>>
+                            A few of your colonists are teasing the beasts, even; daring to dart near the surface and tap the jumpers with gentle claws. Living near a moat of the things would embolden anyone eventually, you suppose.
+                        <</if>>
+                        <br><br>
+                        For a moment, you observe your colonists at rest. It's nice to see so many in one place, and relaxing at that. You're noticed eventually; one of the loungers spots your shadow, and from there it's a matter of time before they're all organized before you, ready and waiting for your command. You tell them that these beasts are a menace; a risk you won't have kept on your colony, out of your control. Though they are confined to their lake, the horrible things can easily rend an unaware dragon. With the sheer number of them, they could probably eat a colonist to the bone in a matter of hours. You won't have it.
+                        <br><br>
+                        Once, you swore to boil them alive. That time is come.
+                        <br><br>
+                        You organize your colonists into an aerial column, with yourself at the head. With a line of ten, they cover the length of the lake neatly. When you swoop down, fire roaring from your maw, they follow. And the lake boils. The creatures plainly have no idea how to handle the onslaught; they leap from the water, not to snap at your dragons but just to escape the heat. They swim furiously, piling into each other the closer to the shore they arrive. The slow are battered to death by their desperate peers, or knocked so stupid that they can only float as their scorching demise approaches. Some dive, you know, and perhaps they dive deeply enough to escape, but the majority flounder helplessly - struggling to stay ahead of the wall of flame or throwing themselves ashore in their desperation. Whatever dragons aren't part of your flyover methodically slaughter those foolish beasts. When you reach the end the lake, the creatures struggle onto land. Helplessly they writhe, confused and terrified and dying by the dozen.
+                        <br><br>
+                        You perform another sweep, boiling out more of the beasts. Dead bodies float along the surface of the lake, but you know there are more hiding below. You have your column pluck the bodies from the water and dive. You can hold your breath long enough for a hunt. And you do. Over and over, the water still warm on your scales, you chase the beasts down into the depths of <em>your</em> lake. You are joined in time by more of your colonists, and you don't stop until the lake is empty. Sunset casts the area in a bloody light, and you marvel at what you've created. A butcher's paradise.
+                        <br><br>
+                        The water is dark with ash and blood. The shore is lined with dead creatures. A feast, you declared, and a feast it shall be! You and yours get to transporting the dead, some of your colonists stealing snacks on the way or dropping chunks to feed what was once their brethren in your moat. You don't care at all - let them eat! There is so much more than you could dream of, and the lake is clear. By the time you are done, the day is over and all is well.
+                        <br><br>
+                        <<link "Vengeance is sweet.">>
+                            <<unset $dragonsHelpedMoveBeasts>>
+                            <<goto "Rest">>
+                        <</link>>
+
+                    <<elseif $defenseBuildings.moat.amount >= 2 && $defenseBuildings.moat.creatures == false>>
+                        Though you're eager to remove these nuisances once and for all, you stop. Your builders were interested in these creatures, and looking at them, you can see the value in having such vicious beasts guarding your colony. You could use them in your moat; and sure, a number would die in the effort regardless, but you would have some for yourself.
+                        <br><br>
+                        <div id="confirmKill">
+                            Are you sure you want to get rid of them?
+                            <br><br>
+                            <<link "Yes.">>
+                                <<replace "#confirmKill">>
+                                    <<set $kelpieExtinction = true>>
+                                    <<set _meat = random(100, 150)>>
+                                    <<set $food += _meat>>
+                                    <<unset $dragonsHelpedMoveBeasts>>
+                                    <hr><br>
+                                    Tempting though it is to use them in your moat - you think the ravenous creatures would take many chunks out of land-bound intruders, assuming they don't just eat them outright... They aren't worth the hassle. Transporting them would doubtlessly be a difficult and time-consuming task, involving your full day or taking your dragons from their duties. And you aren't the type to hoard living things. (Not including your colonists, of course.)
+                                    <br><br>
+                                    You take to the air for home, but you won't stay there long. You gather up whoever you see, and tell them to wait for you at the lake - if they find anyone along the way, tell them to come too! You'll have a feast of it. A few of your more nervous colonists seem apprehensive, but ultimately, they're not going to disagree with their <<print $player.title>>. When you're sure you've gathered enough you had back yourself.
+                                    <br><br>
+                                    Your colonists are loitering about; some sprawled in the glade, others eating from the nearby forest's abundance. One is even daring to tease the lake-beasts. You watch them for a moment, letting your colony have their fun, before making your presence known with a roar. Your colonists look up, relatively unsurprised to see you. You tell them that these beasts are a menace; a risk you won't have kept on your colony. Though they are confined to their lake, the horrible things can easily rend an unaware dragon. With the sheer number of them, they could probably eat a colonist to the bone in a matter of hours. You won't have it.
+                                    <br><br>
+                                    Once, you swore to boil them alive. That time is come.
+                                    <br><br>
+                                    You organize your colonists into an aerial column, with yourself at the head. With a line of ten, they cover the length of the lake neatly. When you swoop down, fire roaring from your maw, they follow. And the lake boils. The creatures plainly have no idea how to handle the onslaught; they leap from the water, not to snap at your dragons but just to escape the heat. They swim furiously, piling into each other the closer to the shore they arrive. Some dive, you know, and perhaps they dive deeply enough to escape, but the majority flounder helplessly - struggling to stay ahead of the wall of flame or throwing themselves ashore in their desperation. Whatever dragons aren't part of your flyover methodically slaughter those foolish beasts. When you reach the end the lake, the creatures struggle onto land. Helplessly they writhe, confused and terrified and dying by the dozen.
+                                    <br><br>
+                                    You perform another sweep, boiling out more of the beasts. Dead bodies float along the surface of the lake, but you know there are more hiding below. You have your column pluck the bodies from the water and dive. You can hold your breath long enough for a hunt. And you do. Over and over, the water still warm on your scales, you chase the beasts down into the depths of <em>your</em> lake. You are joined in time by more of your colonists, and you don't stop until the lake is empty. Sunset casts the area in a bloody light, and you marvel at what you've created. A butcher's paradise.
+                                    <br><br>
+                                    The water is dark with ash and blood. The shore is lined with dead creatures. A feast, you declared, and a feast it shall be! You and yours get to transporting the dead, some of your colonists stealing snacks on the way. You don't care at all - let them eat! There is so much more than you could dream of, and the lake is clear. By the time you are done, the day is over and all is well.
+                                    <br><br>
+                                    [[Vengeance is sweet.|Rest]]
+                                <</replace>>
+                            <</link>><br>
+                            <<link "On second thought...">>
+                                <<replace "#confirmKill">>
+                                    You loiter in place, watching the beasts as they do... whatever it is they do. Some poke their heads out to peer at you; others simply splash at the water. One lunges up and snatches a bird out of the air.
+                                    <br><br>
+                                    Though their existence is a nuisance, they could be used for your colony's benefit. So, until you get your fill of them, you won't kill them. Yet. You turn your back on the lake and [[head home.|Sandbox Central]]
+                                <</replace>>
+                            <</link>>
+                        </div>
+                    <</if>>
+                <</replace>>
+            <</link>><br>
+        <</if>>
+
+        Or you can just [[go home.|Sandbox Central]]
+    </div>
+<</nobr>>
+
+:: KelpielessLake
+<<nobr>>
+    <<set $hasVisited.kelpieLake = true>>
+    <!-- Commented out for sanity right now. 
+        Extincting the kelpies will change this location quite a bit, in addition to granting unique items and a huge amount of food.
+        Outsiders - dragons and animal-people - will begin to show up, using it as a rest stop.
+        
+        If you choose not to drive off the animal-people, it will become a hub.
+            The hub will allow trade and recruitment opportunities.
+            Also, taxes - because you are a dragon and this is your turf.
+            It will continue to grow overtime until it reaches a peak.
+            You can choose to chase out the animal-folk whenever you feel, and they'll never come back.
+
+        If you do, it just becomes a resource area independent of gatherers.
+        (Maybe eventually I'll let it turn into a satellite base?)
+            Food: 
+                Fishnets / traps in the lake.
+                A grove planted along the edge.
+
+            Water:
+                Carving a stream to your base.
+
+    -->
+    <<set $player.action -= 1>>
+
+    <<switch visited()>>
+        <<case 1>>
+            <<set $lakeStock = 0>>
+            As you arrive at the lake, you're struck by how still it is. Only the wind ripples across its surface. There are no flashes of scales, no heads peeking from the surface... For a moment, it's almost eerie; you catch yourself wondering if the beasts have gotten smart enough to plan an ambush. But, no, that's absurd. They're dead. You dive down, plummeting towards the lake—ready to pull up at any moment, but no creature lunges for you, no bodies swarm. You plunge into the waters and find yourself alone in the still ash-choked lake. You can't see far, with the water so murky, so you swim. You course through the water as a serpent might, weaving sinuously between currents, but there's... nothing. Even the plant life is gone or dying.
+            <br><br>
+            It's... yours. You actually did it. The beasts are gone. You surface, hardly even panting, and just float, savoring your ability to do so.
+            <br><br>
+            Why did you come here, again?
+            <br><br>
+            <div id="decision1">
+                <<link "Get water.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(13, 20)>>
+                        <<set $water += _collect>>
+                        <<if $water > $waterCap>>
+                            <<set $water = $waterCap>>
+                        <</if>>
+                        <<updateBar>>
+                        <hr><br>
+                        You approach the lake, a touch uncertain about getting water from... this. It's a bit ashen, after all; it won't hurt anyone, of course, but it'll taste terrible. And, of course, encourage growth in your pools. How to go about this...
+                        <br><br>
+                        Given three heartbeats of thought, you decide you don't care <em>that</em> much. You suck the water in through your teeth and swallow it down to your throat pouch. It tastes bad, but most of the particulae is kept out, and that's what matters. You keep slurping until you're satisfied—<span class="water"><<print _collect>> water</span> in total—then [[head home.|Sandbox Central]]
+                    <</replace>>
+                <</link>><br>
+                <<link "Get food.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(10, 15)>>
+                        <<set $food += _collect>>
+                        <<if $food > $foodCap>>
+                            <<set $food = $foodCap>>
+                        <</if>>
+                        <<updateBar>>
+                        <hr><br>
+                        You approach the lake, ready to take to the skies and lure out the beasts... only to realize they're gone. Hm. You launch yourself into the air regardless, but there's nothing in the lake at all; not even algae or moss. You destroyed it all, or at least whatever the lakebeasts didn't eat. You dither over the waters for a while, contemplative, then drop into the forest. Some of the plants have fruits and berries, after all. The berries are a little difficult to collect without eating as many twigs and leaves as delicious morsels, and collecting the fruit involves many broken branches, but you take what you can.
+                        <br><br>
+                        You're not sure how long you spend in the forest, but you're satisfied with your haul of <span class="food"><<print _collect>> food</span>. You take to the skies and [[head home.|Sandbox Central]]
+                    <</replace>>
+                <</link>><br>
+                <<link "Just to be.">>
+                <<replace "#decision1">>
+                    <hr><br>
+                    You loiter around the lake area, fully content to loaf. Your colonists get a break every now and then; why not yourself? A good dragon is one that knows how to relax, and today, you do so in the water. You float about, wings spread wide to catch the sunlight and to keep you somewhat bouyant in the lake. It's a wonderful dichotomy, the cool water and hot sun, and soon you find your eyes drifting shut...
+                    <br><br>
+                    The day has notably marched on by the time you feel fully alert again. You wade out of the lake, shake off what you can, and [[fly home.|Sandbox Central]]
+                <</replace>>
+                <</link>>
+            </div>
+        
+        <<case 2 3>>
+            You glide over the lake, then bank to the left. The final finger on your wing skims the surface, sending droplets splashing in a wave. You huff to yourself, twisting until your wing dips fully into the water. You instantly crash into the lake, of course.
+            <br><br>
+            You swim about, savoring the chill. You swear there's some greenery growing on the surface; more than algae, but it's hard to tell, and you don't care to investigate all that much. Instead you make your way to the shore, where you recline under the trees. Opposite is the glade, but you're quite content to stay where you are, letting the dappled sunlight warm your scales.
+            <br><br>
+            Why are you here again?
+            <br><br>
+            <div id="decision1">
+                <<link "Get water.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(15,25)>>
+                        <<set $water += _collect>>
+                        <<if $water > $waterCap>>
+                            <<set $water = $waterCap>>
+                        <</if>>
+                        <<updateBar>>
+                        <hr><br>
+                        You admire the cleaner water; you can scarcely tell it was ever turned into a boiling pit now! You contently gulp down the clear liquid, drinking some but storing most in your throat pouch. You take off once you've gotten your fill of <span class="water"><<print _collect>> water</span>, and [[head home.|Sandbox Central]]
+                    <</replace>>
+                <</link>><br>
+                <<link "Get food.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(10, 15)>>
+                        <<set $food += _collect>>
+                        <<if $food > $foodCap>>
+                            <<set $food = $foodCap>>
+                        <</if>>
+                        <<updateBar>>
+                        <hr><br>
+                        You don't bother flying. You crawl into the water and float, all but the very top of your head submerged, and wait.
+                        <br><br>
+                        You might be feeling <em>slightly</em> lazy, but what's what matter? Your eyes are focused on the sky, rather than the empty lake, and it isn't long before birds—habituated to lake-beast leftovers—come down to investigate. You snatch them up as they arrive, and feel quite pleased with your <span class="food"><<print _collect>> food</span>. All that with so little effort! Feeling rested and rejuvenated, if a bit chilled, you [[head home.|Sandbox Central]]
+                    <</replace>>
+                <</link>><br>
+                <<link "Just to be.">>
+                    <<replace "#decision1">>
+                        <hr><br>
+                        The mere thought of work, here, in this pretty locale, on this lovely day, is enough to drive you to despair. So you don't. You circle around the lake, admiring the way the sun glints off the wind-brushed surface... but you don't feel like getting in today. Instead, you make your way into the glade. The grass is tall enough to tickle your belly, and the air is filled with a pleasant, warmed-earth scent. You flop down happily in the middle, letting your limbs splay any which way. Graceless, certainly, but who's here to see you?
+                        <br><br>
+                        You doze for a while, and when you wake up, you feel refreshed. You stretch, yawn, and [[head home.|Sandbox Central]]
+                    <</replace>>
+                <</link>>
+            </div>
+
+
+/*        <<case 4 5 6>>
+            You can see the lake long before you land. It shimmers; a veritable oasis, if your land weren't so verdant. You can't help but feel prideful about having such a beautiful location on your territory. Of course you would, your whole territory is lovely – but this is especially so. You circle overhead, taking in every pleasing detail, before finally landing in the glade. With your wings outstretched still, you bask in the sunlight. A little paradise in a much larger one. Perfection.
+            <br><br>
+            As you get closer, however, you realize the water is a fair deal greener than it used to be...
+            <br><br>
+            Why were you here again?
+            <br><br>
+            <div id="decision1">
+                <<link "Get water.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(17,27)>>
+                        <<set $water += _collect>>
+                        <hr><br>
+                        
+                    <</replace>>
+                <</link>><br>
+                <<link "Get food.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(12,19)>>
+                        <<set $water += _collect>>
+                        <hr><br>
+                        
+                    <</replace>>
+                <</link>><br>
+                <<link "Just to be.">>
+                    <<replace "#decision1">>
+                        <hr><br>
+                        You lounge on your side near the lake's edge, making a game of twirling moss between your claws... when it occurs to you that there is a lot of moss. More than there should be. The water is looking rather stale, even; you'd suggest as one of your pools, but you clean those. This is simply gross. It doesn't stop you from playing around with it, but you daydream idly about other such bodies of water that aren't going foul. There's running water, of course, but also those with fish in them. Lots of fish.
+                        <<if $defenseBuildings.moat.creatures == true>>
+                            And thinking on it, wouldn't moving fish be much easier than the lake-beasts? You're not going to do so <em>now</em>, but you toy with the idea, enjoying some rather silly ones of just carrying live fish in your throat.
+                        <<else>>
+                            How would you get fish here, though? You guess your builders might be pushed into the thought, but you certainly don't care enough right now to try.
+                        <</if>>
+                        <br><br>
+                        Your thoughts drift away from the algae-filled lake, and you dream about other things until it's time to [[go home.|Sandbox Central]]
+                    <</replace>>
+                <</link>>
+                <<if $lakeStock == 0>>
+                    <br><<link "Get fish.">>
+                        <<replace "#decision1">>
+                            <hr><br>
+                            Ah. Right.
+                            <br><br>
+                            You take to the air again, performing idle loops and twirls while you think. The prospect of moving fish does not excite you, but you'd like a regular food source here, and clearly no fish eggs survived the beasts <em>or</em> your cleansing. If they had, you'd see fry by now, and clearly you don't. And the lake wouldn't be quite so... afflicted with algae. Time has come to rectify this little mistake.
+                            <br><br>
+                            You head off in a random direction, borderline apathetic to your own goals. Wanting something doesn't mean you'll enjoy it, after all.
+                            <br><br>
+                            <div class="decision2">
+                                You could look for another 
+                                <<link "lake">>
+                                    <<replace "#decision2">>
+                                        <<set _luck = random(3)>>
+                                        <hr><br>
+                                        Lake it is. You continue in your random direction, watching the ground boredly as it races by underneath you.
+                                        <br><br>
+                                        <<if _luck == 1>>
+                                            <<set $lakeStock += 1>>
+                                            Your hunt is less than successful, but not a complete failure either. You find one, though it's really more of a pond and you aren't sure it existed before... whenever the last rainfall was. It's already drying up in this endless summer, but you spot a few small fish flopping around. One hops out of the water, wriggles, and drops back into the pond.
+                                            <br><br>
+                                            You scoop up the little things, and about half the pond, into your jaws and fly back. They insist on nibbling your tongue and teeth which is a terrible feeling by itself, nevermind their slimy bodies wriggling about. But they, and you, make it to the lake with little trouble. You spit your cargo into the waters and watch them dart off.
+                                            <br><br>
+                                            Well, you've done your work. You promptly turn and [[head home|Sandbox Central]], working your maw in a futile attempt to get the sensations to leave. They don't.
+                                        <<elseif _luck == 2>>
+                                        <<elseif _luck == 3>>
+                                        <<else>>
+                                        <</if>>
+                                    <</replace>>
+                                <</link>>, 
+                                and see what that holds for you. You're certain fish in a lake already would just as happily thrive in another, but you know there aren't many on your lands; a... small... slight... <em>miniscule</em> oversight on your part, but it hadn't mattered until now. Alternatively, you can look for a 
+                                <<link "river">>
+                                    <<replace "#decision2">>
+                                    <</replace>>
+                                <</link>>. They aren't necessarily more plentiful, but their length necessitates that you see them more frequently. You aren't sure how river fish would adapt to still water, but water is water, right?
+                                <br><br>
+                                ... Or you could 
+                                <<link "get your colony to do it,">>
+                                    <<replace "#decision2">>
+                                    <</replace>>
+                                <</link>>, which sounds much more bearable than committing yourself. You're sure your rainiers see fish all the time! And your foragers must know a thing or two about fishing... if you trust them to not eat their cargo.
+                            </div>
+                        <</replace>>
+                    <</link>>
+                <<elseif $lakeStock > 1>>
+
+                <<else>>
+                <</if>>
+            </div> */
+
+
+        <<default>>
+            You skim the still surface, casting ripples across the lake before touching down on the shore. It's a lovely place, to be certain; you're very pleased it's all yours, too... You watch the area for a moment, savoring the peace, before getting to business.
+            <br><br>
+
+            Why did you come here, again?
+            <div id="decision1">
+                <<link "Get water.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(12,19)>>
+                        <<set $water += _collect>>
+                        <hr><br>
+                        With the waters at last clear, you feel confident as you duck into the lake, mouth half-open to suck the liquid into your throat pouch. You keep an eye out for fish,
+                        <<if $lakeStock == 0>>
+                            but there are none. You aren't <em>surprised</em> by any means; just disappointed. You take your fill of <span class="water"><<print _collect>> water</span> and [[head home.|Sandbox Central]]
+                        <<elseif $lakeStock < 10 >>
+                            but there are few. And too small for you to bother with. It soothes a little part of you to find that a reliable food source is at least beginning in your lake. You leave the fish alone, content to let them grow, and instead take <span class="water"><<print _collect>> water</span> [[back to your colony.|Sandbox Central]]
+                        <<else>>
+                            and are pleasantly suprised to find a fat carp darting into the sand. You swim down to it, enjoying the playful chase - playful to <em>you</em>, anyway - and snap you teeth next to its fins. The fish bolts. You finish your self-assigned task, noting with satisfaction how many more schools are swimming at a safe distance from your claws and jaws. Your lake is truly shaping up. You take your <span class="water"><<print _collect>> water</span> and [[head home, pleased.|Sandbox Central]]
+                        <</if>>
+                    <</replace>>
+                <</link>><br>
+                <<link "Get food.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(12,19)>>
+                        <<set $food += _collect>>
+                        <hr><br>
+                            You rise into a luxuriant stretch, wings outstretched and limbs trembling, before sauntering through the trees. Some hang heavy with ripe fruit; others cradle nests of little creatures whose little bones crunch pleasingly between your teeth. Your amblings walk you, eventually, to the glade on the opposite end. You're content to continue your lazy hunt, digging up roots and puffing smoke into the grass for morsels. Even with the lake empty, this is a full and abundant place. When you're satisfied, you take to the skies, content to haul your <span class="food"><<print _collect>> food</span> back to [[your colony.|Sandbox Central]]
+                        /* <<if $lakeStock == 0>>
+                            
+                        <<elseif $lakeStock < 10>>
+                        <<else>>
+                        <</if>> */
+                    <</replace>>
+                <</link>><br>
+                <<link "Just to be.">>
+                    <<replace "#decision1">>
+                        <<set _incident = random(0, 100)>>
+                        <hr><br>
+                        You have precious little time to yourself. Tossing your mantle of pride away, you splay on the ground, groaning happily. One wing and a part of one claw in the cool water, Sun's fond eye watching over you and the still, humid air... A perfect place to relax. Away from home. Away from leadership and responsibility; just a lone dragon happy to <em>be</em> alone.
+                        <br><br>
+                        As the day rolls on, and Sun moves to other things, you find yourself eager to stand. But not to go, no. You head to the sandy shores, and dive recklessly onto it - rolling and writhing, scraping against and between and under your scales. You twist until you're half-buried in a makeshift wallow, warmed by Sun and cooled by the damp underground. Polished and thoroughly pleased, you linger for only a short while longer before [[heading home.|Sandbox Central]]
+                    <</replace>>
+                <</link>>
+                /* <<if $lakeStock == 0>>
+                    <br><<link "Get fish.">>
+                        <<replace "#decision1">>
+                            <hr><br>
+
+                        <</replace>>
+                    <</link>>
+                <<elseif $lakeStock > 10>>
+
+                <<else>>
+                <</if>> */
+            </div>
+
+
+    <</switch>>
+<</nobr>>

@@ -1,5 +1,6 @@
 :: BugTest
 <<nobr>>
+    <strong>ALWAYS PRESS GO. ALWAYS.</strong>
     Select "Go" at bottom of page after making decisions, especially if having built anything. That's the only way the game will remember and properly change your shit. DO NOT IGNORE IT.
     
     <details>
@@ -83,12 +84,41 @@
     <<linkreplace "Seen the creatures?">>
         <<set $infestedNotice = true>>
         Seen the lake creatures.
-    <</linkreplace>>
-    <hr>
-    </details>
+    <</linkreplace>><br><br>
+
+    ''//Defenses//''<br>
+    Defenses active?
+    <<cycle "$defenseTalk" autoselect>>
+        <<option "Yes, it happened." true>>
+        <<option "No, it didn't happen." false>>
+	<</cycle>><br>
+
+    [[Go to DefenseTalk?|DefenseTalk]]<br>
+    
+    <<link "Run defenseCalc widget?">><<updateDefense>><</link>><br>
+    
+    <<link "Run wantedCount widget?">>
+        <<countWorkers "slacker">>
+    <</link>>
+    <hr><br>
+
+    </details><br>
+
     
     
     <<link "Go">>
+        <<if $shelter.ruts.amount > ($shelter.ruts.free + $shelter.ruts.occupied)>>
+            <<set _rutDif = $shelter.ruts.amount - ($shelter.ruts.free + $shelter.ruts.occupied)>>
+            <<set $shelter.ruts.free += _rutDif>>
+        <</if>>
+        <<if $shelter.setts.amount > ($shelter.setts.free + $shelter.setts.occupied)>>
+            <<set _settDif = $shelter.setts.amount - ($shelter.setts.free + $shelter.setts.occupied)>>
+            <<set $shelter.setts.free += _settDif>>
+        <</if>>
+        <<if ($shelter.hollows.amount * $shelter.hollows.shelter) > ($shelter.hollows.free + $shelter.hollows.occupied)>>
+            <<set _hollowDif = (($shelter.hollows.amount * $shelter.hollows.shelter) - ($shelter.hollows.free + $shelter.hollows.occupied))>>
+            <<set $shelter.hollows.free += _hollowDif>>
+        <</if>>
         <<updateHome>>
         <<updateBar>>
     <</link>> | 

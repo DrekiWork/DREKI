@@ -1,0 +1,26 @@
+:: ErrorDialog
+<<nobr>>
+    Uh-oh! Something went awry - <em>don't worry</em>, it's probably not game breaking... but just in case, put your save file and a description of what you were doing up on the GitHub, or tell the dev on itch! <br>
+    Call: 
+    <<switch _args[0]>>
+        <<case "builderStatus">>
+            Your builders are in a weird state!<br>
+            Status: <<print $builderStatus>>.
+
+        <<case "buildQueueWeird">>
+            The build queue tried to build something that doesn't exist!<br>
+            Item name: <<print $buildQueue[0]>>.
+
+        <<case "endDayFeed">>
+            endDay tried to feed a dragon with an unrecognized job!<br>
+            The dragon in question was: <<print _errorDragon>>, <<print _errorJob>>. Shame on them.
+
+        <<case "endDayHome">>
+            endDay tried to unhouse a dragon with an unrecognized house!<br>
+            The dragon in question was: <<print _errorDragon>>, <<print _errorHouse>>. Tsk, tsk.
+
+        <<default>>
+            Whoops! Not sure. Please let the Dev know what you were up to and they should be able to figure it out.
+            
+    <</switch>>
+<</nobr>>

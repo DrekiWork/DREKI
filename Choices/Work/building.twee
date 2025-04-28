@@ -16,14 +16,47 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<<include "buildStorage">>
 	</div>
 
- <br> <br> <br>
+ <<if $defenseTalk == true>>
+	<br> <br>
+ 
+ 
+ 	<<link "Defensive">> <<toggleclass "#defense" "hidden">> <</link>>
+
+	<div id="defense" class="hidden">
+		<<include "buildDefense">>
+	</div>
+
+<<else>>
+
+<</if>><br> <br> <br>
 
 <</nobr>>You are pretty sure [[you're done here.|Sandbox Central]]
 
 :: buildShelters
 <<nobr>>
+	<<if $player.home.built !== true>>
+		''Your Lair''<br>
+		Cost: <<print $shelter.ruts.priceS>> stone to build... and 10 gold. Shamefully, you haven't built a home for yourself... a rut of your own would do for now, you think. You can improve it later.<br>
+			<<if $stone >= $shelter.ruts.priceS && $gold >= 10>>
+				<<button "Build">>
+				<<set $player.home.built = true>>
+				<<set $stone -= $shelter.ruts.priceS>>
+				<<set $gold -= 10>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+			<</button>>
+		<<elseif $stone < $shelter.ruts.priceS>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone!
+		<<elseif $gold < 10>>
+			''You don't have enough!'' You are missing <<print (10 - $gold)>> gold!
+		<<else>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone and <<print (10 - $gold)>> gold!
+		<</if>><br><br>
+	<</if>>
+
 	''Rut'' <br>
-	Cost: 5 stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
+	Cost: <<print $shelter.ruts.priceS>> stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
 		<<if $stone >= 5>><<button "Build">>
 				<<set $shelter.ruts.amount += 1>>
 				<<set $shelter.ruts.free += 1>>
@@ -40,7 +73,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 	
 	<<if $builtRut == true>>
 		''Sett'' <br>
-		Cost: 3 stone, 2 wood, and a free rut to build. Those ruts are pretty tiny... with a little bit of wooden support, some more stone, and a lot of digging, a rut can be expanded so the lucky dragon within can be more comfortable. You currently have <<print $shelter.setts.amount>>. <br>
+		Cost: <<print $shelter.setts.priceS>> stone, <<print $shelter.setts.priceW>> wood, and a free rut to build. Those ruts are pretty tiny... with a little bit of wooden support, some more stone, and a lot of digging, a rut can be expanded so the lucky dragon within can be more comfortable. You currently have <<print $shelter.setts.amount>>. <br>
 			<<if $stone >= 5 && $wood >= 2 && $shelter.ruts.free >= 1>><<button "Build">>
 					<<set $shelter.ruts.amount -= 1>>
 					<<set $shelter.ruts.free -= 1>>
@@ -58,28 +91,27 @@ You need to make something, but what? What does your colony need right now?<<nob
 					<</replace>>
 			<</button>>
 		
-			<<elseif $stone < 5 && $wood >= 2 && $shelter.ruts.free >= 1>>
+			<<elseif $stone < $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free >= 1>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone!
-			<<elseif $stone >= 5 && $wood < 2 && $shelter.ruts.free >= 1>>
+			<<elseif $stone >= $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free >= 1>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood!
-			<<elseif $stone >= 5 && $wood >= 2 && $shelter.ruts.free < 1>>
+			<<elseif $stone >= $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free < 1>>
 				''You don't have enough!'' You are missing an empty rut!
-			<<elseif $stone < 5 && $wood < 2 && $shelter.ruts.free >= 1>>
+			<<elseif $stone < $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free >= 1>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and <<print ($shelter.setts.priceW - $wood)>> wood!
-			<<elseif $stone < 5 && $wood >= 2 && $shelter.ruts.free < 1>>
+			<<elseif $stone < $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free < 1>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and an empty rut!
-			<<elseif $stone >= 5 && $wood < 2 && $shelter.ruts.free < 1>>
+			<<elseif $stone >= $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free < 1>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood and an empty rut!
 			<<else>>
 				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone, <<print ($shelter.setts.priceW - $wood)>> wood, and an empty rut!
 			<</if>><br><br>
 	<</if>>
 
-	<<set _wantedWorker = "builder">>
-	<<countWorkers>>
+	<<countWorkers "builder">>
 	<<if _wantedCount > 0>>
 		''Hollow'' <br>
-		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. <<print $buildQueue.count("hollow")>><br>
+		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. You have <<print $buildQueue.count("hollow")>> planned to be built, and <<print $shelter.hollows.amount>> built.<br>
 			<<button "Build">>
 				<<run $buildQueue.push(
 					"hollow"
@@ -115,21 +147,6 @@ You need to make something, but what? What does your colony need right now?<<nob
 
 :: buildStorage
 <<nobr>>
-	''Pool'' <br>
-	Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
-		<<if $stone >= 10>><<button "Build">>
-			<<set $pool.amount += 1>>
-			<<set $waterCap = ($pool.amount * $pool.storage)>>
-			<<set $stone -= 10>>
-			<<updateBar>>
-			<<replace "#storage">>
-				<<include "buildStorage">>
-			<</replace>>
-	<</button>>
-	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
-	<</if>>
-	<br> <br>
-	
 	''Cavern'' <br>
 	Cost: 10 stone and 10 wood to build. You've already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have <<print $cavern.amount>>. <br>
 	<<if $stone >= 10 && $wood >= 10>><<button "Build">>
@@ -152,13 +169,27 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<</if>>
 	<</if>>
 	<br> <br>
+
+	''Pool'' <br>
+	Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
+		<<if $stone >= 10>><<button "Build">>
+			<<set $pool.amount += 1>>
+			<<set $waterCap = ($pool.amount * $pool.storage)>>
+			<<set $stone -= 10>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
+	<</if>>
+	<br> <br>
 	
 	''Dug-out'' <br>
 	Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
 	<<if $stone >= 15 && $wood >= 15>><<button "Build">>
 			<<set $dugOut.amount += 1>>
-			<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-			<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 			<<set $stone -= 15>>
 			<<set $wood -= 15>>
 			<<updateBar>>
@@ -174,6 +205,91 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<<elseif $stone >= 15 && $wood < 15>>
 		You are missing <<print (15 - $wood)>> wood!
 	<</if>>
+	<</if>>
+	<br> <br>
+<</nobr>>
+
+:: buildDefense
+<<nobr>>
+	''Palisade'' <br>
+	<<if $defenseBuildings.palisade.amount < $defenseBuildings.palisade.max>>
+		Cost: <<print $defenseBuildings.palisade.priceS>> stone and <<print $defenseBuildings.palisade.priceW>> wood. One of the most basic fortifications available: a wall of sharpened logs, held upright by carefully positioned stones. You have built <<print $defenseBuildings.palisade.amount>> out of the <<print $defenseBuildings.palisade.max>> needed to surround your home-site, with <<print $buildQueue.count("palisade")>> planned to be built. <br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"palisade"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+		<</button>>
+	<<else>>
+		You've entirely surrounded your colony's home with palisades. The sharpened logs claw at the sky like the earth's own claws, leaving only small gaps to enter and exit through. Better to focus your efforts elsewhere, now.
+	<</if>>
+	<br> <br>
+
+	''Outpost'' <br>
+	<<if $defenseBuildings.outpost.amount < $defenseBuildings.outpost.max>>
+		Cost: <<print $defenseBuildings.outpost.priceS>> stone and <<print $defenseBuildings.outpost.priceW>> wood. Simple stands out in the territory for your soldiers to post at, as opposed to wandering blindly. You have built <<print $defenseBuildings.outpost.amount>> out of the <<print $defenseBuildings.outpost.max>> needed to survey (most) of your territory, with <<print $buildQueue.count("outpost")>> planned to be built. <br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"outpost"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+		<</button>>
+	<<else>>
+		You've constructed as many outposts as you can reasonably justify; the majority of your land is visible from these scattered perches. Other things would be more useful.
+	<</if>>
+	<br> <br>
+	''Rockfall'' <br>
+	<<if $defenseBuildings.rockfall.amount < $defenseBuildings.rockfall.max>>
+		Cost: <<print $defenseBuildings.rockfall.priceS>> stone and <<print $defenseBuildings.rockfall.priceW>> wood. A precaraiously placed stack of boulders, held back only by thin slabs of woods. You have built <<print $defenseBuildings.rockfall.amount>> out of the <<print $defenseBuildings.rockfall.max>> needed to drop boulders on every inch of your home... As of now, you've ordered <<print $buildQueue.count("rockfall")>> to be built.<br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"rockfall"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+		<</button>>
+	<<else>>
+		The cliffs backing your colony have as many rockfalls as you are willing to risk, regardless of what the builders claim. Sometimes you swear you hear the jagged edge of the mountain groaning in protest - you'll build no more of these traps.
+	<</if>>
+	<br> <br>
+	''Moat'' <br>
+	<<if $defenseBuildings.moat.amount < $defenseBuildings.moat.max>>
+		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
+		<<if $defenseBuildings.moat.amount == 0>>
+			You've yet to construct one. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+		<<elseif $defenseBuildings.moat.amount == 1>>
+			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however... Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+		<<elseif $defenseBuildings.moat.amount == 2>>
+			Your moat is reinforced with strategically placed wood and stone pylons, and has several staves of the same to impale anything that falls in. <<if $infestedNotice == true && $kelpieExtinction == false>>
+				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake. For now, it would cost <<print $defenseBuildings.moat.priceWa>> water. to fill your moat.<br>
+			<<else>>
+				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water. Cost: <<print $defenseBuildings.moat.priceWa>> water.<br>
+			<</if>>
+		<</if>><br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"moat"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+		<</button>>
+	<<elseif $defenseBuildings.moat.amount == $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == true>>
+		The moat is complete. Its placid waters hide a ravenous population of the lake's beasts. You have mixed feelings about their presence, but some of your colony toss scraps into the moat to watch them swarm.
+		<<if $kelpieExtinction == true>>
+			Given these are now the only survivors of the voracious creatures on your territory, you suppose it's for the best your colony feeds them occasionally.
+		<</if>>
+	<<else>>
+		The moat is complete. Its placid waters hide its true depth, as well as the moss and algae that grow on its sides, making climbing out a difficult feat.
+		<<if $infestedNotice == true && $kelpieExtinction == false>>
+			Your builders, however, seem to have an idea regarding the waters... It would involve the ravenous lake-beasts, however. Perhaps you should pay them a visit.
+		<<else>>
+		<</if>>
 	<</if>>
 	<br> <br>
 <</nobr>>

@@ -1,5 +1,5 @@
 :: endDayWidget [widget]
-<<widget "endDay">> <<nobr>>
+<<widget "endDay">><<nobr>>
 
 	/* Moves a day forward */
 		<<set $days += 1>>
@@ -8,11 +8,16 @@
 			<<set $days = 0>>
 		<<else>>
 		<</if>>
+		<<if $hydraTime > 0>>
+			<<set $hydraTime-->>
+		<<elseif $hydraTime == 0>>
+			<<set $currentEvent = "HydraRaid">>
+		<</if>>
 			
 	/* Ages up your eggs if you have them, or stops it running when you don't have eggs! */
 		<<set _growcheck = 0>>
 		<<set _hatchcheck = 0>>
-		<<for _i to 0; _i lt $eggs.length; _i++>>
+		<<for _i to 0; _i < $eggs.length; _i++>>
 			<<set $eggs[_i].time++>>
 			<<if $eggs[_i].time == 7>>
 				<<hatchMaker>>
@@ -34,6 +39,7 @@
 				<<if $firstCol == 0>>
 					<<set _firstHatchiUp = 1>>
 				<</if>>
+				<<set $eggSpace to (($nest * 3) - ($eggs.length + $hatchlings.length))>>
 			<</if>>
 		<</for>>
 		
@@ -45,11 +51,16 @@
 			<<set _left = []>>
 			<<set _eat = 0>>
 			<<set _hatchEat = 0>>
+			<<set _hatchHungry = 0>>
+			<<set _hatchUnfed = 0>>
 			<<set _drink = 0>>
 			<<set _hatchDrink = 0>>
+			<<set _hatchThirsty = 0>>
+			<<set _hatchNoWater = 0>>
 
 	/* Set-up for: counting supplies brought in, counting workers. */
 			<<set _food = 0>>
+			<<run console.log("_food: " + _food)>>
 			<<set _forcount = 0>>
 			<<set _water = 0>>
 			<<set _watcount = 0>>
@@ -57,36 +68,67 @@
 			<<set _stone = 0>>
 			<<set _scavcount = 0>>
             <<set _buildcount = 0>>
+			<<set _soldcount = 0>>
+			<<set _soldierHunt = 0>>
 			
 	/* Player feeding and watering themselves + resetting actions. */
+
+		/* All once-a-day actions... */
+
+				/* For purposes of stealing eggs from other dragons. */
 			<<set $theft = false>>
-			<<set $player.action = 5>>
+
+				/* For treasure-hunting, the foraging action. */
 			<<set $ghunt = false>>
+
+				/* If PC has visited any special location - only available once per day for balancing reasons. */
+			<<set $hasVisited.kelpieLake = false>>
+			<<set $hasVisited.hydraDen = false>>
+
+				/* General out-of-colony actions a player can take per day. */
+			<<set $player.action = 5>>
+
+		
+		/* Player consumption for the day. Start false so no fake hungry/thirsty alerts appear, then eat. */
+		/* Founder eats first because if they go so does the colony. */
 			<<set _pcHungry = false>>
 			<<set _pcThirsty = false>>
-			<<if $food >= 3>>
-				<<set $food -= 3>>
+			<<if $player.home.built == true>>
+				<<if $food >= 3>>
+					<<set $food -= 3>>
+				<<else>>
+					<<set $player.health -= 1>>
+					<<set _pcHungry = true>>
+				<</if>>
+				<<if $water >= 4>>
+					<<set $water -= 4>>
+				<<else>>
+					<<set $player.health -= 1>>
+					<<set _pcThirsty = true>>
+				<</if>>
 			<<else>>
-				<<set $player.health -= 1>>
-				<<set _pcHungry = true>>
-			<</if>>
-			<<if $water >= 4>>
-				<<set $water -= 4>>
-			<<else>>
-				<<set $player.health -= 1>>
-				<<set _pcThirsty = true>>
+				<<if $food >= 8>>
+					<<set $food -=8>>
+				<<else>>
+					<<set $player.health -= 1>>
+					<<set _pcHungry = true>>
+				<</if>>
+				<<if $water >= 10>>
+					<<set $water -= 10>>
+				<<else>>
+					<<set $player.health -= 1>>
+					<<set _pcThirsty = true>>
+				<</if>>
 			<</if>>
 
-			<<if _pcHungry == false && _pcThirsty == false>>
+			<<if _pcHungry == false && _pcThirsty == false && $player.health < 10>>
 				<<set $player.health += 1>>
 			<</if>>
 
 	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
-			<<if $dragons.length > 0>>
-				<<set _goldDiv = ($gold^(1/100))>>
-				<<set _goldbonus = (Math.round(Math.sqrt((_goldDiv / ($dragons.length + 1)))))>>
-			<<else>>
-			<</if>>
+	/* The initial thought was that the expansion of the colony would keep it in line. I think I'll check what this actually does on desmos. */
+			<<set _goldBonus = Math.round(Math.sqrt(($dragons.length / 11) * $gold) / ($dragons.length / 2))>>
+			<<run console.log("Gold bonus: " + _goldBonus)>>
 
 	
 	/* Checks if there are hatchlings to feed, and feeds them. */
@@ -109,13 +151,14 @@
 					<</if>>
 				<<else>>
 				<</if>>
+
 				<<if $food >= (_eat + 4)>>
 					<<set $hatchlings[_i].hunger = 0>>
 					<<set _hatchEat += 4>>
 				<<else>>
 					<<set $hatchlings[_i].hunger += 1>>
-					<<set _hungry += 4>>
-					<<set _unfed += 1>>
+					<<set _hatchHungry += 4>>
+					<<set _hatchUnfed += 1>>
 				<</if>>
 
 				<<if $water >= (_water + 3)>>
@@ -123,11 +166,11 @@
 					<<set _hatchDrink += 3>>
 				<<else>>
 					<<set $hatchlings[_i].thirst += 1>>
-					<<set _thirsty += 3>>
-					<<set _nowater += 1>>
+					<<set _hatchThirsty += 3>>
+					<<set _hatchNoWater += 1>>
 				<</if>>
 			<</for>>
-			
+
 			<<set $food += _hatchFood>>
 			<<set $water += _hatchWater>>
 
@@ -136,13 +179,20 @@
 
 		
 		<<if $dragons.length >= 1>>
-			/* Housing first. */
+				/* Housing first. */
+
+				/* _newHouse tracks what dragons moved into new digs. */
 			<<set _newHouse = []>>
+
+				/* _homelesss tracks unsheltered dragons. */
 			<<set _homeless = []>>
+
+				/* Tracks dragons that moved up to a better place to sleep. */
 			<<set _changedHome = []>>
+
+				/* Checks if the for loop has run before. */
+				/* Used to gather food / water THEN feed the colony. */
 			<<set _firstPass = true>>
-			<<run console.log(_firstPass)>>
-			<<run console.log("pre-housing " + $home)>>
 
 			<<for _a to 0; _a < 2; _a++>>
 				<<if _firstPass == true>>
@@ -152,7 +202,8 @@
 						<<if $findSleep == true>>
 
 						/* Giving better homes to dragons if they're available. */
-
+						/* Dragons prefer: */
+						/* Setts, ruts, hollows, homeless. */
 							<<if $dragons[_i].home !== "none">>
 								<<if $dragons[_i].home == "rut">>
 									<<if $shelter.setts.free > 0>>
@@ -162,10 +213,7 @@
 										<<set $shelter.ruts.free++>>
 										<<set $shelter.ruts.occupied-->>
 										<<run _changedHome.push($dragons[_i].name)>>
-										<<run console.log("Upgrade to sett from rut" + $home)>>
 
-									<<else>>
-									
 									<</if>>
 
 								<<elseif $dragons[_i].home == "hollow">>
@@ -176,7 +224,6 @@
 										<<set $shelter.ruts.free++>>
 										<<set $shelter.ruts.occupied-->>
 										<<run _changedHome.push($dragons[_i].name)>>
-										<<run console.log("upgrade to sett from hollow " + $home)>>
 
 									<<elseif $shelter.ruts.free > 0>>
 										<<set $dragons[_i].home = "rut">>
@@ -185,7 +232,6 @@
 										<<set $shelter.hollows.free++>>
 										<<set $shelter.hollows.occupied-->>
 										<<run _changedHome.push($dragons[_i].name)>>
-										<<run console.log("upgrade to rut from hollow " + $home)>>
 
 									<<else>>
 									
@@ -196,33 +242,33 @@
 							<<else>>
 
 								/* Giving dragons homes if any available, in preferential order. */
+								/* If not, they're added to the homeless array. */
 
 								<<if $shelter.setts.free >= 1>>
 									<<set $dragons[_i].home = "sett">>
 									<<set $shelter.setts.free -= 1>>
 									<<set $shelter.setts.occupied += 1>>
 									<<run _newHouse.push($dragons[_i].name)>>
-									<<run console.log("fresh sett " + $home)>>
 
 								<<elseif $shelter.ruts.free >= 1>>
 									<<set $dragons[_i].home = "rut">>
 									<<set $shelter.ruts.free -= 1>>
 									<<set $shelter.ruts.occupied += 1>>
 									<<run _newHouse.push($dragons[_i].name)>>
-									<<run console.log("fresh rut " + $home)>>
 
 								<<elseif $shelter.hollows.free >= 1>>
 									<<set $dragons[_i].home = "hollow">>
 									<<set $shelter.hollows.free -= 1>>
 									<<set $shelter.hollows.occupied += 1>>
 									<<run _newHouse.push($dragons[_i].name)>>
-									<<run console.log("fresh hollow" + $home)>>
 
 								<<else>>
 									<<run _homeless.push($dragons[_i].name)>>
 
 								<</if>>
+
 							<</if>>
+
 						<<else>>
 
 							<<if $dragons[_i].home == "none">>
@@ -235,33 +281,51 @@
 
 						<</if>>
 
-						<<run console.log("post-Housing " + $home)>>
 
+							/* Setting a dragon's time up one, for funsies. Will be genuinely used later. */
+						<<set $dragons[_i].time++>>
+
+							/* Adds a dragon to a job counter, gives them their daily xp, and then calculates what they've brought back... if anything. */
+							/* Each job consumes a different amount of food. */
+							/* Should probably move job gains to a datamap, like buildings are. */
+							/* Maybe add some randomness to XP gains? */
+							/* ... Though considering I want to add caps... */
+							/* Guess I'll be altering how the Interact page works to fit? */
+							/* _goldBonus only works if greater than one. Otherwise, it's set to one to prevent a malus. */
 						<<switch $dragons[_i].job>>
 							<<case "forager">>
 								<<set _forcount += 1>>
 								<<set $dragons[_i].foragexp += 0.1>>
-								<<set _food += (Math.round($dragons[_i].foragexp * _goldbonus) + random(3))>>
+								<<run console.log("xp: " + $dragons[_i].foragexp)>>
+								<<set _food += Math.round(($dragons[_i].foragexp * _goldBonus) + random(3))>>
 
 							<<case "rainier">>
 								<<set _watcount += 1>>
 								<<set $dragons[_i].rainxp += 0.1>>
-								<<set _water += (Math.round($dragons[_i].rainxp * _goldbonus) + random(3))>>
+								<<set _water += (Math.round($dragons[_i].rainxp * _goldBonus) + random(3))>>
 
 							<<case "scavenger">>
 								<<set _scavcount += 1>>
 								<<set $dragons[_i].scavxp += 0.1>>
 								<<set _goldluck = random(-50,75)>>
 								<<set _scavPick = random(1,2)>>
-								<<if _scavPick = 1>>
-									<<set _wood += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
+								<<if _scavPick == 1>>
+									<<set _wood += (Math.round($dragons[_i].scavxp * _goldBonus) + random(3))>>
 								<<else>>
-									<<set _stone += (Math.round($dragons[_i].scavxp * _goldbonus) + random(3))>>
+									<<set _stone += (Math.round($dragons[_i].scavxp * _goldBonus) + random(3))>>
 								<</if>>
 
 							<<case "builder">>
 								<<set _buildcount += 1>>
 								<<set $dragons[_i].buildxp += 0.1>>
+
+							<<case "soldier">>
+								<<set _soldcount += 1>>
+								<<set $dragons[_i].soldierxp += 0.1>>
+								<<set _huntluck = random(-50, 75)>>
+								<<if _huntluck >= 60>>
+									<<set _soldierHunt += (Math.round($dragons[_i].soldierxp * _goldBonus) + random(15,30))>>
+								<</if>>
 
 							<<case default>>
 
@@ -271,16 +335,21 @@
 					<</for>>
 
 					<<set _firstPass = false>>
-					<<run console.log(_firstPass)>>
-					<<run console.log("post-Pass " + $home)>>
 					
 				<<else>>
-					<<set $food += _food>>
+					<<set $food += (_food + _soldierHunt)>>
 					<<set $water += _water>>
 					<<set $stone += _stone>>
 					<<set $wood += _wood>>
 					<<for _i to 0; _i < $dragons.length; _i++>>
+
 						/* Feeding based on current job, + if they are housed or not. */
+						/* Slackers produce nothing but consume the least of adult dragons. */
+						/* Dragons that produce food need less at dinner time, but more water. */
+						/* Dragons that produce water are inverted. */
+						/* Others consume more in general, because they're gathering non-consumables and working. */
+						/* And if they're unhoused, they consume more. Life is pain, binge to cope. =3c */
+
 						<<switch $dragons[_i].job>>
 							<<case "slacker">>
 								<<if $dragons[_i].home !== "none">>
@@ -480,6 +549,52 @@
 										<<set _nowater += 1>>
 									<</if>>
 								<</if>>
+
+							<<case "soldier">>
+								<<if $dragons[_i].home !== "none">>
+									<<if $food >= (_eat + 5)>>
+										<<set $dragons[_i].hunger = 0>>
+										<<set _eat += 5>>
+									<<else>>
+										<<set $dragons[_i].hunger += 1>>
+										<<set _hungry += 5>>
+										<<set _unfed += 1>>
+									<</if>>
+
+									<<if $water >= (_drink + 4)>>
+										<<set $dragons[_i].thirst = 0>>
+										<<set _drink += 4>>
+									<<else>>
+										<<set $dragons[_i].thirst += 1>>
+										<<set _thirsty += 4>>
+										<<set _nowater += 1>>
+									<</if>>
+								<<else>>
+									<<if $food >= (_eat + 6)>>
+										<<set $dragons[_i].hunger = 0>>
+										<<set _eat += 5>>
+									<<else>>
+										<<set $dragons[_i].hunger += 1>>
+										<<set _hungry += 6>>
+										<<set _unfed += 1>>
+									<</if>>
+
+									<<if $water >= (_drink + 5)>>
+										<<set $dragons[_i].thirst = 0>>
+										<<set _drink += 5>>
+									<<else>>
+										<<set $dragons[_i].thirst += 1>>
+										<<set _thirsty += 5>>
+										<<set _nowater += 1>>
+									<</if>>
+								<</if>>
+
+							<<default>>
+								<<errorPopup "endDayFeed">>
+								<<run console.log("endDayFeed sourced from: "$dragons[_i].name + $dragons[_i].job)>>
+								<<set _errorDragon = $dragons[_i].name>>
+								<<set _errorJob = $dragons[_i].job>>
+
 						<</switch>>
 					<</for>>
 				<</if>>
@@ -489,13 +604,13 @@
 
         <<buildQueue>>
 
-		<<run console.log("Post-build " + $home)>>
-
 	
-
+			/* Removes consumbles from the resource counts... */
 		<<set $food -= (_eat + _hatchEat)>>
 		<<set $water -= (_drink + _hatchDrink)>>
 
+			/* ... then makes sure the left-overs aren't overcap. */
+			/* Done in that order to make sure there's no excess while dragons are whining about deprivation. */
 		<<if $food > $foodCap>>
 			<<set $food = $foodCap>>
 		<</if>>
@@ -536,24 +651,32 @@
 					<<case "sett">>
 						<<set $shelter.setts.free += 1>>
 						<<set $shelter.setts.occupied -= 1>>
+
+					<<case "hollow">>
+						<<set $shelter.hollows.free += 1>>
+						<<set $shelter.hollows.occupied -= 1>>
+					
+					<<default>>
+						<<errorPopup "endDayHome">>
+						<<run console.log("endDayHome sourced from: " + $dragons[_i].name + ": " + $dragons[_i].home)>>
+						<<set _errorDragon = $dragons[_i].name>>
+						<<set _errorHome = $dragons[_i].home>>
+						
 				<</switch>>
 			<<else>>
 			<</if>>
 		<</for>>
-		<<run console.log("Leavers " + $home)>>
 
 
 		<<set $dragons = $dragons.filter(dragons => dragons.hunger < 3)>>
 		<<set $dragons = $dragons.filter(dragons => dragons.thirst < 3)>>
-		<<run console.log("Filtered " + $home)>>
 		<<updateHome>>
 		<<updateBar>>
 			
 <</nobr>><</widget>>
 
-<<nobr>>
-<<widget "eggOne">>
-    <<nobr>>
+
+<<widget "eggOne">><<nobr>>
         <<if $eggsHatched >= 1 and $eggEvent === 0>>
         <<set $eggEvent += 1>><<linkappend "Something has happened...">>
 				<hr>
@@ -568,11 +691,9 @@
 			<</linkappend>>
 		<<else>>
         <</if>>
-    <</nobr>>
-<</widget>>
+<</nobr>><</widget>>
 
-<<widget "colOne">>
-	<<nobr>>
+<<widget "colOne">><<nobr>>
         <<if _firstHatchiUp == 1 and $firstCol === 0>>
         <<set $firstCol += 1>><<linkappend "Something has happened...">>
                 <hr>
@@ -591,7 +712,5 @@
             <</linkappend>>
 		<<else>>
         <</if>>
-    <</nobr>>
-<</widget>>
-<</nobr>>
+<</nobr>><</widget>>
 

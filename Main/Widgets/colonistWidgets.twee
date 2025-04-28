@@ -1,0 +1,152 @@
+:: ColonistWidgets [widget]
+<<nobr>>
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+                    /* This widget page is for NPCS. */
+                    /* Eggs, hatchies, colonists, prisoners, wanderers... So on. */
+                    /* This page will also handle things outside PC's purview. */
+                    /* Such as other colonies, traders, etc. */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
+    	/* Creates an egg with a timer. */
+	    /* The time is purely to make sure everyone hatches when they should. */
+    <<widget "eggMaker">><<nobr>>
+        <<run $eggs.push( {
+            
+            time: random(0, 6),
+            
+        } )>>
+    <</nobr>><</widget>>
+
+        /* Creates hatchlings out of eggs. */
+        /* Much like eggs, it's just an advanced timer. */
+        /* Though health exists to determine if a hatchling dies... eventually =3c */
+    <<widget "hatchMaker">><<nobr>>
+        <<run $hatchlings.push( {
+            
+            time: 7,
+
+            health: 2
+            
+        } )>>
+    <</nobr>><</widget>>
+
+
+        /* Generates a colonist. */
+    <<widget "dragonMaker">><<nobr>>
+
+            <<run $dragons.push( {
+            
+                    /* Names and personalities are pulled from the default page. */
+                name: either($dNames), 
+                personality: either($dPers), 
+                
+                    /* Type is largely unused, but will become relevant with the introduction of non-dragon colonists. */
+                type: "dragon",
+                
+                    /* Time is kept track of for funsies, at the moment. Eventually it'll determine when a dragon becomes an elder. */
+                    /* (Might even figure out how to make eggs and hatchies work with that too.) */
+                time: 15,
+
+                    /* Much like time, age is fluff. Doesn't do anything for now. */
+                age: "Adult", 
+
+                    /* Appearance is all fluff. */
+                appearance: {
+
+                    size: either($dSize),
+
+                    color: either($dColor),
+
+                    pattern: either($dPattern),
+
+                    visquirk: either($dVisQuirk)
+                },
+                
+                    /* Job defaults to having no job - slacker - but can be anything in the $dJobs list. */
+                job: "slacker", 
+
+                    /* Home is what shelter the dragon lives in, mostly for flavor. */
+                home: "none",
+                
+                    /* All xp is based on how long a dragon has worked in a job, with one day equalling 0.1 xp. */
+                foragexp: 0,
+                rainxp: 0,
+                scavxp: 0,
+                buildxp: 0,
+                soldierxp: 0,
+                
+                    /* Hunger and thirst track how long a colonist has gone without food or water respectively. */
+                    /* If either hits three, the dragon leaves. */
+                hunger: 0, 
+                thirst: 0,
+
+                    /* Left is the reason a dragon left the colony, should that happen. */
+                    /* Such as exile, not eating or drinking, or other. */
+                    /* 'stay' means it is still in the colony. */
+                left: "stay",
+
+                    /* Origin is how a dragon joined the colony. */
+                    /* Hatched there, returned from exile, wanderer... */
+                    /* 'stay' means it has yet to leave. */
+                origin: "stay"
+                
+                } )>>
+    <</nobr>><</widget>>
+
+        /* The wanderer generation is same as above EXCEPT they're given random XP ratios. */
+        /* XP is divided by 10 because XP is calculated to .1 in decimal, and keeping them whole makes things... weird. */
+        /* It's okay to not be rounded for that exact reason. */
+    <<widget "dragonWanderer">><<nobr>>
+
+        <<run $dragons.push( {
+            
+                name: either($dNames),
+                
+                type: "Dragon",
+                
+                personality: either($dPers),
+
+                time: random(15,40),
+                
+                age: "Adult",
+
+                appearance: {
+
+                    size: either($dSize),
+
+                    color: either($dColor),
+
+                    pattern: either($dPattern),
+
+                    visquirk: either($dVisQuirk)
+                },
+                
+                job: "slacker",
+
+                home: "none",
+                
+                foragexp: (random(150) / 10),
+                
+                rainxp: (random(150) / 10),
+                
+                scavxp: (random(150) / 10),
+
+                buildxp: (random(150) / 10),
+
+                soldierxp: (random(150) / 10),
+                
+                hunger: 0,
+                
+                thirst: 0,
+
+                left: "stay",
+
+                origin: "wanderer"
+                
+            } )>>
+
+    <</nobr>><</widget>>
+<</nobr>>

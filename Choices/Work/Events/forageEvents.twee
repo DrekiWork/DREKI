@@ -1,0 +1,405 @@
+:: ForageEvent1 [forage_event]
+<<nobr>>
+    <<set $player.action -= 1>>
+
+    Your hunt is unsuccessful, to say the least. No matter where you go or what you investigate, you're plainly incapable of locating so much as a whiff of your goal. Even seeking other resources seems totally and completely useless, despite the relative abundance of your territory. The prey you're finding is scrawny and barely a mouthful. The pools you stumble into are unfit for consumption. Your claws are chipped from trying to pry rocks from earth and cliff, and the woods are infuriatingly healthy. Green wood is of no use to you, after all! And treasure? Already that is a rare thing to find, but today it seems the world itself wants you destitute. Frankly, giving up might be in your best interests.
+    <br><br>
+    <span id="decision">
+        <<link "Better to try again later.">>
+            <<replace "#decision">>
+                <hr>
+                <br>
+                <<set _luck = either(true, false)>>
+                <<if _luck == true>>
+                    <<set _gather = random(1,3)>>
+                    <<set _material = either("food", "gold", "stone", "water", "wood")>>
+                    <<switch _material>>
+                        <<case "food">>
+                            <<set $food += _gather>>
+                            <<if $food > $foodCap>>
+                                <<set $food = $foodCap>>
+                            <</if>>
+
+                        <<case "gold">>
+                            <<set $gold += _gather>>
+
+                        <<case "stone">>
+                            <<set $stone += _gather>>
+                            <<if $stone > $buildingMaterialCap>>
+                                <<set $stone = $buildingMaterialCap>>
+                            <</if>>
+
+                        <<case "water">>
+                            <<set $water += _gather>>
+                            <<if $water > $waterCap>>
+                                <<set $water = $waterCap>>
+                            <</if>>
+                        <<case "wood">>
+                            <<set $wood += _gather>>
+                            <<if $wood > $buildingMaterialCap>>
+                                <<set $wood = $buildingMaterialCap>>
+                            <</if>>
+                    <</switch>>
+                    <<updateBar>>
+                    Frustrated beyond belief and feeling more than a little incompetent, you head back to your colony. Despite your irritation, you keep your eyes open and are rewarded with... very little, but it's something. By the time you get back, you have <<print _gather>> more <<print _material>>. [[Wonderful.|Sandbox Central]]
+                <<else>>
+                    Frustrated beyond belief and feeling more than a little incompetent, you head back to your colony. Naturally, [[you find nothing on your way back.|Sandbox Central]]
+                <</if>>
+            <</replace>>
+        <</link>>
+        <br>
+        <<link "Just a little longer...">>
+            <<replace "#decision">>
+            <<set _luck = either(true, false, false)>>
+            <<set _luck2 = either(true, false)>>
+            <</replace>>
+            <<switch _luck>>
+                <<case true>>
+                    <<if _luck2 == true>>
+                        <<if $roamersFound == false>>
+                            <hr>
+                            <br>
+                            At some point, your frustration turns to boredom. Perhaps it's the tedium finally making a nest in your brain, or perhaps the simple exercise of flying over your territory is meditative. You don't often leave just to enjoy yourself; maybe you needed a rest, and your struggle has now turned into an excuse to relax some. The landscape beneath you is lush green trees parted on occasion by empty fields. The air around you is cold but pleasant, soothing the heat of your annoyance, and perfumed with the heady scent of damp greenery. Perhaps—
+                            <br><br>
+                            You swerve to the side, a surprised grunt escaping you as a rock whistles past your wing. You pull short and look down, too stunned by the sheer <em>audacity</em> to be immediately angry. A group of creatures – too distant to make out in any great detail, though you'd guess there are perhaps twenty – are huddled beneath you. You can faintly hear chatter; one of the folk is bodily thrown out of the group, and you swear you hear a chant of 'he did it!' coming from them. The tossed one isn't leaving; you're pretty sure it's looking up at you. And waving a... something. It looks like a skin, cut into an odd, limp shape. What...?
+                            <br><br>
+                            <span id="decision2">
+                                <<link "Investigate the folk.">>
+                                    <<replace "#decision2">>
+                                        <hr>
+                                        <br>
+                                        Though they are trespassing, and one of them had the absolute gall to attack you... The number of them and their baffling behavior is enough to stay their due punishment. For now. You can always kill them if they aren't interesting enough; that would be food for you and whatever else they happen to have! Truly, there are no downsides. And they might get to live for relieving you from your fruitless patrol. Aren't you magnanimous!
+                                        <br><br>
+                                        You descend in a lazy spiral, taking your sweet time as the folk below grow increasingly nervous. By the time your claws touch soft, rich soil, the creatures have dropped to their knees. Their fear fills the air with a humid, sour scent. You puff fire at them—one of the creatures yips in terror. Good. The apparent outcast is on their... his?... knees, too, trembling but still daring to sneak glances at you. A mustelid; weasel, maybe? How typical of them to not care. The rest of the group is a mash of different types of folk, united by their silence and the presence of a much greater threat. You study the bunch, amused by their tension. Your earlier estimation was too generous. There's seventeen of the bunch, the weasel included, and all of them are in abhorrent condition. Some shoulder sacks made of hide, others clutch their belongings to their chests; none of it looks particularly valuable, but appearances can be deceiving! All of them tremble regardless.
+                                        <br><br>
+                                        You're sure you cut a magnificent figure. Wings spread, towering over them and backlit by Sun's mighty radiance - with smoke whisping from your maw, you must be glorious indeed.
+                                            <<if $player.health >= 10>>
+                                                In fact, healthy as you are, you must look like a deity to these morsels. You know your scales shine with health; your claws and teeth sharp and white, chipped though the former might be from your earlier struggle. You stretch your wings further, letting the creatures witness your glory fully.
+                                            <<else>>
+                                                Though you aren't as well-off as you could be, you are still a dragon - a creature to be held in awe! Your scales are stronger than stone, your teeth sharper than any weapon. You stretch your wings further, turning your glory into intimidation.
+                                            <</if>>
+                                        <br><br>
+                                        ... But you aren't here to bask in their fear. You lower your head slightly, rumbling at the mismatched group. One, which you suspect to be not yet fully grown, whimpers. The mustelidic folk shifts in place, pressing his hide-made item to the ground.
+                                        <br><br>
+                                        "We are in your territory," the creature says. Which, yes, they <em>are</em>, but that's plain and obvious. "We trespassers do not seek to steal from you, nor to foul your lands. We merely hope for grace from such a glorious creature as yourself; time to recollect ourselves and to recover our health before we carry on to new lands. Please, dragon, grant us this boon."
+                                        <br><br>
+                                        You look down at the weasel, duly touched. The restraint in keeping his flattery to a mere few words is impressive! You're still rather annoyed by his request, however. Bravery is only good when it is novel, after all. This is no longer novel, and you're feeling <em>awfully</em> hungry. They'd feed enough of your colony to make this whole patrol worthwhile. In fact... you fill your gullet with gas, readying to cook them alive, when one of the group barges forward and throws itself to the ground. One flailing arm knocks the weasel flat, and both lay prone before you.
+                                        <br><br>
+                                        "Stupid, stupid creature!" snarls the newcomer under its breath; some form of canine, you think, though the creatures are really starting to blend together. "Going to get us killed with your talk!" Its attention turns to you, and its voice is appropriately terrified when it speaks again. A 'she', you think. "Forgive him, dragon! He is - he is more brave than clever, trying to make deals with his betters. It's an affliction."
+                                        <br><br>
+                                        A murmur of agreement travels through a few of the group, and those who do not speak, nod. A known troublemaker, then? You huff, letting the fuel vent out your nose instead of sparking it. "I don't care," you growl. The group flinches as one, and you use their collective terror (or surprise, you suppose; dragons don't normally deign to speak with their lessers) to center yourself. "Why are vagrants in my lands?"
+                                        <br><br>
+                                        "We are—" The canine cuts off the weasel, and already you find yourself wearying of this back and forth. "<em>We</em> are... We are passing through. We come from many places, bound together to survive, and—"
+                                        <br><br>
+                                        You snarl.
+                                        <br><br>
+                                        "We want to settle!" The weasel yells. He shoves aside the canine, igoring her terror, and straightens into a kneel again. "Your lands are plentiful, and should we not stay here, just outside your territory are bounties of which we only dreamed." You suspect the rest of the herd has resigned to their death; some are readying to run, others have just gone still. You think they all are aware how futile it is, to run or hope for a swift death. "It was happenstance to see you, and I thought to get your attention to beg mercy where these cowards would rather have your ignorance!" The weasel's yellowing teeth flash in the light, and his little claws sink into the dirt, but he doeesn't back down. "It's a small thing, dragon. That's all."
+                                        <br><br>
+                                        "... He tells the truth," the canine (wolf? Coyote? Fox?) adds quietly. "We're - tired, dragon. We only want a place to stay in peace." She stays low.
+                                        <br><br>
+                                        If nothing else, you can respect the dedication to their group. It's no thunder - you doubt either of these two reared <em>any</em> of their followers - but you suppose the weasel finds an honest chance preferable to grovelling, where the... fox, you think, would rather survive than hold her pride. Regardless, you hold their lives in your untender grasp.
+
+                                        You could
+                                        <<if $kelpieExtinction == true && $lakeClaim == false>>
+                                            <<link "let them settle the lake">>
+                                            <</link>>, 
+                                        <</if>>
+                                        <<link "chase them off">>
+                                        <</link>>... or 
+                                        <<link "just leave">>
+
+                                        <</link>>.
+                                        
+                                    <</replace>>
+                                <</link>>
+                                <br>
+
+                                <<link "Get rid of them.">>
+                                    <<replace "#decision2">>
+                                        <hr>
+                                        <br>
+                                        
+                                    <</replace>>
+                                <</link>>
+                                <br>
+
+                                <<link "Leave.">>
+                                    <<replace "#decision2">>
+                                        <<set $roamersFound = true>>
+                                        <hr>
+                                        <br>
+                                        After but a moment of contemplation, you decide you want no part in this. No matter how relaxed you just were, it's gone now, and the stress of your failed search has returned with a vengeance. You puff smoke, letting the creature-folk below know that, yes, you've seen them, before you wheel about to go home.
+                                        <br><br>
+                                        [[You're not going to deal with this right now.|Sandbox Central]]
+                                    <</replace>>
+                                <</link>>
+                                <br>
+                            </span>
+
+                        <<else>>
+                        <</if>>
+                    <<else>>
+                    <</if>>
+
+                <<case false>>
+                    <<if _luck2 == true>>
+                        <hr><br>
+                        You roam to the very edges of your territory, and then some. It's common sense to put distance between one's home and a dragon's land, after all, so who would dare try to chase you away? No one. Of course, just outside of your territory there are dirt tracks, flattened and packed by land-bound folk, but nothing more permanent than footsteps. You enjoy being outside of your land, until you see a disturbance between the trees, a short way from a particularly thin road. Attention caught – if not by the apparently abandoned items, then by the gleam you can see surrounding it – you descend to investigate.
+                        <br><br>
+                        You're not sure what you were expecting, but it wasn't this. You've found a trail of gold. If you were at all blind, you might suspect it to be a particularly profligate trap. Unfortunately, your eyes work just fine, and you can see signs of a fight. A fight between creatures that hoard gold just as much as you and yours, apparently - though the tracks are so far removed from draconic you might suspect particularly rich magpies started  a fight, were it not for the smashed cart and crushed bodies beneath it. There's shockingly little blood for all the violence, and you see no tracks leading away. Waste not, want not?
+                        <br><br>
+                        <div id="decision2">
+                            <<link "Take it all.">>
+                                <<replace "#decision2">>
+                                    <<set _goldGain = random(51, 68)>>
+                                    <<set $gold += _goldGain>>
+                                    <<set _foodGain = random(17, 22)>>
+                                    <<set $food += _foodGain>>
+                                    <<if $food > $foodCap>>
+                                        <<set $food = $foodCap>>
+                                    <</if>>
+                                    <<updateBar>>
+                                    <hr><br>
+                                    Meat is meat and gold is gold. The cart is so splintered as to be useless, but the bodies are whole enough and the treasure is just as shiny. You take it all, grasping the dead in your arms and swallowing your gold with a hunger entirely divorced from your belly. If they didn't want to be eaten and stolen from, they should have been stronger. Such was the way of the world.
+                                    <br><br>
+                                    You take back your <span class="gold"><<print _goldGain>> gold</span> and <span class="food"><<print _foodGain>> food</span> to your colony, [[pleased by your haul.|Sandbox Central]]
+                                <</replace>>
+                            <</link>>
+                            <<link "Look a little closer...">>
+                                <<replace "#decision2">>
+                                    <<set _goldGain = random(51, 68)>>
+                                    <<set _foodGain = random(13, 17)>>
+                                    <hr><br>
+                                    Something about this is simply not right. You nudge the cart, rolling it aside. It crumples immediately of course, splintering into further uselessness, but you can access the bodies now. You sniff over them; beneath the blood and fear must be some trace of what happened... An attack, but from where? What? Is it a threat to your colony? It all smells of the folk, and tempted though you are to dismiss it as their squabbling, you do not like the bravery shown in attacking so close to your territory. And your patrol was frustrating beyond measure. A little investigation might cheer you up.
+                                    <br><br>
+                                    You still collect what treasures you find, but the abundance is stranger still. If not the dead, nor the cart, nor the gold, what was taken? You can't think of much else to be worthwhile to such simple creatures. It takes much prodding and rolling before you find footprints leading <em>away</em> from the scene. You take a moment to collect the treasure and what meat you can fit in your throat, then follow the trail.
+                                    <br><br>
+                                    The trail fades in and out from attempts to, you think, obscure it. It meanders off and doubles back and occasionally looks to have been made by more than one creature, or wiped from the earth. The further you go, the more effort placed into hiding the trail, the more curious you become. Especially when, after a particularly clever attempt to hide by climbling a tree and descending a different one entirely, you find the obfuscation stops almost entirely. It feels like a trap.
+                                    <br><br>
+                                    <div class="decision3">
+                                        <<link "Keep going.">>
+                                            <<replace "#decision3">>
+                                                <<set $player.action -= 1>>
+                                                <<set $player.health -= 1>>
+                                                <hr><br>
+                                                If it's a trap, it's not meant for <em>you</em>. And if it is, you'll try to remember to be impressed. You press onward, ever aware of the growing distance between yourself and your territory. Your crest rises with excitement and concern both. When was the last time you left your homegrounds, anyway? Certainly not recently!... though you do find yourself wanting to return immediately at the thought, your curiosity is far stronger. It can manage without your presence for a little while.
+                                                <br><br>
+                                                You press on, following the too-obvious trail. The trees thin, giving way to tall grasses and open air. Plains roll on before you, wide and apparently endless, but your tracking continues. There are multiple folk, you're sure of it: there are far too many crossing prints for this to be an attempt to hide numbers, and - if they actually <em>did</em> give up on hiding, then there would be no point in pretending. You guess there to be perhaps ten or so. Not much more than that, certainly not less. You must be getting closer; their scent is becoming clearer than a simple press of folk and blood. Sap and salt, the sting of metals. You're getting closer.
+                                                <br><br>
+                                                There's a whistle in the air, and you roar as something batters into your scales. You don't have time to so much as look at the injury before another tears through your ear. You roar, wings spreading, and take to the skies. There—the group is right ahead of you, faces pointed to you and weapons raised. Another whistle, but you're mobile now - you roll out the way, furious to see a flash of metal and wood streaking past your position. Aimed for your <em>neck</em>. They would challenge a dragon? <em>How dare they!</em>
+                                                <br><br>
+                                                You descend on the folk with a thunderous howl, fire erupting from your maw in a cascade of death. The group scatters from the flames, the land scorched instantly to a black char beneath your wrath. The grass lights; smoke fills your vision. Wings pumping you pull over the land, claws scraping what has yet to burn, only to shriek as your wing is punctured. You pull, letting the smoke catch up and letting the heat of your flames help you up. More weapons race past; you twist and buck wildly, realizing entirely too slowly that they are now surrounding you, attempting to keep you low with their wooden ammunition.
+                                                <br><br>
+                                                You are not prey to be herded, no simple elk or bird to be caught! You rise, higher and higher, until Sun again warms your back and blinds your adversaries.
+                                                <br><br>
+                                                <div class="decision4">
+                                                    <<link "Continue to attack.">>
+                                                        <<replace "#decision4">>
+                                                            <<set $player.health -= 6>>
+                                                            <hr><br>
+                                                            There are only thirteen, and you alone are more than an army of them. You scan the ground, tracking where they are. You need no plan here – suprise doesn't work twice. Again, you descend upon them, fire preceeding your every movement and fury following swiftly behind. You are god unto these wretches, and they will know what it is to suffer! You sweep low, and catch one in your jaws. It shrieks, your fire boiling its flesh and blood to naught but steam then cinders in your maw, but the rest are undeterred. Your dive has their aim more true, and for one dead you have scales torn from your sides. You spit out the smoldering corpse, wheeling to snatch another—and shriek as your throat is stabbed! You rear back, suddenly heaving on metal and wood as a long pole crunches between your teeth and sinks further into the back of your throat! Ashes of the weaponized branch pour from your maw; the tip of the weapon melting in your wounded throught. You swallow what you can, half flailing stunned agony.
+                                                            <br><br>
+                                                            You notice, barely, the creatures coming to swarm you. A triad hold something that gleams in the light - not quite what now sears your throat, but enough to make you wary. But you're committed. Your wing is ripping now, that puncture opening itself wider as you raise them up in threat. Your jaws snap shut on the nearest; your tail shears a folk in half. You howl furiously, hearts pounding louder. You can feel your own blood sluicing through your scales, and you know you <em>must not</em> let them get closer. You will win. You must, you <em>must</em>.
+                                                            <br><br>
+                                                            Another eruption of fire from your maw, but you catch none of them. They seem utterly undaunted by the growing wildfire - not warmed as you are, but apathetic to the possibility of burning alive in these dry plains. You charge forward, whipping through one, teeth set hardly a scale's length from the flesh of another - and then your vision explodes. Your ears ring, one far more than the other, before the pain of a blow sets in. You don't have time to recover before another comes, what feels like a boulder crashing into your skull—then another, another, another. The world is gold and blue and swarming with a multitude of folk and you keen to the side. The not-metal descends upon your head, tossed over your skull. You rear away - overbalance in your dizzying state, and try to take to the air. Your wing tears wide, but you make it up. Up. Up!
+                                                            <br><br>
+                                                            But not enough. The folk lunge for your tail, clamber onto your body, rip and rend and drag you right back down. You crash, half-crushing one under your weight, but it's not enough. The remainder yank their shimmering trap over you, and the more you struggle, the more you are entangled. You roar and thrash and burn and rattle but you are done. When your head lies low, they bash at your ears and your thoughts swim all the more—when your wings still, they tear at your membrane, and when you can only gasp and flinch, they pull away.
+                                                            <br><br>
+                                                            What... do you do now?
+                                                            <br><br>
+                                                            <div class="decision5">
+                                                                <<link "Submit.">>
+                                                                    <<replace "#decision5">>
+                                                                        <hr><br>
+                                                                    <</replace>>
+                                                                <</link>>
+                                                                <<link "Fight.">>
+                                                                    <<replace "#decision5">>
+                                                                        <<set $player.health -= 1>>
+                                                                        <hr><br>
+                                                                        No. You are not weak. You are not some whelp. You will not die. Not here, not now, and certainly not to <em>them</em>.
+                                                                        <br><br>
+                                                                        You still, eyes half open and vision swimming. It doesn't take much to feign submission, though your pride rails against such a thing. You let the folk prod and pace, testing your reactions—or lack thereof. You know you are bleeding. You let them think it is fatal. That it will kill you, and perhaps it will—but not yet. And that is all you need. You wait.
+                                                                        <br><br>
+                                                                        One ventures to your tail.
+                                                                        <br><br>
+                                                                        Two wait by your teeth, investigating. They talk softly but eagerly amongst themselves. You don't care to listen.
+                                                                        <br><br>
+                                                                        Four by your wings.
+                                                                        <br><br>
+                                                                        The last, out of your sight.
+                                                                        <br><br>
+                                                                        Your wings swing wide; you feel bone snap and meat pulp under the force. You push to your legs, weighted by the webbing they spread over you, using it to tangle the one by your tail. You spy three corpses—five remain. They will die to you. You lurch forward, graceless and violent as you crush another under your head. Their weaponry sinks into you as much as it does them, and it takes only moments before your still-swimming skull is assualted. You sway, dropping your side onto your attacker. Three. Only three.
+                                                                        <br><br>
+                                                                        They are backing away. Smoke heaves from your nostrls. Your legs feel weak, but you stand. You will not bow before prey.
+                                                                        <br><br>
+                                                                        You crush the tangled creature with your tail. The trap around you falls away as you work, with single-minded will, to escape. The next to try and beat your ear is thrown aside, but you lose your balance again. You can barely think anymore, but you hold the presence of mind to snap and snarl as they approach.
+                                                                        <br><br>
+                                                                        Not, unfortunately, enough to stay alert. You don't know how much blood you've lost. You feel cold as your eyes close.
+                                                                        <br><br>
+                                                                        [[You must fight.|???]]
+                                                                    <</replace>>
+                                                                <</link>>
+                                                            </div>
+                                                        <</replace>>
+                                                    <</link>><br>
+                                                    <<link "Figure out their plan.">>
+                                                        <<replace "#decision4">>
+                                                            <hr><br>
+                                                            But with height comes cold air, and clarity—being blinded by fury is just as likely to get you killed as trying to blindly flee. Right now, they cannot aim for you without blinding themselves. If you try to return, they will no longer be meeting Sun's eye, and will be able to aim at you again.
+                                                            <br><br>
+                                                            They <em>were</em> ready for you. You're not sure why, or if they were perhaps waiting for something similarly on your calibre. You also have no way of knowing beyond their obvious preparedness. You allow yourself a moment of grudging respect, per your promise to yourself, then promptly toss it aside. The folk are circling. A triad are huddling; smaller than the rest but trying to keep it that way. They have something in their shared grasp. You suspect it will be used on <em>you</em>.
+                                                            <br><br>
+                                                            In all likelihood, that would be the end of the fight for you. You lean, circling lazily to avoid a barely aimed barb hurtling towards your belly. It falls short regardless. There are thirteen folk beneath you. You didn't kill any in your initial lunge, and they are fearless of the growing wildfire... or at least not fleeing from it. Or you. Frustrating though that may be, they are prepared, and that evidently includes losing their lives. Smoke trails from your nostrils as you growl.
+                                                            <br><br>
+                                                            You need to strike quickly and stay out of reach. The ground, you suspect, will be your enemy. If you land, you are within their grasp and that large... item, shared between them will be your undoing. Fine.
+                                                            <br><br>
+                                                            Though you are not meant for it, you are capable. As a falcon you dive, wings only barely off your sides in preperation for the flare. You strike hard and fast, claws slamming into the earth to crush one of the folk beneath you, and lunging with your momentum to return to the skies. Your feet are wettened with blood and broken bone. You swear some drips onto the folk. They don't seem to care.
+                                                            <br><br>
+                                                            You spiral upwards, out of reach, until you <em>know</em> you are only a speck—and dive again. The wind whistles against you, tugging at your wings and scales and horns as though to pull you short. Your target dives out of the way and you oblige the current to snap them in your teeth before rising again. You drop their body as you ascend, getting out of the way. The folk move, but do not speak—their limbs and extremities flail, and understanding is passed between them. What understanding, you don't know, but it is cause for concern.
+                                                            <br><br>
+                                                            <div class="decision5">
+                                                                <<link "Keep going.">>
+                                                                    <<replace "#decision5">>
+                                                                        <hr><br>
+                                                                        They're too dangerous to leave alone. If they follow you home, you've no doubt they would find a way to isolate and kill your colonists, or simply harry you to death. No, this must be handled now... Their tactics have changed. Though your vision is far superior to any folk, you are no less hindered by smoke and ash. One vanishes from your sight, then a second as the wind shifts and the grassfire rages. Hiding. You hesitate to believe this is a retreat.
+                                                                        <br><br>
+                                                                        You dive, taking out another they would not have the time to reinforce and (foolishly, you'll admit, in the safety of your thoughts) strike down another with your tail on your way back up. The remaining nine are gone by the time you've ascended, including that worrisome trio. You stare down at the burning plains, tense. You can't see them. The fire, smoke, and grass itself conceal the folk far too well, and you briefly resent your hasty decision to burn them out. They know too well how to cope with fire, it seems.
+                                                                        <br><br>
+                                                                        You don't even notice you're lowering until one of their metal-tipped thorns hisses through your wing. You plunge towards the attacker instantly, recognizing the glint of more ammunition being readied. They roll out of the way, but when your claws hit the dirt, more reinforced branches come whistling your way. You can only avoid so many as you launch into the air—and they were all aimed at your <em>wings</em>. You can feel your right tearing open, the horrifying flap of loose membrane in the wind. You push up regardless. You need <em>away</em>—
+                                                                        <br><br>
+                                                                        But they have other plans. Something yells behind you; you try to swing out of the way, but it's too late by far. You can only howl in pain as something much, much larger than their normal ammunitions shreds through your right wing, ripping it so open as to be useless. You look in horror at the damage – your tattered, shorn wing, skin and muscle whipping through the air as your momentum is stalled and gravity asserts its hold. You've no choice but to land. You've no choice but to spread your shredding wing and come to a running landing.
+                                                                        <br><br>
+                                                                        If you live, it will heal. You just need to survive.
+                                                                        <br><br>
+                                                                        <div class="decision6">
+                                                                        <<link "Surround yourself in flame.">>
+                                                                            <<replace "#decision6">>
+                                                                                <hr><br>
+                                                                            <</replace>>
+                                                                        <</link>><br>
+                                                                        <<link "Wait.">>
+                                                                            <<replace "#decision6">>
+                                                                                <hr><br>
+                                                                                You wait. Tense, wary, you wait.
+                                                                                <br><br>
+                                                                                Nothing happens. You count your hearts' beats, pounding as they are. You count your breaths, shaking though they are with pain, and you wait. You circle yourself, pacing anxiously. Fire howls to your east, the wildfire raging on with or without your assistance, chewing hungrily through anything it touches. You're too large to hide as these folk do, not without the cover of tree or rock. The fire will burn away their cover eventually. You must be—
+                                                                                <br><br>
+                                                                                A thorn embeds into your knee. You snarl and rip it out with your teeth, heedless of the way it grasps your flesh when you pull. All will heal in time if you <em>live!</em> You've barely gotten it out when another lands over your ribs—that one bounces off, but you feel the scrape of its metal all the same. You can't even tell where it came from, just that it hit you.
+                                                                                <br><br>
+                                                                                You breathe fire in its general direction anyway, and know you burn only grass. Another bit of metal in your scales, another, another. They intend to wear you down. Each time, you try to catch them. You don't smell charred flesh even once.
+                                                                                <br><br>
+                                                                                <div class="decision7">
+                                                                                    <<link "Call out.">>
+                                                                                        <<replace "#decision7">>
+                                                                                            <hr><br>
+                                                                                            "Come out!" You bark, speaking to them at last. There's a commotion with your speech - startled rustles that have nothing to do with roaring flames or heat-born winds. "You would face me? Then <em>face me!</em> If I am to die today, I will do it looking upon my killers!"
+                                                                                            <br><br>
+                                                                                            No more arrows, but you do not trust the reprieve. You continue to circle, snarling viciously into the smog. The burning grass continuess to rustle. Your breaths continue to heave. And your hearts yet pound in your chest. It is far too long before one of the folk step into sight. You clamp down on the urge to shred them to pieces; you straighten instead, glaring at the folk. Even harried and hurt, you are a <<print $player.title>>. You will not be seen as lesser.
+                                                                                            <br><br>
+                                                                                            The creature's hood remains turned from you at all times; what little you can see of it is covered in patchy scales. Even its tail is mostly covered, as though it is ashamed of itself. Despite the disrespect inherent in refusing to look at you, the creature bows so low that its muzzle scrapes the dirt. It doesn't straighten. "Dragon, we did not know," it says, voice scratchy and unpleasant. From smoke inhalation, you think. "It was not thought that your ilk were intelligent, or we would speak to you sooner. Forgive us."
+                                                                                            <br><br>
+                                                                                            'Ilk.' Your self-control slips, and you snarl your displeasure at the folk - and gratifyingly, it flinches. "Of course we are. How else would we rule our claims?" You snap, tail whipping. The creature whimpers. You don't know why, really; even angry as you are, you know this is simply your last showing before these folk end your life. Why would a creature set to slay you be afraid? "Why do you speak now? What do you want?"
+                                                                                            <br><br>
+                                                                                            It still refuses to look up to you, but you note it looking about - taking cues, you suspect. "We are... we come from a colony of our own," it tells you. "We are... we were once under a Diety," it says haltingly. "Ours was not - did not speak to us. It killed for displeasure and roasted servants with joy. It did not know speech. It knew only violence."
+                                                                                            <br><br>
+                                                                                            You bare your teeth in disgust. "And you would think so of all?"
+                                                                                            <br><br>
+                                                                                            "It is all we knew," the folk replies timidly. You can scarcely wrap your head around its change in attitude, if this is what it thought of you. Not that you relax. "Recently, our Burning Lord perished, and seeing you - we knew dragons had settled in the southern reaches. Your territory was well marked, dragon. And we are not meant to be without a ruler."
+                                                                                            <br><br>
+                                                                                            For a moment, you cannot comprehend its meaning. Not for lack of understanding, but the sheer incongruity of its words and actions leave you floundering for the truth. "So you hunt your Diety's kin?" You ask, incredulous. "Do you mean to have a corpse oversee your failures? How then is that different from your god?"
+                                                                                            <br><br>
+                                                                                            The folk cringes, so horrified you can tell even with its body so thoroughly cloaked. "No! No, no, we— we would not kill a dragon! Never!"
+                                                                                            <br><br>
+                                                                                            "Then you would capture me as an animal." Your statement is cold despite the fire in your belly. You only narrowly catch yourself from crushing this insolent creature into the scorched earth. "Is that what you mean to say?"
+                                                                                            <br><br>
+                                                                                            "We didn't know!" It cries. It kneels into the dirt now, trembling. "We thought - we are alone, and we wished for a master, so—"
+                                                                                            <br><br>
+                                                                                            Enough of this.
+                                                                                            <br><br>
+                                                                                            <div class="decision8">
+                                                                                                <<link "Kill the creature and leave.">>
+                                                                                                    <<replace "#decision8">>
+                                                                                                        <hr><br>
+                                                                                                        
+                                                                                                    <</replace>>
+                                                                                                <</link>>
+                                                                                                <<link "Demand to see the rest of them.">>
+                                                                                                    <<replace "#decision8">>
+                                                                                                        <hr><br>
+                                                                                                        
+                                                                                                    <</replace>>
+                                                                                                <</link>>
+                                                                                            </div>
+                                                                                        <</replace>>
+                                                                                    <</link>>
+                                                                                    <<link "Keep waiting.">>
+                                                                                        <<replace "#decision7">>
+                                                                                            <hr><br>
+                                                                                        <</replace>>
+                                                                                    <</link>>
+                                                                                </div>
+                                                                            <</replace>>
+                                                                        <</link>><br>
+                                                                        <<link "You can't win. Run.">>
+                                                                            <<replace "#decision6">>
+                                                                                <hr><br>
+                                                                            <</replace>>
+                                                                        <</link>><br>
+                                                                        </div>
+                                                                    <</replace>>
+                                                                <</link>><br>
+                                                                <<link "Leave.">>
+                                                                    <<replace "#decision5">>
+                                                                        <hr><br>
+                                                                    <</replace>>
+                                                                <</link>>
+                                                            </div>
+                                                        <</replace>>
+                                                    <</link>><br>
+                                                    <<link "Get away, now.">>
+                                                        <<replace "#decision4">>
+                                                            <hr><br>
+                                                        <</replace>>
+                                                    <</link>>
+                                                </div>
+                                            <</replace>>
+                                        <</link>><br>
+                                        <<link "Turn back.">>
+                                            <<replace "#decision3">>
+                                                <hr><br>
+                                            <</replace>>
+                                        <</link>>
+                                    </div>
+                                <</replace>>
+                            <</link>>
+                        </div>
+                    <<else>>
+                    <</if>>
+
+            <</switch>>
+        <</link>>
+    </span>
+    
+<</nobr>>
+
+:: ForageEvent2 [forage_event]
+<<nobr>>
+    <<goto "ForageEvent1">>
+<</nobr>>
+
+:: ForageEvent3 [forage_event]
+<<nobr>>
+    <<goto "ForageEvent1">>
+<</nobr>>
+
+:: ForageEvent4 [forage_event]
+<<nobr>>
+    <<goto "ForageEvent1">>
+<</nobr>>
+
+:: ForageEvent5 [forage_event]
+<<nobr>>
+    <<goto "ForageEvent1">>
+<</nobr>>
+

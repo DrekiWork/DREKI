@@ -1,0 +1,257 @@
+:: StoryData
+{
+	"ifid": "F3BD499E-FCE3-47AB-A8FA-DCE4E7F59107",
+	"format": "SugarCube",
+	"format-version": "2.36.1",
+	"start": "START",
+	"tag-colors": {
+		"Cheater": "purple",
+		"HEY-DUMMY": "red",
+		"Info": "yellow",
+		"Opener": "green",
+		"Special": "green",
+		"WIP": "orange",
+		"widget": "blue"
+	},
+	"zoom": 1
+}
+
+
+:: StoryTitle
+DREKI
+
+
+:: StorySubtitle
+<sup>pre-pre-alpha 0.0.30.3
+Made by Recila!</sup>
+
+
+:: StoryCaption [Special] {"position":"100,250","size":"100,100"}
+<<nobr>>
+
+	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
+<<if hasVisited("tutorialOpen") || $cheat == true>>
+	Cycle <<print $cycles>>, Day <<print $days>>
+	<br>
+		/* Links to bugtest, my cheat page, if cheating is enabled on game set. */
+	<<if $cheat == true>>
+		<<link "Cheating">><<goto "BugTest">><</link>>
+	<</if>>
+	
+	<hr>
+		/* Table contains stores. Left is amount collected, right is amount the colony can have. */
+	<table>
+		<tr>
+			<td>Food: &ensp;</td>
+				<td><<print $food>> </td> <td> &ensp; / &ensp; </td> <td> <<print $foodCap>> </td>
+		</tr>
+		<tr>
+			<td>Water: &ensp;</td>
+				<td> <<print $water>> </td> <td> / </td> <td> <<print $waterCap>> </td> <br>
+		</tr>
+		<tr>
+			<td>Wood: &ensp;</td> 
+				<td> <<print $wood>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
+		</tr>
+		<tr>
+			<td>Stone: &ensp;</td>
+				<td> <<print $stone>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
+		</tr>
+		<tr>
+			<td>&emsp;</td>
+		</tr>
+		<tr>
+			<td>Gold: &ensp;</td> <td><<print $gold>></td> <td></td>
+		</tr>
+	</table>
+
+	<hr>
+		/* Left contains amount of shelter space available, right is amount of dragons needing shelter... I should swap these. */
+	<table>
+		<tr>
+			<td>Shelter Space: </td>
+				<td>&ensp;</td> <td><<print $dragons.length>>&ensp;/&ensp;<<print ($home)>></td>
+		</tr>
+	</table>
+
+	<hr>
+
+	
+	<details>
+		<summary><h3>POLICIES ▼</h3></summary>
+		<center>———</center>
+		<details>
+			<summary><h4>Social ▼</h4></summary>
+			<<if $dragons.length > 0 && $builtRut == true>>
+					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
+					/* Autoselect is 'true'. */
+					Do you want dragons to find their own places to sleep?
+				<<cycle "$findSleep" autoselect>>
+					<<option "Yes." true>>
+					<<option "No." false>>
+				<</cycle>>
+			<</if>><br>
+		</details>
+
+		<center>——</center>
+	
+		<<if $defenseTalk == true>><details>
+		<summary><h4>Defense ▼</h4></summary>
+			/* Lets rockfalls be loaded at day-end. */
+			/* Autoselect is 'true' */
+		Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
+			<<option "Yes." true>>
+			<<option "No." false>>
+		<</cycle>><br>
+		</details>
+
+		<center>——</center><</if>>
+	</details>
+<<else>>
+	Welcome to DREKI: Thunder Simulator!
+<</if>>
+<</nobr>>
+
+
+:: StoryMenu [Special] {"position":"100,375","size":"100,100"}
+<<nobr>>
+
+	/* Creates a pop-up, letting the player examine patchnotes without losing what page they're on. */
+	<<link "Patchnotes">>
+		<<script>>
+			Dialog.setup("Patchnotes");
+			Dialog.wiki(Story.get("Patchnotes").processText());
+			Dialog.open();
+		<</script>>
+	<</link>>
+	<br>
+
+	/* I should really just remove this, but does the same as above - albeit for the world notes. */
+	/* Acts as a tutorial reminder, should anyone need that, plus lore repository. */
+	<<link "World Notes">>
+		<<script>>
+			Dialog.setup("Encyclopedia");
+			Dialog.wiki(Story.get("EncyclopediaHome").processText());
+			Dialog.open();
+		<</script>>
+	<</link>>
+<</nobr>>
+
+:: Patchnotes
+<<nobr>>
+/* These are patchnotes. */
+/* Organized by new content - QoL adjustments - patched bugs - new bugs. */
+/* Should have a current focus tab somewhere... */
+/* One version previous is kept as reference (personal and player). */
+/* The gleeful tone is neecessary for personal success. */
+
+	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
+	<em><strong><u>THE HYDRA IS DONE.</u></strong></em> (mostly)
+
+	<h2> Pre-Pre-Alpha 0.0.30.3 </h2>
+	First of the housekeeping sweeps.
+		''Bugs Patched''
+		<ul><li>Dragon renaming works.</li>
+		<li>Rockfalls work.</li>
+		<li>Edited bugfix page to work. Press go, always.</li>
+		<li>Lightly re-arranged buildpage.</li>
+		<li>Your cup shall not overfloweth with stone. (Stone caps work when foraging for it; no more stone overflow.)</li>
+		<li>Dragons assign themselves to home... again.</li>
+		<li>Builders should build now. :)</li>
+		<li>Gold will not come back NaN when your scavs find it.</li>
+		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li></ul>
+
+
+	<h2> Pre-Pre-Alpha 0.0.25.8 </h2>
+	''New!''
+	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
+	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back. You don't have to take them in, of course.</li>
+	<li>Dragons prefer Better Buildings! What's that mean? Dragons, in order, prefer: setts, ruts, then hollows. They'll try to move in to available shelters in that order, and dragons with a lower value home will try to move up.</li>
+	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
+	<li>Builders! And they do something! And you get told when they do something!</li>
+	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used, and are one of two new buildings. The second are...</li>
+	<li>Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They're only buildable with builders!</li>
+	<li>There's detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they're getting into.</li>
+	<li>There's a new way to start the game, as well as a quit-out option! The quit does... exactly what you think it does, while the Cheat / Testing option lets you use the BugTest screen.</li>
+	<li>Defense buildings exist! And a defense score. I've figured out how fights are going to work, horray! All defensive buildings need builders.</li>
+	<li>Soldiers exist and are necessary for certain defensive structures (outposts). Also they have a small chance of hunting... but when they DO, they bring back a minimum of 15 food.</li>
+	<li></li></ul><br>
+
+	''QoL''
+	<ul><li>No more big reload on building.</li>
+	<li>Error pop-ups! Currently only occur in niche situations, but they should happen. Maybe.</li>
+	<li>Organized the side-bar a little better. It should stay properly aligned and look nicer.</li>
+	<li>Food, water, and building mats gathered by your colony are added to their appropriate stocks BEFORE your colony uses them. These are allowed to overflow your stores, and will be cleared after everyone's consumed.</li>
+	<li>Some minor rewording to make things nicer.</li>
+	<li>Social policies are no longer permanently visible, saving precious screen real estate. (Click on it to display, or again to hide.)</li>
+	<li>Central's "check inside" for the storage fissure also displays a summary of your dugout. I think I should just remove the inventory check in the populace screen at this point...</li>
+	<li>BugTest has been moved from central, and placed on the sidebar for easy access. The page itself has also been cleaned up and given a couple more options, with more explanations and finer control.</li>
+	<li></li></ul><br>
+
+	''Bugs Patched''
+	<ul><li>As with QoL: dragons store their goods before dinner, meaning you shouldn't end up with surplus food and still have dragons complaining about no meals.</li>
+	<li>Another bit for the nursery, so it doesn't lie about barren nests when you definitely have hatchies and eggs.</li>
+	<li>Hatchies eat properly regardless of egg presence.</li>
+	<li>Total living space available now calculated correctly. Please keep an eye on the <strong>right</strong> number by Shelter Space. If it goes down at any point, inform the dev.</li>
+	<li>Apparently scavengers weren't doing their jobs??? They are now but I'm not sure what happened.</li>
+	<li></li></ul><br>
+	
+	''Bugs Created''
+	<ul><li><<print $player.title>> / The Player is in a weird position right now of schrodinger's shelter. They both are and are not sheltered.</li>
+	<li>Returning dragons may list their reason for leaving the colony as 'Wanderer' if they were a, well, wanderer before they joined. Not sure what's happening there, but it's purely flavor and not a high-priority bug.</li>
+	<li></li></ul><br>
+	
+	''Current Focus?''
+	<ul><li>Hydra event.</li>
+	<ul><li><strike>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</strike></li>
+	<li><strike>Soldiers: New job for your dragons. They eat and drink a lot, and only really counter this by occasionally hunting. But they're super necessary for raids, and it's better to have a couple and not need them, than to need them and not have them.</strike></li>
+	<li><strike>Defensive structures.</strike></li>
+	<li><strike>Flavor involving all of these things, of course. Gotta let you know they're present in central.</strike></li>
+	<li><strike>The actual... y'know... raid...</strike></li></ul>
+	<li>Random Events.</li>
+	<li><strike>Visiting specific locations.</strike></li>
+	<li>Update PC to consume 8/10 when unsheltered, 3/4 when sheltered.</li></ul>
+<</nobr>>
+
+:: OOC Chat
+<<nobr>>
+
+	/* This is the 'end demo' page. */
+	/* Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current 'end'. */
+	/* It includes hints on if the player has missed anything or if they've found it all, and a teaser on what's the next 'big' update. */
+	/* This page always returns to either the Sandbox, or to the game START. */
+	
+	/* CURRENT DEMO END: Hydra Raid. */
+
+	Hello, this is the dev here! I've some words to share...<br><br>
+
+	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the current 'story' content.
+	<<if $hydraBeat == true>>
+		<<if $player.special[0] == "Hydra">>
+			A truly well-deserved congratulations on achieving the special raid ending, too; that's no easy feat! I hope you've enjoyed. Though there's no more major / pseudo-story content to be found, you can continue to play in your current colony for as long as you like.<br><br>
+		<<else>>
+			You've beaten the big boss of the current content, and a hearty congratulations is in order! That's no mean feat... though there's something extra you've missed. Maybe if you had stronger defenses, you'd find something more? but that's neither here nor there. Congratulations no less, and a hearty <em>well done!</em> You're free to continue playing this colony to your heart's content, or you can try again with that raid and maybe get the special ending. Good luck!<br><br>
+		<</if>>
+
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. If you have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		
+		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
+
+		Once more, from the bottom of my heart—thank you for playing. May the wind stay under your wings, and I hope you continue to enjoy DREKI.<br><br>
+
+		[[Now, back to the game.|Sandbox Central]]
+
+	<<else>>
+
+		The hydra is intended to be a tough fight; there's no shame in losing here. You can always try again! Either way, I hope you've enjoyed what you've played so far.<br><br>
+
+		DREKI is still in active development, and more will be coming. This is merely a teaser!... and a fairly incomplete one at that. If you have encountered any bugs, confusion, or difficulties, please report it! You can do so at the <a href="https://github.com/DrekiWork/DREKI/issues">GitHub page</a>, or on <a href="https://drekidev.itch.io/dreki">itch.io</a>. Feel free to swing on by even if you didn't—maybe if you've got some thoughts you'd like to share, or suggestions you might like to see. I'm all ears!<br><br>
+		
+		Otherwise, I intend to do housekeeping for a while, before focusing on matters closer to home... Specifically, colonists!<br><br>
+
+		Once more, from the bottom of my heart—thank you for playing. May the wind stay under your wings, and I hope you continue to enjoy DREKI.<br><br>
+
+		[[Now, back to the game.|START]]
+
+	<</if>>
+<</nobr>>

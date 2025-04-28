@@ -1,0 +1,80 @@
+:: Treasure [WIP forage] {"position":"875,800","size":"100,100"}
+<<nobr>>
+
+		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
+	<<set $player.action -= 1>>
+
+		/* _forage acts as a scaling selector. */
+		/* It chooses a scene set, with higher numbers meaning higher yield. */
+		/* 0 - no forage found. */
+		/* 1-2 - A small yield, from 1-3. */
+		/* 3-7 - A moderate yield, the most common found. 4-7. */
+		/* 8-9 - A large yield. 8-10. */
+	<<set _forage = random(9)>>
+
+		/* With _forage chosen, _scene runs to determine what variation plays out. */
+		/* There are three possible scenes. This is all for fluff. */
+	<<set _scene = random(2)>>
+
+		/* Ensures the player only goes looking for treasure ONCE a day. */
+	<<set $ghunt = true>>
+
+
+	<<if _forage >= 8>>
+			/* _collect is how much gold a dragon finds. */
+		<<set _collect = random(8, 10)>>
+
+		<<if _scene == 0>>
+			You're gliding lazily along some thermals when you spot a small group of dragons passing through; they don't seem to be adults, but the fact that strangers are in your lands is somewhat infuriating. Since they aren't grown, you elect to let them through peacefully - until you notice that they are leaving tracks. You follow them back to the winglets' colony and find... no one there. <br> <br>
+			Curiosity piqued and feeling more than a little spiteful, you rummage through their supplies. Their food stock is abysmal and you feel worse for the algae growing in their water, but there is gold. You happily take all <span class="gold"><<print _collect>></span> of it and leave. <br> <br>
+		<<elseif _scene == 1>>
+			You decided to go cliff-carving for stone when - to your utmost delight - you instead find a vein of something glittering and beautiful. You tear it out with reckless abandon, piling it all at the top of the cliff. There isn't as much as your greedy claws would like, but after more delicately extracting the treasure from what remains of its rocky confines, you end up with <span class="gold"><<print _collect>> gold's worth</span>. <br> <br>
+		<<else>>
+			You stumble across an abandoned pile of glittering metals worth <span class="gold"><<print _collect>> gold</span>; you set out for treasure, but this is a <em>far</em> more than expected. You swallow the whole of it into your throat pouch, and fly home as fast as you can. <br> <br>
+		<</if>>
+
+	<<elseif _forage >= 3>>
+		<<set _collect = random(4, 7)>>
+		
+		<<if _scene == 0>>
+			You're bored out of your wits wandering your territory when you scent something... metallic. More so concerned with boredom than any hope of good fortune, you follow the trail to an abandoned den, with a not ignorable collection of goodies within. You take the <span class="gold"><<print _collect>> gold</span> and collapse the den; no need to let something else take up residence and be a problem. <br> <br>
+		<<elseif _scene == 1>>
+			You were just thinking of coming down to rest when you notice a group of animal-folk passing through. They're not in the best shape, but the fact that they thought to cross dragon lands is reason enough for you to land - elegantly - before them. You demand your rightful toll, and without hesitation they empty their pockets of valuables - coming to <span class="gold"><<print _collect>> gold</span>. It's a bit light, but enough for you to let them live. You escort them until you reach the end of your territory; it's doubtful they'll take the same way back.<br><br>
+		<<else>>
+			You've flown for a long time before you spy something interesting on the ground; what looks like an abandoned caravan from another species. Though already ransacked, there's <span class="gold"><<print _collect>> gold</span> that is worth claiming.<br><br>
+		<</if>>
+
+	<<elseif _forage >= 1>>
+		<<set _collect = random(1, 3)>>
+		
+		<<if _scene == 0>>
+			You thought you saw something gleaming in a pool of water - and though you now realize it was most likely the water itself, you have still found <span class="gold"><<print _collect>> treasure</span> to justify your splashing. <br> <br>
+		<<elseif _scene == 1>>
+			Some time after you've started your (walking) patrol, you stumble across a scene of violence; it's not entirely clear if there was a winner or loser, but the disfigured bushes and broken objects suggest it was a fierce fight. You poke around the scene for a time and are rewarded with a pouch that your claws easily rip open - revealing glittering bits inside. There are quite a lot of them, but upon smelting them into more pleasing form, you find they are only worth <span class="gold"><<print _collect>> treasure</span>. Oh well. <br> <br>
+		<<else>>
+			You travel across your territory until the sun has noticeably moved, but all you have found are merely pebbles of glittering substance. Unfortunately, your <span class="gold"><<print _collect>> gold</span> will have to be all for this patrol. <br> <br>
+		<</if>>
+
+	<<else>>
+		<<set _collect = 0>>
+		You fly across your lands, scour every inch that you can reach, but nothing catches your eye. Frustrated, you return home. <br> <br>
+
+	<</if>>
+
+		/* Adding the gold found today to the $gold total. */
+	<<set $gold += _collect>>
+
+	<<if $player.action >= 1>>
+		<span id="choices">
+			You could look for 
+			<<link "something else">>
+				<<replace "#choices">>
+					[[Food]], [[water|Water]], [[wood|Wood]], or [[stone|Stone]]? Alternatively, you can still [[go home|Sandbox Central]].
+				<</replace>>
+			<</link>>; or you can simply [[stay home.|Sandbox Central]]
+		</span>
+	<<else>>
+		It's time to [[go home.|Sandbox Central]]
+	<</if>>
+<</nobr>>
+

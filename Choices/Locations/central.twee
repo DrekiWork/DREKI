@@ -1,0 +1,208 @@
+:: Sandbox Central [WIP Central] {"position":"800,425","size":"100,100"}
+<<nobr>>
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+														/* Sandbox Central is the main hub of the game. */
+
+			/* This is where the player returns after every event, where most information is displayed, and where they'll act. */
+			/* This is also where I'm storing a lot of information in small, fluffy bits. */
+			/* For example: The player's energy determines what time of day it is, because it's less energy, and more how long they spend Doing An Action. */
+			/* The longer they've been in a colony, the more worn-in it feels. */
+			/* The more they've done, the more time changes. */
+			/* There's mentions of what they've constructed; housing and inventory and defenses. */
+			/* Trophies are displayed here. */
+			/* Actions are taken. */
+			/* This is the home of the player, and will be treated as such. */
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+		/* Time here; this comments on how old your colony is. */
+	You are a dragon in a
+			/* >=100 months: a very old colony. */
+		<<if $cycles >= 100>>
+			n ancient-looking colony that has been around for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it's been here for a very long time.
+			
+			/* >= 25 months: An established, but still growing colony. */
+		<<elseif $cycles >= 25>> 
+			well-established colony, having lived here for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. It's all beginning to take proper shape, and you can't help but feel pleased with it.
+			
+			/* >= 5 months: A newish colony that's found its footing. */
+		<<elseif $cycles >= 5>> 
+			somewhat established colony, that has been here for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. You've been here long enough to note the dirt becoming packed from footsteps and wingbeats.
+			
+			/* Anything younger. You're new, and untested. */
+		<<else>> 
+			new colony, having been here for only <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. You don't have much, but you can grow. 
+		<</if>>
+		<br><br>
+
+	It's
+		<<switch $player.action>>
+		<<case 5>>
+			very early; the sun hasn't yet sent the moon to its death, and your breath fogs before you in night's lingering chill. You have plenty of time to do work.
+		<<case 4>>
+			just past sunrise; the world is warming up, and you can't resist spreading your wings to warm them a little. You can do quite a lot today.
+		<<case 3>>
+			almost exactly noon; you find yourself relaxing on a particularly warm rock before you can think too much of it. You still have time to gather.
+		<<case 2>>
+			getting late in the day; there's a dearth of prey-animals as they all start to nap, and you briefly enjoy the quiet. There's a little time to work yet.
+		<<case 1>>
+			almost evening; night-creatures are beginning to come out and you find yourself reluctant to stray too far from home. You can probably go out once more for the day.
+		<<case 0>>
+			sunset; the sky is painted in orange and purples as night avenges itself upon the sun's death, and asserts its comforting chill. You're done leaving your thunder for today; it is time to stay at home.
+		<</switch>><br><br>
+
+
+	The bulk of your colony is sprawled around a clearing in a forest, 
+	<<if $defenseTalk == true>>
+		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
+			surrounded by staves of wood and stone.
+		<<elseif $defenseBuildings.palisade.amount > 5>>
+			partially surrounded by staves of wood and stone; the rest still need to be placed.
+		<<elseif $defenseBuildings.palisade.amount > 0>>
+			with scattered staves around the perimeter showing the beginnings of your palisade. There's more to be done.
+		<</if>>
+		<<if $defenseBuildings.rockfall.loaded > 0>>
+			Intimidating brackets of wood line the top of the cliff face your colony is built against, bearing boulders to be brought down upon intruders. There's
+		<<elseif $defenseBuildings.rockfall.empty > 0>>
+			Seemingly purposeless nests of wood line top of the clif face your colony is built against; rockfalls awaiting their payload. There's
+		<<else>>
+			There's
+		<</if>>
+	<<else>>
+		and backed against a sheer cliff. There's
+	<</if>>
+		<<if $home > 1>>
+			<<set _noHome = ($dragons.length - $home)>>
+			enough room for <<print $home>> dragons to find a place to sleep - perhaps even comfortably. 
+			<<if _noHome > 1>>
+				However, you have <<print _noHome>> dragons that still need somewhere to sleep.
+			<<elseif _noHome == 1>>
+				However, you have one dragon that doesn't have a place to rest.
+			<<else>>
+			<</if>>
+		<<elseif $home == 1>>
+			one spot to sleep.
+			<<if $dragons.length > 1>>
+				However, you have <<print $dragons.length>> dragons that still need somewhere to sleep.
+			<<elseif $dragons.length == 1>>
+				However, you have one dragon that doesn't have a place to rest.
+			<<else>>
+			<</if>>
+		<<else>>
+			nowhere to shelter.
+		<</if>><br><br>
+
+		<<if $player.home.built == true>>
+			Your own home is marked by a subtle arch of stone against a particularly jagged face of the cliff, easily mistaken for a rockslide than anything intentional. It calls to you. [[Go inside?|playerHome]]<br><br>
+		<<else>>
+			You don't have a home yourself, yet - though you have the perfect spot in mind...<br><br>
+		<</if>>
+
+	<<if $hydraBeat == false>>
+		Your storage is located in a fissure carved through the cliff face; though you aren't sure how it got there, there's room enough for you to safely hide away your thunder's necessities.
+	<<else>>
+		Your storage is located in a cavern carved through the cliff face, the entryway widened by vicious claws as long as your forelimbs. The skulls of the hydra have been inset to the cliff, looming over your colony in perpetual reminder of your first great trial.
+	<</if>> <<linkreplace "Check inside?">>
+
+		<br>Inside, you've expanded your food cavern 
+		<<print $cavern.amount>> 
+			<<if $cavern.amount > 1>>
+				times, 
+			<<else>>
+				time, 
+			<</if>>
+		and it can hold up to <<print $foodCap>> food. Your colony has stored 
+		<<if $food >= ($pop * 12)>>
+			plenty of food to feed your thunder. Still, more can't go amiss...
+		<<elseif $food >= ($pop * 10)>>
+			more than enough food to feed your thunder.
+		<<elseif $food >= ($pop * 7)>>
+			enough food for a few days.
+		<<elseif $food >= ($pop * 4)>>very little food, but some. More is needed.
+		<<elseif $food >= 1>>a truly small amount of food; you need to get more, or send someone else to forage. Someone will starve tonight otherwise.
+		<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>><br>
+	Lining the edge of your storage cavern 
+		<<if $pool.amount > 1>>
+			are your <<print $pool.amount>> collection pools that can store up to <<print $waterCap>> water.
+		<<else>>
+			is your collection pool, that can hold up to <<print $waterCap>> water.
+		<</if>>
+		Your thunder
+		<<if $water >= ($pop * 12)>>has much more water than needed. You've had to keep a wary eye to make sure that it doesn't start growing algae, even if this is a good problem to have.
+		<<elseif $water >= ($pop * 10)>>probably too much to drink; you have to skim the water now and again to keep it clean of insects, but you'd rather have too much water than too little for your burgeoning colony.
+		<<elseif $water >= ($pop * 7.5)>>doesn't really need water; you have enough for some days, at least.
+		<<elseif $water >= ($pop * 5)>>has some water, though the ditch you've lined for it feels like it holds too little regardless.
+		<<else>>needs water, desperately.<</if>><br>
+	Near the entrance, safely away from the weather, is your dugout. You've expanded it <<print $dugOut.amount>> <<if $dugOut.amount > 1>>times<<else>>time<</if>>, and it can hold up to <<print $woodCap>> each of wood and stone.
+	<</linkreplace>><br><br>
+
+	What do you want to do?<br>
+	<<if $player.action >= 1>>
+		<<linkappend "Go foraging.">> For?
+		<br> <<if $food < $foodCap>>
+				&emsp;[[Food]]
+			<<else>>
+				&emsp;You can't store any more food.
+			<</if>>
+		<br> <<if $water < $waterCap>>
+				&emsp;[[Water]]
+			<<else>>
+				&emsp;Your collection pools are full.
+			<</if>>
+		<br> &emsp;<<linkappend "Building materials">>
+			<br> <<if $wood < $woodCap>>
+					&emsp;&emsp;[[Wood]]
+				<<else>>
+					&emsp;&emsp;Your dugouts are full of wood.
+				<</if>>
+			<br> <<if $stone < $stoneCap>>
+					&emsp;&emsp;[[Stone]]
+				<<else>>
+					&emsp;&emsp;Your dugouts are full of stone.
+				<</if>>
+			<</linkappend>>
+		<br> &emsp;[[Treasure]]
+		<</linkappend>> <br>
+		<<if $eggSpace > 0 && $theft == false>>
+			[[Get eggs|Egg theft]] <br>
+		<<elseif $eggSpace <= 0 && $theft == false>>
+			You don't see a point in risking yourself for eggs that you don't have room for. <br>
+		<<else>>
+			You shouldn't risk trying to steal more eggs today. <br>
+		<</if>>
+		<<if $visitPlaces == true>>
+			<<linkappend "Go somewhere.">>
+				<<if $infestedNotice == true && $kelpieExtinction == false && $hasVisited.kelpieLake == false>>
+					<br>&emsp;[[Infested Lake|KelpieLake]]
+				<<elseif $infestedNotice == true && $kelpieExtinction == true && $hasVisited.kelpieLake == false>>
+					<br>&emsp;[[Empty Lake|KelpielessLake]]
+				<<elseif $hasVisited.kelpieLake == true>>
+					<br>&emsp;You've already been to the lake today.
+				<<else>>
+				<</if>>
+				<<if $hydraSeen == true && $hydraEggTaken == false && $hasVisited.hydraDen == false>>
+					<br>&emsp;[[Hydra's Den|HydraDen]]
+				<<elseif $hydraSeen == true && $hydraEggTaken == true && $hydraBeat == false>>
+					<br>&emsp;You don't dare risk visiting the hydra <em>now</em>.
+				<<elseif $hydraBeat == true && $hasVisited.hydraDen == false>>
+					<br>&emsp;[[Abandoned Hydra Den|HydraDen]]
+				<<elseif  && $hasVisited.hydraDen == true>>
+					<br>&emsp;You've already been to the den today.
+				<<else>>
+				<</if>>
+			<</linkappend>><br>
+		<</if>>
+	<<else>>
+		You've been away from your colony for long enough. <br>
+	<</if>>
+	[[Build something|Building]] <br>
+	[[Check the nursery|Nursery]] <br>
+	<<if $dragons.length >= 1>>
+		[[Interact with your thunder|Pop]] <br>
+	<</if>>
+[[Rest|Rest]]
+
+<</nobr>>

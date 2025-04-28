@@ -1,0 +1,448 @@
+:: StoryInit [Special] {"position":"100,0","size":"100,100"}
+<<nobr>>
+
+/* ~~~~~~~~~~~~~ PLAYER SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+		/* Title is what the player is referred to by colonists and others. */
+		/* Actions are how many times a player can leave the colony before day end. */
+		/* Health is health; lost if player doesn't eat or drink at day end. */
+		/* Specials is trophies claimed from defeated bosses, ex. the Hydra's Heart. */
+	<<set $player to {
+		title : "Founder",
+		action : 5,
+		health : 10,
+		home : {
+			built : false,
+			space : 0,
+			vanity : 0
+		},
+		specials : []
+	}>>
+
+		/* Set to false to allow the player to look for gold once per day at game start. */
+		/* Gets reset on rest. */
+	<<set $ghunt = false>>
+
+		/* Tracks if the player has atttempted to steal an egg 'today'. */
+		/* Resets each rest to false to allow another attempt. */
+	<<set $theft to false>>
+
+		/* visitPlaces flag determines if the player has run into a special location. */
+		/* False means they haven't and can't choose to go to a special location from Sandbox. */
+		/* hasVisited checks if you've gone to a specific location, and disables it. No cheese! */
+	<<set $visitPlaces = false>>
+	<<set $hasVisited = {
+		hydraDen : false,
+		kelpieLake : false
+	}>>
+
+
+
+/* ~~~~~~~~~~~~~ DRAGONS SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+	/* ~~~ MEANINGFUL ~~~ */
+
+		/* Name list to be chosen from, in alphabetical order. */
+	<<set $dNames to [
+		"Abaddon", "Adula", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
+		"Baeliru", "Bakari", "Baruti", "Beroan", "Blaze", "Boldar", "Boris", "Brantley", "Briam", "Brigid", "Bruno", 
+		"Cadmus", "Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Clay", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
+		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
+		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
+		"Fírnen", "Flame", "Flavius", "Fonsworthy", 
+		"Galadriel", "Gavin", "Ghidora", "Gildas", "Gildor", "Gimli", "Glaedr","Greyoll", "Grigori", "Gwyneth", "Gunnar", 
+		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
+		"Iola", "Isaak", "Ilmarinen", "Ivor", 
+		"Jaren", "Jarvis", "Jed", "Jormungandr", 
+		"Kael", "Kasiya", "Kosoko", 
+		"Laird", "Lateef", "Legna", "Lenora","Lindar", "Liraz", "Lirien", "Lutalo", 
+		"Magnus", "Makar", "Malefor", "Maximos", "Mazi", "Miasmar", 
+		"Nestor", "Nevin", "Nils", "Nithring", 
+		"Obasi", "Odahviing", "Ophelia", "Oswin", 
+		"Paarthurnax", "Pyra", 
+		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
+		"Sadiki", "Saphira", "Sif", "Seren", "Skipper", "Shruikan", "Smaug", "Soot", "Spry", "Spyro", "Storm", "Sunburn", 
+		"Tamlin", "Tanwen", "Terrador", "Theodorix", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
+		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
+		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
+		"Woden", "Wren", 
+		"Yara", 
+		"Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"
+	]>>
+	
+		/* Personality traits, in alphabetical order. */
+		/* I think I'll group these into 'types' to make my job (writing fluff) easier, at some point. */
+		/* Personalities will eventually have an impact on job efficiency and inter-colonist relationships. */
+	<<set $dPers to [
+		"absentminded", "abrasive", "aloof", "ambitious", 
+		"caring", "chatty", "clever", "confident", "creative", "curious", 
+		"dependable", "dreamy", 
+		"emotional", "energetic", 
+		"formal", "friendly", 
+		"generous", "gentle", "greedy", 
+		"hardworking", "harsh", 
+		"impatient", "independent", "insecure", "intelligent", 
+		"lax", "lazy", "loyal", 
+		"mellow", "moody", 
+		"nervous", "negligent", 
+		"organized", "obsessive", 
+		"patient", "persistent", "placid", "practical", 
+		"quiet", "queer", "quaint", 
+		"rational", "resourceful", "responsible", 
+		"selfish", "selfless", "sensitive", "skeptical", "spontaneous", 
+		"thoughtful", "tolerant", 
+		"whimsical", "witty"
+	]>>
+
+		/* Ages. Originally planned to be used to track life stage (-7 - 0 as egg, 1-14 as hatchling, etc). */	
+		/* Not currently in use. */
+	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult", "Elder"]>>
+	
+		/* Jobs. Mostly used to keep track of potential jobs, but will be used to let dragons auto-assign themselves. */
+			/* Slacker: No job. */
+
+		/* Gatherers */
+			/* Forager: Food. */
+			/* Rainier: Water. */
+			/* Scavenger: Wood & Stone. */
+			/* Salvager: Gold (without much success). */
+		
+		/* Special */
+			/* Builder: Builds. */
+			/* Soldier: Guards, mans outposts. Might hunt. */
+	<<set $dJobs to ["slacker", "forager", "rainier", "builder", "scavenger", "salvager", "soldier"]>>
+
+
+	/* ~~~ FLUFF ~~~ */
+	
+		/* Dragon sizes. Most likely to be 'normal'. */
+	<<set $dSize to ["small", "normal", "normal", "normal", "normal", "large"]>>
+
+		/* Dragon color. Dragons will always have one! */
+	<<set $dColor to ["red", "blue", "yellow", "green"]>>
+
+		/* Body patterns / markings / etc. */
+	<<set $dPattern to [
+		"freckled", 
+		"piebald", 
+		"plain", "plain", "plain", "plain", "plain",
+		"smooth", 
+		"spotted", "striped"
+	]>>
+
+		/* Visual quirks. Most likely to be 'none'. */
+	<<set $dVisQuirk to [
+		"none", "none", "none", "none", "none", "none", "none", "none", "none", 
+		"sharp teeth", "raggedy", "stub-tail", "clean", "dull"
+	]>>
+
+
+
+
+/* ~~~~~~~~~~~~~ POPULATION SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+	
+	/* ~~~ IN-COLONY POPULATION TRACKERS ~~~ */		
+	
+		/* Population count. Set to one to account for PC. */
+		/* Otherwise will equal the amount of -adult- colonists PC has. */
+	<<set $pop to 1>>
+
+		/* $eggs and $hatchlings are just arrays. */
+		/* Both hold objects that are functionally timers. */
+	<<set $eggs to []>>
+	<<set $hatchlings to []>>
+
+		/* $winglets isn't in use yet, but will hold half-developed dragons. */
+	<<set $winglets to []>>
+
+		/* These are your adult colonists. I should probably rename to colonists... */
+	<<set $dragons to []>>
+
+		/* Prisoners is currently unused, but will house... prisoner dragons, once I set up actually catching egg thieves or intruders. */
+	<<set $prisoners to []>>
+
+
+
+	/* ~~~ EXTERNAL POPULATION TRACKERS ~~~ */
+
+		/* Dead anything. CoD will be contained in each individual object, as well as if they were part of your colony or not. */
+	<<set $dead to []>>
+		
+		/* goneDragons are dragons that have left (exiled, deprived, etc) that are being held for 'return' events. */
+	<<set $goneDragons to []>>
+
+
+
+	/* ~~~ POPULATION EVENTS ~~~ */
+	
+		/* eggsHatched tracks how many eggs have hatched... */
+		/* ... which is used by eggEvent to track if it needs to run for the first egg hatched. */
+		/* 0 means it hasn't happened yet. */
+	<<set $eggsHatched to 0>>
+	<<set $eggEvent to 0>>
+	
+		/* Checks if the hatchling growing up is the first to do so, and enacts a special passage if so. */
+		/* 0 means 'hasn't happened, to be done.' */
+	<<set $firstCol to 0>>
+
+
+
+
+/* ~~~~~~~~~~~~~ RESOURCE SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+		/* Food, water, treasure, building materials. You start with nothing. */
+		/* Each one is crucial in SOME way. */
+		/* Food and water are daily, immediate needs that hurt PC and colonists if not fulfilled. */
+		/* Building mats — wood & stone — are used to build everything. You need wood at least to even start your colony. */
+		/* Gold provides a small buff to your resource-gathering colonists... and may be used in special ways later. */
+	<<set $food to 0>>
+	<<set $water to 0>>
+	<<set $gold to 0>>
+	<<set $wood to 0>>
+	<<set $stone to 0>>
+
+		/* Resource storage set-up. */
+		/* Pools for water, caverns for food, dugouts for wood and stone. */
+		/* Dugouts hold wood and stone, so they only need one cap. */
+		/* Gold has no limiting factor. */
+		/* Amount is how much of a storage building has been built, and storage is how much a single building can hold. */
+		/* So one pool holds thirty water; two pools means a colony can hold sixty water. */
+		/* Might make upgrades available to storage, albeit limited in scope. */
+	<<set $pool to {
+		amount : 1,
+		storage : 30
+	}>>
+	<<set $waterCap to ($pool.amount * $pool.storage)>>
+
+	<<set $cavern to {
+		amount : 1,
+		storage : 30
+	}>>
+	<<set $foodCap to ($cavern.amount * $cavern.storage)>>
+
+	<<set $dugOut to {
+		amount : 1,
+		storage : 30
+	}>>
+	<<set $buildingMaterialCap to ($dugOut.amount * $dugOut.storage)>>
+
+
+
+
+/* ~~~~~~~~~~~~~ BUILDING SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+	/* ~~~ BUILD QUEUE ~~~ */
+
+		/* The $buildQueue itself is an array of every item the player has chosen as long-term building projects. */
+		/* (Such as hollows, defensive structures...) */
+		/* $buildTime is how long the current $buildQueue[0] will take to complete. */
+		/* Set to -1 by default to stop the queue from trying to run at all. */
+		/* Much like $buildTime, $builderStatus is set to -1 to stop them from working at all. */
+	<<set $buildQueue to []>>
+	<<set $buildTime to -1>>
+	<<set $builderStatus to -1>>
+
+
+
+	/* ~~~ SHELTER BUILDINGS ~~~ */
+
+		/* $shelter is a datamap containing all information about every shelter, for quick reference in-game. */
+		/* Each shelter is arranged like so: */
+		/*
+			<<set $shelter.NAME to {
+					<!-- How much of a shelter type you have. -->
+				amount : #,
+					<!-- How many colonists a given shelter can hold. -->
+				shelter : #,
+					<!-- Stone cost to build the shelter. -->
+				priceS : #,
+					<!--  Wood cost to build the shelter. -->
+				priceW : #,
+					<!-- OPTIONAL: How long builders will take to construct the shelter. -->
+			*	buildTime : #,
+					<!-- How much, of the total space provided by shelters, is open to new occupants. -->
+				free: #,
+					<!-- How much, of the total space provided by shelters, is in use by colonists. -->
+				occupied: #
+			}>>
+		 */
+	<<set $shelter to {}>>
+
+		/* Ruts are the most basic shelter. Not the worst, but the cheapest to make. */
+		/* $builtRut is used to unlock setts after your first rut is constructed. */
+	<<set $shelter.ruts to { 
+		amount : 0,
+		shelter : 1,
+		priceS : 5,
+		free : 0, 
+		occupied : 0
+	}>>
+	<<set $builtRut = false>>
+
+		/* Setts are improved ruts. They require an empty rut to build and are much preferred by colonists. */
+	<<set $shelter.setts to {
+		amount : 0,
+		shelter : 1,
+		priceS : 5,	
+		priceW : 2,
+		free : 0,
+		occupied : 0
+	}>>
+
+		/* Hollows are barracks. They are the worst, bottom of the barrel shelter—but they hold multiple dragons! */
+	<<set $shelter.hollows to {
+		amount : 0,
+		shelter : 10,
+		priceS : 30,
+		priceW : 20,
+		buildTime : 3,
+		free : 0,
+		occupied : 0
+	}>>
+
+		/* $home is calculated based on [shelter.amount] * [shelter.shelter] to determine total space in the colony. */
+		/* This is run for EVERY possible shelter, and ignores occupation. */
+	<<set $home = (
+		($shelter.ruts.shelter * $shelter.ruts.amount) + 
+		($shelter.setts.shelter * $shelter.setts.amount) + 
+		($shelter.hollows.shelter * $shelter.hollows.amount)
+	)>>
+
+
+
+	/* ~~~ NURSERY BUILDINGS ~~~ */
+
+		/* How many nests you have, and how much room you have for younglings. */
+		/* Despite the name, eggSpace is used to hold both eggs and hatchies. */
+	<<set $nest = 0>>
+	<<set $eggSpace = ($nest * 3)>>
+
+
+
+	/* ~~~ DEFEENSIVE BUILDINGS ~~~ */
+
+		/* $defenseBuildings is, like $shelter, a datamap. */
+		/* It's set up similarly too, though these need to be constructed by builders. */
+		/* However, every building has a maximum amount that can be constructed, indicated by the max key. */
+	<<set $defenseBuildings = {}>>
+
+		/* Palisades provide a small defense boost when at MAX, as well as flavor text. */
+	<<set $defenseBuildings.palisade = {
+		amount : 0,
+		max : 10,
+		priceS : 30,
+		priceW : 50,
+		buildTime: 1
+	}>>
+
+		/* The moat provides a LARGE defense boost at max. */
+		/* 'creatures' refers to an in-game decision for the player. */
+		/* While visiting the kelpie lake, the player can choose to relocate some to the moat (if fully constructed and filled.) */
+	<<set $defenseBuildings.moat = {
+		amount : 0,
+		max : 3,
+		creatures : false,
+		priceS : 150,
+		priceW : 70,
+		priceWa : 210,
+		buildTime : 7
+	}>>
+
+		/* Rockfalls are your final defense. */
+		/* They are built empty and need to be loaded with 10 stone to work. */
+		/* Currently, can only be loaded via policy at day end. */
+	<<set $defenseBuildings.rockfall = {
+		amount : 0,
+		max : 4,
+		priceS : 70,
+		priceW : 20,
+		buildTime : 3,
+		loaded : 0,
+		empty : 0
+	}>>
+
+		/* Outposts are your first line of defense. */
+		/* They need soldiers to occupy them, or else are ineffective. */
+	<<set $defenseBuildings.outpost = {
+		amount : 0,
+		max : 5,
+		priceS: 25,
+		priceW: 25,
+		buildTime : 2
+	}>>
+
+		/* $defenseTotal is the numerical representation of your defensiveness. */
+		/* 0 by default because no structures, but recalced when a new one is built. */
+	<<set $defenseTotal = 0>>
+
+
+
+
+/* ~~~~~~~~~~~~~ DIPLOMACY SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* Holdover until I actually do this. */
+
+
+
+
+/* ~~~~~~~~~~~~~ MISC SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+	/* ~~~ META ~~~ */
+
+		/* Allows access to BugTest page. Off by default, unless Cheat / Test is chosen on start page. */
+	<<set $cheat to false>>
+
+		/* How many days you've been here, and how many moon cycles! */
+		/* Each cycle is 30 days: when the $days hits 30, endDay resets it to 1, and ups the cycle tracker. */
+	<<set $days to 1>>
+    <<set $cycles to 0>>
+
+		/* An array tracking trophies from beaten bossses. */
+		/* Differs from $player.special in that they provide no innate buff to the player character. */
+		/* These are for colony use, however that shakes out. */
+	<<set $trophies to []>>
+
+		/* Flag for checking if the defense tutorial has run. Falsey until it's happened. */
+	<<set $defenseTalk = false>>
+
+	
+	/* ~~~ POLICIES ~~~ */
+
+		/* Social */
+			/* $findSleep determines if you need to assign dragons to shelters, or if they'll find their own. */
+		<<set $findSleep to true>>
+
+			/* $jobHunt determines if dragons will assign themselves a job. */
+		<<set $jobHunt to false>>
+
+
+		/* Defensive */
+			/* $autoLoad determines if your rockfalls are reloaded (as necessary) at day end. */
+			/* Each reload costs 10 stone. */
+		<<set $autoLoad = true>>
+
+
+	/* ~~~ EVENTS ~~~ */
+
+		/* Keeps track of current major event, and stops other major events from occuring until it's dealt with.  */
+	<<set $currentEvent = "none">>
+
+		/* These set up the Hydra. */
+		/* Seen, EggTaken, and Beat are pretty self-explanatory. */
+		/* Time is set to negative to prevent the EndDay from artificially launching the hydra event. */
+		/* If positive there would be a countdown, and zero would trigger. */
+	<<set $hydraSeen to false>>
+	<<set $hydraEggTaken to false>>
+	<<set $hydraTime = -1>>
+	<<set $hydraBeat = false>>
+
+		/* For the lake creatures (kelpies). */
+		/* $infestedNotice triggers if you've been to the kelpie lake once and enables visits from Sandbox. */
+		/* $kelpieExtinction triggers if PC decides to remove all kelpies from the lake while visiting. */
+		/* $lakeClaim is whether you've personally taken over the lake or are allowing it to develop on its own. */
+	<<set $infestedNotice to false>>
+	<<set $kelpieExtinction to false>>
+	<<set $lakeClaim = false>>
+<</nobr>>
+

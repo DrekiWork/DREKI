@@ -4,11 +4,41 @@
 	border: 0px, 2px;
 }
 
+
+	/* Used to hide passages until re-activated */
 .hidden {
 	display: none;
 }
 
-/*! <<numberpool>> macro set for SugarCube v2 */
+
+	/* Resource changes, for legibility. */
+.water {
+	color: deepskyblue;
+}
+
+.food {
+	color: limegreen;
+}
+
+.stone {
+	color: lightsteelblue;
+}
+
+.wood {
+	color: peru;
+}
+
+.gold {
+	color: gold;
+}
+
+
+strong {
+	color: #fff5c2;
+}
+
+
+	/*! <<numberpool>> macro set for SugarCube v2 */
 div[id|="numberinput-body"] {
 	display: inline-block;
 }
