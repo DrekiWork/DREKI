@@ -189,7 +189,7 @@
 					<br>&emsp;You don't dare risk visiting the hydra <em>now</em>.
 				<<elseif $hydraBeat == true && $hasVisited.hydraDen == false>>
 					<br>&emsp;[[Abandoned Hydra Den|HydraDen]]
-				<<elseif  && $hasVisited.hydraDen == true>>
+				<<elseif $hasVisited.hydraDen == true>>
 					<br>&emsp;You've already been to the den today.
 				<<else>>
 				<</if>>

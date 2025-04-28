@@ -127,7 +127,7 @@
 
 	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 	/* The initial thought was that the expansion of the colony would keep it in line. I think I'll check what this actually does on desmos. */
-			<<set _goldBonus = Math.round(Math.sqrt(($dragons.length / 11) * $gold) / ($dragons.length / 2))>>
+			<<set _goldBonus = Math.round(100 * (1 - Math.exp(-$gold / ($dragons.length * 60))))>>
 			<<run console.log("Gold bonus: " + _goldBonus)>>
 
 	
@@ -688,7 +688,7 @@
 
 				You continue cleaning them, a new weight in your hearts for this little treasure. Your very first hatchling.
 				<hr>
-			<</linkappend>>
+			<</linkappend>><br><br>
 		<<else>>
         <</if>>
 <</nobr>><</widget>>
@@ -709,7 +709,7 @@
                 
                 Your chest feels tight as you continue your evening rounds. Has time really moved so quickly?
                 <hr>
-            <</linkappend>>
+            <</linkappend>><br><br>
 		<<else>>
         <</if>>
 <</nobr>><</widget>>

@@ -7,7 +7,7 @@
     <</silently>>
 
     <<if _wantedCount == 1>>
-        <<set _dragon1 = _wantedNames.pluck>>
+        <<set _dragon1 = _wantedNames.pluck()>>
 
         <<print _dragon1>> meets you halfway, followed by a group of <<print _join>> dragons. They look nervous, but not overly so. "I found them at the border seeking shelter," <<print _dragon1>> explains.<br><br>
 
@@ -15,8 +15,8 @@
 
         They attempt to move forward, but your guard flares a wing, stopping them in their tracks. The leader stumbles back, cringing into an apologetic bow. The rest of the group promptly follows. "Please, <<print $player.title>>."<br><br><br>
     <<elseif _wantedCount == 2>>
-        <<set _dragon1 = _wantedNames.pluck>>
-        <<set _dragon2 = _wantedNames.pluck>>
+        <<set _dragon1 = _wantedNames.pluck()>>
+        <<set _dragon2 = _wantedNames.pluck()>>
 
         <<print _dragon1>> meets you halfway, expression serious but not worried. "There are <<print _join>> dragons at the edge of our territory, <<print $player.title>>. They claim to want to meet with you. <<print _dragon2>> is watching them; will you meet them?"<br><br>
 
@@ -25,8 +25,8 @@
         "<<print $player.title>>," the leader of the group says, their muzzle practically scraping the dirt. "We apologize for the intrusion, but we are desperate. We have not eaten in days; the only water near is on your territory. We fled our home, and have suffered for it." They tremble slightly, though you can't tell if it's from strain or fear. "If you— if you see fit, <<print $player.title>>, we would be grateful for shelter. We would work for our keep. Please."<br><br><br>
 
     <<elseif _wantedCount > 2>>
-        <<set _dragon1 = _wantedNames.pluck>>
-        <<set _dragon2 = _wantedNames.pluck>>
+        <<set _dragon1 = _wantedNames.pluck()>>
+        <<set _dragon2 = _wantedNames.pluck()>>
 
         <<print _dragon1>> meets you halfway, accompanied by a second guard. They give you a respectful nod, but continue on in a rush - likely to secure your homesite. You don't begrudge them the haste. <<print _dragon1>> greets you more formally, dipping into an aerial bow. "<<print _dragon2>> and I encountered <<print _join>> dragonss at the border," <<print _dragon1>> informs you. They escort you to where the group presumably is, filling you in on the details as you go. "They appear to be desperate and are in... bad shape. They claim to be seeking a new nest to call home."<br><br>
 
@@ -112,7 +112,8 @@
         <<countWorkers "soldier">>
         <<set _catchChance = random(0, 10)>>
     <<if _wantedCount > 0 && _catchChance == 10>>
-        <<set _dragon1 = _wantedNames.pluck>>
+        <<set _dragon1 = _wantedNames.pluck()>>
+        <<run console.log(_dragon1)>>
 
         You barely have time to investigate before you hear a painful-sounding <em>crack</em> and a dragon howling in agony. Not even a full breath later, <<print _dragon1>> - your guard - comes into view from the storage crag, hauling along a stranger. The dragon struggles uselessly, one wing limp on the ground and the other bent at a painful angle.<br><br>
 

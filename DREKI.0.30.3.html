@@ -293,7 +293,7 @@ Config.saves.onSave = function (save, details) {
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-passagedata pid="1" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">&lt;&lt;nobr&gt;&gt;
+}());</script><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-passagedata pid="1" name="Sandbox Central" tags="WIP Central" position="800,425" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -483,7 +483,7 @@ Config.saves.onSave = function (save, details) {
 					&lt;br&gt;&amp;emsp;You don&#39;t dare risk visiting the hydra &lt;em&gt;now&lt;/em&gt;.
 				&lt;&lt;elseif $hydraBeat == true &amp;&amp; $hasVisited.hydraDen == false&gt;&gt;
 					&lt;br&gt;&amp;emsp;[[Abandoned Hydra Den|HydraDen]]
-				&lt;&lt;elseif $hasVisited.hydraDen == true&gt;&gt;
+				&lt;&lt;elseif  &amp;&amp; $hasVisited.hydraDen == true&gt;&gt;
 					&lt;br&gt;&amp;emsp;You&#39;ve already been to the den today.
 				&lt;&lt;else&gt;&gt;
 				&lt;&lt;/if&gt;&gt;
@@ -2479,7 +2479,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
     &lt;&lt;/silently&gt;&gt;
 
     &lt;&lt;if _wantedCount == 1&gt;&gt;
-        &lt;&lt;set _dragon1 = _wantedNames.pluck()&gt;&gt;
+        &lt;&lt;set _dragon1 = _wantedNames.pluck&gt;&gt;
 
         &lt;&lt;print _dragon1&gt;&gt; meets you halfway, followed by a group of &lt;&lt;print _join&gt;&gt; dragons. They look nervous, but not overly so. &quot;I found them at the border seeking shelter,&quot; &lt;&lt;print _dragon1&gt;&gt; explains.&lt;br&gt;&lt;br&gt;
 
@@ -2487,8 +2487,8 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 
         They attempt to move forward, but your guard flares a wing, stopping them in their tracks. The leader stumbles back, cringing into an apologetic bow. The rest of the group promptly follows. &quot;Please, &lt;&lt;print $player.title&gt;&gt;.&quot;&lt;br&gt;&lt;br&gt;&lt;br&gt;
     &lt;&lt;elseif _wantedCount == 2&gt;&gt;
-        &lt;&lt;set _dragon1 = _wantedNames.pluck()&gt;&gt;
-        &lt;&lt;set _dragon2 = _wantedNames.pluck()&gt;&gt;
+        &lt;&lt;set _dragon1 = _wantedNames.pluck&gt;&gt;
+        &lt;&lt;set _dragon2 = _wantedNames.pluck&gt;&gt;
 
         &lt;&lt;print _dragon1&gt;&gt; meets you halfway, expression serious but not worried. &quot;There are &lt;&lt;print _join&gt;&gt; dragons at the edge of our territory, &lt;&lt;print $player.title&gt;&gt;. They claim to want to meet with you. &lt;&lt;print _dragon2&gt;&gt; is watching them; will you meet them?&quot;&lt;br&gt;&lt;br&gt;
 
@@ -2497,8 +2497,8 @@ It is light in your claws; as is the second, as is the third. Decision made, you
         &quot;&lt;&lt;print $player.title&gt;&gt;,&quot; the leader of the group says, their muzzle practically scraping the dirt. &quot;We apologize for the intrusion, but we are desperate. We have not eaten in days; the only water near is on your territory. We fled our home, and have suffered for it.&quot; They tremble slightly, though you can&#39;t tell if it&#39;s from strain or fear. &quot;If you— if you see fit, &lt;&lt;print $player.title&gt;&gt;, we would be grateful for shelter. We would work for our keep. Please.&quot;&lt;br&gt;&lt;br&gt;&lt;br&gt;
 
     &lt;&lt;elseif _wantedCount &gt; 2&gt;&gt;
-        &lt;&lt;set _dragon1 = _wantedNames.pluck()&gt;&gt;
-        &lt;&lt;set _dragon2 = _wantedNames.pluck()&gt;&gt;
+        &lt;&lt;set _dragon1 = _wantedNames.pluck&gt;&gt;
+        &lt;&lt;set _dragon2 = _wantedNames.pluck&gt;&gt;
 
         &lt;&lt;print _dragon1&gt;&gt; meets you halfway, accompanied by a second guard. They give you a respectful nod, but continue on in a rush - likely to secure your homesite. You don&#39;t begrudge them the haste. &lt;&lt;print _dragon1&gt;&gt; greets you more formally, dipping into an aerial bow. &quot;&lt;&lt;print _dragon2&gt;&gt; and I encountered &lt;&lt;print _join&gt;&gt; dragonss at the border,&quot; &lt;&lt;print _dragon1&gt;&gt; informs you. They escort you to where the group presumably is, filling you in on the details as you go. &quot;They appear to be desperate and are in... bad shape. They claim to be seeking a new nest to call home.&quot;&lt;br&gt;&lt;br&gt;
 
@@ -2580,8 +2580,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
         &lt;&lt;countWorkers &quot;soldier&quot;&gt;&gt;
         &lt;&lt;set _catchChance = random(0, 10)&gt;&gt;
     &lt;&lt;if _wantedCount &gt; 0 &amp;&amp; _catchChance == 10&gt;&gt;
-        &lt;&lt;set _dragon1 = _wantedNames.pluck()&gt;&gt;
-        &lt;&lt;run console.log(_dragon1)&gt;&gt;
+        &lt;&lt;set _dragon1 = _wantedNames.pluck&gt;&gt;
 
         You barely have time to investigate before you hear a painful-sounding &lt;em&gt;crack&lt;/em&gt; and a dragon howling in agony. Not even a full breath later, &lt;&lt;print _dragon1&gt;&gt; - your guard - comes into view from the storage crag, hauling along a stranger. The dragon struggles uselessly, one wing limp on the ground and the other bent at a painful angle.&lt;br&gt;&lt;br&gt;
 
@@ -3812,7 +3811,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 				&lt;&lt;silently&gt;&gt;
 					&lt;&lt;set _xp to Math.round($dragons[$int].soldierxp * 10)&gt;&gt;
 				&lt;&lt;/silently&gt;&gt;
-				They&#39;ve worked for &lt;&lt;print _xp&gt;&gt; days as a soldier.
+				They&#39;ve guarded your colony for &lt;&lt;print _xp&gt;&gt; days as a soldier.
 					&lt;&lt;if _xp &gt;= 50&gt;&gt;
 						They&#39;re so used to being alert that they&#39;ve started pre-emptively checking locations before allowing anyone in.
 					&lt;&lt;elseif _xp &gt;= 20&gt;&gt;
@@ -4178,7 +4177,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 	&lt;&lt;/if&gt;&gt;
 	
 	&lt;&lt;if _hatchcheck &gt;= 2&gt;&gt;
-		&lt;strong&gt;&lt;&lt;print _hatchcheck&gt;&gt; eggs have hatched in the Nursery.
+		&lt;&lt;print _hatchcheck&gt;&gt; eggs have hatched in the Nursery.
 		&lt;&lt;if _growcheck &gt;= 2&gt;&gt;
 			&lt;&lt;print _growcheck&gt;&gt; hatchlings have grown up.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;elseif _growcheck == 1&gt;&gt;
@@ -4186,9 +4185,8 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 		&lt;&lt;else&gt;&gt;
 			&lt;br&gt;&lt;br&gt;
 		&lt;&lt;/if&gt;&gt;
-		&lt;/strong&gt;
 	&lt;&lt;elseif _hatchcheck == 1&gt;&gt;
-		&lt;strong&gt;An egg has hatched.
+		An egg has hatched.
 		&lt;&lt;if _growcheck &gt;= 2&gt;&gt;
 			&lt;&lt;print _growcheck&gt;&gt; hatchlings have grown up.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;elseif _growcheck == 1&gt;&gt;
@@ -4196,12 +4194,11 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 		&lt;&lt;else&gt;&gt;
 			&lt;br&gt;&lt;br&gt;
 		&lt;&lt;/if&gt;&gt;
-		&lt;/strong&gt;
 	&lt;&lt;else&gt;&gt;
 		&lt;&lt;if _growcheck &gt;= 2&gt;&gt;
-			&lt;strong&gt;&lt;&lt;print _growcheck&gt;&gt; hatchlings have grown up.&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+			&lt;&lt;print _growcheck&gt;&gt; hatchlings have grown up.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;elseif _growcheck == 1&gt;&gt;
-			&lt;strong&gt;A hatchling has grown up.&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+			A hatchling has grown up.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;else&gt;&gt;
 		&lt;&lt;/if&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
@@ -5236,7 +5233,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
             Whoops! Not sure. Please let the Dev know what you were up to and they should be able to figure it out.
             
     &lt;&lt;/switch&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="EncyclopediaHome" tags="" position="100,600" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="42" name="StorySubtitle" tags="" position="225,600" size="100,100">&lt;sup&gt;alpha 0.0.30.4
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="EncyclopediaHome" tags="" position="100,600" size="100,100">Hello! You may notice very little is here. This is a heavy WIP and will be added as pages are more or less completed. =)</tw-passagedata><tw-passagedata pid="42" name="StorySubtitle" tags="" position="225,600" size="100,100">&lt;sup&gt;pre-pre-alpha 0.0.30.3
 Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="43" name="StoryCaption" tags="Special" position="100,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
@@ -5349,10 +5346,10 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="43" name="Story
 /* The gleeful tone is neecessary for personal success. */
 
 	&lt;h1&gt; Pre-Pre-Alpha 0.0.30.0&lt;/h1&gt;
-	&lt;em&gt;&lt;strong&gt;&lt;u&gt;THE HYDRA IS DONE.&lt;/u&gt;&lt;/strong&gt;&lt;/em&gt;
+	&lt;em&gt;&lt;strong&gt;&lt;u&gt;THE HYDRA IS DONE.&lt;/u&gt;&lt;/strong&gt;&lt;/em&gt; (mostly)
 
-	&lt;h2&gt; Pre-Pre-Alpha 0.0.30.4 &lt;/h2&gt;
-	First of the housekeeping sweeps.&lt;br&gt;&lt;br&gt;
+	&lt;h2&gt; Pre-Pre-Alpha 0.0.30.3 &lt;/h2&gt;
+	First of the housekeeping sweeps.
 		&#39;&#39;Bugs Patched&#39;&#39;
 		&lt;ul&gt;&lt;li&gt;Dragon renaming works.&lt;/li&gt;
 		&lt;li&gt;Rockfalls work.&lt;/li&gt;
@@ -5362,10 +5359,7 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="43" name="Story
 		&lt;li&gt;Dragons assign themselves to home... again.&lt;/li&gt;
 		&lt;li&gt;Builders should build now. :)&lt;/li&gt;
 		&lt;li&gt;Gold will not come back NaN when your scavs find it.&lt;/li&gt;
-		&lt;li&gt;Soldiers don&#39;t make food NaN when they hunt (but if they do, reload the page.)&lt;/li&gt;
-		&lt;li&gt;Specific colonists, when referenced during events, shouldn&#39;t be calling an endless &lt;nowiki&gt;[function]&lt;/nowiki&gt; loop.&lt;/li&gt;
-		&lt;li&gt;No more bad conditional expression on trying to visit HydraDen.&lt;/li&gt;
-		&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
+		&lt;li&gt;Soldiers don&#39;t make food NaN when they hunt (but if they do, reload the page.)&lt;/li&gt;&lt;/ul&gt;
 
 
 	&lt;h2&gt; Pre-Pre-Alpha 0.0.25.8 &lt;/h2&gt;
@@ -5503,7 +5497,7 @@ For now, you have no food, no water, and no treasure.
         &lt;&lt;replace &quot;#TutChoice&quot;&gt;&gt;
             DREKI is a colony management sim based around your ever-growing thunder. Look to the left, at your sidebar. &lt;br&gt; &lt;br&gt;
     
-            First is your cycle and day tracker, keeping track of how many in-game days you&#39;ve lived. Further below are your available resources; food, water, wood, stone, and gold. You will also see Shelter Space - which we&#39;ll talk about later. But for now, we&#39;ll focus on the first section of your sidebar.&lt;br&gt; &lt;br&gt;
+            Ignoring the title and authorship, below that are your cycle and day tracker. Further below are your available resources; food, water, wood, stone, and gold. You will also see Shelter Space - which we&#39;ll talk about later. But for now, we&#39;ll focus on the first section of your sidebar.&lt;br&gt; &lt;br&gt;
     
             The &lt;em&gt;left&lt;/em&gt; number represents how much you have in storage, and the &lt;em&gt;right&lt;/em&gt; is how much space you have to store said materials. Currently, you have nothing! Let&#39;s fix that. &lt;br&gt; &lt;br&gt;
     
@@ -6089,7 +6083,7 @@ For now, you have no food, no water, and no treasure.
 
 	/* Gold bonus set up. This needs to be adjusted because it balloons obscenely... */
 	/* The initial thought was that the expansion of the colony would keep it in line. I think I&#39;ll check what this actually does on desmos. */
-			&lt;&lt;set _goldBonus = Math.round(100 * (1 - Math.exp(-$gold / ($dragons.length * 60))))&gt;&gt;
+			&lt;&lt;set _goldBonus = Math.round(Math.sqrt(($dragons.length / 11) * $gold) / ($dragons.length / 2))&gt;&gt;
 			&lt;&lt;run console.log(&quot;Gold bonus: &quot; + _goldBonus)&gt;&gt;
 
 	
@@ -6650,7 +6644,7 @@ For now, you have no food, no water, and no treasure.
 
 				You continue cleaning them, a new weight in your hearts for this little treasure. Your very first hatchling.
 				&lt;hr&gt;
-			&lt;&lt;/linkappend&gt;&gt;&lt;br&gt;&lt;br&gt;
+			&lt;&lt;/linkappend&gt;&gt;
 		&lt;&lt;else&gt;&gt;
         &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
@@ -6671,7 +6665,7 @@ For now, you have no food, no water, and no treasure.
                 
                 Your chest feels tight as you continue your evening rounds. Has time really moved so quickly?
                 &lt;hr&gt;
-            &lt;&lt;/linkappend&gt;&gt;&lt;br&gt;&lt;br&gt;
+            &lt;&lt;/linkappend&gt;&gt;
 		&lt;&lt;else&gt;&gt;
         &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="MetaWidgets" tags="widget" position="250,0" size="100,100">/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

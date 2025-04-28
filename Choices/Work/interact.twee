@@ -230,7 +230,7 @@
 				<<silently>>
 					<<set _xp to Math.round($dragons[$int].soldierxp * 10)>>
 				<</silently>>
-				They've guarded your colony for <<print _xp>> days as a soldier.
+				They've worked for <<print _xp>> days as a soldier.
 					<<if _xp >= 50>>
 						They're so used to being alert that they've started pre-emptively checking locations before allowing anyone in.
 					<<elseif _xp >= 20>>
