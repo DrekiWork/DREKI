@@ -1,5 +1,11 @@
 :: Building [WIP] {"position":"950,550","size":"100,100"}
 You need to make something, but what? What does your colony need right now?<<nobr>>
+<<countWorkers "builder">>
+<<if _wantedCount > 0 && $buildQueue.length > 0>>
+	<br><br>
+	Your builder<<if _wantedCount > 1>>s<</if>> have been told to build:
+	<<print $buildQueue>>.
+<</if>>
 
 <br> <br>
 
@@ -261,14 +267,14 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<<if $defenseBuildings.moat.amount < $defenseBuildings.moat.max>>
 		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
 		<<if $defenseBuildings.moat.amount == 0>>
-			You've yet to construct one. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+			You've yet to construct one<<if $buildQueue.count("moat") > 0>>, but you've told your builders to work on it<</if>>. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 1>>
-			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however... Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however...<<if $buildQueue.count("moat") > 0>> And you've told your builders to get to it.<</if>> Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 2>>
 			Your moat is reinforced with strategically placed wood and stone pylons, and has several staves of the same to impale anything that falls in. <<if $infestedNotice == true && $kelpieExtinction == false>>
-				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake. For now, it would cost <<print $defenseBuildings.moat.priceWa>> water. to fill your moat.<br>
+				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake.<<if $buildQueue.count("moat") > 0>> You've told your builders to get on it.<</if>> It would cost <<print $defenseBuildings.moat.priceWa>> water to fill your moat. <br>
 			<<else>>
-				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water. Cost: <<print $defenseBuildings.moat.priceWa>> water.<br>
+				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water.<<if $buildQueue.count("moat") > 0>>You've given your builders the go-ahead.<</if>> Cost: <<print $defenseBuildings.moat.priceWa>> water.<br>
 			<</if>>
 		<</if>><br>
 		<<button "Build">>

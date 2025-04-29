@@ -244,6 +244,15 @@
 						<</if>>
 				<</switch>>
 			<<else>>
+				<<if $builderStatus == 3>>
+				Your builder has finished work on a <<print _finished>>!
+					<<if $buildQueue.length > 0>>
+						Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
+					<<else>>
+						They've got nothing else to build, so they'll be waiting for your next plans.
+					<</if>>
+				<<set $builderStatus = 0>>
+				<</if>>
 				<br><br>
 			<</if>>
 		<<else>>

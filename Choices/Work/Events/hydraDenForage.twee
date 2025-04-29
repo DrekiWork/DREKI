@@ -276,7 +276,7 @@
 															<</replace>>
 														<</link>> 
 														at risk of being heard and taking only what little food you collected at the beginning... 
-														<<timed 4s>>
+														<<timed 2s>>
 															<<linkappend "Or...">> <br> <br>
 																<hr>
 																Your throat dries. You have 
@@ -286,7 +286,7 @@
 																	<<link "take the egg">>
 																		<<replace "#c4">>
 																			<<set $hydraEggTaken = true>>
-																			<<set $hydraTime = random(25,30)>>
+																			<<set $hydraTime = random(37,42)>>
 																			<hr>
 																			A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																			Exhilaration. Determination. Terror. <br> <br>
@@ -313,7 +313,7 @@
 																	<<link "take the egg">>
 																		<<replace "#c4">>
 																			<<set $hydraEggTaken = true>>
-																			<<set $hydraTime = random(25,30)>>
+																			<<set $hydraTime = random(37,42)>>
 																			<hr>
 																			A noise escapes you. You don't recognize what it is - perhaps it is one that dragons simply weren't meant to create - but you know what you feel. <br> <br>
 																			Exhilaration. Determination. Terror. <br> <br>

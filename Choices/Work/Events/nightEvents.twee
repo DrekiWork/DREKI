@@ -34,7 +34,7 @@
 
         "W-we greet the <<print $player.title>>," one of them manages, their voice creaking with strain. "I - We apologize for the intrusion. We only seek a home; ours is gone, and we are what's left. If you would have us, <<print $player.title>>, we would be grateful. We would work for our keep. Please."<br><br>
 
-        One of the dragons sneaks a glance at you. <<print _dragon2>> swats them with a wing for the audacity, snarling.<br><br><br
+        One of the dragons sneaks a glance at you. <<print _dragon2>> swats them with a wing for the audacity, snarling.<br><br><br>
 
     <<else>>
         There are <<print _join>> dragons at the edge of your home. Their scales are flaking, and their eyes sunken in; if they are spies or have another thunder to call home, they are far from well cared for. One of them steps hesitantly forward.<br><br>

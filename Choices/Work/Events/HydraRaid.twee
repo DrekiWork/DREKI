@@ -163,8 +163,10 @@
 
 :: HydraRaidResults
 <<nobr>>
-    <<set $currentEvent = "none">>
-    <<unset $hydraTime>>
+    <<silently>>
+        <<set $currentEvent = "none">>
+        <<unset $hydraTime>>
+    <</silently>>
 
     <<if $defenseTotal <= 10>>
         You have lost.<br>
@@ -190,7 +192,8 @@
     <<elseif $defenseTotal < 50>>
         /* Damage and casualties. Collect your rewards. */
         <<set $player.health-->>
-        <<set _foodGain += random(100,150)>>
+        <<set _foodGain = random(100,150)>>
+        <<set $food += _foodGain>>
         <<set _dead = $dragons.randomMany(random(4,9))>>
         You have won.<br>
         The fight is long and difficult; you are not as hurt as you by rights <em>should</em> be, but the hydra was uncoordinated and hurt by the time you personally attacked it. The beast isn't dying for your efforts—it's dying for combined bloodloss, and you can only be grateful as it begins to sway, its struggles turning to clumsy flailing, to weak snapping, and, eventually, to writhing in the dust.<br>
@@ -201,39 +204,39 @@
         <<for _i to 0; _i < _dead.length; _i++>>
             <<run $dead.push(   {
                 name: _dead[_i].name,
+                job: _dead[_i].job,
                 cause: "hydra raid"
                 })>>
             <<print _dead[_i].name>>. 
         <</for>><br>
         <<print _dead.length>> dead. Better than you could have dared to hope, for so dangerous a seige. More than you had wanted, gone because of your arrogance - stealing an egg you never should have seen.<br>
         You will bury them, soon.<br>
-        Today, you celebrate. You push yourself to your feet and are swarmed by your dragons, each and every one determined to praise you for leading the colony to victory—determined to lavish you in attention and food and as many beautiful scales as they can fit! Those that don't—the bare glimpses you catch of them—are dismantling the hydra's corpse, breaking away bones with hearty abandon.<br>
+        Today, you celebrate. You push yourself to your feet and are swarmed by your dragons, each and every one determined to praise you for leading the colony to victory—determined to lavish you in attention and food and as many beautiful scales as they can fit! Those that don't—the bare glimpses you catch of them—are dismantling the hydra's corpse, breaking away bones with hearty abandon as you rip apart <span class="food">a feast from its death.</span><br>
         <<link "The celebration lasts well into the night." "OOC Chat">>
             <<set $days += 1>>
 		    <<if $days == 30>>
                 <<set $cycles += 1>>
                 <<set $days = 0>>
             <</if>>
-            <<set $food += _foodGain>>
             <<set $hydraBeat = true>>
-            <<run $treasures.push("Hydra Scales", "Hydra Bones", "Hydra Skulls")>>
+            <<run $trophies.push("Hydra Scales", "Hydra Bones", "Hydra Skulls")>>
         <</link>>
 
     <<elseif $defenseTotal >= 50>>
         /* Minimal damage, no casualties! Collect your rewards! */
-        <<set _foodGain += random(250,300)>>
+        <<set _foodGain = random(250,300)>>
+        <<set $food += _foodGain>>
         You won. You <em>won!</em><br>
         You descend upon the hydra, but the battle—if you can call it that—is a short affair. The hydra is already nearly beaten from your prior defenses; this last assault is just taking a matter of time to a matter of mere heartbeats. The extra effort it exerts attempting to fend off the attack is too much. The hydra collapses, spluttering weakly until it, eventually, goes still.<br>
         You wait. You wait for a second wind. You wait for the beast to rise, fury incarnate. You wait for it to devour you whole or crush you to dust.<br>
         It doesn't.<br>
         It can't.<br>
         You stare stupidly at the corpse, unable to believe your eyes. Even as your thunder begins to emerge from the cavern, you are still in shock—until the first roar goes up. You startle, snapped out of your disbelieving stupor as your colony begins to cheer; some take to the skies, unable to contain their jubilation—others tackle each other, the hydra; still more simply roar, gouts of fire exploding from their throats in sheer elation. It takes all of a moment for the colony to descend upon yourself and the soldiers, near crushing in their joy. In this moment it doesn't matter how many you are or aren't—the press of body grounds you to the here and now, the dead hydra, your first true challenge overcome with such overwhelming success! You lift your voice, as much shrieking as roaring with your elation, leading another chorus of victorious cries.<br>
-        Dragons break away from the mob to instead tear apart the monster's body. They rend scale from skin from meat from bone with elated, spiteful efficiency; determined to make a meal, a <em>treasure</em> of what they were only recently cowering from. Between the twisting mass of joy you try to count your dragons—you spy most, of course, but it doesn't truly strike you that you are victorious until you realize... there are no deaths. Oh, your home is a mess, and there is a track carved through your lands<<if $defenseBuildings.moat.creatures = true>>—you're sure there are some dead lake-creatures to pull from the waters<</if>>... But none of your colony are dead.<br>
-        You can't stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you've done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the <em>world</em> for your victory! You take to the air and plummet onto the hydra's corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren't already here, and the corpse becomes a buffet and mockery both!<br><br>
+        Dragons break away from the mob to instead tear apart the monster's body. They rend scale from skin from meat from bone with elated, spiteful efficiency; determined to make a meal, a <em>treasure</em> of what they were only recently cowering from. Between the twisting mass of joy you try to count your dragons—you spy most, of course, but it doesn't truly strike you that you are victorious until you realize... there are no deaths. Oh, your home is a mess, and there is a track carved through your lands<<if $defenseBuildings.moat.creatures == true>>—you're sure there are some dead lake-creatures to pull from the waters<</if>>... But none of your colony are dead.<br>
+        You can't stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you've done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the <em>world</em> for your victory! You take to the air and plummet onto the hydra's corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren't already here, and <span class="food">the corpse becomes a buffet and mockery both!</span><br><br>
 
         <<link "The celebration lasts the entire night, and well into the morning." "HydraHeart">>
             <<run $trophies.push("Hydra Bones", "Hydra Scales", "Hydra Skulls")>>
-            <<set $food += _foodGain>>
             <<set $hydraBeat = true>>
             <<if $days == 30>>
                 <<set $cycles += 1>>

@@ -148,7 +148,7 @@ Made by Recila!</sup>
 	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
 	<em><strong><u>THE HYDRA IS DONE.</u></strong></em>
 
-	<h2> Pre-Pre-Alpha 0.0.30.4 </h2>
+	<h2> Pre-Pre-Alpha 0.0.30.5 </h2>
 	First of the housekeeping sweeps.<br><br>
 		''Bugs Patched''
 		<ul><li>Dragon renaming works.</li>
@@ -162,6 +162,14 @@ Made by Recila!</sup>
 		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li>
 		<li>Specific colonists, when referenced during events, shouldn't be calling an endless <nowiki>[function]</nowiki> loop.</li>
 		<li>No more bad conditional expression on trying to visit HydraDen.</li>
+		<li>No more infinite treasure hunting from central.</li>
+		<li>Build page now clearly tells you that the moat is being worked on.</li>
+		<li>There is no longer a ridiculously huge gap in the raid results.</li>
+		<li>More builders build faster, with diminishing returns. The faster they build, though, the more resources they need in a day.</li>
+		<li>Buildpage now displays the build queue.</li>
+		<li>Rockfalls build properly (always look for typos)</li>
+		<li>A little more hydra time.</li>
+		<li>Gold bonus has been balanced. :)</li>
 		<li></li></ul>
 
 
@@ -230,7 +238,7 @@ Made by Recila!</sup>
 
 	First, thank you for playing DREKI—and for playing it so long that you've reached the end of the current 'story' content.
 	<<if $hydraBeat == true>>
-		<<if $player.special[0] == "Hydra">>
+		<<if $player.specials[0] == "Hydra">>
 			A truly well-deserved congratulations on achieving the special raid ending, too; that's no easy feat! I hope you've enjoyed. Though there's no more major / pseudo-story content to be found, you can continue to play in your current colony for as long as you like.<br><br>
 		<<else>>
 			You've beaten the big boss of the current content, and a hearty congratulations is in order! That's no mean feat... though there's something extra you've missed. Maybe if you had stronger defenses, you'd find something more? but that's neither here nor there. Congratulations no less, and a hearty <em>well done!</em> You're free to continue playing this colony to your heart's content, or you can try again with that raid and maybe get the special ending. Good luck!<br><br>

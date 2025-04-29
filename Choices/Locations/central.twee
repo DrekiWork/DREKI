@@ -164,7 +164,11 @@
 					&emsp;&emsp;Your dugouts are full of stone.
 				<</if>>
 			<</linkappend>>
-		<br> &emsp;[[Treasure]]
+		<br> <<if $ghunt !== true>>
+				&emsp;[[Treasure]]
+			<<else>>
+				&emsp;As much as you want to, you've spent enough time looking for valuables today.
+			<</if>>
 		<</linkappend>> <br>
 		<<if $eggSpace > 0 && $theft == false>>
 			[[Get eggs|Egg theft]] <br>

@@ -52,15 +52,15 @@
 			/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
 			Full surround grants a 1 point bonus per building.) */
 		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
-			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 1.25)>>
+			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 1.25)>>
 		<<else>>
-			<<set _palisadeTotal += ($defenseBuildings.palisade.amount * 0.5)>>
+			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 0.5)>>
 		<</if>>
 
 			/* Checking outposts.
 			Outposts need to be held by soldiers. No soldiers, no bonus. */
 		<<if _wantedCount >= $defenseBuildings.outpost.amount>>
-			<<set _outpostTotal += ($defenseBuildings.outpost.amount * 2)>>
+			<<set _outpostTotal = ($defenseBuildings.outpost.amount * 2)>>
 		<<else>>
 			<<set _temp = ($defenseBuildings.outpost.amount - _wantedCount)>>
 			<<set _outpostTotal = (($defenseBuildings.outpost.amount - _temp) * 2)>>
@@ -77,10 +77,10 @@
 
 			/* Checking rockfalls. Rockfalls need to be loaded to work.
 			Not loaded? No damage. Rest in rubble. */
-		<<set _rockfallTotal += ($defenseBuildings.rockfall.loaded * 5)>>
+		<<set _rockfallTotal = ($defenseBuildings.rockfall.loaded * 5)>>
 
 			/* A measure for the leader themselves. You're a vicious one! */
-		<<set _leaderDefenseDamage += ($player.health * 0.5)>>
+		<<set _leaderDefenseDamage = ($player.health * 0.5)>>
 
 			/* And the final result. Hurrah. */
 		<<set $defenseTotal = (

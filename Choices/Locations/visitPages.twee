@@ -9,18 +9,6 @@
         <<switch visited()>>
                 /* Visit cases will also exist for 2-4, 5-11, and 12-15. I just haven't written them yet. */
 
-            <<default>>
-                    /* Any visit after the fifteenth; grants food and stone by default. */
-                
-                <<set _foodCollect = random(1,7)>>
-                <<set $food += _foodCollect>>
-                <<set _stoneCollect = random(3,14)>>
-                <<set $stone += _stoneCollect>>
-                
-                The hydra's cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
-
-                You don't care to linger for long. There isn't much of value, really; you take your <span class="food"><<print _foodCollect>> scraps</span> and <span class="stone"><<print _stoneCollect>> stones</span> and [[go home.|Sandbox Central]]
-
             <<case 1>>
                     /* First visit. Making sure the hydra didn't leave any other surprises for you. */
                     /* Purely fluff, of course. */
@@ -50,6 +38,19 @@
                 You swim for as long as you can, taking the opportunity to polish yourself with the sand at the bottom. You scrape and rub and half-bury yourself, desperate to clean away the disgusting sensation clinging to you. You surface once, then twice, and finally a third time. Some of your scales have been scoured off; they will regrow, thankfully, but you do not feel wholly yourself.<br>
 
                 ... It does not matter. You've done what you needed to. As clean as you can feel, [[you take to the skies for home.|Sandbox Central]]
+
+
+            <<default>>
+                    /* Any visit after the fifteenth; grants food and stone by default. */
+                
+                <<set _foodCollect = random(1,7)>>
+                <<set $food += _foodCollect>>
+                <<set _stoneCollect = random(3,14)>>
+                <<set $stone += _stoneCollect>>
+                
+                The hydra's cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
+
+                You don't care to linger for long. There isn't much of value, really; you take your <span class="food"><<print _foodCollect>> scraps</span> and <span class="stone"><<print _stoneCollect>> stones</span> and [[go home.|Sandbox Central]]
 
         <</switch>>
 
@@ -420,7 +421,74 @@
             </div>
 
 
-/*        <<case 4 5 6>>
+        
+
+
+        <<default>>
+            You skim the still surface, casting ripples across the lake before touching down on the shore. It's a lovely place, to be certain; you're very pleased it's all yours, too... You watch the area for a moment, savoring the peace, before getting to business.
+            <br><br>
+
+            Why did you come here, again?
+            <div id="decision1">
+                <<link "Get water.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(12,19)>>
+                        <<set $water += _collect>>
+                        <hr><br>
+                        With the waters at last clear, you feel confident as you duck into the lake, mouth half-open to suck the liquid into your throat pouch. You keep an eye out for fish,
+                        <<if $lakeStock == 0>>
+                            but there are none. You aren't <em>surprised</em> by any means; just disappointed. You take your fill of <span class="water"><<print _collect>> water</span> and [[head home.|Sandbox Central]]
+                        <<elseif $lakeStock < 10 >>
+                            but there are few. And too small for you to bother with. It soothes a little part of you to find that a reliable food source is at least beginning in your lake. You leave the fish alone, content to let them grow, and instead take <span class="water"><<print _collect>> water</span> [[back to your colony.|Sandbox Central]]
+                        <<else>>
+                            and are pleasantly suprised to find a fat carp darting into the sand. You swim down to it, enjoying the playful chase - playful to <em>you</em>, anyway - and snap you teeth next to its fins. The fish bolts. You finish your self-assigned task, noting with satisfaction how many more schools are swimming at a safe distance from your claws and jaws. Your lake is truly shaping up. You take your <span class="water"><<print _collect>> water</span> and [[head home, pleased.|Sandbox Central]]
+                        <</if>>
+                    <</replace>>
+                <</link>><br>
+                <<link "Get food.">>
+                    <<replace "#decision1">>
+                        <<set _collect = random(12,19)>>
+                        <<set $food += _collect>>
+                        <hr><br>
+                            You rise into a luxuriant stretch, wings outstretched and limbs trembling, before sauntering through the trees. Some hang heavy with ripe fruit; others cradle nests of little creatures whose little bones crunch pleasingly between your teeth. Your amblings walk you, eventually, to the glade on the opposite end. You're content to continue your lazy hunt, digging up roots and puffing smoke into the grass for morsels. Even with the lake empty, this is a full and abundant place. When you're satisfied, you take to the skies, content to haul your <span class="food"><<print _collect>> food</span> back to [[your colony.|Sandbox Central]]
+                        /* <<if $lakeStock == 0>>
+                            
+                        <<elseif $lakeStock < 10>>
+                        <<else>>
+                        <</if>> */
+                    <</replace>>
+                <</link>><br>
+                <<link "Just to be.">>
+                    <<replace "#decision1">>
+                        <<set _incident = random(0, 100)>>
+                        <hr><br>
+                        You have precious little time to yourself. Tossing your mantle of pride away, you splay on the ground, groaning happily. One wing and a part of one claw in the cool water, Sun's fond eye watching over you and the still, humid air... A perfect place to relax. Away from home. Away from leadership and responsibility; just a lone dragon happy to <em>be</em> alone.
+                        <br><br>
+                        As the day rolls on, and Sun moves to other things, you find yourself eager to stand. But not to go, no. You head to the sandy shores, and dive recklessly onto it - rolling and writhing, scraping against and between and under your scales. You twist until you're half-buried in a makeshift wallow, warmed by Sun and cooled by the damp underground. Polished and thoroughly pleased, you linger for only a short while longer before [[heading home.|Sandbox Central]]
+                    <</replace>>
+                <</link>>
+                /* <<if $lakeStock > 0>>
+                    <br><<link "Get fish.">>
+                        <<replace "#decision1">>
+                            <hr><br>
+                            [[You shouldn't be seeing this. Go home.|Sandbox Central]]
+                        <</replace>>
+                    <</link>>
+                <<elseif $lakeStock > 10>>
+
+                <<else>>
+                <</if>> */
+            </div>
+
+
+    <</switch>>
+<</nobr>>
+
+
+
+:: Holding Page
+
+        <<case 4 5 6>>
             You can see the lake long before you land. It shimmers; a veritable oasis, if your land weren't so verdant. You can't help but feel prideful about having such a beautiful location on your territory. Of course you would, your whole territory is lovely – but this is especially so. You circle overhead, taking in every pleasing detail, before finally landing in the glade. With your wings outstretched still, you bask in the sunlight. A little paradise in a much larger one. Perfection.
             <br><br>
             As you get closer, however, you realize the water is a fair deal greener than it used to be...
@@ -506,65 +574,4 @@
 
                 <<else>>
                 <</if>>
-            </div> */
-
-
-        <<default>>
-            You skim the still surface, casting ripples across the lake before touching down on the shore. It's a lovely place, to be certain; you're very pleased it's all yours, too... You watch the area for a moment, savoring the peace, before getting to business.
-            <br><br>
-
-            Why did you come here, again?
-            <div id="decision1">
-                <<link "Get water.">>
-                    <<replace "#decision1">>
-                        <<set _collect = random(12,19)>>
-                        <<set $water += _collect>>
-                        <hr><br>
-                        With the waters at last clear, you feel confident as you duck into the lake, mouth half-open to suck the liquid into your throat pouch. You keep an eye out for fish,
-                        <<if $lakeStock == 0>>
-                            but there are none. You aren't <em>surprised</em> by any means; just disappointed. You take your fill of <span class="water"><<print _collect>> water</span> and [[head home.|Sandbox Central]]
-                        <<elseif $lakeStock < 10 >>
-                            but there are few. And too small for you to bother with. It soothes a little part of you to find that a reliable food source is at least beginning in your lake. You leave the fish alone, content to let them grow, and instead take <span class="water"><<print _collect>> water</span> [[back to your colony.|Sandbox Central]]
-                        <<else>>
-                            and are pleasantly suprised to find a fat carp darting into the sand. You swim down to it, enjoying the playful chase - playful to <em>you</em>, anyway - and snap you teeth next to its fins. The fish bolts. You finish your self-assigned task, noting with satisfaction how many more schools are swimming at a safe distance from your claws and jaws. Your lake is truly shaping up. You take your <span class="water"><<print _collect>> water</span> and [[head home, pleased.|Sandbox Central]]
-                        <</if>>
-                    <</replace>>
-                <</link>><br>
-                <<link "Get food.">>
-                    <<replace "#decision1">>
-                        <<set _collect = random(12,19)>>
-                        <<set $food += _collect>>
-                        <hr><br>
-                            You rise into a luxuriant stretch, wings outstretched and limbs trembling, before sauntering through the trees. Some hang heavy with ripe fruit; others cradle nests of little creatures whose little bones crunch pleasingly between your teeth. Your amblings walk you, eventually, to the glade on the opposite end. You're content to continue your lazy hunt, digging up roots and puffing smoke into the grass for morsels. Even with the lake empty, this is a full and abundant place. When you're satisfied, you take to the skies, content to haul your <span class="food"><<print _collect>> food</span> back to [[your colony.|Sandbox Central]]
-                        /* <<if $lakeStock == 0>>
-                            
-                        <<elseif $lakeStock < 10>>
-                        <<else>>
-                        <</if>> */
-                    <</replace>>
-                <</link>><br>
-                <<link "Just to be.">>
-                    <<replace "#decision1">>
-                        <<set _incident = random(0, 100)>>
-                        <hr><br>
-                        You have precious little time to yourself. Tossing your mantle of pride away, you splay on the ground, groaning happily. One wing and a part of one claw in the cool water, Sun's fond eye watching over you and the still, humid air... A perfect place to relax. Away from home. Away from leadership and responsibility; just a lone dragon happy to <em>be</em> alone.
-                        <br><br>
-                        As the day rolls on, and Sun moves to other things, you find yourself eager to stand. But not to go, no. You head to the sandy shores, and dive recklessly onto it - rolling and writhing, scraping against and between and under your scales. You twist until you're half-buried in a makeshift wallow, warmed by Sun and cooled by the damp underground. Polished and thoroughly pleased, you linger for only a short while longer before [[heading home.|Sandbox Central]]
-                    <</replace>>
-                <</link>>
-                /* <<if $lakeStock == 0>>
-                    <br><<link "Get fish.">>
-                        <<replace "#decision1">>
-                            <hr><br>
-
-                        <</replace>>
-                    <</link>>
-                <<elseif $lakeStock > 10>>
-
-                <<else>>
-                <</if>> */
             </div>
-
-
-    <</switch>>
-<</nobr>>
