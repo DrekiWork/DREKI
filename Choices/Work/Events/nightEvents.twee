@@ -28,7 +28,7 @@
         <<set _dragon1 = _wantedNames.pluck()>>
         <<set _dragon2 = _wantedNames.pluck()>>
 
-        <<print _dragon1>> meets you halfway, accompanied by a second guard. They give you a respectful nod, but continue on in a rush - likely to secure your homesite. You don't begrudge them the haste. <<print _dragon1>> greets you more formally, dipping into an aerial bow. "<<print _dragon2>> and I encountered <<print _join>> dragonss at the border," <<print _dragon1>> informs you. They escort you to where the group presumably is, filling you in on the details as you go. "They appear to be desperate and are in... bad shape. They claim to be seeking a new nest to call home."<br><br>
+        <<print _dragon1>> meets you halfway, accompanied by a second guard. They give you a respectful nod, but continue on in a rush - likely to secure your homesite. You don't begrudge them the haste. <<print _dragon1>> greets you more formally, dipping into an aerial bow. "<<print _dragon2>> and I encountered <<print _join>> dragons at the border," <<print _dragon1>> informs you. They escort you to where the group presumably is, filling you in on the details as you go. "They appear to be desperate and are in... bad shape. They claim to be seeking a new nest to call home."<br><br>
 
         You make a noise of acknowledgment, but don't comment further. When you arrive at the border, you're unsurprised to see the group—though their state was perhaps understated. Sunken eyes look up at you from the ground, the group already collapsed to the ground in either submission or weakness. As you land, their muzzles practically dig into the earth as one.<br><br>
 

@@ -240,14 +240,14 @@
 							<<replace "#c2">>
 								<<set _danger to random(1)>>
 								<hr>
-								You click your teeth eagerly and continue forward. <br> <br>
-								The hydra's den isn't too far into the cave; as you go, you keep your head low and claws light on the cavern floor. <br> <br>
+								You click your teeth eagerly and continue forward.<br><br>
+								The hydra's den isn't too far into the cave; as you go, you keep your head low and claws light on the cavern floor.<br><br>
 								<<if _danger == 0>>
-									Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra. <br> <br>
-									The great serpent's body is curled around the pile once again; its heads sunk into the meat and its scales are stained with red-brown blood. Some of it is fresh; the majority of is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn't so much as twitch. <br> <br>
-									You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps... <br> <br>
-									A head twitches and your claws dig into the rock as terror floods you. Yet it remains still, eyes unfocused and head slumped further into its rotting nest. The movement reveals something gleaming within. <br> <br>
-									You stay where you are - fear rooting you more firmly than any force of will could hope to - but lift your head slowly until you have a better view of the object underneath the meat and body. It's strange - sunken yet sturdy, as though something underneath holds its shape. It shimmers wetly, nearly clean despite the gore holding it. What <em>is</em> that? <br> <br>
+									Your sense of self-preservation returns to you before long, smothering your confidence and reminding you the hydra is many times your size. Your steps and breathing slow. Wings pinned tightly against your side and body tense, you find yourself staring once again at the hydra.<br><br>
+									The great serpent's body is curled around the pile once again; its heads sunk into the meat and its scales are stained with red-brown blood. Some of it is fresh; the majority of is not. You slink forward, feeling as though a lifetime passes between each step. The hydra doesn't so much as twitch.<br><br>
+									You watch with some awe as it breathes. Its scales are massive; some larger than your foot, some longer than your entire leg. It could grab and hold you easily between its forelimbs - never mind the many heads. How old must it be? Older than the forest around its territory. Maybe even older than this cave. Perhaps it tore the mountain apart to carve a home. Perhaps its den-pit was done by its own work. Perhaps...<br><br>
+									A head twitches and your claws dig into the rock as terror floods you. Yet it remains still, eyes unfocused and head slumped further into its rotting nest. The movement reveals something gleaming within.<br><br>
+									You stay where you are - fear rooting you more firmly than any force of will could hope to - but lift your head slowly until you have a better view of the object underneath the meat and body. It's strange - sunken yet sturdy, as though something underneath holds its shape. It shimmers wetly, nearly clean despite the gore holding it. What <em>is</em> that?<br><br>
 									<span id="c3">
 										It might be worth looking at... but you came here for food. If you decide to 
 										<<link "investigate the mystery">>
