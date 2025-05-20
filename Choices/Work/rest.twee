@@ -1,5 +1,7 @@
 :: Rest [WIP rest] {"position":"1075,550","size":"100,100"}
 <<nobr>>
+<<run console.log("goneDragons: " + $goneDragons)>>
+
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 													/* This is the REST page, where your colony's day is summarized. */
@@ -77,7 +79,7 @@
 	<<if _exiled.length >= 3>>
 		<br><br>
 		<<for _i to 0; _i < (_exiled.length); _i++>>
-			<<if _i <= (_exiled.length - 2)>>
+			<<if _i <= (_exiled.length - 1)>>
 				<<print _exiled[_i]>>, 
 			<<else>>
 				and <<print _exiled[_i]>> 
@@ -448,7 +450,7 @@
 	<<if $dragons.length >= 1>>
 		<<if _newHouse.length > 2>>
 			<<for _i to 0; _i < _newHouse.length; _i++>>
-				<<if _i < (_newHouse.length - 2)>>
+				<<if _i < (_newHouse.length - 1)>>
 					<<print _newHouse[_i]>>, 
 				<<else>>
 				and <<print _newHouse[_i]>>
@@ -457,7 +459,7 @@
 			found unoccupied places to sleep for the night. They probably won't leave now.
 			<<if _changedHome.length > 2>>
 				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 2)>>
+					<<if _i < (_changedHome.length - 1)>>
 						<<print _changedHome[_i]>>, 
 					<<else>>
 						and <<print _changedHome[_i]>>
@@ -466,7 +468,7 @@
 				have swapped homes after finding somewhere better to live.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -484,7 +486,7 @@
 				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -502,7 +504,7 @@
 				<<print _changedHome>> has moved into a new, better home.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -519,7 +521,7 @@
 			<<else>>
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -538,7 +540,7 @@
 			<<print _newHouse[0]>> and <<print _newHouse[1]>> have found unoccupied places to slep for the night. They probably won't leave now.
 			<<if _changedHome.length > 2>>
 				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 2)>>
+					<<if _i < (_changedHome.length - 1)>>
 						<<print _changedHome[_i]>>, 
 					<<else>>
 						and <<print _changedHome[_i]>>
@@ -547,7 +549,7 @@
 				have swapped homes after finding somewhere better to live.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -565,7 +567,7 @@
 				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -583,7 +585,7 @@
 				<<print _changedHome>> has moved into a new, better home.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -600,7 +602,7 @@
 			<<else>>
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -619,7 +621,7 @@
 			<<print _newHouse[0]>> found an unoccupied place to sleep for the night. They probably won't leave now.
 			<<if _changedHome.length > 2>>
 				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 2)>>
+					<<if _i < (_changedHome.length - 1)>>
 						<<print _changedHome[_i]>>, 
 					<<else>>
 						and <<print _changedHome[_i]>>
@@ -628,7 +630,7 @@
 				have swapped homes after finding somewhere better to live.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -646,7 +648,7 @@
 				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -664,7 +666,7 @@
 				<<print _changedHome>> has moved into a new, better home.
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -681,7 +683,7 @@
 			<<else>>
 				<<if _homeless.length > 2>>
 					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 2)>>
+						<<if _i < (_homeless.length - 1)>>
 							<<print _homeless[_i]>>, 
 						<<else>>
 							and <<print _homeless[_i]>>
@@ -731,7 +733,8 @@
 				[[It's time for another day...|HydraRaid]]
 
 			<<case "none">>
-				<<set _eventChance to random(15)>>
+				/* <<set _eventChance to random(15)>> */
+				<<set _eventChance = 4>>
 				<<run console.log("_eventChance: " + _eventChance)>>
 				<<if _eventChance <= 3>>
 					<<set _dream to random(0, 5)>>
@@ -745,7 +748,8 @@
 				[[It's time for another day.|Sandbox Central]]
 					<</if>>
 				<<elseif _eventChance == 4>>
-					<<set _event = random(0,2)>>
+					/* <<set _event = random(0,2)>> */
+					<<set _event = 2>>
 					<<switch _event>>
 						<<case 0>>
 							Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]

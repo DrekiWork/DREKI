@@ -249,7 +249,7 @@
     <<set _scav to Math.round($goneDragons[_i].scavxp * 10)>>
 
 
-     When they lived in your colony, they served <<print _forage>> days as a forager, <<print _rain>> days as a rainier, and <<print _scav>> days as a scavenger. <<print $goneDragons[_i].name>> left due to being <<print $goneDragons[_i].origin>>. <br><br>
+     When they lived in your colony, they served <<print _forage>> days as a forager, <<print _rain>> days as a rainier, and <<print _scav>> days as a scavenger. <<print $goneDragons[_i].name>> left due to being <<print $goneDragons[_i].left>>d. <br><br>
 
     <div id="choice">
     <<linkappend "Take them back.">>
