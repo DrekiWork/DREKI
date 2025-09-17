@@ -1,0 +1,176 @@
+:: RemovingDragonsWidgets [widget]
+
+    /* This widget removes dragons from the colony. */
+    /* It plays at the start of endDay, which means */
+    /* They will not provide resources but they don't */
+    /* Consume resources either, so it's a bit of a */
+    /* Very selectively mixed bag. But if you wanted */
+    /* Their labor they wouldn't have been kicked. */
+<<widget "exileDragons">><<nobr>>
+
+        /* First we set up the array; this is just */
+        /* The names of the dragons that have been */
+        /* Removed from the colony. */
+    <<set _exiled = []>>
+
+        /* Obligatory loop. */
+    <<for _i to 0; _i < $dragons.length; _i++>>
+    
+            /* The meat! Starts with, of course, a dragon tagged for exile. */
+            /* .left refers to if a dragon is going to go: not that it */
+            /* Has previously left. That isn't currently tracked. */
+        <<if $dragons[_i].left == "exile">>
+
+                /* We start with removing the dragon from their home. */
+                /* No point removing a dragon if they take the shelter with them. */
+                /* Default does nothing because it assumes no shelter at all. */
+            <<switch $dragons[_i].home>>
+                <<case "rut">>
+                    <<set $dragons[_i].home = "none">>
+                    <<set $shelter.ruts.free += 1>>
+                    <<set $shelter.ruts.occupied -= 1>>
+
+                <<case "sett">>
+                    <<set $dragons[_i].home = "none">>
+                    <<set $shelter.setts.free += 1>>
+                    <<set $shelter.setts.occupied -= 1>>
+
+                <<case "hollow">>
+                    <<set $dragons[_i].home = "none">>
+                    <<set $shelter.hollows.free += 1>>
+                    <<set $shelter.hollows.occupied -= 1>>
+                
+                <<default>>
+
+            <</switch>>
+
+
+            <<run _exiled.push($dragons[_i].name)>>
+            <<run console.log(_exiled)>>
+
+                /* _rejoin is rather self-explanatory but doing it anyway */
+                /* If they roll high enough, a dragon may attempt to come back */
+                /* Regardless of being booted. This applies to deprived */
+                /* Dragons as well, since life outside of a colony is hard */
+                /* And dragons are a bit more social than normally depicted. */
+            <<set _rejoin = random(0, 10)>>
+
+                /* Dragons are cloned to $goneDragons so all information is retained */
+                /* It just function as storage until the player procs an event to */
+                /* Allow them back into the colony, or to remove them from the */
+                /* Game entirely. If they fail, the dragon is removed entirely. */
+            <<if _rejoin >= 8>>
+                <<set $dragons[_i].left = "stay">>
+                <<set $dragons[_i].origin = "exiled">>
+                <<run $goneDragons.push(clone($dragons[_i]))>>
+
+            <<else>>
+
+            <</if>>
+
+        <</if>>
+
+    <</for>>
+
+        /* Lastly, we filter out the exiled dragons, */
+        /* And run updateBar to show the population */
+        /* Change right away. =) */
+    <<set $dragons = $dragons.filter(dragons => dragons.left !== "exile")>>
+    <<updateBar>>
+    
+<</nobr>><</widget>>
+
+    /* voluntaryDeparture is reserved for dragons leaving */
+    /* That were not exiled or killed. It runs purely */
+    /* To handle dragons that are 'upset' enough to vacate */
+    /* With a chance to return per the usual with anyone */
+    /* That isn't actually dead. */
+<<widget "voluntaryDeparture">><<nobr>>
+
+        /* _left is an array that will store the names of */
+        /* Dragons that dipped during this check, to better */
+        /* Inform the player of what happened. */
+    <<set _left = []>>
+
+        
+        /* First we check if there's even a reason to run */
+        /* This widget any further. If no dragons went hungry */
+        /* Or thirsty, no reason to check if they're going to */
+        /* Vacate the premises or not. They won't. */
+    <<if _dragonsHungry.length > 0 || _dragonsThirsty.length > 0>>
+
+            /* Obligatory for-loop. */
+        <<for _i to 0; _i < $dragons.length; _i++>>
+
+                /* If a dragon has suffered hunger-pangs or */
+                /* A dry throat for three days or more, they */
+                /* Are noted as 'deprived'. A deprived dragon */
+                /* Has a thirty percent chance of being remembered */
+                /* To potentially rejoin the colony during an event. */
+                /* .origins is set to deprivation to note that */
+                /* Should the dragon ever return, they left because */
+                /* The player was unable to provide sufficiently. */
+                /* Hunger and thirst are then reset, so the returned */
+                /* Dragons don't instantly leave AGAIN, giving the */
+                /* Player their three chances once again. */
+            <<if $dragons[_i].hunger >= 3 || $dragons[_i].thirst >= 3>>
+
+                <<set _rejoin = random(0,10)>>
+
+                <<if _rejoin >= 8>>
+                    <<set $dragons[_i].origins = "deprivation">>
+                    <<set $dragons[_i].hunger = 0>>
+                    <<set $dragons[_i].thirst = 0>>
+                    <<run $goneDragons.push(clone($dragons[_i]))>>
+
+                <</if>>
+
+                <<run _left.push($dragons[_i].name)>>
+
+                    /* Dragons are then removed from their home, */
+                    /* To make sure dragons don't leave and take */
+                    /* Their shelters with them; that's silly. */
+                <<switch $dragons[_i].home>>
+                    <<case "none">>
+
+                    <<case "rut">>
+                        <<set $shelter.ruts.free += 1>>
+                        <<set $shelter.ruts.occupied -= 1>>
+                    
+                    <<case "sett">>
+                        <<set $shelter.setts.free += 1>>
+                        <<set $shelter.setts.occupied -= 1>>
+
+                    <<case "hollow">>
+                        <<set $shelter.hollows.free += 1>>
+                        <<set $shelter.hollows.occupied -= 1>>
+                    
+                    <<default>>
+                        <<run console.log("endDayHome sourced from: " + $dragons[_i].name + ": " + $dragons[_i].home)>>
+                        <<set _errorID =$dragons[_i].id>>
+                        <<set _errorDragon = $dragons[_i].name>>
+                        <<set _errorHome = $dragons[_i].home>>
+                        <<errorPopup "endDayHome">>
+                        
+                <</switch>>
+            <<else>>
+
+            <</if>>
+
+        <</for>>
+
+            /* Dragons are then filtered out, to keep the */
+            /* Loop clean and simple, then Home and Bar */
+            /* Are updated just in case: */
+            /* For population management, and if $home */
+            /* Has somehow been modified at all and not */
+            /* Caught in that previous widget that changed it. */
+        <<set $dragons = $dragons.filter(dragons => dragons.hunger < 3)>>
+        <<set $dragons = $dragons.filter(dragons => dragons.thirst < 3)>>
+        <<updateHome>>
+        <<updateBar>>
+
+    <<else>>
+
+    <</if>>
+<</nobr>><</widget>>

@@ -1,0 +1,199 @@
+:: DragonEndDayJobsWidget [widget]
+
+    /* This widget calculates resource gains */
+    /* From dragons completing their assigned jobs. */
+    /* Builders are seperate as 'buildQueue'. */
+    /* This includes _goldBonus calculation. */
+    /* Resources are not capped until after the feeding widgets. */
+    /* This is a QoL choice and not an oopsie. */
+<<widget "dragonsJobs">><<nobr>>
+
+        /* Calculating _goldBonus, which grants diminishing returns, */
+        /* and a larger colony needing more gold for more buffs. */
+        /* The _goldBonus only works if $gold is 1 or higher. */
+    <<if $gold >= 1>>
+        <<set _goldBonus = Math.round(100 * (1 - Math.exp((-$gold/20) / ($dragons.length * 15))))>>
+    <<else>>
+        <<set _goldBonus = 1>>
+    <</if>>
+    <<run console.log("Gold bonus: " + _goldBonus)>>   
+
+        /* First we're going to establish counts for each job type. */
+        /* These are used to show the player how many of each */
+        /* Job brought back the total materials presented on rest. */
+    <<set _builderCount = 0>>
+    <<set _foragerCount = 0>>
+    <<set _rainierCount = 0>>
+    <<set _salvagerCount = 0>>
+    <<set _scavengerCount = 0>>
+    <<set _slackerCount = 0>>
+    <<set _soldierCount = 0>>
+
+        /* Now the temporary variables for each haul that can */
+        /* Be brought back, so nothing freaks if the haul is */
+        /* Nothing, or if the count is nothing. */
+    <<set _foragerFood = 0>>
+    <<set _rainierWater = 0>>
+    <<set _salvagerGold = 0>>
+    <<set _scavengerGold = 0>>
+    <<set _scavengerStone = 0>>
+    <<set _scavengerWood = 0>>
+    <<set _soldierHunt = 0>>
+
+        /* These are setting up the temp variables for */
+        /* Calculating how much a single dragon brings in. */
+    <<set _currentForagerFood = 0>>
+    <<set _currentRainierWater = 0>>
+    <<set _currentScavengerGold = 0>>
+    <<set _currentScavengerStone = 0>>
+    <<set _currentScavengerWood = 0>>
+
+        /* We're going to loop through the dragons now. */
+        /* Each dragon is going to be mentioned here, */
+        /* And counted up for rest fluff, in addition to */
+        /* Getting all materials they SHOULD have. */
+        /* If they do not have a gathering job, */
+        /* They are bypassed by default. */
+    <<for _i = 0; _i < $dragons.length; _i++>>
+
+        <<switch $dragons[_i].job>>
+
+                /* Rainiers and scavengers work on the same logic as foragers, */
+                /* Though scavengers and salvagers have additional checks. */
+                /* Initially the 'current' forager has their gains calculated by xp, */
+                /* _goldBonus, and little random bonus just because. */
+                /* This is then run through a clamp to make sure it is no less than 1, */
+                /* And no more than an arbitrary number—currently set to 35. */
+                /* Said arbitrary number may change, but I want to make sure dragons */
+                /* Can't single-handedly feed an entire colony because _goldBonus */
+                /* And having been working for a ridiculously long time. */
+                /* (Such as in the case of wanderers, who can be VERY experienced.) */
+                /* Anyone not in a resource delivery job is simply counted. */
+            <<case "builder">>
+                <<set _builderCount += 1>>
+
+            <<case "forager">>
+                <<set _foragerCount += 1>>
+                <<if $dragons[_i].personality == "dreamy" || $dragons[_i].personality == "idealistic" || $dragons[_i].personality == "social">>
+                    <<set _currentForagerFood += Math.round(($dragons[_i].foragerxp * _goldBonus) + random(2, 6))>>
+                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, 45)>>
+                <<else>>
+                    <<set _currentForagerFood += Math.round(($dragons[_i].foragerxp * _goldBonus) + random(3))>>
+                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, 35)>>
+                <</if>>
+                <<set _foragerFood += _currentForagerFood>>
+
+            <<case "rainier">>
+                <<set _rainierCount += 1>>
+                <<if $dragons[_i].personality == "idealistic" || $dragons[_i].personality == "industrious" || $dragons[_i].personality == "fastidious">>
+                    <<set _currentRainierWater += Math.round(($dragons[_i].rainierxp * _goldBonus) + random(2, 6))>>
+                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, 45)>>
+                <<else>>
+                    <<set _currentRainierWater += Math.round(($dragons[_i].rainierxp * _goldBonus) + random(3))>>
+                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, 35)>>
+                <</if>>
+                <<set _rainierWater += _currentRainierWater>>
+
+            <<case "salvager">>
+                    /* Salvagers are not guaranteed to acquire gold. */
+                    /* Experience gives them a better chance, but not by much. */
+                    /* Otherwise, the gold they find is as normal. */
+                    /* Unlike other jobs, however, Salvagers are not capped. */
+                    /* ... For now. Depending on how busted they are, */
+                    /* That may be changed for a higher cap than other resource jobs. */
+                <<set _salvagerCount += 1>>
+                <<if $dragons[_i].personality == "cynical" || $dragons[_i].personality == "opportunistic" || $dragons[_i].personality == "rebellious">>
+                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].salvagerxp * 1))>>
+                    <<if _salvagerGoldChance >= 80>>
+                        <<set _salvagerGold += (Math.round($dragons[_i].salvagerxp * _goldBonus) + random(2, 6))>>
+                    <</if>>
+                <<else>>
+                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].salvagerxp * 0.25))>>
+                    <<if _salvagerGoldChance >= 80>>
+                        <<set _salvagerGold += (Math.round($dragons[_i].salvagerxp * _goldBonus) + random(3))>>
+                    <</if>>
+                <</if>>
+
+            <<case "scavenger">>
+                    /* Scavengers may find gold, at an extremely low rate. */
+                    /* If they DO, their max gold is determined by how many days */
+                    /* They have been working as a scavenger, clamped at  */
+                    /* Otherwise, they can only pick one of two materials. */
+                    /* It's random for each scavenger, */
+                    /* So if you have multiple they can bring in either/or. */
+                <<set _scavengerCount += 1>>
+                <<set _scavengerGoldLuck = random(100)>>
+                <<set _scavengerMaterialChoice = random(1)>>
+                <<if $dragons[_i].personality == "cynical" || $dragons[_i].personality == "dreamy" || $dragons[_i].personality == "opportunistic">>
+                    <<if _scavengerMaterialChoice == 1>>
+                        <<set _currentScavengerWood = Math.round($dragons[_i].scavengerxp * _goldBonus) + random(2, 6)>>
+                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, 45)>>
+                        <<set _scavengerWood += _currentScavengerWood>>
+                    <<else>>
+                        <<set _currentScavengerStone = Math.round($dragons[_i].scavengerxp * _goldBonus) + random(2, 6)>>
+                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, 45)>>
+                        <<set _scavengerStone += _currentScavengerStone>>
+                    <</if>>
+                    <<if _scavengerGoldLuck > 95>>
+                        <<set _currentScavengerGold = Math.round($dragons[_i].scavengerxp * 10)>>
+                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 25)>>
+                        <<set _scavengerGold += random(1, _currentScavengerGold)>>
+                    <</if>>
+                <<else>>
+                    <<if _scavengerMaterialChoice == 1>>
+                        <<set _currentScavengerWood = Math.round($dragons[_i].scavengerxp * _goldBonus) + random(3)>>
+                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, 35)>>
+                        <<set _scavengerWood += _currentScavengerWood>>
+                    <<else>>
+                        <<set _currentScavengerStone = Math.round($dragons[_i].scavengerxp * _goldBonus) + random(3)>>
+                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, 35)>>
+                        <<set _scavengerStone += _currentScavengerStone>>
+                    <</if>>
+                    <<if _scavengerGoldLuck > 95>>
+                        <<set _currentScavengerGold = Math.round($dragons[_i].scavengerxp * 10)>>
+                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 25)>>
+                        <<set _scavengerGold += random(1, _currentScavengerGold)>>
+                    <</if>>
+                <</if>>
+
+            <<case "slacker">>
+                <<set _slackerCount += 1>>
+            
+            <<case "soldier">>
+                    /* Soldiers are odd; they aren't guaranteed to bring in anything. */
+                    /* They also have a higher clamp because their job means MUSCLES */
+                    /* And too much pride to turn down anything less than A LOT. */
+                <<set _soldierCount += 1>>
+                <<set _soldierHuntChance = random(100)>>
+
+                <<if _soldierHuntChance < 85>>
+                    <<if $dragons[_i].personality == "rebellious" || $dragons[_i].personality == "militaristic">>
+                        <<set _currentSoldierHunt = Math.round($dragons[_i].soldierxp * _goldBonus) + random(15,30)>>
+                        <<set _currentSoldierHunt = Math.clamp(_currentSoldierHunt, 10, 50)>>
+                    <<else>>
+                        <<set _currentSoldierHunt = Math.round($dragons[_i].soldierxp * _goldBonus) + random(15,30)>>
+                        <<set _currentSoldierHunt = Math.clamp(_currentSoldierHunt, 5, 40)>>
+                    <</if>>
+                    <<set _soldierHunt += _currentSoldierHunt>>
+                <</if>>
+
+            <<default>>
+                <<set _errorID = $dragons[_i].id>>
+                <<set _errorDragon = $dragons[_i].name>>
+                <<set _errorJob = $dragons[_i].job>>
+                <<errorPopup "endDayJob">>
+
+        <</switch>>
+    <</for>>
+
+        /* Now we check hatchlings, since they occasionally bring in Things. */
+        /* Only food and water for now, and not exceptionally often. */
+
+        /* Now adding all temporary variables to the main resources. */
+    <<set $food += (_foragerFood + _soldierHunt)>>
+    <<set $water += (_rainierWater)>>
+    <<set $gold += (_salvagerGold + _scavengerGold)>>
+    <<set $stone += (_scavengerStone)>>
+    <<set $wood += (_scavengerWood)>>
+
+<</nobr>><</widget>>

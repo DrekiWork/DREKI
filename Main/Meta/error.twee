@@ -4,23 +4,28 @@
     Call: 
     <<switch _args[0]>>
         <<case "builderStatus">>
-            Your builders are in a weird state!<br>
+            Your builders are in a weird state! Unfortunately, your builders will be busted if this stays, so I'll set them to planning. Sorry!<br>
             Status: <<print $builderStatus>>.
+            <<set $builderStatus = 1>>
 
         <<case "buildQueueWeird">>
             The build queue tried to build something that doesn't exist!<br>
             Item name: <<print $buildQueue[0]>>.
 
+        <<case "endDayJob">>
+            endDay caught a dragon with an unrecognized job!<br>
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Just a slacker with extra steps, really.
+
         <<case "endDayFeed">>
             endDay tried to feed a dragon with an unrecognized job!<br>
-            The dragon in question was: <<print _errorDragon>>, <<print _errorJob>>. Shame on them.
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Shame on them.
 
         <<case "endDayHome">>
             endDay tried to unhouse a dragon with an unrecognized house!<br>
-            The dragon in question was: <<print _errorDragon>>, <<print _errorHouse>>. Tsk, tsk.
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorHouse>>. You'd think they could just leave...
 
         <<default>>
-            Whoops! Not sure. Please let the Dev know what you were up to and they should be able to figure it out.
+            Whoops! Not sure. Please let the Dev know what you were up to, and provide your save, and they should be able to figure it out.
             
     <</switch>>
 <</nobr>>

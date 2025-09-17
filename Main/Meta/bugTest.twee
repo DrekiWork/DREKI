@@ -69,16 +69,22 @@
     </details>
     <details>
     <summary><h3>Misc. Triggers</h3></summary>
+    ''//Flags//''<br>
+    Can visit unique locations? <<cycle "$visitPlaces" autoselect>>
+        <<option "Yes." true>>
+        <<option "No." false>>
+    <</cycle>><br><br>
+
     ''//Hydra//''<br>
     [[Hydra Den Event|HydraFoodEvent]]<br>
-    <<linkreplace "Take hydra's egg?">>
-        <<set $hydraEggTaken = true>>
-        Took the egg.
-    <</linkreplace>><br>
-    <<linkreplace "Seen the hydra?">>
-        <<set $hydraSeen = true>>
-        Seen the hydra.
-    <</linkreplace>><br><br>
+    Have the Hydra egg? <<cycle "$hydraEggTaken" autoselect>>
+        <<option "Yes." true>>
+        <<option "No." false>>
+    <</cycle>><br>
+    Seen the hydra? <<cycle "$hydraSeen" autoselect>>
+        <<option "Yes." true>>
+        <<option "No." false>>
+    <</cycle>><br><br>
 
     ''//Lake Creatures//''<br>
     <<linkreplace "Seen the creatures?">>
@@ -89,8 +95,8 @@
     ''//Defenses//''<br>
     Defenses active?
     <<cycle "$defenseTalk" autoselect>>
-        <<option "Yes, it happened." true>>
-        <<option "No, it didn't happen." false>>
+        <<option "Yes." true>>
+        <<option "No." false>>
 	<</cycle>><br>
 
     [[Go to DefenseTalk?|DefenseTalk]]<br>

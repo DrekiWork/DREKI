@@ -1,4 +1,4 @@
-:: Food [WIP forage] {"position":"725,675","size":"100,100"}
+:: FoodHunt [WIP forage] {"position":"725,675","size":"100,100"}
 <<nobr>>
 	
 		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
@@ -19,7 +19,6 @@
 
 
 	<<if _forage == 10>>
-		<<set _collect = 0>>
 		<<if $hydraBeat == false>>
 			<<goto "HydraFoodEvent">>
 		<<else>>
@@ -28,7 +27,8 @@
 	
 	<<elseif _forage >= 8>>
 		<<set _collect = random(12, 15)>>
-		
+		<<addResource "food" _collect>>
+
 		<<if _scene == 0>>
 			You find an abandoned site of some sort; though the purpose or even constructors are unclear, you care slightly less when you find <span class="food"><<print _collect>> food</span> buried nearby. <br> <br> 
 		<<elseif _scene == 1>>
@@ -39,6 +39,7 @@
 
 	<<elseif _forage >= 3>>
 		<<set _collect = random(7, 11)>>
+		<<addResource "food" _collect>>
 
 		<<if _scene == 0>>
 			While breaking to bask, you catch the somewhat concerning scent of blood. Upon following it you find the partially-consumed body of a stag. There's enough to take home, however; when you're done butchering it, your stores are <span class="food"><<print _collect>> food</span> fuller. <br> <br>
@@ -50,6 +51,7 @@
 	
 	<<elseif _forage >= 1>>
 		<<set _collect = random(3, 6)>>
+		<<addResource "food" _collect>>
 
 		<<if _scene == 0>>
 			You find a small collection of mushrooms. After very thoroughly checking they aren't poisonous - and driving away some very loud but tragically inedible toads - you decide to end your hunt there and snack on one while you return. The remaining <span class="food"><<print _collect>> fungi</span> will be enough for this patrol. <br> <br>
@@ -65,37 +67,10 @@
 
 <</if>>
 
-<<set $food += _collect>>
-<<if $food > $foodCap>>
-	<<set $food = $foodCap>>
-<</if>>
-
 	/* This whole section should be its own thing tbh. */
 	/* Lets players harvest again, or something else (dependent on energy available). */
 	/* Otherwise sends them home. */
-<<if $player.action >= 1>>
-	<span id="forageChoices">
-		You could 
-		<<if $food < $foodCap>>
-			[[hunt again|Food]]; 
-		<<else>>
-		<</if>>
-		look for 
-		<<link "something else">>
-			<<replace "#forageChoices">>
-				[[Water]], [[wood|Wood]], 
-				<<if $ghunt == false>>
-					[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-				<<else>>
-					or [[stone|Stone]]?
-				<</if>>
-			<</replace>>
-		<</link>>; 
-		or you can simply [[stay home.|Sandbox Central]]
-	</span>
-<<else>>
-	It's time to [[go home.|Sandbox Central]]
-<</if>>
+<<include "foragingOptions">>
 
 <</nobr>>
 

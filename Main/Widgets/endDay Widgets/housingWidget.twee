@@ -1,0 +1,104 @@
+:: EndDayHousingWidget [widget]
+
+    /* This widget houses dragons. */
+    /* This includes actually placing them in houses, */
+    /* And moving them up to a higher value house. */
+<<widget "shelterMoving">><<nobr>>
+        /* First, making sure that the amount of shelter is up-to-date. */
+    <<updateHome>>
+
+        /* With dragons and shelter confirmed, we start set-up. */
+        /* _newHouse is dragons getting a home for the first time. */
+        /* _movedHouse is dragons upgrading from one home to another. */
+        /* _noHouse are dragons that need shelter, or you'll suffer. */
+    <<set _newHouse = []>>
+    <<set _movedHouse = []>>
+    <<set _noHouse = []>>
+
+        /* Then, with $home ready, making sure there are dragons TO house. */
+        /* As well as confirming that players WANT dragons to shelter themselves. */
+    <<if $findSleep == true>>
+
+            /* Now we start the loop. */
+        <<for _i = 0; _i < $dragons.length; _i++>>
+
+                /* First we're checking if they have a home. */
+                /* Housed dragons will upgrade if they get a chance, */
+                /* Trying to move up in the available house to something more comfy. */
+                /* From worst to best, dragons will go: */
+                /* None -> Hollow -> Rut -> Sett */
+                /* Eventually, housing comfort will affect colonist happiness. */
+                /* Until I implement that, shelter TYPE is flavor, */
+                /* While being sheltered at all decreases food consumption. */
+            <<switch $dragons[_i].home>>
+
+                    /* Unsheltered dragons will take anything, in order of preference. */
+                <<case "none">>
+                    <<if $shelter.setts.free >= 1>>
+                        <<set $dragons[_i].home = "sett">>
+                        <<set $shelter.setts.free -= 1>>
+                        <<set $shelter.setts.occupied += 1>>
+                        <<run _newHouse.push($dragons[_i].name)>>
+
+                    <<elseif $shelter.ruts.free >= 1>>
+                        <<set $dragons[_i].home = "rut">>
+                        <<set $shelter.ruts.free -= 1>>
+                        <<set $shelter.ruts.occupied += 1>>
+                        <<run _newHouse.push($dragons[_i].name)>>
+
+                    <<elseif $shelter.hollows.free >= 1>>
+                        <<set $dragons[_i].home = "hollow">>
+                        <<set $shelter.hollows.free -= 1>>
+                        <<set $shelter.hollows.occupied += 1>>
+                        <<run _newHouse.push($dragons[_i].name)>>
+
+                    <<else>>
+                        <<run _noHouse.push($dragons[_i].name)>>
+
+                    <</if>>
+
+                    /* Dragons in a hollow will try to get privacy. */
+                <<case "hollow">>
+                    <<if $shelter.setts.free >= 1>>
+                        <<set $dragons[_i].home = "sett">>
+                        <<set $shelter.setts.free -= 1>>
+                        <<set $shelter.setts.occupied += 1>>
+                        <<set $shelter.hollows.free += 1>>
+                        <<set $shelter.hollows.occupied -= 1>>
+                        <<run _movedHouse.push($dragons[_i].name)>>
+
+                    <<elseif $shelter.ruts.free >= 1>>
+                        <<set $dragons[_i].home = "rut">>
+                        <<set $shelter.ruts.free -= 1>>
+                        <<set $shelter.ruts.occupied += 1>>
+                        <<set $shelter.hollows.free += 1>>
+                        <<set $shelter.hollows.occupied -= 1>>
+                        <<run _newHouse.push($dragons[_i].name)>>
+
+                    <</if>>
+                
+                        /* Dragons in a rut will aspire for the best. */
+                <<case "rut">>
+                    <<if $shelter.setts.free >= 1>>
+                        <<set $dragons[_i].home = "sett">>
+                        <<set $shelter.setts.free -= 1>>
+                        <<set $shelter.setts.occupied += 1>>
+                        <<set $shelter.ruts.free += 1>>
+                        <<set $shelter.ruts.occupied -= 1>>
+                        <<run _movedHouse.push($dragons[_i].name)>>
+                    <</if>>
+
+                    /* Dragons in setts don't actually try to go anywhere (yet). */
+                <<case "sett">>
+
+                <<default>>
+                    <<set _errorID = $dragons[_i].id>>
+                    <<set _errorDragon = $dragons[_i].name>>
+                    <<set _errorHouse = $dragons[_i].home>>
+                    <<errorPopup "endDayHome">>
+
+            <</switch>>
+        <</for>>
+        
+    <</if>>
+<</nobr>><</widget>>

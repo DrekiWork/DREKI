@@ -1,0 +1,98 @@
+:: PlayerEndDayWidgets [widget]
+
+    /* Resets everything relating to the player: */
+    /* Actions available per day, */
+    /* Ability to visit unique locations, */
+    /* Collecting treasure for the day, */
+    /* And if you've stolen eggs that day. */
+<<widget "dailyPlayerReset">><<nobr>>
+
+        /* General player actions; */
+        /* Players can leave the colony five times a day. */
+        /* Actions that happen at home, */
+        /* Such as building or interacting, */
+        /* Are 'free' actions that cost nothing. */
+    <<set $player.action = 5>>
+
+        /* Resets once-daily foraging actions. */
+        /* $eggStolen refers to if they've tried to steal dragon eggs, */
+        /* and $goldHunt refers to foraging for treasure. */
+    <<set $eggStolen = false>>
+    <<set $goldHunt = false>>
+
+        /* Resets visiting unique locations. */
+        /* kelpieLake refers to the infestedLake, */
+        /* Which can later be made into a secondary base */
+        /* Or a sort of visitor hub. */
+        /* hydraDen is the Hydra's Den; */
+        /* Which varies depending on what stage of defeat the Hydra is in. */
+    <<set $hasVisited.kelpieLake = false>>
+    <<set $hasVisited.hydraDen = false>>
+<</nobr>><</widget>>
+
+
+    /* Feeds the player! */
+    /* Since the player is a unique entity, */
+    /* This takes food/water from storage, */
+    /* Restores their health if it is less than max, */
+    /* And deducts health if unfed. */
+<<widget "feedPlayer">><<nobr>>
+    
+        /* _pcHungry is a flag for if the player has eaten or not. */
+        /* _pcThirsty is the same for not drinking. */
+        /* If either of these turn true, */
+        /* it will result in -1 to health. */
+        /* If both are true, */
+        /* The player's health is reduced by two. */
+    <<set _playerAte = 0>>
+    <<set _playerDrank = 0>>
+    <<set _playerNeedFood = 0>>
+    <<set _playerNeedWater = 0>>
+    <<set _pcHungry = false>>
+    <<set _pcThirsty = false>>
+
+        /* First checks if the player has a home. */
+        /* A sheltered player consumes less than half of an unsheltered player. */
+        /* Regardless, a player that does not eat or drink */
+        /* Sets the hunger and thirst flags to true, respectively. */
+    <<if $player.home.built == true>>
+
+        <<if $food >= 4>>
+            <<set $food -= 4>>
+        <<else>>
+            <<set $player.health -= 1>>
+            <<set _pcHungry = true>>
+        <</if>>
+
+        <<if $water >= 5>>
+            <<set $water -= 5>>
+        <<else>>
+            <<set $player.health -= 1>>
+            <<set _pcThirsty = true>>
+        <</if>>
+
+    <<else>>
+
+        <<if $food >= 8>>
+            <<set $food -=8>>
+        <<else>>
+            <<set $player.health -= 1>>
+            <<set _pcHungry = true>>    
+        <</if>>
+        
+        <<if $water >= 10>>
+            <<set $water -= 10>>        
+        <<else>>
+            <<set $player.health -= 1>>
+            <<set _pcThirsty = true>>        
+        <</if>>
+    
+    <</if>>
+
+        /* Restores the player health by one, */
+        /* So long as there's health to restore AND they have eaten/drunk. */
+    <<if _pcHungry == false && _pcThirsty == false && $player.health < 10>>
+        <<set $player.health += 1>>
+    <</if>>
+
+<</nobr>><</widget>>

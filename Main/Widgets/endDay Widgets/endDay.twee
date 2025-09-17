@@ -1,0 +1,59 @@
+:: EndDayWidget [widget]
+
+	/* endDay is functionally a master widget for the smaller widgets within. */
+	/* Each one operates a different portion of the code. */
+	/* That keeps it a lot more manageable than the nearly thousand-line-long monstrosity it used to be. */
+	/* Detailed documentation is contained within the passages themselves. */
+	/* All endDay widgets are contained within .../Widgets/endDay Widgets */
+	/* And titled after the widgets they thus contain. */
+<<widget "endDay">><<nobr>>
+
+		/* timeKeeper moves days, cycles, and event timers forward. */
+	<<timeKeeper>>
+
+		/* Before we continue, exileDragons will run to prevent */
+		/* Dragons that were voluntarily kicked out from taking */
+		/* Up necessary resources, though it also stops them from */
+		/* Adding any more resources to your pile. */
+	<<exileDragons>>
+			
+		/* eggUpdates ages eggs, hatches them, removes them from the array, and runs hatchlingMaker. */
+		/* hatchlingUpdates does the same but for hatchlings. */
+	<<eggUpdates>>
+	<<hatchlingUpdates>>
+		
+		/* Resets player energy and unique daily actions. */
+	<<dailyPlayerReset>>
+		
+		/* Has all colonists turn in resources from their jobs; */
+		/* This is done first so no one starves when there IS */
+		/* Food or water or whatever have you, added after. */
+		/* Then the builders build, just in case you have them working on a shelter. */
+		/* Defense is updated once buildings are taken care of, */
+		/* And lastly, dragons try to shelter themselves. */
+	<<dragonsJobs>>
+	<<buildQueue>>
+	<<resetDefense>>
+	<<shelterMoving>>
+
+	    /* Feeds and waters the player. */
+		/* Player goes first because if they go, the game ends entirely. */
+		/* Hatchlings are fed next, as the youngest and most vulnerable. */
+		/* Then adults are given food and water for the evening based on job. */
+	<<feedPlayer>>
+	<<feedHatchlings>>
+	<<feedDragons>>
+
+		/* Then cap is checked just in case. */
+		/* Also makes sure that if something went negative, no it didn't.  */
+	<<capResources>>
+
+		/* Now we remove all deprived dragons. */
+		/* A dragon that has gone three days without food or water */
+		/* Is considered deprived and removed by the widget. */
+		/* We make sure their issues aren't resolved before */
+		/* They go, as it's generally better to retain what you can. */
+	<<voluntaryDeparture>>
+			
+<</nobr>><</widget>>
+

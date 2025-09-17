@@ -1,6 +1,5 @@
 :: Interact [WIP] {"position":"400,700","size":"100,100"}
 <<nobr>>
-	<<set _name to $dragons[$int].name>>
 	<<textbox "$dragons[$int].name" $dragons[$int].name>><<button "Rename">><<run Engine.show()>><</button>> is one of your dragons. They're a fully grown
 	<<if $dragons[$int].appearance.size == "normal">>
 		<<print $dragons[$int].appearance.color>>
@@ -31,7 +30,7 @@
 		<<default>>
 		
 	<</switch>>
-	Over time, <<print $dragons[$int].name>> has shown themselves to be <<print $dragons[$int].personality>>. 
+	Over time, <<print $dragons[$int].name>> has shown themselves to be <<print $dragons[$int].traits>>; you consider them a pretty <<print $dragons[$int].personality>> dragon, overall. 
 		<<switch $dragons[$int].origin>>
 			<<case "stay">>
 				They hatched in your colony, and have been here ever since.
@@ -45,11 +44,11 @@
 	<br> <br>
 
 	<<if $dragons[$int].hunger > 1>>
-		<<print _name>> is hungry; they haven't eaten in <<print $dragons[$int].hunger>> days. If they don't eat, they'll leave.
+		<<print $dragons[$int].name>> is hungry; they haven't eaten in <<print $dragons[$int].hunger>> days. If they don't eat, they'll leave.
 	<<elseif $dragons[$int].hunger == 1>>
-		<<print _name>> didn't eat yesterday; they'll leave in two days if they aren't fed.
+		<<print $dragons[$int].name>> didn't eat yesterday; they'll leave in two days if they aren't fed.
 	<<else>>
-		<<print _name>> has been well fed.
+		<<print $dragons[$int].name>> has been well fed.
 	<</if>>
 	<<if $dragons[$int].thirst > 1>>
 		They haven't drunk in <<print $dragons[$int].thirst>> days. If they don't get water, they'll leave.
@@ -60,9 +59,9 @@
 	<</if>>
 	<<switch $dragons[$int].home>>
 		<<case "none">>
-			They don't have a home to themselves yet.
+			They don't have a home to themselves yet,
 			<<if $home >= 1>>
-				You have some free space; would you like to assign <<print $dragons[$int].name>> to a 
+				but you have some free space. Would you like to assign <<print $dragons[$int].name>> to a 
 				<<linkappend "shelter?">>
 					<<if $shelter.setts.free >= 1>>
 						<<link "Sett">>
@@ -81,7 +80,7 @@
 					<</if>>
 				<</linkappend>>
 			<<else>>
-				There's no shelter available either; you might have to build more.
+				nor is there any shelter available. You should probably build more.
 			<</if>>
 		
 		<<case "rut">>
@@ -106,157 +105,143 @@
 				<<set $shelter.hollows.occupied -= 1>>
 				<<run Engine.show()>>
 				<</link>> if you like...
-		<</switch>><br> <br>
+		<</switch>><br><br>
 
+		<<set _xpKey = $dragons[$int].job + "xp">>
+		<<set _xp = Math.round($dragons[$int][_xpKey] * 10)>>
 
 		<<switch $dragons[$int].job>>.
-			<<case "slacker">>
-				As with all dragons, they are an instinctive master of the art of doing nothing. Would you like to give <<print $dragons[$int].name>> a job?<br>
-
-				&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Foragers collect food for your colony.<br>
-				&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Rainiers gather water for your colony.<br>
-				&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-					&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well... <br>
-				&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br>
-				&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
+				/* Note: Provide individual flavor for the personalities, IE: */
+				/* A social forager would say something like... */
+				/* They keep spirits up with chatter while working; they seem to really enjoy their job. */
+				/* Or a cynical salvager would say... */
+				/* They're ruthlessly efficient in taking tolls; they seem to be especially keen on their work. */
+			<<case "builder">>
+				<<if $dragons[$int].personality == "industrious" || $dragons[$int].personality == "fastidious" || $dragons[$int].personality == "militaristic">>
+					They've worked for <<plural _xp "day" "days">> as a builder, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a builder.
+				<</if>>
+					<<if _xp >= 50>>
+						They've grown into the role, and can rattle off exactly where it should be, what they would need, and how many assisting dragons are necessary for any given structure.
+					<<elseif _xp >= 20>>
+						They're getting familiar with more complicated techniques, and are growing more sophisticated in their constructions.
+					<<elseif _xp >= 10>>
+						They've learned how to ensure a building will hold itself together for a while.
+					<<else>>
+						Their work is rather shaky and haphazard.
+					<</if>>
 
 			<<case "forager">>
-					<<set _xp to Math.round($dragons[$int].foragexp * 10)>>
-				They've worked for <<print _xp>> days as a forager.
+				<<if $dragons[$int].personality == "dreamy" || $dragons[$int].personality == "idealistic" || $dragons[$int].personality == "social">>
+					They've worked for <<plural _xp "day" "days">> as a forager, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a forager.
+				<</if>>
 					<<if _xp >= 50>>
-						They're fairly comfortable gathering food by now.
+						They've become an excellent hunter-gatherer, with a wealth of knowledge on the fat of the land.
 					<<elseif _xp >= 20>>
-						They're getting used to foraging.
+						They're competent enough to be trusted gathering fungi now.
 					<<elseif _xp >= 10>>
-						They've learned how to avoid poisonous plants at least.
+						They've figured out how to use their claws more delicately, and can more reliably bring home their finds.
 					<<else>>
-						They're pretty new to it.
+						They often accidentally destroy what little they find.
 					<</if>>
-					Would you like to change their job?<br>
-					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Rainiers gather water for your colony.<br>
-					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
-					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br>
-					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
 
 			<<case "rainier">>
-				<<silently>>
-					<<set _xp to Math.round($dragons[$int].rainxp * 10)>>
-				<</silently>>
-				They've worked for <<print _xp>> days as a rainier.
+				<<if $dragons[$int].personality == "idealistic" || $dragons[$int].personality == "industrious" || $dragons[$int].personality == "social">>
+					They've worked for <<plural _xp "day" "days">> as a rainier, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a rainier.
+				<</if>>
 					<<if _xp >= 50>>
-						They're fairly comfortable around water by now.
+						They're as comfortable swimming as they are with flying, and can find the smallest of tributaries or the deepest of groundwater.
 					<<elseif _xp >= 20>>
-						They're getting used to redirecting water.
+						They've adapted well to hauling water, and can reliably predict where it will flow.
 					<<elseif _xp >= 10>>
-						They've at least learned how to avoid muddying up the water.
+						They're capable of getting clean water now, though hauling it steadily can trip them up.
 					<<else>>
-						They're pretty new to it.
+						They end up simply splashing around more often than not.
 					<</if>>
-					Would you like to change their job?<br>
-					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Foragers collect food for your colony.<br>
-					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
-					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br>
-					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
+
+			<<case "salvager">>
+				<<if $dragons[$int].personality == "cynical" || $dragons[$int].personality == "opportunistic" || $dragons[$int].personality == "rebellious">>
+					They've worked for <<plural _xp "day" "days">> as a salvager, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a salvager.
+				<</if>>
+					<<if _xp >= 50>>
+						They've developed a sharp eye for shinies; few valuables can hide from their avaricious claws.
+					<<elseif _xp >= 20>>
+						They're getting used to routing through others' things for even the lightest gleam of gold.
+					<<elseif _xp >= 10>>
+						They've gotten an idea of what is actually valuable, and what is just a bit shiny.
+					<<else>>
+						They don't quite have the eye for it yet.
+					<</if>>
 
 			<<case "scavenger">>
-				<<silently>>
-					<<set _xp to Math.round($dragons[$int].scavxp * 10)>>
-				<</silently>>
-				They've worked for <<print _xp>> days as a scavenger.
+				<<if $dragons[$int].personality == "cynical" || $dragons[$int].personality == "opportunistic" || $dragons[$int].personality == "dreamy">>
+					They've worked for <<plural _xp "day" "days">> as a scavenger, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a scavenger.
+				<</if>>
 					<<if _xp >= 50>>
-						They're fairly comfortable collecting building materials by now.
+						Their talons are worn from carving rock and wood, but their material is often the highest quality in your storage.
 					<<elseif _xp >= 20>>
 						They're getting used to the hard labor of hauling wood and stone.
 					<<elseif _xp >= 10>>
 						They've learned how to carve stone into useable material, and have stopped breaking the timber they haul back.
 					<<else>>
-						They're pretty new to it.
+						They haven't yet learned to tell good material from bad.
 					<</if>>
-					Would you like to change their job?<br>
-					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Foragers collect food for your colony.<br>
-					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Rainiers gather water for your colony.<br>
-					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br>
-					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
-			
-			<<case "builder">>
-				<<silently>>
-					<<set _xp to Math.round($dragons[$int].buildxp * 10)>>
-				<</silently>>
-				They've worked for <<print _xp>> days as a builder.
-					<<if _xp >= 50>>
-						They're fairly comfortable assembling structures by now.
-					<<elseif _xp >= 20>>
-						They're getting used to the delicate placement and heavy lifting necessary to construct buildings.
-					<<elseif _xp >= 10>>
-						They've learned how to ensure a building will hold itself together for a while.
-					<<else>>
-						They're pretty new to it.
-					<</if>>
-					Would you like to change their job?<br>
-					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Foragers collect food for your colony.<br>
-					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Rainiers gather water for your colony.<br>
-					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
-					&emsp;<<link "Soldier">> <<set $dragons[$int].job to "soldier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Soldiers guard your territory. If they get bored, they might even hunt.<br><br>
+
+			<<case "slacker">>
+				<<if $dragons[$int].personality == "lazy">>
+					While all dragons are masters of lazing about, <<print $dragons[$int].name>> is simply unparalleled.
+				<<else>>
+					As with all dragons, they are an instinctive master of the art of doing nothing.
+				<</if>>
 			
 			<<case "soldier">>
-				<<silently>>
-					<<set _xp to Math.round($dragons[$int].soldierxp * 10)>>
-				<</silently>>
-				They've worked for <<print _xp>> days as a soldier.
+				<<if $dragons[$int].personality == "rebellious" || $dragons[$int].personality == "militaristic">>
+					They've worked for <<plural _xp "day" "days">> as a soldier, and seem to really enjoy it.
+				<<else>>
+					They've worked for <<plural _xp "day" "days">> as a soldier.
+				<</if>>
 					<<if _xp >= 50>>
-						They're so used to being alert that they've started pre-emptively checking locations before allowing anyone in.
+						They're so used to being alert that they constantly scan their surroundings, even when off-duty.
 					<<elseif _xp >= 20>>
-						They've adjusted to silently standing guard for hours on end.
+						They've become an adept combatant, and use their authority within the colony confidently.
 					<<elseif _xp >= 10>>
-						They're getting some confidence in combat.
+						They're adapting to standing on silent guard for hours at a time, though the dark rings around their eyes suggest it's still a challenge.
 					<<else>>
-						They're pretty new to their post.
+						They still hesitate in their duty.
 					<</if>>
-					Would you like to change their job?<br>
-					&emsp;<<link "Slacker">> <<set $dragons[$int].job to "slacker">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Slackers lounge around the colony, doing nothing.<br>
-					&emsp;<<link "Forager">> <<set $dragons[$int].job to "forager">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Foragers collect food for your colony.<br>
-					&emsp;<<link "Rainier">> <<set $dragons[$int].job to "rainier">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Rainiers gather water for your colony.<br>
-					&emsp;<<link "Scavenger">> <<set $dragons[$int].job to "scavenger">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Scavengers gather building materials for your colony. They may, rarely, find gold as well...<br>
-					&emsp;<<link "Builder">> <<set $dragons[$int].job to "builder">> <<run Engine.show()>> <</link>><br>
-						&emsp;&emsp;Builders construct things for the colony.<br><br>
 
 		<</switch>>
+
+		Would you like to give <<print $dragons[$int].name>> a different job?<br>
+
+		<<for _i = 0; _i < $dJobs.length; _i++>>
+			<<run console.log("$jobInfo: " + $jobInfo)>>
+			<<capture _i>>
+				<<if $dragons[$int].job !== $jobInfo[_i].name>>
+					<<set _jobName = $jobInfo[_i].name.toUpperFirst()>>
+					<<capture _jobName>>
+						<<set _desc = $jobInfo[_i].desc>>
+						&emsp;<<link "_jobName">>
+							<<set $dragons[$int].job = $jobInfo[_i].name>>
+							<<run Engine.show()>>
+						<</link>><br>
+						&emsp;&emsp;<<print _desc>><br>
+					<</capture>>
+				<</if>>
+			<</capture>>
+		<</for>><br>
 	
 	<<link "Next Dragon">>
-		<<set $dragons[$int].name to _name>>
-		<<if $int gte ($dragons.length - 1)>>
+		<<if $int >= ($dragons.length - 1)>>
 			<<set $int to 0>>
 			<<goto "Interact">>
 		<<else>>
@@ -265,7 +250,6 @@
 		<</if>>
 	<</link>><br>
 	<<link "Previous Dragon">>
-		<<set $dragons[$int].name to _name>>
 		<<if $int == 0>>
 			<<set $int = ($dragons.length - 1)>>
 			<<goto "Interact">>
@@ -282,5 +266,5 @@
 	<<else>>
 		They will leave at sunset.
 	<</if>><br>
-	<<link "Back to Pop" "Pop">><<set $dragons[$int].name to _name>><</link>>
+	[[Back to Pop|Pop]]
 <</nobr>>

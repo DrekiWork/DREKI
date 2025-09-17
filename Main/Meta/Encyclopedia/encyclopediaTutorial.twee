@@ -1,0 +1,47 @@
+:: EncyclopediaTutorial
+<<nobr>>
+    Welcome to the refresher! All basics of gameplay will be covered here. If your questions are more in-depth, such as calculations on rest, how defenses work, or on colonist personality interactions, you'll find those details under the corresponding sub-tabs to the left.
+
+    <h2>Player</h2>
+    Where better to start than here? The main character! The dragon that started it all, the <<print $player.title>>! 
+
+
+    <h2>Resources</h2>
+    Your resources are readily available on the sidebar to your left, in order of: <span class="food">food</span>, <span class="water">water</span>, <span class="stone">stone</span>, <span class="wood">wood</span>, and <span class="gold">gold</span>. All are numeric representations of how much of a thing you have. This bar is most likely currently hidden under the Encyclopedia, if not currently folded in, but rest assured: it is there.<br><br>
+
+    Let's take food as an example. The <strong>left</strong> number in food is how much you currently have. The <strong>right</strong> number is the maximum amount you can ever have.<br><br>
+    
+    So, your food bar is presently:
+        <<print $food>> / <<print $foodCap>> .
+    You have <<print $food>> food in storage, with a maximum capacity of <<print $foodCap>>.
+    <<if $food == $foodCap>>
+        Great! You've filled up your food storage! This means you can no longer forage for food specifically, but if your other resources aren't full, you can still look for them.
+    <<elseif $food > 0>>
+        Great! You've got some in storage; because your food has not filled up your storage, you can still go foraging for more food, or anything else that is not up to capacity.
+    <<else>>
+        Oh—you don't actually have any. That's okay! You can always go foraging more more from Central.
+    <</if>>
+    We'll cover foraging in a bit more detail in a moment, or you can scroll to the 'Forage' heading further down. For now, we will cover the details of your resources.<br><br>
+
+    <span class="food">Food</span> and <span class="water">water</span> are your most important resources. Whenever you end the day by resting, these two resources are consumed. If you do not have enough, nothing will be taken—but you, your hatchlings, or your dragons will suffer for the lack, leading to potentially grave consequences. These are very important to keep topped up!<br><br>
+
+    Next are <span class="stone">stone</span> and <span class="wood">wood</span>. These are building materials: significantly less important than food and water, but no less with material use in construction. Anything accessible in the build menu needs at least one of these. Shelters, defenses, even improving your storage capacity, all require wood and stone.<br><br>
+
+    Last, but certainly not least, is <strong><span class="gold">gold</span></strong>. Your treasure, your lovely shimmering hoard: <span class="gold">gold</span>. It has no cap, because as a dragon, you will never have enough. It has no plain and obvious purpose but for the fact that it is gold, and it is good decoration for your own den... so why is it here? Because your dragons will work hard if they have a hoard to be proud of.
+
+    <h2><span class="food">Food</span></h2>
+    <h2></h2>
+    <h2></h2>
+    <h2></h2>
+    <h2></h2>
+
+    - player info
+    - rest
+    - shelter
+    - storage
+    - colonist info (jobs, personalities)
+    - foraging
+    - defense
+    - eggs and hatchlings
+    - 
+<</nobr>>

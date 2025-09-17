@@ -1,0 +1,27 @@
+:: TimeKeeperWidget [widget]
+/* The timeKeeper widget will move days forward. */
+/* All it does is track days, cycles, and event timers. */
+/* Nothing more, nothing less. */
+
+<<widget "timeKeeper">><<nobr>>
+        /* Moves a day forward */
+	<<set $days += 1>>
+
+        /* Converts sufficient days into a cycle, otherwise known as a month. */
+        /* Every thirty days is one cycle, and the countdown repeats. */
+	<<if $days == 30>>
+        <<set $cycles += 1>>
+        <<set $days = 0>>
+    <</if>>
+
+        /* This is for timed events. */
+        /* Currently, the only existing event is the hydra raid. */
+        /* I will likely eventually set up an `$eventTimer` variable instead, */
+        /* and use that for all events, so only one at a time can occur. */
+    <<if $hydraTime > 0>>
+        <<set $hydraTime -= 1>>
+    <<elseif $hydraTime == 0>>
+        <<set $currentEvent = "HydraRaid">>
+    <</if>>
+
+<</nobr>><</widget>>

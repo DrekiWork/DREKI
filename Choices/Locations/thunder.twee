@@ -48,22 +48,26 @@ On mentioning that, you have <<print ($shelter.ruts.amount + $shelter.setts.amou
 	<<elseif $dragons.length == 1>>
 		You can see <<print $dragons[0].name>>. <<linkappend "Do you want to talk to them?">> <br> <br>
 				<<switch $dragons[0].personality>>
-				<<case "aloof" "formal">>
-					<<print $dragons[0].name>> tips their head in greeting. You speak with them for a short while, but when it becomes evident that they're just trying to humor you, you dismiss them. Did <<print $dragons[0].name>> always seems so distant...?
-				<<case "hardworking" "persistent">>
-					You approach <<print $dragons[0].name>>, and talk with them. They're happy for it, though they seem rather fixated on how to help the colony grow. Your hearts squeeze with affection, and when you say your farewells, you feel pleased knowing that your first is so reliable.
-				<<case "placid" "quiet">>
+				<<case "cynical">>
+					<<print $dragons[0].name>> tips their head in greeting. You speak with them for a short while, but their rather sharp personality makes it difficult to truly enjoy the conversation. As <<print $dragons[0].name>> returns your farewell, you wonder how they ever got so cold.
+				<<case "dreamy">>
 					You greet <<print $dragons[0].name>>, and they nod slowly in reply. As you talk, it becomes evident that they're doing more listening than speaking; you make sure to offer more direct questions from then on, and listen carefully when they decide to answer. When the sun has moved forward, you excuse yourself and give them a fond brush with your wing as you leave.
-				<<case "chatty" "whimsical">>
-					<<print $dragons[0].name>> bounds over to you, apparently having seen you, and cries out a cheerful "Good flying, <<print $title>>!" You're drawn into a conversation about anything and everything that has caught their attention - the weather, meals, the colony, a particular stone or the way water glittered off the collection ditches today. You listen with more amusement than anything, and chime in where you can. As the sun's shifting becomes obvious, you excuse yourself. Still, they sneak in a last head rub before you go.
-				<<case "abrasive" "clever">>
-					You approach and greet <<print $dragons[0].name>>; they return it warmly, but as you converse, they're becoming increasingly tactless. As your first hatchling, you're willing to accept it - even laugh at some of their comments - but it's quickly wearing on you. Eventually, you say your farewells and leave them to it.
-				<<case "caring" "gentle">>
-					<<print $dragons[0].name>> greets you warmly as you approach. You talk with them for some time, and though you trail over a great deal of interests - both yours and theirs - <<print $dragons[0].name>> is attentive and thoughtful throughout. When you leave, you do so reluctantly, though feeling lighter than you had before.
-				<<case "confident">>
-					When you walk over to <<print $dragons[0].name>>, they offer a rather loud "Good flying, <<print $title>>!" - and the rest of the conversation follows much the same; you listen with great amusement to their boasting, and only chime in now and then to ensure they know you're listening. The time for you to leave eventually comes, however, and they strut away first - leaving you to shake your head fondly at their back.
-				<<case "absentminded" "lax" "mellow">>
+				<<case "idealistic">>
+					<<print $dragons[0].name>> bounds over to you, apparently having seen you, and cries out a cheerful "Good flying, <<print $player.title>>!" You're drawn into a conversation about anything and everything that has caught their attention - the weather, meals, the colony, a particular stone or the way water glittered off the collection ditches today. You listen with more amusement than anything, and chime in where you can. As the sun's shifting becomes obvious, you excuse yourself. Still, they sneak in a last head rub before you go.
+				<<case "industrious">>
+					You approach <<print $dragons[0].name>>, and talk with them. They're happy for it, though they seem rather fixated on how to help the colony grow. Your hearts squeeze with affection, and when you say your farewells, you feel pleased knowing that your first is so reliable.
+				<<case "lazy">>
 					<<print $dragons[0].name>> hums as you greet them, evidently a little lost in their own world. You chat with them, and though they mostly make agreeable noises and only really contribute once or twice, you still appreciate the conversation. You make sure to nuzzle their head as you leave. They absently nudge you back.
+				<<case "opportunistic">>
+					You approach and greet <<print $dragons[0].name>>; they return it warmly, but as you converse, they're becoming increasingly tactless. As your first colonist, you're willing to accept it - even laugh at some of their comments - but it's quickly wearing on you. Eventually, you dismiss them with some mild irritation, and they bounce off with a gleam in their eye.
+				<<case "perfectionist">>
+					You greet <<print $dragons[0].name>>, and they return it instantly with the precise level of deference you taught them to. As you talk, their attention wanders—not from you, but to little things that are 'out of order'. The conversation slowly derails to them trying to politely brush loose dirt from your scales, or fidget with something in the nearby area. When it's driven them to true distraction, you gently excuse them. <<print $dragons[0].name>> snaps to attention to bid you farewell, and you leave them to fixate.
+				<<case "rebellious">>
+					When you walk over to <<print $dragons[0].name>>, they offer a rather loud "Good flying, <<print $player.title>>!" - and the rest of the conversation follows much the same; you listen with great amusement to their boasting, and only chime in now and then to ensure they know you're listening. The time for you to leave eventually comes, however, and they strut away first - leaving you to shake your head fondly at their back.
+				<<case "social">>
+					<<print $dragons[0].name>> greets you warmly as you approach. You talk with them for some time, and though you trail over a great deal of interests - both yours and theirs - <<print $dragons[0].name>> is attentive and thoughtful throughout. When you leave, you do so reluctantly, though feeling lighter than you had before.
+				<<case "militaristic">>
+					<<print $dragons[0].name>> returns your greeting with a sharp nod. You talk to them for a while, but they seem rather more interested in treating this as an examination of their knowledge and skills than small talk. Your attempts to keep the conversation light are humored, but that's all; you dismiss <<print $dragons[0].name>> and—to your fond exasperation—they snap a salute to you in return.
 				<<default>>
 					<<print $dragons[0].name>> greets you pleasantly. You have a friendly conversation, but nothing about it sticks out to you. As you part ways, you wonder if you know your only colony member all that well...
 				<</switch>>
@@ -77,7 +81,6 @@ On mentioning that, you have <<print ($shelter.ruts.amount + $shelter.setts.amou
 	<</if>>
 <</nobr>>
 
-[[Check your supplies|Inventory]]
 [[Now what?|Sandbox Central]]
 
 

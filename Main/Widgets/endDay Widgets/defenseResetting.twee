@@ -1,0 +1,72 @@
+:: defenseResets [widget]
+
+    /* Okay! Now we're getting defenses reloaded. */
+    /* This is just rockfalls for now, but more */
+    /* Will be added later as I come up with more. */
+<<widget "resetDefense">><<nobr>>
+
+        /* Rockfall status flags for rest to know */
+        /* What to tell the player. */
+        /* 0 : Nothing to see here, boss. */
+        /* 1 : Rockfalls fully loaded. */
+        /* 2 : Some rockfalls loaded. */
+        /* 3 : None loaded due to no stone. */
+        /* 4 : Rockfalls empty but not loaded since */
+        /* autoLoad is currently disabled. */
+    <<set _rockfallStatus = 0>>
+
+        /* Next up, how many empty rockfalls there ARE, */
+        /* And how many stones it'll cost to refill. */
+        /* If any are left empty, cost remaining will cover it. */
+    <<set _rockfallEmpty = $defenseBuildings.rockfall.empty>>
+    <<set _rockfallStoneCost = ($defenseBuildings.rockfall.empty * $defenseBuildings.rockfall.loadCost)>>
+    <<set _rockfallRemainingCost = 0>>
+
+        /* First we find out if the player even WANTS */
+        /* The rockfalls to be loaded up at rest. */
+        /* If yes, we set about doing that. */
+        /* If no, we'll let them know about rockfalls */
+        /* That aren't loaded, if any, and move on. */
+    <<switch $autoLoad>>
+        <<case true>>
+            <<if $defenseBuildings.rockfall.empty > 0>>
+                <<if $stone >= _rockfallStoneCost>>
+                    <<set _rockfallStatus = 1>>
+                    <<set $stone -= _rockfallStoneCost>>
+                    <<set $defenseBuildings.rockfall.empty = 0>>
+                    <<set $defenseBuildings.rockfall.loaded = $defenseBuildings.rockfall.amount>>
+
+                <<elseif $stone >= $defenseBuildings.rockfall.loadCost>>
+                    <<set _rockfallRemainingCost = (_rockfallStoneCost - $stone)>>
+                    <<set _rockfallStatus = 2>>
+                    <<for _i = $defenseBuildings.rockfall.empty; _i > 0; _i-->>
+                        <<if $defenseBuildings.rockfall.loadCost <= $stone>>
+                            <<set $stone -= $defenseBuildings.rockfall.loadCost>>
+                            <<set $defenseBuildings.rockfall.loaded += 1>>
+                            <<set $defenseBuildings.rockfall.empty -= 1>>
+                        <</if>>
+                    <</for>>
+
+                <<else>>
+                    <<set _rockfallStatus = 3>>
+
+                <</if>>
+            <<else>>
+                <<set _rockfallStatus = 0>>
+                
+            <</if>>
+
+        <<case false>>
+            <<if $defenseBuildings.rockfall.empty > 0>>
+                <<set _rockfallStatus = 4>>
+
+            <<else>>
+                <<set _rockfallStatus = 0>>
+
+            <</if>>
+
+    <</switch>>
+
+    <<updateDefense>>
+    
+<</nobr>><</widget>>

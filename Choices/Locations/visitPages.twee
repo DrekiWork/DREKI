@@ -128,14 +128,8 @@
                         <<set $defenseBuildings.moat.creatures = true>>
                         <<set _meat = random(17,30)>>
                         <<set _water = random(17,30)>>
-                        <<set $food += _meat>>
-                        <<set $water += _water>>
-                        <<if $food > $foodCap>>
-                            <<set $food = $foodCap>>
-                        <</if>>
-                        <<if $water > $waterCap>>
-                            <<set $water = $waterCap>>
-                        <</if>>
+                        <<addResource "food" _meat>>
+                        <<addResource "water" _water>>
                         <<updateBar>>
                         <<set $dragonsHelpedMoveBeasts = true>>
                         <hr><br>
@@ -174,15 +168,9 @@
                                     <<set $dragonsHelpedMoveBeasts = false>>
                                     <<set $player.action = 0>>
                                     <<set _water = random(2,5)>>
-                                    <<set $water += _water>>
-                                    <<if $water > $waterCap>>
-                                        <<set $water = $waterCap>>
-                                    <</if>>
+                                    <<addResource "water" _water>>
                                     <<set _meat = random(20,50)>>
-                                    <<set $food += _meat>>
-                                    <<if $food > $foodCap>>
-                                        <<set $food = $foodCap>>
-                                    <</if>>
+                                    <<addResource "food" _meat>>
                                     <<set $defenseBuildings.moat.creatures = true>>
                                     <hr><br>
                                     You probably weren't going to do anything in particular anyway.
@@ -193,9 +181,9 @@
                                     <br><br>
                                     ... and again.
                                     <br><br>
-                                    Eventually, you realize they need water to breathe. And for some reason, their skin can't get <em>too</em> dry, but a little is fine. You're not sure why, but the former is cause enough for embarrassment. You're a dragon; the smartest creatures on the lands! How did you not realize they're like fish? You've a pile of dead animals at home by the time you figure it out, and even then, bringing the creatures back is far from easy. Spitting water on them is tricky to do mid-air, but you can't land every time you need to hydrate the things. Too often you would land too roughly and kill them, or drop them from too high to free your paws. No. And the constant landing and taking off is more exhausting than just flying, so it's really not an option. You're forced to figure out how to rotate mid-air so the water you spit onto them doesn't just fall to the ground, while doing so quickly enough that the creatures don't revitalize and make a lunge for your neck. That alone means killing a few in simple self-defense. But not <em>so</em> quickly that you don't have time to properly hydrate them—but also having to use just enough water that they'll live without wasting all of it and end up killing them anyway. It's all so incredibly <em>frustrating</em>! More than once you think about just giving up, and by the time you are able to consistantly carry lake-beasts to your moat, you have dropped a few out of pure spite for their unnecessarily aggressive behavior.
+                                    Eventually, you realize they need water to breathe. And for some reason, their skin can't get <em>too</em> dry, but a little is fine. You're not sure why, but the former is cause enough for embarrassment. You're a dragon; the smartest creatures on the lands! How did you not realize they're like fish? You've a pile of dead animals at home by the time you figure it out, and even then, bringing the creatures back is far from easy. Spitting water on them is tricky to do mid-air, but you can't land every time you need to hydrate the things. Too often you would land too roughly and kill them, or drop them from too high to free your claws. No. And the constant landing and taking off is more exhausting than just flying, so it's really not an option. You're forced to figure out how to rotate mid-air so the water you spit onto them doesn't just fall to the ground, while doing so quickly enough that the creatures don't revitalize and make a lunge for your neck. That alone means killing a few in simple self-defense. But not <em>so</em> quickly that you don't have time to properly hydrate them—but also having to use just enough water that they'll live without wasting all of it and end up killing them anyway. It's all so incredibly <em>frustrating</em>! More than once you think about just giving up, and by the time you are able to consistantly carry lake-beasts to your moat, you have dropped a few out of pure spite for their unnecessarily aggressive behavior.
                                     <br><br>
-                                    And because they're slippery, but that's beside the point. You can't just sink your claws into them - you tried! They die too easily! But you can just let them flop into your moat and they're - mostly - fine. Some ended up impaled on the pylons in the watere, and those that didn't cannibalized their injured fellows, but you have it figured out now.
+                                    And because they're slippery, but that's beside the point. You can't just sink your claws into them - you tried! They die too easily! But you can just let them flop into your moat and they're - mostly - fine. Some ended up impaled on the pylons in the water, and those that didn't cannibalized their injured fellows, but you have it figured out now.
                                     <br><br>
                                     By the time Moon is raising Her weary eye to observe your lands, you've gotten a breeding population (you hope) in your moat. At the very least you've successfully transported somewhere in the range of <<print random(12,20)>>, and you're sick of it. And tired. And altogether cranky. You deposit the remaining <span class="water"><<print _water>> water</span> from your throat pouch and get to butchering the creatures you failed to transport. Altogether, you end up with <span class="food"><<print _meat>> meat</span> from the dead, and a headache. You're not sure if it was worth it, but you're not sure it wasn't either. You're just... tired. You're going to sleep. [[You can think about it tomorrow.|Rest]]
                                 <</replace>>
@@ -227,7 +215,7 @@
                     <<if $defenseBuildings.moat.creatures == true>>
                         <<set $kelpieExtinction = true>>
                         <<set _meat = random(100, 150)>>
-                        <<set $food += _meat>>
+                        <<addResource "food" _meat>>
                         <<updateBar>>
                         <hr><br>
                         You watch the lake for a time longer, admiring the beasts' shimmering scales, and – perhaps – their acrobatics. It's not a difficult thing, to envy how freely they move in the water. It's like watching a hatchling find its wings. But you can glean no more use for the horrible things, and beauty is rarely enough of a redemption. You take to the skies, studying the lake's size. It's not large; too much for you to take on yourself, but with a small group... perhaps ten or so... you could manage it. You dip lower, examining your wingspan over the surface, blowing a rush of flame to see the water bubble.
@@ -266,7 +254,7 @@
                                 <<replace "#confirmKill">>
                                     <<set $kelpieExtinction = true>>
                                     <<set _meat = random(100, 150)>>
-                                    <<set $food += _meat>>
+                                    <<addResource "food" _meat>>
                                     <<unset $dragonsHelpedMoveBeasts>>
                                     <hr><br>
                                     Tempting though it is to use them in your moat - you think the ravenous creatures would take many chunks out of land-bound intruders, assuming they don't just eat them outright... They aren't worth the hassle. Transporting them would doubtlessly be a difficult and time-consuming task, involving your full day or taking your dragons from their duties. And you aren't the type to hoard living things. (Not including your colonists, of course.)
@@ -341,10 +329,7 @@
                 <<link "Get water.">>
                     <<replace "#decision1">>
                         <<set _collect = random(13, 20)>>
-                        <<set $water += _collect>>
-                        <<if $water > $waterCap>>
-                            <<set $water = $waterCap>>
-                        <</if>>
+                        <<addResource "water" _collect>>
                         <<updateBar>>
                         <hr><br>
                         You approach the lake, a touch uncertain about getting water from... this. It's a bit ashen, after all; it won't hurt anyone, of course, but it'll taste terrible. And, of course, encourage growth in your pools. How to go about this...
@@ -355,10 +340,7 @@
                 <<link "Get food.">>
                     <<replace "#decision1">>
                         <<set _collect = random(10, 15)>>
-                        <<set $food += _collect>>
-                        <<if $food > $foodCap>>
-                            <<set $food = $foodCap>>
-                        <</if>>
+                        <<addResource "food" _collect>>
                         <<updateBar>>
                         <hr><br>
                         You approach the lake, ready to take to the skies and lure out the beasts... only to realize they're gone. Hm. You launch yourself into the air regardless, but there's nothing in the lake at all; not even algae or moss. You destroyed it all, or at least whatever the lakebeasts didn't eat. You dither over the waters for a while, contemplative, then drop into the forest. Some of the plants have fruits and berries, after all. The berries are a little difficult to collect without eating as many twigs and leaves as delicious morsels, and collecting the fruit involves many broken branches, but you take what you can.
@@ -387,10 +369,7 @@
                 <<link "Get water.">>
                     <<replace "#decision1">>
                         <<set _collect = random(15,25)>>
-                        <<set $water += _collect>>
-                        <<if $water > $waterCap>>
-                            <<set $water = $waterCap>>
-                        <</if>>
+                        <<addResource "water" _collect>>
                         <<updateBar>>
                         <hr><br>
                         You admire the cleaner water; you can scarcely tell it was ever turned into a boiling pit now! You contently gulp down the clear liquid, drinking some but storing most in your throat pouch. You take off once you've gotten your fill of <span class="water"><<print _collect>> water</span>, and [[head home.|Sandbox Central]]
@@ -399,10 +378,7 @@
                 <<link "Get food.">>
                     <<replace "#decision1">>
                         <<set _collect = random(10, 15)>>
-                        <<set $food += _collect>>
-                        <<if $food > $foodCap>>
-                            <<set $food = $foodCap>>
-                        <</if>>
+                        <<addResource "food" _collect>>
                         <<updateBar>>
                         <hr><br>
                         You don't bother flying. You crawl into the water and float, all but the very top of your head submerged, and wait.
@@ -433,7 +409,7 @@
                 <<link "Get water.">>
                     <<replace "#decision1">>
                         <<set _collect = random(12,19)>>
-                        <<set $water += _collect>>
+                        <<addResource "water" _collect>>
                         <hr><br>
                         With the waters at last clear, you feel confident as you duck into the lake, mouth half-open to suck the liquid into your throat pouch. You keep an eye out for fish,
                         <<if $lakeStock == 0>>
@@ -448,7 +424,7 @@
                 <<link "Get food.">>
                     <<replace "#decision1">>
                         <<set _collect = random(12,19)>>
-                        <<set $food += _collect>>
+                        <<addResource "food" _collect>>
                         <hr><br>
                             You rise into a luxuriant stretch, wings outstretched and limbs trembling, before sauntering through the trees. Some hang heavy with ripe fruit; others cradle nests of little creatures whose little bones crunch pleasingly between your teeth. Your amblings walk you, eventually, to the glade on the opposite end. You're content to continue your lazy hunt, digging up roots and puffing smoke into the grass for morsels. Even with the lake empty, this is a full and abundant place. When you're satisfied, you take to the skies, content to haul your <span class="food"><<print _collect>> food</span> back to [[your colony.|Sandbox Central]]
                         /* <<if $lakeStock == 0>>
@@ -499,7 +475,7 @@
                 <<link "Get water.">>
                     <<replace "#decision1">>
                         <<set _collect = random(17,27)>>
-                        <<set $water += _collect>>
+                        <<addResource "water" _collect>>
                         <hr><br>
                         
                     <</replace>>
@@ -507,7 +483,7 @@
                 <<link "Get food.">>
                     <<replace "#decision1">>
                         <<set _collect = random(12,19)>>
-                        <<set $water += _collect>>
+                        <<addResource "food" _collect>>
                         <hr><br>
                         
                     <</replace>>
@@ -550,6 +526,8 @@
                                             You scoop up the little things, and about half the pond, into your jaws and fly back. They insist on nibbling your tongue and teeth which is a terrible feeling by itself, nevermind their slimy bodies wriggling about. But they, and you, make it to the lake with little trouble. You spit your cargo into the waters and watch them dart off.
                                             <br><br>
                                             Well, you've done your work. You promptly turn and [[head home|Sandbox Central]], working your maw in a futile attempt to get the sensations to leave. They don't.
+                                            <br><br>
+                                            ... Your mouth feels oddly clean, though.
                                         <<elseif _luck == 2>>
                                         <<elseif _luck == 3>>
                                         <<else>>

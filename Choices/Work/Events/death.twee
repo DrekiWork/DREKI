@@ -3,13 +3,13 @@
     You watch the sunset. <br> <br>
     <<if $dragons.length > 1 && $hatchlings.length > 1>>
         <<set _i = random(0, ($dragons.length - 1))>>
-        Your thunder surrounds you with solemnity and purpose; the hatchlings are kept carefully back. You do not have the energy to appreciate this, but you are nonetheless happy that they love you so. You push to stand, and the dragon nearest - <<print $dragons[_i].name>> - lurches forward to stop you. You appreciate this, even as you flick a wing to dismiss them. <br> <br>
+        Your thunder surrounds you with solemnity and purpose; the hatchlings are kept carefully back. You do not have the energy to appreciate this, but you are nonetheless happy that they love you so. You push to stand, and the dragon nearest - <<print $dragons[_i].name>> - lurches forward to stop you. You appreciate this, even as you flick a wing to dismiss them.<br><br>
 
-        Reluctantly, <<print $dragons[_i].name>> backs away again. <br> <br>
+        Reluctantly, <<print $dragons[_i].name>> backs away again.<br><br>
 
-        You tell them what is already plain; you do not expect to see the sun rise tomorrow. You do not expect to see your thunder rise and grow as it must, nor to experience the joy of its growing pains. The hatchlings do not understand, but that is alright; they are too young to know that dragons too, are no more than flesh and blood. You have done your best, and have been honored to watch them grow into the magnificent colony they are today. <br> <br>
+        You tell them what is already plain; you do not expect to see the sun rise tomorrow. You do not expect to see your thunder rise and grow as it must, nor to experience the joy of its growing pains. The hatchlings do not understand, but that is alright; they are too young to know that dragons too, are no more than flesh and blood. You have done your best, and have been honored to watch them grow into the magnificent colony they are today.<br><br>
 
-        You will not be here to see it peak. You tell them that you are going to go somewhere in the night, and they are not to follow you, or to find your bones. You tell them to keep good care of themselves. Before anyone else can step forward, you take off. Your vision flickers as you do, but you have the most experience flying long and hard; by moonhigh, you do not know where you are, and your wings give. You crash to the earth. <br> <br>
+        You will not be here to see it peak. You tell them that you are going to go somewhere in the night, and they are not to follow you, or to find your bones. You tell them to keep good care of themselves. Before anyone else can step forward, you take off. Your vision flickers as you do, but you have the most experience flying long and hard; by moonhigh, you do not know where you are, and your wings give. You crash to the earth.<br><br>
 
         <<link "You do not see the sunrise.">><<run UI.restart()>><</link>>
 
@@ -46,7 +46,7 @@
         <<elseif $hatchlings.length == 1>>
             Your little one is elated to see you - overcome with joy at the idea of their guardian sleeping with them. It breaks your hearts to be stern when your voice is breaking and your body failing, but you demand they sit. They obey immediately. They have never seen you so firm. <br> <br>
 
-            You tell them the truth of the world; that all things die. Not just prey, not just thieves and lesser creatures. Everything dies... yourself included. They are confused, but they will understand come morning. You say that you will sleep with them tonight, and that when they wake your body will be cold and empty. There will be nothing but flesh and bone now still, and if they wish to live, they will eat your flesh and your bone. You are large enough to sustain them until they can hunt, perhaps until they are gron - and they will learn how to hunt, how to find safe plants and avoid predators that would make a meal of them. No matter how large the world is, they are big enough to survive it. You tell them to keep your bones; to put your skull in a place where you can watch them, to break the rest open and chew your marrow, because all is food and they must live.<br> <br>
+            You tell them the truth of the world; that all things die. Not just prey, not just thieves and lesser creatures. Everything dies... yourself included. They are confused, but they will understand come morning. You say that you will sleep with them tonight, and that when they wake your body will be cold and empty. There will be nothing but flesh and bone now still, and if they wish to live, they will eat your flesh and your bone. You are large enough to sustain them until they can hunt, perhaps until they are grown - and they will learn how to hunt, how to find safe plants and avoid predators that would make a meal of them. No matter how large the world is, they are big enough to survive it. You tell them to keep your bones; to put your skull in a place where you can watch them, to break the rest open and chew your marrow, because all is food and they must live.<br> <br>
 
             They do not understand. <br> <br>
 

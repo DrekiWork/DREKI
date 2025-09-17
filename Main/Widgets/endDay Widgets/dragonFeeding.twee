@@ -1,0 +1,144 @@
+:: DragonFeedingWidget [widget]
+
+    /* Feeds adult colonists. */
+    /* Dragons consume differently based on their jobs, */
+    /* Which are all arbitrary numbers that I decided upon by vibes. */
+    /* Subject to change for balancing, I guess! */
+<<widget "feedDragons">><<nobr>>
+
+        /* Establishing temp variables to tell the player what was consumed, */
+        /* As well as who didn't get to eat, */
+        /* And how much more the player needed. */
+        /* Hungry and Thirsty are arrays because they will store the name of */
+        /* Deprived dragons, to ensure that players have an idea how far down */
+        /* The list they got before running dry, for a quicker reference. */
+    <<set _dragonsAte = 0>>
+    <<set _dragonsDrank = 0>>
+    <<set _dragonsHungry = []>>
+    <<set _dragonsThirsty = []>>
+    <<set _dragonsFoodNeeded = 0>>
+    <<set _dragonsWaterNeeded = 0>>
+
+        /* _job is the temporary variable storing the current job index, for simplicity. */
+    <<set _job = 0>>
+
+        /* Obligatory for-loop and switch-case. */
+        /* The if-else checks for housing, */
+        /* As dragons require more food when unsheltered. */
+    <<for _i = 0; _i < $dragons.length; _i++>>
+
+        
+            <<switch $dragons[_i].job>>
+
+                    /* Swaps between jobs, which then allows for the */
+                    /* Appropriate indexing from $jobInfo. */
+                    /* Until I get this all in JS instead, this works well. */
+                    /* It is organized in alphabetical order, */
+                    /* Just the same as $dJobs and $jobInfo, */
+                    /* Once the job is picked out, */
+                    /* $jobInfo supplies the food & water needs, */
+                    /* The appropriate variables are updated, */
+                    /* Names are added to arrays if needed, */
+                    /* And the loop runs again. =) */
+                <<case "builder">>
+                    <<set $dragons[_i].builderxp += 0.1>>
+                    <<set _job = 0>>
+                
+                <<case "forager">>
+                    <<set $dragons[_i].foragerxp += 0.1>>
+                    <<set _job = 1>>
+                
+                <<case "rainier">>
+                    <<set $dragons[_i].rainierxp += 0.1>>
+                    <<set _job = 2>>
+                
+                <<case "salvager">>
+                    <<set $dragons[_i].salvagerxp += 0.1>>
+                    <<set _job = 3>>
+                
+                <<case "scavenger">>
+                    <<set $dragons[_i].scavengerxp += 0.1>>
+                    <<set _job = 4>>
+                
+                <<case "slacker">>
+                    <<set _job = 5>>
+                
+                <<case "soldier">>
+                    <<set $dragons[_i].soldierxp += 0.1>>
+                    <<set _job = 6>>
+
+                    /* If a job isn't recognized, an error is thrown for safety. */
+                    /* Chances are high a dragon's job is misspelled, but just */
+                    /* In case, it's popped. Otherwise, the dragon is unfed */
+                    /* And the loop moves on. */
+                <<default>>
+                    <<run console.log("endDayFeed sourced from: " + $dragons[_i].name + ", " + $dragons[_i].job)>>
+                    <<set _errorID = $dragons[_i].id>>
+                    <<set _errorDragon = $dragons[_i].name>>
+                    <<set _errorJob = $dragons[_i].job>>
+                    <<errorPopup "endDayFeed">>
+
+            <</switch>>
+
+        <<if $dragons[_i].home !== "none">>
+                /* Taking the assigned _job variable, */
+                /* Queries the $jobInfo database for appropriate resource amounts. */
+                /* Said amounts are then removed from $food/$water, */
+                /* Or added to the necessary total, */
+                /* While unfed/watered dragons have their names added to */
+                /* The hungry/thirsty array for player visibility. */
+            <<if $food >= $jobInfo[_job].food>>
+                <<set $food -= $jobInfo[_job].food>>
+                <<set _dragonsAte += $jobInfo[_job].food>>
+                <<set $dragons[_i].hunger = 0>>
+
+            <<else>>
+                <<run _dragonsHungry.push($dragons[_i].name)>>
+                <<set _dragonsFoodNeeded += $jobInfo[_job].food>>
+                <<set $dragons[_i].hunger += 1>>
+
+            <</if>>
+
+            <<if $water >= $jobInfo[_job].water>>
+                <<set $water -= $jobInfo[_job].water>>
+                <<set _dragonsDrank += $jobInfo[_job].water>>
+                <<set $dragons[_i].thirst = 0>>
+
+            <<else>>
+                <<run _dragonsThirsty.push($dragons[_i].name)>>
+                <<set _dragonsWaterNeeded += $jobInfo[_job].water>>
+                <<set $dragons[_i].thirst += 1>>
+                
+            <</if>>
+
+        <<else>>
+                /* Unsheltered dragons consume double the */
+                /* Resources of their housed counterparts. */
+            <<if $food >= ($jobInfo[_job].food * 2)>>
+                <<set $food -= ($jobInfo[_job].food * 2)>>
+                <<set _dragonsAte += ($jobInfo[_job].food * 2)>>
+                <<set $dragons[_i].hunger = 0>>
+
+            <<else>>
+                <<run _dragonsHungry.push($dragons[_i].name)>>
+                <<set _dragonsFoodNeeded += ($jobInfo[_job].food * 2)>>
+                <<set $dragons[_i].hunger += 1>>
+
+            <</if>>
+
+            <<if $water >= ($jobInfo[_job].water * 2)>>
+                <<set $water -= ($jobInfo[_job].water * 2)>>
+                <<set _dragonsDrank += ($jobInfo[_job].water * 2)>>
+                <<set $dragons[_i].thirst = 0>>
+
+            <<else>>
+                <<run _dragonsThirsty.push($dragons[_i].name)>>
+                <<set _dragonsWaterNeeded += ($jobInfo[_job].water * 2)>>
+                <<set $dragons[_i].thirst += 1>>
+                
+            <</if>>
+
+
+        <</if>>
+    <</for>>
+<</nobr>><</widget>>

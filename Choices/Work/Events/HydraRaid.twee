@@ -26,15 +26,17 @@
 :: HydraRaid
 <<nobr>>
     <<countWorkers "soldier">>
+    <<updateDefense>>
+
     The day is come.
     <<if _wantedCount >= 2>>
-        One of your soldiers rushes towards you, practically plummeting from the air in their hurry. Their training only barely constrains the fear in their announcement. Not that you needed the warning. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+        One of your soldiers rushes towards you, practically plummeting from the air in their hurry. Their training only barely constrains the fear in their announcement. Not that you needed the warning. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.<br><br>
 
     <<elseif _wantedCount == 1>>
-        Your lone scout dives towards you from the wall, not bothering to call out. You know what's coming. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.
+        Your lone scout dives towards you from the wall, not bothering to call out. You know what's coming. You dismiss your soldier to their place with a flick of your wing, eyes locked on the horizon.<br><br>
 
     <<else>>
-
+        <br><br>
     <</if>>
 
     You can hear the trees crumbling before the hydra's immense bulk, the ground's subtle tremors growing more vicious as it marches forth. Your colony swarms around you; anyone unrelated to the coming seige pushes into the depths of the storage caverns. Those left dart about; some simply flitting with anxious need to follow their training, others coldly aware of what will happen under a moment of inattention.<br><br>
@@ -42,8 +44,6 @@
     You take to the skies, adrenaline buzzing in your veins. You don't feel your hearts. Your pulse is nothing more than a roar so loud it reverbrates in your bones; absently, you wonder if your thunder can hear it. As you clear the treeline, you see the hydra—and the world must freeze as you catch sight of it.<br><br>
 
     It is not large. Not huge or even enormous; it is <em>monstrous</em> in the light. In its cavern it was a still thing, as much a part of the landscape as it was a serpent, yet in the daylight it is <em>more.</em> The truth of the beast is that its heads clear the trees with furious purpose; its limbs shatter anything that might endeavor to slow it as the rest of its impossible bulk gouges the land with depth and width that would take a cycle for five dragons - all in a single, vicious movement. This is not a beast, not a monster nor serpent: it is a force of nature. Its scales gleam, deep and glorious blue in daylight, polished by sap wept from the trampled forest. Its three heads hiss as they spot your colony - a sound so deep and forceful as to be more kin with screeching winds than any noise you could produce.<br><br>
-
-    <<updateDefense>>
 
     /* Defenses order: Outpost, moat, palisade, rockfall, soldiers. */
 
@@ -77,7 +77,7 @@
     <<if $defenseBuildings.moat.amount >= $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == true>>
         /* Fully constructed moat + Kelpies */
         <<set _foodGain += random(1, 10)>>
-        Though you've grown used to its bubbling waters, seeing your moat so agitated with the hydra's march is discomforting. You aren't sure how much it'll help against such a monumental beast, but in the shadows of it you swear you see scales flashing. Perhaps it will be enough. When the hydra inevitably ducks into the water, it flinches.. in more surprise than pain, you're sure. Buried staves sink into its body and limbs, and – drawn by the coming blood – your lake-beasts stir the water into a frothing pinkish frenzy. By the time the hydra manages to pull its chest free of the moat, scales and flesh have been torn from its body in hungry gouges. You're sure there are dead in those waters, but they did not go on empty bellies.<br><br>
+        Though you've grown used to its bubbling waters, seeing your moat so agitated with the hydra's march is discomforting. You aren't sure how much it'll help against such a monumental beast, but in the shadows of it you swear you see scales flashing. Perhaps it will be enough. When the hydra inevitably ducks into the water, it flinches... in more surprise than pain, you're sure. Buried staves sink into its body and limbs, and – drawn by the coming blood – your lake-beasts stir the water into a frothing pinkish frenzy. By the time the hydra manages to pull its chest free of the moat, scales and flesh have been torn from its body in hungry gouges. You're sure there are dead in those waters, but they did not go on empty bellies.<br><br>
     
     <<elseif $defenseBuildings.moat.amount >= $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == false>>
         /* Fully constructed moat, no kelpies */
@@ -105,7 +105,7 @@
         Your palisade is mostly constructed, with enough space for any smaller beast to make their way in... but the hydra is not small. Though it swerves for the gap between the staves, its body is simply too huge to pass through unscathed. Heedless, the monster continues forward, only one head bothering to pull out a full-length stave from its side.<br><br>
     <<elseif $defenseBuildings.palisade.amount > 0>>
         /* Less half palisade. */
-        What passes for the beginning of a palisade does nothing to deter the hydra. The beast hurries on, teeth snapping with unbridled excitement to be so near your home... and its egg. You fly upward as the hydra surges forth, dread settling like a stone in your belly. Only through sheer careless violence does the hydra manage to impale its limb on a stave.<br><br>
+        What passes for the beginning of a palisade does nothing to deter the hydra. The beast hurries on, teeth snapping with unbridled excitement to be so near your home... and its egg. You fly upward as the hydra surges forth, dread settling like a stone in your belly. Only through sheer careless violence does the hydra manage to impale its lashing tail on your wall.<br><br>
     <<else>>
         /* No palisade. */
         The hydra charges for your home, mouths open and eyes locked onto the cavern where your colony hides. You had the chance to build at least a token wall; you feel near ill with regret, but it is already decided.<br><br>
@@ -193,7 +193,7 @@
         /* Damage and casualties. Collect your rewards. */
         <<set $player.health-->>
         <<set _foodGain = random(100,150)>>
-        <<set $food += _foodGain>>
+        <<addResource "food" _foodGain>>
         <<set _dead = $dragons.randomMany(random(4,9))>>
         You have won.<br>
         The fight is long and difficult; you are not as hurt as you by rights <em>should</em> be, but the hydra was uncoordinated and hurt by the time you personally attacked it. The beast isn't dying for your efforts—it's dying for combined bloodloss, and you can only be grateful as it begins to sway, its struggles turning to clumsy flailing, to weak snapping, and, eventually, to writhing in the dust.<br>
@@ -225,7 +225,7 @@
     <<elseif $defenseTotal >= 50>>
         /* Minimal damage, no casualties! Collect your rewards! */
         <<set _foodGain = random(250,300)>>
-        <<set $food += _foodGain>>
+        <<addResource "food" _foodGain>>
         You won. You <em>won!</em><br>
         You descend upon the hydra, but the battle—if you can call it that—is a short affair. The hydra is already nearly beaten from your prior defenses; this last assault is just taking a matter of time to a matter of mere heartbeats. The extra effort it exerts attempting to fend off the attack is too much. The hydra collapses, spluttering weakly until it, eventually, goes still.<br>
         You wait. You wait for a second wind. You wait for the beast to rise, fury incarnate. You wait for it to devour you whole or crush you to dust.<br>

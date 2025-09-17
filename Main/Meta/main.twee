@@ -2,7 +2,7 @@
 {
 	"ifid": "F3BD499E-FCE3-47AB-A8FA-DCE4E7F59107",
 	"format": "SugarCube",
-	"format-version": "2.36.1",
+	"format-version": "2.37.3",
 	"start": "START",
 	"tag-colors": {
 		"Cheater": "purple",
@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>alpha 0.0.30.5.2
+<sup>alpha 0.31.0.0
 Made by Recila!</sup>
 
 
@@ -85,11 +85,7 @@ Made by Recila!</sup>
 			<<if $dragons.length > 0 && $builtRut == true>>
 					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
 					/* Autoselect is 'true'. */
-					Do you want dragons to find their own places to sleep?
-				<<cycle "$findSleep" autoselect>>
-					<<option "Yes." true>>
-					<<option "No." false>>
-				<</cycle>>
+					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label>
 			<</if>><br>
 		</details>
 
@@ -99,10 +95,7 @@ Made by Recila!</sup>
 		<summary><h4>Defense ▼</h4></summary>
 			/* Lets rockfalls be loaded at day-end. */
 			/* Autoselect is 'true' */
-		Auto-load empty rockfalls? <<cycle "$autoLoad" autoselect>>
-			<<option "Yes." true>>
-			<<option "No." false>>
-		<</cycle>><br>
+			<label><<checkbox "$autoLoad" false true autocheck>>Auto-load empty rockfalls?</label><br>
 		</details>
 
 		<center>——</center><</if>>
@@ -145,83 +138,57 @@ Made by Recila!</sup>
 /* One version previous is kept as reference (personal and player). */
 /* The gleeful tone is neecessary for personal success. */
 
-	<h1> Pre-Pre-Alpha 0.0.30.0</h1>
-	<em><strong><u>THE HYDRA IS DONE.</u></strong></em>
+	<h1> Pre-Pre-Alpha 0.31.0.0</h1>
+	<em><strong>COLONIST UPDATE</strong></em>
 
-	<h2> Pre-Pre-Alpha 0.0.30.5 </h2>
-	First of the housekeeping sweeps.<br><br>
-		''Bugs Patched''
-		<ul><li>Dragon renaming works.</li>
-		<li>Rockfalls work.</li>
-		<li>Edited bugfix page to work. Press go, always.</li>
-		<li>Lightly re-arranged buildpage.</li>
-		<li>Your cup shall not overfloweth with stone. (Stone caps work when foraging for it; no more stone overflow.)</li>
-		<li>Dragons assign themselves to home... again.</li>
-		<li>Builders should build now. :)</li>
-		<li>Gold will not come back NaN when your scavs find it.</li>
-		<li>Soldiers don't make food NaN when they hunt (but if they do, reload the page.)</li>
-		<li>Specific colonists, when referenced during events, shouldn't be calling an endless <nowiki>[function]</nowiki> loop.</li>
-		<li>No more bad conditional expression on trying to visit HydraDen.</li>
-		<li>No more infinite treasure hunting from central.</li>
-		<li>Build page now clearly tells you that the moat is being worked on.</li>
-		<li>There is no longer a ridiculously huge gap in the raid results.</li>
-		<li>More builders build faster, with diminishing returns. The faster they build, though, the more resources they need in a day.</li>
-		<li>Buildpage now displays the build queue.</li>
-		<li>Rockfalls build properly (always look for typos)</li>
-		<li>A little more hydra time.</li>
-		<li>Gold bonus has been balanced. :)</li>
-		<li></li></ul>
+	<h2> Pre-Pre-Alpha 0.31.0.0 </h2>
+	<strong>New!</strong>
+	<ul>
+	<li>Colonist IDs! You won't see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named 'Sparky' or what have you, the game can still tell them apart.</li>
+	<li>Job icons! Thunder list has icons next to titles for at-a-glance recognition.</li>
+	<li>New job! <strong>Salvagers</strong> look for gold for you! Since their job is specifically to get gold, while they don't often find any, they bring in a <em>lot</em> when they do. Maybe.</li>
+	<li>The start of job sites! Currently not constructable, plans are in place. Will provide buffs based on upgrade level, similar to the moat structure.</li>
+	<li>Personalities have been restructured into archetypes; previous personalities are now defined as 'traits'. Certain archetypes are good at certain jobs, and prefer (or disdain) the company of other archetypes... except for lazy personalities, who don't want to do work and don't like anyone but other lazy dragons. No one much cares for lazy dragons either. Interact page has been updated to reflect this.</li>
+	<li>Encylopedia real?! Encyclopedia real! Presently, there is only a tutorial refresher, as well as some loose explanations of dragon personalities. Details will be added per dev fiat, and whenever I manage to revive my laptop / get the data out of it. =)</li>
+	<li></li>
+	</ul><br>
 
+	<strong>QoL</strong>
+	<ul>
+	<li>Minor accessibility improvements, hopefully. Links are now underlined, and images have alt-text. Images currently limited to dragon-list icons, but that may change.</li>
+	<li>Re-organized Dragon List in thunder management; should be much more functional now. Includes quick-access to assigning dragons jobs.</li>
+	<li>Self-assign shelters and auto-load rockfalls are checks now, since there was some confusion with the previous selection method.</li>
+	<li>Foraging end-of has been moved to its own page. It checks what isn't topped in your stores before presenting options, and if you're full-up on everything (including having looked for gold), just tells you to go home.</li>
+	<li>The above also applies to the Central foraging options: It will no longer present foraging options if all of your stores are full, and you've looked for valuables.</li>
+	<li>In a QoL for me, not for thee: `endDay` has been seperated into multiple widgets, with `endDay` itself operating as a master widget. Makes things a touch more organized in the backend, and has allowed me to comment on it THOROUGHLY.</li>
+	<li></li>
+	</ul><br>
 
-	<h2> Pre-Pre-Alpha 0.0.25.8 </h2>
-	''New!''
-	<ul><li>Dragons have origin stories! Re: You can now check if a dragon was hatched in your colony, joined later, or returned.</li>
-	<li>Returned? You read that right. Sometimes, dragons you've kicked out, or who left, will choose to come back. You don't have to take them in, of course.</li>
-	<li>Dragons prefer Better Buildings! What's that mean? Dragons, in order, prefer: setts, ruts, then hollows. They'll try to move in to available shelters in that order, and dragons with a lower value home will try to move up.</li>
-	<li>Oh boy descriptions! They're bare-bones right now, but they exist, which is cool.</li>
-	<li>Builders! And they do something! And you get told when they do something!</li>
-	<li>Setts! The first of the new shelter buildings, Setts are proof-in-concept that buildings are, in fact, resources to be used, and are one of two new buildings. The second are...</li>
-	<li>Hollows: The first of the long-term projects. Hollows display the total amount of resources they need, but only take a third of those resources per day, at end of day. They're only buildable with builders!</li>
-	<li>There's detailed warning on the start page now, because DREKI is a buggy mess and I want people to know what they're getting into.</li>
-	<li>There's a new way to start the game, as well as a quit-out option! The quit does... exactly what you think it does, while the Cheat / Testing option lets you use the BugTest screen.</li>
-	<li>Defense buildings exist! And a defense score. I've figured out how fights are going to work, horray! All defensive buildings need builders.</li>
-	<li>Soldiers exist and are necessary for certain defensive structures (outposts). Also they have a small chance of hunting... but when they DO, they bring back a minimum of 15 food.</li>
-	<li></li></ul><br>
+	<strong>Balancing</strong>
+	<ul>
+	<li>Clamped how much a single resource-gatherer can bring in; one forager should no longer feed a colony of thirty-six with no support from the founder. They are currently capped at a minimum of 1, and a maximum of 35 for all general resources. This does not affect the total, only individuals. One forager could haul 35 food in a day at most; a second brings back 10. They still bring 45 food in total. Soldiers can bring back more when they hunt, due to specifically hunting large game, and salvagers are capped by skill. They do what they like.</li>
+	<li>To further this: if a dragon's personality aligns with their job, the cap is higher, but still capped! Just because a dreamy dragon is foraging, they can't get 100 food! They'll just pick up a max of 45 instead, with higher chances to collect more. (job preferences and personalities will continue to be refined.)</li>
+	<li>Not sheltering dragons is now more punishing. Put them in a rut or a hollow, but DO NOT let them out in the cold.</li>
+	<li>The player also consumes SLIGHTLY more on a daily basis if sheltered. Only one more—4 food, 5 water—to better reflect the change to the rest of their grown colonists.</li>
+	<li>goldBonus has once again been nerfed. I'll figure it out. </li>
+	<li></li>
+	</ul><br>
 
-	''QoL''
-	<ul><li>No more big reload on building.</li>
-	<li>Error pop-ups! Currently only occur in niche situations, but they should happen. Maybe.</li>
-	<li>Organized the side-bar a little better. It should stay properly aligned and look nicer.</li>
-	<li>Food, water, and building mats gathered by your colony are added to their appropriate stocks BEFORE your colony uses them. These are allowed to overflow your stores, and will be cleared after everyone's consumed.</li>
-	<li>Some minor rewording to make things nicer.</li>
-	<li>Social policies are no longer permanently visible, saving precious screen real estate. (Click on it to display, or again to hide.)</li>
-	<li>Central's "check inside" for the storage fissure also displays a summary of your dugout. I think I should just remove the inventory check in the populace screen at this point...</li>
-	<li>BugTest has been moved from central, and placed on the sidebar for easy access. The page itself has also been cleaned up and given a couple more options, with more explanations and finer control.</li>
-	<li></li></ul><br>
-
-	''Bugs Patched''
-	<ul><li>As with QoL: dragons store their goods before dinner, meaning you shouldn't end up with surplus food and still have dragons complaining about no meals.</li>
-	<li>Another bit for the nursery, so it doesn't lie about barren nests when you definitely have hatchies and eggs.</li>
-	<li>Hatchies eat properly regardless of egg presence.</li>
-	<li>Total living space available now calculated correctly. Please keep an eye on the <strong>right</strong> number by Shelter Space. If it goes down at any point, inform the dev.</li>
-	<li>Apparently scavengers weren't doing their jobs??? They are now but I'm not sure what happened.</li>
-	<li></li></ul><br>
+	<strong>Bugs Patched</strong>
+	<ul>
+	<li>Double 'ands' should no longer occur during day end when dragons interact with the housing system.</li>
+	<li>Dragons in returnee event should no longer say they left because 'wanderer', 'colony' or other similar mix-ups.</li>
+	<li>Encountering the Hydra Den post-victory directs the PC to the visit page now.</li>
+	<li>Builders should no longer report 0 days left until a building is finished; they should just finish the building. Oughta help a touch with defense preparations.</li>
+	<li>Central no longer allows foraging if your stores are capped... not sure how I missed that, to be quite honest.</li>
+	<li></li>
+	</ul><br>
 	
-	''Bugs Created''
-	<ul><li><<print $player.title>> / The Player is in a weird position right now of schrodinger's shelter. They both are and are not sheltered.</li>
-	<li>Returning dragons may list their reason for leaving the colony as 'Wanderer' if they were a, well, wanderer before they joined. Not sure what's happening there, but it's purely flavor and not a high-priority bug.</li>
-	<li></li></ul><br>
-	
-	''Current Focus?''
-	<ul><li>Hydra event.</li>
-	<ul><li><strike>Create defense talk once the egg is taken. Taking the egg should redirect to defense talk on return, and enable creation of...</strike></li>
-	<li><strike>Soldiers: New job for your dragons. They eat and drink a lot, and only really counter this by occasionally hunting. But they're super necessary for raids, and it's better to have a couple and not need them, than to need them and not have them.</strike></li>
-	<li><strike>Defensive structures.</strike></li>
-	<li><strike>Flavor involving all of these things, of course. Gotta let you know they're present in central.</strike></li>
-	<li><strike>The actual... y'know... raid...</strike></li></ul>
-	<li>Random Events.</li>
-	<li><strike>Visiting specific locations.</strike></li>
-	<li>Update PC to consume 8/10 when unsheltered, 3/4 when sheltered.</li></ul>
+	<strong>Bugs Created</strong>
+	<ul>
+	<li>'Cheating' link in Bugtesting/Cheating mode doesn't have a link. Bit of a headscratcher, that.</li>
+	<li></li>
+	</ul><br>
 <</nobr>>
 
 :: OOC Chat

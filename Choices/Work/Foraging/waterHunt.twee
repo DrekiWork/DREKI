@@ -1,4 +1,4 @@
-:: Water [WIP forage] {"position":"725,800","size":"100,100"}
+:: WaterHunt [WIP forage] {"position":"725,800","size":"100,100"}
 <<nobr>>
 
 		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
@@ -79,34 +79,8 @@
 
 	/* Adds what you got to your stores.*/
 	/* Then ensures that water doesn't go over the cap. */
-<<set $water += _collect>>
-<<if $water > $waterCap>>
-	<<set $water = $waterCap>>
-<</if>>
+<<addResource "water" _collect>>
 
-<<if $player.action >= 1>>
-	<span id="choices">
-		You could 
-		<<if $water < $waterCap>>
-			[[look again|Water]]; 
-		<<else>>
-		<</if>>
-		look for 
-		<<link "something else">>
-			<<replace "#choices">>
-				[[Food]], [[wood|Wood]], 
-				<<if $ghunt == false>>
-					[[stone|Stone]], or [[gold?|Treasure]]
-				<<else>>or 
-					[[stone|Stone]]?
-				<</if>> 
-				Alternatively, you could [[look again|Water]] or [[go home|Sandbox Central]].
-			<</replace>>
-		<</link>>; 
-		or you can simply [[stay home.|Sandbox Central]]
-	</span>
-<<else>>
-	It's time to [[go home.|Sandbox Central]]
-<</if>>
+<<include "foragingOptions">>
 <</nobr>>
 

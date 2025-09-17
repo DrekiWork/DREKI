@@ -1,4 +1,4 @@
-:: Egg theft [WIP] {"position":"875,675","size":"100,100"}
+:: EggTheft [WIP] {"position":"875,675","size":"100,100"}
 There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.<br><br><<nobr>>
 
 <<silently>>
@@ -15,9 +15,9 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 <<switch _thief>>
 
 	<<case 0>>
-			As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br> <br>
+			As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br><br>
 
-			... You can't do this, can you? <br> <br>
+			... You can't do this, can you? <br><br>
 
 			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
@@ -26,12 +26,12 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children.<br><br>
 		<<if $eggSpace > 1>>
-			As you're about to leave, however, you pause and look back at the unattended nursery. <br> <br>
+			As you're about to leave, however, you pause and look back at the unattended nursery. <br><br>
 
 			You could take more. <<linkreplace "Do you?">>
 				<<if _space >= 2>> <<set _space = 2>><</if>>
 			
-				You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<linkappend "more.">> <br> <br>
+				You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<linkappend "more.">> <br><br>
 					<<for _i to 0; _i < _take; _i++>>
 						<<eggMaker>>
 					<</for>>
@@ -54,8 +54,8 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			
 			
 	<<case 4 5 6 7>>
-		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose. <br> <br>
-		With trembling claws, you claim <<numberinput "_take" 1 1 _space>> <<linkappend "for your own.">> <br> <br>
+		The foreign colony's nursery isn't doing very well, you note. There couldn't be more than ten eggs here. Perhaps the colony is smaller than it looks? Still, you came here for a purpose. <br><br>
+		With trembling claws, you claim <<numberinput "_take" 1 1 _space>> <<linkappend "for your own.">> <br><br>
 		As you disappear from sight of the nursery, to glide towards your own home - you see no more than a dozen dragons take flight to search for the thief. For you.
 		You avert your eyes and continue home. [[None of them have seen you, after all.|Nursery]]
 		<<silently>>
@@ -66,8 +66,8 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 
 	
 	<<case 8 9>>
-		You creep into the rival colony's nursery, claws light and wings pressed close against your sides. Your breath comes light and slow, though your hearts pound ferociously. You are alone, and unheard. <br> <br>
-			<span id="choices">Though the urge to take as many as you can is strong, you hesitate with your claws poised over a nest of three. <br> <br>
+		You creep into the rival colony's nursery, claws light and wings pressed close against your sides. Your breath comes light and slow, though your hearts pound ferociously. You are alone, and unheard. <br><br>
+			<span id="choices">Though the urge to take as many as you can is strong, you hesitate with your claws poised over a nest of three. <br><br>
 
 			Ultimately, you are stealing children; how many you can safely carry and take care of is of utmost importance. After a moment of stillness, you decide to take <<numberinput "_take" 1 0 _space>> <<linkreplace "of them.">>
 				<<replace "#choices">>
