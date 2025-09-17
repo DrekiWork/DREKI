@@ -1,4 +1,4 @@
-:: Sandbox Central [WIP Central] {"position":"800,425","size":"100,100"}
+:: Sandbox Central [WIP Central Hub] {"position":"800,425","size":"100,100"}
 <<nobr>>
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -22,19 +22,19 @@
 	You are a dragon in a
 			/* >=100 months: a very old colony. */
 		<<if $cycles >= 100>>
-			n ancient-looking colony that has been around for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it's been here for a very long time.
+			n ancient-looking colony that has been around for <<plural $cycles "cycle" "cycles">>, and <<plural $days "day" "days">>. The ground is weather-worn and the nearby area has been stamped and wing-beat free of any kind of plant life. It looks like it's been here for a very long time.
 			
 			/* >= 25 months: An established, but still growing colony. */
 		<<elseif $cycles >= 25>> 
-			well-established colony, having lived here for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. It's all beginning to take proper shape, and you can't help but feel pleased with it.
+			well-established colony, having lived here for <<plural $cycles "cycle" "cycles">>, and <<plural $days "day" "days">>. It's all beginning to take proper shape, and you can't help but feel pleased with it.
 			
 			/* >= 5 months: A newish colony that's found its footing. */
 		<<elseif $cycles >= 5>> 
-			somewhat established colony, that has been here for <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. You've been here long enough to note the dirt becoming packed from footsteps and wingbeats.
+			somewhat established colony, that has been here for <<plural $cycles "cycle" "cycles">>, and <<plural $days "day" "days">>. You've been here long enough to note the dirt becoming packed from footsteps and wingbeats.
 			
 			/* Anything younger. You're new, and untested. */
 		<<else>> 
-			new colony, having been here for only <<print $cycles>> cycle<<if $cycles >= 2 || $cycles == 0>>s<<else>><</if>>, and <<print $days>> day<<if $days >= 2 || $days == 0>>s<<else>><</if>>. You don't have much, but you can grow. 
+			new colony, having been here for only <<plural $cycles "cycle" "cycles">>, and <<plural $days "day" "days">>. You don't have much, but you can grow. 
 		<</if>>
 		<br><br>
 
@@ -107,13 +107,8 @@
 		Your storage is located in a cavern carved through the cliff face, the entryway widened by vicious claws as long as your forelimbs. The skulls of the hydra have been inset to the cliff, looming over your colony in perpetual reminder of your first great trial.
 	<</if>> <<linkreplace "Check inside?">>
 
-		<br>Inside, you've expanded your food cavern 
-		<<print $cavern.amount>> 
-			<<if $cavern.amount > 1>>
-				times, 
-			<<else>>
-				time, 
-			<</if>>
+		<br>&emsp;Inside, you've expanded your food cavern 
+		    <<plural $cavern.amount "time" "times">>
 		and it can hold up to <<print $foodCap>> food. Your colony has stored 
 		<<if $food >= ($pop * 12)>>
 			plenty of food to feed your thunder. Still, more can't go amiss...
@@ -121,58 +116,76 @@
 			more than enough food to feed your thunder.
 		<<elseif $food >= ($pop * 7)>>
 			enough food for a few days.
-		<<elseif $food >= ($pop * 4)>>very little food, but some. More is needed.
-		<<elseif $food >= 1>>a truly small amount of food; you need to get more, or send someone else to forage. Someone will starve tonight otherwise.
-		<<elseif $food == 0>>no food. You will starve if this isn't addressed immediately.<</if>><br>
-	Lining the edge of your storage cavern 
-		<<if $pool.amount > 1>>
-			are your <<print $pool.amount>> collection pools that can store up to <<print $waterCap>> water.
+		<<elseif $food >= ($pop * 4)>>
+			very little food, but some. More is needed.
+		<<elseif $food >= 1>>
+			a truly small amount of food; you need to get more, or send someone else to forage. Someone will starve tonight otherwise.
+		<<elseif $food == 0>>
+			no food. You will starve if this isn't addressed immediately.
+		<</if>><br>
+		&emsp;Lining the edge of your storage cavern 
+			<<plural $pool.amount "collection pool" "collection pools">>
+		, that can hold up to
+			<<print $waterCap>>
+		water. Your thunder
+		<<if $water >= ($pop * 12)>>
+			has much more water than needed. You've had to keep a wary eye to make sure that it doesn't start growing algae, even if this is a good problem to have.
+		<<elseif $water >= ($pop * 10)>>
+			probably too much to drink; you have to skim the water now and again to keep it clean of insects, but you'd rather have too much water than too little for your burgeoning colony.
+		<<elseif $water >= ($pop * 7.5)>>
+			doesn't really need water; you have enough for some days, at least.
+		<<elseif $water >= ($pop * 5)>>
+			has some water, though the ditch you've lined for it feels like it holds too little regardless.
 		<<else>>
-			is your collection pool, that can hold up to <<print $waterCap>> water.
-		<</if>>
-		Your thunder
-		<<if $water >= ($pop * 12)>>has much more water than needed. You've had to keep a wary eye to make sure that it doesn't start growing algae, even if this is a good problem to have.
-		<<elseif $water >= ($pop * 10)>>probably too much to drink; you have to skim the water now and again to keep it clean of insects, but you'd rather have too much water than too little for your burgeoning colony.
-		<<elseif $water >= ($pop * 7.5)>>doesn't really need water; you have enough for some days, at least.
-		<<elseif $water >= ($pop * 5)>>has some water, though the ditch you've lined for it feels like it holds too little regardless.
-		<<else>>needs water, desperately.<</if>><br>
-	Near the entrance, safely away from the weather, is your dugout. You've expanded it <<print $dugOut.amount>> <<if $dugOut.amount > 1>>times<<else>>time<</if>>, and it can hold up to <<print $woodCap>> each of wood and stone.
+			needs water, desperately.
+		<</if>><br>
+		&emsp;Near the entrance, safely away from the weather, is your dugout. You've expanded it 
+			<<plural $dugOut.amount "time" "times">>
+		, and it can hold up to
+			<<print $buildingMaterialCap>>
+		each of wood and stone.
 	<</linkreplace>><br><br>
 
 	What do you want to do?<br>
 	<<if $player.action >= 1>>
-		<<linkappend "Go foraging.">> For?
-		<br> <<if $food < $foodCap>>
-				&emsp;[[Food]]
-			<<else>>
-				&emsp;You can't store any more food.
-			<</if>>
-		<br> <<if $water < $waterCap>>
-				&emsp;[[Water]]
-			<<else>>
-				&emsp;Your collection pools are full.
-			<</if>>
-		<br> &emsp;<<linkappend "Building materials">>
-			<br> <<if $wood < $woodCap>>
-					&emsp;&emsp;[[Wood]]
+		<<if $food < $foodCap || $water < $waterCap || $wood < $buildingMaterialCap || $stone < $buildingMaterialCap || $ghunt !== true>>
+			<<linkappend "Go foraging.">> For?
+			<br> <<if $food < $foodCap>>
+					&emsp;[[Food|FoodHunt]]
 				<<else>>
-					&emsp;&emsp;Your dugouts are full of wood.
+					&emsp;You can't store any more food.
 				<</if>>
-			<br> <<if $stone < $stoneCap>>
-					&emsp;&emsp;[[Stone]]
+			<br> <<if $water < $waterCap>>
+					&emsp;[[Water|WaterHunt]]
 				<<else>>
-					&emsp;&emsp;Your dugouts are full of stone.
+					&emsp;Your collection pools are full.
+				<</if>>
+			<br> &emsp;<<linkappend "Building materials">>
+				<<run console.log("Building material cap: " + $buildingMaterialCap)>>
+				<<run console.log("Wood is capped? " + ($wood <= $buildingMaterialCap))>>
+				<br> <<if $wood < $buildingMaterialCap>>
+						&emsp;&emsp;[[Wood|WoodHunt]]
+					<<else>>
+						&emsp;&emsp;Your dugouts are full of wood.
+					<</if>>
+				<br> <<if $stone < $buildingMaterialCap>>
+						&emsp;&emsp;[[Stone|StoneHunt]]
+					<<else>>
+						&emsp;&emsp;Your dugouts are full of stone.
+					<</if>>
+				<</linkappend>>
+			<br> <<if $goldHunt !== true>>
+					&emsp;[[Treasure|GoldHunt]]
+				<<else>>
+					&emsp;As much as you want to, you've spent enough time looking for valuables today.
 				<</if>>
 			<</linkappend>>
-		<br> <<if $ghunt !== true>>
-				&emsp;[[Treasure]]
-			<<else>>
-				&emsp;As much as you want to, you've spent enough time looking for valuables today.
-			<</if>>
-		<</linkappend>> <br>
-		<<if $eggSpace > 0 && $theft == false>>
-			[[Get eggs|Egg theft]] <br>
-		<<elseif $eggSpace <= 0 && $theft == false>>
+		<<else>>
+			Your stores are full; even if you went foraging, you wouldn't be able to keep anything you found.
+		<</if>><br>
+		<<if $eggSpace > 0 && $eggStolen == false>>
+			[[Get eggs|EggTheft]] <br>
+		<<elseif $eggSpace <= 0 && $eggStolen == false>>
 			You don't see a point in risking yourself for eggs that you don't have room for. <br>
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>
@@ -188,7 +201,7 @@
 				<<else>>
 				<</if>>
 				<<if $hydraSeen == true && $hydraEggTaken == false && $hasVisited.hydraDen == false>>
-					<br>&emsp;[[Hydra's Den|HydraDen]]
+					<br>&emsp;[[Hydra's Den|HydraFoodEvent]]
 				<<elseif $hydraSeen == true && $hydraEggTaken == true && $hydraBeat == false>>
 					<br>&emsp;You don't dare risk visiting the hydra <em>now</em>.
 				<<elseif $hydraBeat == true && $hasVisited.hydraDen == false>>

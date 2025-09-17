@@ -1,0 +1,40 @@
+:: foragingOptions
+<<nobr>>
+    <<if $player.action >= 1>>
+        <<if $food !== $foodCap || $water !== $waterCap || $wood !== $buildingMaterialCap || $stone !== $buildingMaterialCap || $ghunt == false>>
+            <span id="choice">
+                Do you want to
+                <<linkappend "keep foraging">>
+                    <<replace "#choice">>
+                        Do you want to look for
+                        <<if $food < $foodCap>>
+                            [[food|FoodHunt]]; 
+                        <</if>>
+                        <<if $water < $waterCap>>
+                            [[water|WaterHunt]]; 
+                        <</if>>
+                        <<if $stone < $buildingMaterialCap>>
+                            [[stone|StoneHunt]]; 
+                        <</if>>
+                        <<if $goldHunt == false>>
+                            <<if $wood < $buildingMaterialCap>>
+                                [[wood|WoodHunt]]; or [[gold|GoldHunt]]?
+                            <<else>>
+                                or [[gold|GoldHunt]]?
+                            <</if>>
+                        <<else>>
+                            <<if $wood < $buildingMaterialCap>>
+                                or [[wood|WoodHunt]]?
+                            <</if>>
+                        <</if>>
+                    <</replace>>
+                <</linkappend>>—
+            </span>
+            or do you want to just [[go home?|Sandbox Central]]
+        <<else>>
+            Your stores are full, and you've looked for valuables; it's time to [[go home.|Sandbox Central]]
+        <</if>>
+    <<else>>
+        It's time to [[go home.|Sandbox Central]]
+    <</if>>
+<</nobr>>

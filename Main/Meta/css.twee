@@ -37,8 +37,69 @@ strong {
 	color: #fff5c2;
 }
 
+a  {
+	text-decoration: underline;
+}
 
-	/*! <<numberpool>> macro set for SugarCube v2 */
+
+
+	/* Grid display for dragon list. */
+#dragonList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  grid-template-rows: auto;
+  padding: 1em
+  margin: auto;
+}
+
+#jobList {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+	grid-template-rows: auto;
+	gap: 0.5em;
+	margin: auto;
+}
+
+#jobChange {
+	grid-column: 1 / -1;
+}
+
+	/* Cards for dragons. */
+.indivdual-card {
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 0;
+  text-align: center;
+}
+
+
+
+/* Tabs for encyclopedia */
+.encyclopediaTabs {
+	border: 1px solid #ccc;
+	display: grid;
+	float: left;
+	grid-template-columns: 1;
+	grid-template-rows: max-content;
+	margin: 5px;
+	padding: 5px;
+	width: 10%;
+}
+
+.encyclopediaLink {
+	border-bottom: 1px solid #ccc;
+	margin: 2px 5px;
+	text-align: center;
+}
+
+.encyclopediaContent {
+	margin-left: 10px;
+	padding: 5px;
+}
+
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~ ! <<numberpool>> macro set for SugarCube v2 ~~~~~~~~~~~~~~~~~~~~~~~ */
 div[id|="numberinput-body"] {
 	display: inline-block;
 }
@@ -48,10 +109,10 @@ div[id|="numberinput-body"] input {
 	text-align: center;
 }
 div[id|="numberinput-body"] button {
-	font-family: "tme-fa-icons";
+	font-family: sc-icons !important;
 	font-style: normal;
-	font-weight: normal;
 	font-variant: normal;
+	font-weight: normal;
 	text-transform: none;
 	line-height: normal;
 	speak: none;
@@ -69,7 +130,7 @@ div[id|="numberslider-body"] {
 }
 div[id|="numberslider-body"] span {
 	display: inline-block;
-	/*font-size: 1.25em;*/
+	/* font-size: 1.25em; */
 	margin-left: 0.25em;
 	min-width: 3em;
 	text-align: center;
@@ -149,5 +210,3 @@ div[id|="numberslider-body"] input::-ms-thumb {
 	height: 16px;
 	width: 33px;
 }
-
-

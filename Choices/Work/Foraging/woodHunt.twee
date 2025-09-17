@@ -1,4 +1,4 @@
-:: Wood [WIP forage] {"position":"875,925","size":"100,100"}
+:: WoodHunt [WIP forage] {"position":"875,925","size":"100,100"}
 <<nobr>>
 
 		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
@@ -63,33 +63,8 @@
 		The trees you find are either too brittle, bug-eaten, or simply too small; what trees <em>are</em> worth your time are too heavy to take alone. Frustrated, you are forced to end your patrol with empty claws. <br> <br>
 
 	<</if>>
+	
+	<<addResource "wood" _collect>>
 
-
-	<<set $wood += _collect>>
-	<<if $wood > $buildingMaterialCap>>
-		<<set $wood = $buildingMaterialCap>>
-	<</if>>
-
-	<<if $player.action >= 1>>
-		<span id="choices">
-			You could 
-			<<if $wood < $buildingMaterialCap>>
-				[[look again|Wood]]; 
-			<<else>>
-			<</if>>look for 
-			<<link "something else">>
-				<<replace "#choices">>
-					[[Food]], [[water|Water]], 
-					<<if $ghunt == false>>
-						[[stone|Stone]], or [[gold?|Treasure]]
-					<<else>>
-						or [[stone|Stone]]?
-					<</if>> 
-					Alternatively, you could [[look again|Wood]] or [[go home|Sandbox Central]].
-				<</replace>>
-			<</link>>; or you can simply [[stay home.|Sandbox Central]]
-		</span>
-	<<else>>
-		It's time to [[go home.|Sandbox Central]]
-	<</if>>
+	<<include "foragingOptions">>
 <</nobr>>

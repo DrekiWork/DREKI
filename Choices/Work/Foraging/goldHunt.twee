@@ -1,4 +1,4 @@
-:: Treasure [WIP forage] {"position":"875,800","size":"100,100"}
+:: GoldHunt [WIP forage] {"position":"875,800","size":"100,100"}
 <<nobr>>
 
 		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
@@ -17,7 +17,7 @@
 	<<set _scene = random(2)>>
 
 		/* Ensures the player only goes looking for treasure ONCE a day. */
-	<<set $ghunt = true>>
+	<<set $goldHunt = true>>
 
 
 	<<if _forage >= 8>>
@@ -62,19 +62,8 @@
 	<</if>>
 
 		/* Adding the gold found today to the $gold total. */
-	<<set $gold += _collect>>
+	<<addResource "gold" _collect>>
 
-	<<if $player.action >= 1>>
-		<span id="choices">
-			You could look for 
-			<<link "something else">>
-				<<replace "#choices">>
-					[[Food]], [[water|Water]], [[wood|Wood]], or [[stone|Stone]]? Alternatively, you can still [[go home|Sandbox Central]].
-				<</replace>>
-			<</link>>; or you can simply [[stay home.|Sandbox Central]]
-		</span>
-	<<else>>
-		It's time to [[go home.|Sandbox Central]]
-	<</if>>
+	<<include "foragingOptions">>
 <</nobr>>
 

@@ -1,4 +1,4 @@
-:: Stone [WIP forage] {"position":"725,925","size":"100,100"}
+:: StoneHunt [WIP forage] {"position":"725,925","size":"100,100"}
 <<nobr>>
 
 		/* The player has a limit of 5 actions a day, reset on rest. This just removes an action from the player object. */
@@ -65,34 +65,11 @@
 
 	
 		/* Passing the material to the appropriate pile, then making sure it doesn't pass the storage cap. */
-	<<set $stone += _collect>>
-	<<if $stone > $buildingMaterialCap>>
-		<<set $stone = $buildingMaterialCap>>
-	<</if>>
+	<<addResource "stone" _collect>>
 
 		/* This is what the player does next. If they haven't performed more than five actions (foraging, egg theft, visited locations), they can do stuff. */
 		/* Otherwise, they're sent home. */
-	<<if $player.action >= 1>>
-		<span id="choices">
-			You could 
-			<<if $stone < $buildingMaterialCap>>
-				[[search again|Stone]]; 
-			<</if>>look for 
-			<<link "something else">>
-				<<replace "#choices">>
-					[[Food|Food]], [[water|Water]], 
-					<<if $ghunt == false>>
-						[[wood|Wood]], or [[gold?|Treasure]]
-					<<else>>
-						or [[wood|Wood]]?
-					<</if>> 
-					Alternatively, you could [[look again|Stone]] or [[go home|Sandbox Central]].
-				<</replace>>
-			<</link>>; or you can simply [[stay home.|Sandbox Central]]
-		</span>
-	<<else>>
-		It's time to [[go home.|Sandbox Central]]
-	<</if>>
+	<<include "foragingOptions">>
 
 <</nobr>>
 

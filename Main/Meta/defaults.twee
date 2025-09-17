@@ -7,7 +7,7 @@
 		/* Actions are how many times a player can leave the colony before day end. */
 		/* Health is health; lost if player doesn't eat or drink at day end. */
 		/* Specials is trophies claimed from defeated bosses, ex. the Hydra's Heart. */
-	<<set $player to {
+	<<set $player = {
 		title : "Founder",
 		action : 5,
 		health : 10,
@@ -21,11 +21,11 @@
 
 		/* Set to false to allow the player to look for gold once per day at game start. */
 		/* Gets reset on rest. */
-	<<set $ghunt = false>>
+	<<set $goldHunt = false>>
 
 		/* Tracks if the player has atttempted to steal an egg 'today'. */
 		/* Resets each rest to false to allow another attempt. */
-	<<set $theft to false>>
+	<<set $eggStolen = false>>
 
 		/* visitPlaces flag determines if the player has run into a special location. */
 		/* False means they haven't and can't choose to go to a special location from Sandbox. */
@@ -41,6 +41,9 @@
 /* ~~~~~~~~~~~~~ DRAGONS SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 	/* ~~~ MEANINGFUL ~~~ */
+
+		/* Used to generate unique ID numbers for colonists. */
+	<<set $npcIDCounter = 0>>
 
 		/* Name list to be chosen from, in alphabetical order. */
 	<<set $dNames to [
@@ -70,29 +73,75 @@
 		"Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"
 	]>>
 	
-		/* Personality traits, in alphabetical order. */
-		/* I think I'll group these into 'types' to make my job (writing fluff) easier, at some point. */
-		/* Personalities will eventually have an impact on job efficiency and inter-colonist relationships. */
-	<<set $dPers to [
-		"absentminded", "abrasive", "aloof", "ambitious", 
-		"caring", "chatty", "clever", "confident", "creative", "curious", 
-		"dependable", "dreamy", 
-		"emotional", "energetic", 
-		"formal", "friendly", 
-		"generous", "gentle", "greedy", 
-		"hardworking", "harsh", 
-		"impatient", "independent", "insecure", "intelligent", 
-		"lax", "lazy", "loyal", 
-		"mellow", "moody", 
-		"nervous", "negligent", 
-		"organized", "obsessive", 
-		"patient", "persistent", "placid", "practical", 
-		"quiet", "queer", "quaint", 
-		"rational", "resourceful", "responsible", 
-		"selfish", "selfless", "sensitive", "skeptical", "spontaneous", 
-		"thoughtful", "tolerant", 
-		"whimsical", "witty"
-	]>>
+		/* Personality archetypes. */
+		/* Traits are noted... traits... that indicate what kind of 'archetype' a person is; their most prominent social behaviors. */
+		/* Jobs are jobs that a certain archetype is best at. */
+		/* Likes are archetypes that any given one gets along best with; +1 to social interactions. */
+		/* DISlikes are archetypes that any given one does NOT get along with at all; -1 to social interactions. */
+		/* Archetypes inherently have an affinity for themselves, as well as two others. */
+		/* Lazy is the only exception, because no one in the colony likes picking up the slack. */
+	<<set $personalities = {
+        "cynical": {
+            traits: ["abrasive", "aloof", "blunt", "critical", "insecure", "jaded", "mean", "pessimistic", "sarcastic", "skeptical", "witty"],
+            jobs: ["salvager", "scavenger"],
+            likes: ["militaristic", "opportunist"],
+            dislikes: ["dreamer", "idealist", "lazy"]
+        }, 
+        "dreamy": {
+            traits: ["absentminded", "creative", "curious", "dreamy", "emotional", "imaginative", "quiet", "queer", "scatterbrained", "visionary", "whimsical"],
+            jobs: ["forager", "scavenger"],
+            likes: ["social", "rebellious"],
+            dislikes: ["militaristic", "cynical", "lazy"]
+        }, 
+        "idealistic": {
+            traits: ["altruistic", "empathetic", "enthusiastic", "gentle", "hopeful", "idealistic", "naive", "optimistic", "passionate", "selfless", "tolerant"], 
+            jobs: ["forager", "rainier"], 
+            likes: ["social", "dreamer"], 
+            dislikes: ["cynical", "opportunist", "lazy"]
+        }, 
+        "industrious": {
+            traits: ["conscientious", "consistent", "dependable", "efficient", "hardworking", "loyal", "methodical", "patient", "practical", "responsible"], 
+            jobs: ["rainier", "builder"], 
+            likes: ["militaristic", "perfectionist"], 
+            dislikes: ["social", "dreamer", "lazy"]
+        }, 
+        "lazy": {
+            traits: ["apathetic", "disorganized", "impatient", "indifferent", "lax", "lazy", "negligent", "selfish", "unmotivated"], 
+            jobs: ["none"],
+            likes: ["lazy"], 
+            dislikes: ["cynical", "dreamer", "idealist", "industrious", "opportunist", "perfectionist", "rebellious", "social", "militaristic"]
+        }, 
+        "opportunistic": {
+            traits: ["adaptable", "ambitious", "clever", "cunning", "greedy", "independent", "intelligent", "opportunistic", "resourceful", "shrewd"], 
+            jobs: ["salvager", "scavenger"], 
+            likes: ["militaristic", "cynic"], 
+            dislikes: ["perfectionist", "idealist", "lazy"]
+        }, 
+        "fastidious": {
+            traits: ["demanding", "exacting", "meticulous", "nervous", "obsessive", "organized", "perceptive", "precise", "sensitive", "vain"], 
+            jobs: ["builder", "rainier"], 
+            likes: ["industrious", "idealist"], 
+            dislikes: ["dreamer", "rebellious", "lazy"]
+        }, 
+        "rebellious": {
+            traits: ["bold", "daring", "defiant", "energetic", "moody", "nonconformist", "rebellious", "reckless", "spontaneous", "unpredictable"],
+            jobs: ["salvager", "soldier"],
+            likes: ["dreamer", "opportunist"],
+            dislikes: ["perfectionist", "militaristic", "lazy"]
+        }, 
+        "social": {
+            traits: ["caring", "charismatic", "chatty", "friendly", "generous", "outgoing", "persuasive", "placid", "thoughtful", "tolerant", "warm"], 
+            jobs: ["rainier", "forager"], 
+            likes: ["idealist", "dreamer"], 
+            dislikes: ["cynical", "industrious", "lazy"]
+        }, 
+        "militaristic": {
+            traits: ["authoritative", "confident", "disciplined", "harsh", "persistent", "pragmatic", "rational", "resilient", "serious", "tough"], 
+            jobs: ["soldier", "builder"], 
+            likes: ["industrious", "opportunist"], 
+            dislikes: ["dreamer", "rebellious", "lazy"]
+        }
+    }>>
 
 		/* Ages. Originally planned to be used to track life stage (-7 - 0 as egg, 1-14 as hatchling, etc). */	
 		/* Not currently in use. */
@@ -104,36 +153,94 @@
 		/* Gatherers */
 			/* Forager: Food. */
 			/* Rainier: Water. */
-			/* Scavenger: Wood & Stone. */
 			/* Salvager: Gold (without much success). */
+			/* Scavenger: Wood & Stone. */
 		
 		/* Special */
 			/* Builder: Builds. */
 			/* Soldier: Guards, mans outposts. Might hunt. */
-	<<set $dJobs to ["slacker", "forager", "rainier", "builder", "scavenger", "salvager", "soldier"]>>
+	<<set $dJobs = ["builder", "forager", "rainier", "salvager", "scavenger", "slacker", "soldier"]>>
+	<<set $jobInfo = []>>
+	<<run $jobInfo.push(
+	{
+		food: 4,
+		water: 4,
+		name: "builder",
+		desc: "Builders construct things for the colony.",
+		iconText: "A blank, empty square where a job icon should be."
+	}, 
+	{
+		food: 1,
+		water: 4,
+		name: "forager",
+		desc: "Foragers collect food for your colony.",
+		iconText: "A blank, empty square where a job icon should be."
+	}, 
+	{
+		food: 3,
+		water: 1,
+		name: "rainier",
+		desc: "Rainiers gather water for your colony.",
+		iconText: "A small, pixelated icon of three droplets of water."
+	}, 
+	{
+		food: 3,
+		water: 3,
+		name: "salvager",
+		desc: "Salvagers collect gold for your colony... sometimes.",
+		iconText: "A blank, empty square where a job icon should be."
+	}, 
+	{
+		food: 5,
+		water: 6,
+		name: "scavenger",
+		desc: "Scavengers gather building materials for your colony. They may, rarely, find gold as well...",
+		iconText: "A small, pixelated icon consisting of a group of rocks and trees."
+	},
+	{
+		food: 3,
+		water: 3,
+		name: "slacker",
+		desc: "Slackers lounge around the colony, doing nothing.",
+		iconText: "A small, pixelated icon of two stylized letter 'z's."
+	},
+	{
+		food: 5,
+		water: 4,
+		name: "soldier",
+		desc: "Soldiers guard your territory. If they get bored, they might even hunt.",
+		iconText: "A small, pixelated icon of four claw marks."
+	} )>>
+
+		/* Relationship Tracker set-up... */
+	<<set $colonistRelationships = {}>>
 
 
 	/* ~~~ FLUFF ~~~ */
 	
 		/* Dragon sizes. Most likely to be 'normal'. */
-	<<set $dSize to ["small", "normal", "normal", "normal", "normal", "large"]>>
+	<<set $dSize = [
+		"small",
+		"normal", "normal", "normal", "normal",
+		"large"]>>
 
 		/* Dragon color. Dragons will always have one! */
-	<<set $dColor to ["red", "blue", "yellow", "green"]>>
+	<<set $dColor = ["red", "blue", "yellow", "green"]>>
 
 		/* Body patterns / markings / etc. */
-	<<set $dPattern to [
+	<<set $dPattern = [
 		"freckled", 
 		"piebald", 
 		"plain", "plain", "plain", "plain", "plain",
 		"smooth", 
-		"spotted", "striped"
+		"spotted",
+		"striped"
 	]>>
 
 		/* Visual quirks. Most likely to be 'none'. */
-	<<set $dVisQuirk to [
+	<<set $dVisQuirk = [
 		"none", "none", "none", "none", "none", "none", "none", "none", "none", 
-		"sharp teeth", "raggedy", "stub-tail", "clean", "dull"
+		"clean", "dull", "raggedy", "sharp teeth", "stub-tail"
 	]>>
 
 
@@ -146,45 +253,41 @@
 	
 		/* Population count. Set to one to account for PC. */
 		/* Otherwise will equal the amount of -adult- colonists PC has. */
-	<<set $pop to 1>>
+	<<set $pop = 1>>
 
 		/* $eggs and $hatchlings are just arrays. */
 		/* Both hold objects that are functionally timers. */
-	<<set $eggs to []>>
-	<<set $hatchlings to []>>
+	<<set $eggs = []>>
+	<<set $hatchlings = []>>
 
 		/* $winglets isn't in use yet, but will hold half-developed dragons. */
-	<<set $winglets to []>>
+	<<set $winglets = []>>
 
 		/* These are your adult colonists. I should probably rename to colonists... */
-	<<set $dragons to []>>
+	<<set $dragons = []>>
 
 		/* Prisoners is currently unused, but will house... prisoner dragons, once I set up actually catching egg thieves or intruders. */
-	<<set $prisoners to []>>
+	<<set $prisoners = []>>
 
 
 
 	/* ~~~ EXTERNAL POPULATION TRACKERS ~~~ */
 
 		/* Dead anything. CoD will be contained in each individual object, as well as if they were part of your colony or not. */
-	<<set $dead to []>>
+	<<set $dead = []>>
 		
 		/* goneDragons are dragons that have left (exiled, deprived, etc) that are being held for 'return' events. */
-	<<set $goneDragons to []>>
+	<<set $goneDragons = []>>
 
 
 
 	/* ~~~ POPULATION EVENTS ~~~ */
 	
 		/* eggsHatched tracks how many eggs have hatched... */
-		/* ... which is used by eggEvent to track if it needs to run for the first egg hatched. */
-		/* 0 means it hasn't happened yet. */
-	<<set $eggsHatched to 0>>
-	<<set $eggEvent to 0>>
-	
-		/* Checks if the hatchling growing up is the first to do so, and enacts a special passage if so. */
-		/* 0 means 'hasn't happened, to be done.' */
-	<<set $firstCol to 0>>
+		/* ... which is used in rest to know to trigger the first egg hatched event. */
+		/* Same with hatchlingsGrown, in addition to both just being fun stats. */
+	<<set $eggsHatched = 0>>
+	<<set $hatchlingsGrown = 0>>
 
 
 
@@ -196,11 +299,11 @@
 		/* Food and water are daily, immediate needs that hurt PC and colonists if not fulfilled. */
 		/* Building mats — wood & stone — are used to build everything. You need wood at least to even start your colony. */
 		/* Gold provides a small buff to your resource-gathering colonists... and may be used in special ways later. */
-	<<set $food to 0>>
-	<<set $water to 0>>
-	<<set $gold to 0>>
-	<<set $wood to 0>>
-	<<set $stone to 0>>
+	<<set $food = 0>>
+	<<set $water = 0>>
+	<<set $gold = 0>>
+	<<set $wood = 0>>
+	<<set $stone = 0>>
 
 		/* Resource storage set-up. */
 		/* Pools for water, caverns for food, dugouts for wood and stone. */
@@ -209,23 +312,23 @@
 		/* Amount is how much of a storage building has been built, and storage is how much a single building can hold. */
 		/* So one pool holds thirty water; two pools means a colony can hold sixty water. */
 		/* Might make upgrades available to storage, albeit limited in scope. */
-	<<set $pool to {
+	<<set $pool = {
 		amount : 1,
 		storage : 30
 	}>>
-	<<set $waterCap to ($pool.amount * $pool.storage)>>
+	<<set $waterCap = ($pool.amount * $pool.storage)>>
 
-	<<set $cavern to {
+	<<set $cavern = {
 		amount : 1,
 		storage : 30
 	}>>
-	<<set $foodCap to ($cavern.amount * $cavern.storage)>>
+	<<set $foodCap = ($cavern.amount * $cavern.storage)>>
 
-	<<set $dugOut to {
+	<<set $dugOut = {
 		amount : 1,
 		storage : 30
 	}>>
-	<<set $buildingMaterialCap to ($dugOut.amount * $dugOut.storage)>>
+	<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 
 
 
@@ -239,9 +342,9 @@
 		/* $buildTime is how long the current $buildQueue[0] will take to complete. */
 		/* Set to -1 by default to stop the queue from trying to run at all. */
 		/* Much like $buildTime, $builderStatus is set to -1 to stop them from working at all. */
-	<<set $buildQueue to []>>
-	<<set $buildTime to -1>>
-	<<set $builderStatus to -1>>
+	<<set $buildQueue = []>>
+	<<set $buildTime = -1>>
+	<<set $builderStatus = -1>>
 
 
 
@@ -250,14 +353,14 @@
 		/* $shelter is a datamap containing all information about every shelter, for quick reference in-game. */
 		/* Each shelter is arranged like so: */
 		/*
-			<<set $shelter.NAME to {
+			<<set $shelter.NAME = {
 					<!-- How much of a shelter type you have. -->
 				amount : #,
 					<!-- How many colonists a given shelter can hold. -->
 				shelter : #,
-					<!-- Stone cost to build the shelter. -->
+					<!-- Stone cost to build a shelter. -->
 				priceS : #,
-					<!--  Wood cost to build the shelter. -->
+					<!-- Wood cost to build a shelter. -->
 				priceW : #,
 					<!-- OPTIONAL: How long builders will take to construct the shelter. -->
 			*	buildTime : #,
@@ -267,11 +370,11 @@
 				occupied: #
 			}>>
 		 */
-	<<set $shelter to {}>>
+	<<set $shelter = {}>>
 
 		/* Ruts are the most basic shelter. Not the worst, but the cheapest to make. */
 		/* $builtRut is used to unlock setts after your first rut is constructed. */
-	<<set $shelter.ruts to { 
+	<<set $shelter.ruts = { 
 		amount : 0,
 		shelter : 1,
 		priceS : 5,
@@ -281,7 +384,7 @@
 	<<set $builtRut = false>>
 
 		/* Setts are improved ruts. They require an empty rut to build and are much preferred by colonists. */
-	<<set $shelter.setts to {
+	<<set $shelter.setts = {
 		amount : 0,
 		shelter : 1,
 		priceS : 5,	
@@ -291,7 +394,7 @@
 	}>>
 
 		/* Hollows are barracks. They are the worst, bottom of the barrel shelter—but they hold multiple dragons! */
-	<<set $shelter.hollows to {
+	<<set $shelter.hollows = {
 		amount : 0,
 		shelter : 10,
 		priceS : 30,
@@ -350,7 +453,7 @@
 	}>>
 
 		/* Rockfalls are your final defense. */
-		/* They are built empty and need to be loaded with 10 stone to work. */
+		/* They are built empty and need to be loaded with 5 stone to work. */
 		/* Currently, can only be loaded via policy at day end. */
 	<<set $defenseBuildings.rockfall = {
 		amount : 0,
@@ -358,6 +461,7 @@
 		priceS : 70,
 		priceW : 20,
 		buildTime : 3,
+		loadCost : 5,
 		loaded : 0,
 		empty : 0
 	}>>
@@ -391,17 +495,17 @@
 	/* ~~~ META ~~~ */
 
 		/* Allows access to BugTest page. Off by default, unless Cheat / Test is chosen on start page. */
-	<<set $cheat to false>>
+	<<set $cheat = false>>
 
 		/* How many days you've been here, and how many moon cycles! */
 		/* Each cycle is 30 days: when the $days hits 30, endDay resets it to 1, and ups the cycle tracker. */
-	<<set $days to 1>>
-    <<set $cycles to 0>>
+	<<set $days = 1>>
+    <<set $cycles = 0>>
 
 		/* An array tracking trophies from beaten bossses. */
 		/* Differs from $player.special in that they provide no innate buff to the player character. */
 		/* These are for colony use, however that shakes out. */
-	<<set $trophies to []>>
+	<<set $trophies = []>>
 
 		/* Flag for checking if the defense tutorial has run. Falsey until it's happened. */
 	<<set $defenseTalk = false>>
@@ -411,10 +515,10 @@
 
 		/* Social */
 			/* $findSleep determines if you need to assign dragons to shelters, or if they'll find their own. */
-		<<set $findSleep to true>>
+		<<set $findSleep = true>>
 
 			/* $jobHunt determines if dragons will assign themselves a job. */
-		<<set $jobHunt to false>>
+		<<set $jobHunt = false>>
 
 
 		/* Defensive */
@@ -432,8 +536,8 @@
 		/* Seen, EggTaken, and Beat are pretty self-explanatory. */
 		/* Time is set to negative to prevent the EndDay from artificially launching the hydra event. */
 		/* If positive there would be a countdown, and zero would trigger. */
-	<<set $hydraSeen to false>>
-	<<set $hydraEggTaken to false>>
+	<<set $hydraSeen = false>>
+	<<set $hydraEggTaken = false>>
 	<<set $hydraTime = -1>>
 	<<set $hydraBeat = false>>
 
@@ -441,8 +545,8 @@
 		/* $infestedNotice triggers if you've been to the kelpie lake once and enables visits from Sandbox. */
 		/* $kelpieExtinction triggers if PC decides to remove all kelpies from the lake while visiting. */
 		/* $lakeClaim is whether you've personally taken over the lake or are allowing it to develop on its own. */
-	<<set $infestedNotice to false>>
-	<<set $kelpieExtinction to false>>
+	<<set $infestedNotice = false>>
+	<<set $kelpieExtinction = false>>
 	<<set $lakeClaim = false>>
 <</nobr>>
 

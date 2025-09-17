@@ -17,8 +17,7 @@
 		/* Checking caps. */
 	<<set $waterCap = ($pool.amount * $pool.storage)>>
 	<<set $foodCap = ($cavern.amount * $cavern.storage)>>
-	<<set $woodCap = ($dugOut.amount * $dugOut.storage)>>
-	<<set $stoneCap = ($dugOut.amount * $dugOut.storage)>>
+	<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 
 		/* Reloads the caption. */
 	<<replace "#story-caption">>
@@ -31,7 +30,12 @@
 			/* Lets me know it ran. */
 		<<run console.log("updateHome")>>
 
-			/* Sets home, as it should. See defaults.twee for more detail. */
+			/* Sets home, as it should. */
+			/* As more shelter types are added this will be expanded, */
+			/* And if I decide to make shelter 'size' maleable, */
+			/* This will accomodate. */
+			/* $home keeps track of total shelter space - */
+			/* NOT free / occupied shelter space. */
 		<<set $home = (
 			($shelter.ruts.amount * $shelter.ruts.shelter) + 
 			($shelter.setts.amount * $shelter.setts.shelter) + 
@@ -92,6 +96,21 @@
 			_leaderDefenseDamage)>>
 
 <</nobr>><</widget>>
+
+
+     /* Pluralization widget, per the name. */
+	 /* A use will look like so: */
+	 /* <<plural $args[0] "$args[1]" "args[2]">> */
+	 /* Or in a use case, as <<plural _foragerCount "forager" "foragers">>. */
+	 /* $args[0] is the count; */
+	 /* $args[1] is the singular string, */
+	 /* $args[2] is the plural. */
+	 /* $args[0] is printed, then compared to choose an appropriate string. */
+	 /* Easy as pie. */
+<<widget "plural">><<nobr>>
+		<<print $args[0] + " " + ($args[0] == 1 ? $args[1] : $args[2])>>
+<</nobr>><</widget>>
+
 
 	/* The following widgets assign dragons to houses. */
 

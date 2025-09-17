@@ -1,31 +1,47 @@
-:: Rest [WIP rest] {"position":"1075,550","size":"100,100"}
+:: Rest [WIP Rest] {"position":"1075,550","size":"100,100"}
 <<nobr>>
-<<run console.log("goneDragons: " + $goneDragons)>>
 
 
-	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-													/* This is the REST page, where your colony's day is summarized. */
-			
-			/* All changes that happen automatically happen here, at the day's end. */
-			/* Your dragons bring home their hauls, have their daily meal, and report their work completion. */
-			/* Dragons that will leave do so at dusk as your colony winds down, whether they are hungry, exiled, or unhappy. */
-			/* Hatchlings and eggs are formally hatched and grown here, during the endDay widget. */
-			/* Events that are not triggered by foraging happen here (such as a thief attempting to steal your eggs, or wanderers begging to join). */
-			/* You might even dream! */
-			/* ... or die. */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+												/* This is the REST page, where your colony's day is summarized. */
+		
+		/* All changes that happen automatically happen here, at the day's end. */
+		/* Your dragons bring home their hauls, have their daily meal, and report their work completion. */
+		/* Dragons that will leave do so at dusk as your colony winds down, whether they are hungry, exiled, or unhappy. */
+		/* Hatchlings and eggs are formally hatched and grown here, during the endDay widget. */
+		/* Events that are not triggered by foraging happen here (such as a thief attempting to steal your eggs, or wanderers begging to join). */
+		/* You might even dream! */
+		/* ... or die. */
 
 
-			/* To-Do: */
-				/* Re-organise. Information is currently scattered hap-hazardly. */
-					/* Improve general appearance. May be good to tab these? */
-				/* endDay should probably fire sooner. */
-				/* Update checking for: */
-					/* Exiles */
-					/* eggEvent */
-	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* To-Do: */
+			/* Re-organise. Information is currently scattered hap-hazardly. */
+				/* Improve general appearance. May be good to tab these? */
+			/* endDay should probably fire sooner. */
+			/* Update checking for: */
+				/* Exiles */
+				/* eggEvent */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 
-	The end of the day is approaching.
+	The end of the day is approaching.<br><br>
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ENDDAY ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* A widget that handles a LOT of things. */
+		/* Check the endDay.twee (or just endDay passage if on twine) for details. */
+		/* Summary: */
+			/* Updates days/cycles */
+			/* Ages up colonists */
+			/* Grows eggs/hatclings */
+			/* Collects & distributes colonist resources */
+				/* (Shelters, food, water, building mats) */
+			/* Resets daily counters */
+			/* Filters dragons leaving due to not having food/water */
+		/* Everything follows endDay because everything needs info */
+		/* Previously calculated BY endDay to report accurately. */
+
+	<<endDay>>
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EXILE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -36,92 +52,21 @@
 		/* ($goneDragons) */
 		/* Otherwise, the dragon's name is placed in a temporary array. */
 		/* The array is printed out, then deleted. */
-
-	<<set _exiled = []>>
-		<<for _i to 0; _i < $dragons.length; _i++>>
-			<<if $dragons[_i].left == "exile">>
-				<<if $dragons[_i].home !== "none">>
-					<<switch $dragons[_i].home>>
-						<<case "rut">>
-							<<set $dragons[_i].home = "none">>
-							<<set $shelter.ruts.free += 1>>
-							<<set $shelter.ruts.occupied -= 1>>
-
-						<<case "sett">>
-							<<set $dragons[_i].home = "none">>
-							<<set $shelter.setts.free += 1>>
-							<<set $shelter.setts.occupied -= 1>>
-
-						<<case "hollow">>
-							<<set $dragons[_i].home = "none">>
-							<<set $shelter.hollows.free += 1>>
-							<<set $shelter.hollows.occupied -= 1>>
-					<</switch>>
-				<<else>>
-
-				<</if>>
-				<<run _exiled.push($dragons[_i].name)>>
-				<<run console.log(_exiled)>>
-				<<set _rejoin = random(0, 10)>>
-				<<if _rejoin >= 8>>
-					<<set $dragons[_i].left == "stay">>
-					<<set $dragons[_i].origin == "exiled">>
-					<<run $goneDragons.push(clone($dragons[_i]))>>
-				<<else>>
-					<<set _e = _i>>
-					<<run $dragons.splice(_i, 1)>>
-					<<set _i-->>
-				<</if>>
-			<<else>>
-			<</if>>
-		<</for>>
-		<<set $pop = ($dragons.length + 1)>>
 	<<if _exiled.length >= 3>>
-		<br><br>
 		<<for _i to 0; _i < (_exiled.length); _i++>>
-			<<if _i <= (_exiled.length - 1)>>
+			<<if _i < (_exiled.length - 2)>>
 				<<print _exiled[_i]>>, 
 			<<else>>
 				and <<print _exiled[_i]>> 
 			<</if>>
 		<</for>>
-		group together and leave your camp quietly, never to return.<br><br>
+		have left throughout the course of the day; some together, some alone. You aren't sure you'll see any of them again. <br><br>
 	<<elseif _exiled.length == 2>>
-		<br><br>
-		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your camp quietly, never to return.<br><br>
+		<<print _exiled[0]>> and <<print _exiled[1]>> glance at each other and leave your home for the last time as Sun settles. <br><br>
 	<<elseif _exiled.length == 1>>
-		<br><br>
-		<<print _exiled>> leaves your camp quietly, never to return.<br><br>
+		<<print _exiled>> left your camp at some point in the day, never to return. <br><br>
 	<<else>>
-		<br><br>
-	<</if>>
-	
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ENDDAY ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-		/* A widget that handles a LOT of things. */
-		/* Check the endDay.twee (or just endDay paragraph if on twine) for details. */
-		/* Summary: */
-			/* Updates days/cycles */
-			/* Ages up colonists */
-			/* Grows eggs/hatclings */
-			/* Collects & distributes colonist resources */
-				/* (Shelters, food, water) */
-			/* Resets daily counters */
-			/* Filters dragons leaving due to not having food/water */
-
-	<<endDay>>
-
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BABY EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-		/* Fires if an egg hatches for the first time, or a hatchling grows up for the first time. */
-		/* eggOne checks if this is the first egg. */
-		/* colOne checks for the first colonist. */
-		/* I'm sure there's a better way to do this. */
-
-	<<if $eggEvent !== 0>>
-	<<else>>
-		<<eggOne>>
-		<<colOne>>
 	<</if>>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WORKERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -134,168 +79,49 @@
 			/* buildQueue is located under colonyWidgets. */
 
 	<<if $dragons.length >= 1>>
-		<<countWorkers "soldier">>
 		<<if $hydraTime > 0>>
-			<<countWorkers "soldier">>
-			<<if _wantedCount > 0>>
+			<<if _soldierCount > 0>>
 				<<if $hydraTime < 5>>
-					A soldier approaches you grimly. They tell you ''the hydra will be upon your colony any day now''.<br><br>
+					A soldier approaches you grimly. They tell you <strong>the hydra will be upon your colony any day now</strong>.
 				<<elseif $hydraTime < 10>>
-					A soldier approaches you, tension lining their body. They tell you ''the hydra is closing in''.<br><br>
+					A soldier approaches you, tension lining their body. They tell you <strong>the hydra is closing in</strong>.
 				<<elseif $hydraTime <= 20>>
-					A soldier approaches you, somewhat nervously. They tell you that despite storming through the forest, ''the hydra is not close''. Yet.<br><br>
+					A soldier approaches you, somewhat nervously. They tell you that despite storming through the forest, <strong>the hydra is not close</strong>. Yet.
 				<<elseif $hydraTime > 20>>
-					A soldier approaches you, professional. They tell you ''the hydra is still exploring outside its den''; you suppose the beast hasn't been out of the waterfall cave in ages.<br><br>
+					A soldier approaches you, professional. They tell you <strong>the hydra is still exploring outside its den</strong>; you suppose the beast hasn't been out of the waterfall cave in ages.
 				<</if>>
-			<</if>>
+			<<else>>
+				One of your colonists approaches you in a frenzied panic; they can't tell you anything important, just that <strong>saw the hydra</strong>. A dedicated guard might be able to tell you more...
+			<</if>><br><br>
 		<</if>>
 		
-		<<if _forcount >= 2>>
-			Your <<print _forcount>> foragers come home with <span class="food"><<print _food>> food</span>.
-		<<elseif _forcount == 1>>
-			Your lone forager drops off <span class="food">some food</span>.
-		<</if>>
 
-		<<if _soldierHunt > 0>>
-			<<if _soldcount >= 2>>
-				Your soldiers went hunting today, apparently. They brought back <span class="food"><<print _soldierHunt>> food</span>.
-			<<else>>
-				Your soldier went hunting today, apparently. They brought back <span class="food"><<print _soldierHunt>> food</span>.
-			<</if>>
+		<<if _foragerCount > 0>>
+			Your <<plural _foragerCount "forager returns" "foragers return">> with their haul of <span class ="food"><<print _foragerFood>> food</span>.
 		<</if>>
-
-		<<if _watcount gte 2>>
-			Your <<print _watcount>> rainiers return, having swept <span class="water"><<print _water>> water</span> into your collection pools.
-		<<elseif _watcount is 1>>
-			A single rainier ushers in <span class="water">some water</span>.
+		<<if _soldierFood > 0>>
+			Your <<plural _soldierCount "soldier" "soldiers">> went hunting, apparently; they brought back <span class="food"><<print _soldierFood>> food</span>.
 		<</if>>
-
-		<<if _scavcount gte 2>>
-			Your <<print _scavcount>> scavengers return, bringing <span class="wood"><<print _wood>> wood</span> and <span class="stone"><<print _stone>> stone</span>.
-				<<if _goldluck gte 50>>
-					<<set _gold = random(12,41)>>
-					<<set $gold += _gold>>
-					They have also found <span class="gold"><<print _gold>> gold</span>!
-				<</if>>
-		<<elseif _scavcount is 1>>
-			Your scavenger hauls in <<if _wood gt 0>><span class="wood">wood</span>.<<else>><span class="stone">stone</span>.<</if>>
-				<<if _goldluck gte 50>>
-					<<set _gold = random(5,13)>>
-					<<set $gold += _gold>>
-					They have also found <span class="gold"><<print _gold>> gold</span>!
-				<</if>>
+		<<if _rainierWater > 0>>
+			Your <<plural _rainierCount "rainier returns" "rainiers return">> for the last time today, having swept in <span class="water"><<print _rainierWater>> water</span> into your pools.
 		<</if>>
-
-		<<if _buildcount >= 2>>
-			<<if $buildQueue.length > 0>>
-				<<switch $builderStatus>>
-					<<case 1>>
-						Your <<print _buildcount>> builders have completed the planning stage for a <<print $buildQueue[0]>>.
-					<<case 2>>
-						Your <<print _buildcount>> builders are working on a <<print $buildQueue[0]>>;
-						<<if _resourceDown == false>>
-								if you have enough materials, they should be done in <<print $buildTime>> day<<if $buildTime >= 2>>s<</if>>.
-						<<else>>
-								<<if _buildStone > 0 && _buildWood > 0 && _buildWater > 0>>
-									they have run out out of materials. You need <<print _buildStone>> stone, <<print _buildWood>> wood, and <<print _buildWater>> water for your builder to resume work.
-								<<elseif _buildStone > 0 && _buildWood > 0>>
-									they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
-								<<elseif _buildWater > 0>>
-									they have run out out of materials. You need <<print _buildWater>> water for your builder to resume work.
-								<<elseif _buildWood > 0>>
-									they have run out out of materials. You need <<print _buildWood>> wood for your builder to resume work.
-								<<elseif _buildStone > 0>>
-									they have run out out of materials. You need <<print _buildStone>> stone for your builder to resume work.
-								<</if>>
-						<</if>><br><br>
-					<<case 3>>
-						Your <<print _buildcount>> builders have finished work on a <<print _finished>>!
-						<<if $buildQueue.length > 0>>
-							Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
-						<<else>>
-							They've got nothing else to build, so they'll be waiting for your next plans.
-						<</if>>
-					<<default>>
-						<<errorPopup "builderStatus">>
-				<</switch>>
-			<<else>>
-			<</if>>
-		<<elseif _buildcount == 1>>
-			<<if $buildQueue.length > 0>>
-				<<switch $builderStatus>>
-					<<case 1>>
-						Your builder has completed the planning stage for a <<print $buildQueue[0]>>.
-					<<case 2>>
-						Your builder is working on a <<print $buildQueue[0]>>;
-						<<if _resourceDown == false>>
-								if you have enough materials, they should be done
-								<<if $buildTime >= 1>>
-									in <<print ($buildTime + 1)>> days.
-								<<else>>
-									by tomorrow.
-								<</if>>
-						<<else>>
-								they have run out out of materials. You need <<print _buildStone>> stone and <<print _buildWood>> wood for your builder to resume work.
-						<</if>><br><br>
-					<<case 3>>
-						Your builder has finished work on a <<print _finished>>!
-						<<if $buildQueue.length > 0>>
-							Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
-						<<else>>
-							They've got nothing else to build, so they'll be waiting for your next plans.
-						<</if>>
-				<</switch>>
-			<<else>>
-				<<if $builderStatus == 3>>
-				Your builder has finished work on a <<print _finished>>!
-					<<if $buildQueue.length > 0>>
-						Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
-					<<else>>
-						They've got nothing else to build, so they'll be waiting for your next plans.
-					<</if>>
-				<<set $builderStatus = 0>>
-				<</if>>
-				<br><br>
-			<</if>>
-		<<else>>
+		<<if _hatchlingFoundFood > 0 || _hatchlingFoundWater > 0>>
+			Your <<plural $hatchlings.length "hatchling presents" "hatchlings present">> you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
+		<</if>>
+		<<if _scavengerWood > 0 || _scavengerStone > 0>>
+			Your <<plural _scavengerCount "scavenger returns" "scavengers return">>, exhausted, with <span class="stone"><<print _scavengerStone>> stone</span>, and <span class="wood"><<print _scavengerWood>> wood</span>.
+		<</if>>
+		<<if _scavengerGold > 0>>
+			They also found <span class="gold"><<print _scavengerGold>> gold</span>!
+		<</if>>
+		<<if _salvagerGold > 0 && _salvagerCount > 0>>
+			In a markedly pleasant surprise, your <<plural _salvagerCount "salvager" "salvagers">> actually managed to find <span class="gold"><<print _salvagerGold>> gold</span>!
+		<<elseif _salvagerCount > 0>>
+			To no one's surprise, your <<plural _salvagerCount "salvager" "salvagers">> didn't find any gold today.
 		<</if>>
 		<br><br>
-	<</if>>
 
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MISC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-		/* Building actions being handled. Might move this to endDay. */
-		/* Currently only contains rockfall status, as determined by autoload. */
-		/* (Autoload is currently the only way to load the rockfalls...) */
-
-	<<if $defenseBuildings.rockfall.empty > 0 && $autoLoad == true>>
-		<<set _rockfallStoneCost = ($defenseBuildings.rockfall.empty * 10)>>
-		<<set _rockfallsEmpty = $defenseBuildings.rockfall.empty>>
-		<<if $stone >= _rockfallStoneCost>>
-			<<set $defenseBuildings.rockfall.loaded += $defenseBuildings.rockfall.empty>>
-			<<set $defenseBuildings.rockfall.empty = 0>>
-			<<set $stone -= _rockfallStoneCost>>
-			Your colony loads up your rockfalls. It takes <<print _rockfallStoneCost>> stone, and some heavy lifting, but before sundown your last line of defense is ready for use.<br><br>
-		<<else>>
-			<<set _loadableRockfalls += $defenseBuildings.rockfall.empty>>
-			<<if _rockfallsEmpty >= 2>>
-				<<for _i to _rockfallsEmpty; _i > 0; _i-->>
-					<<set _rockfallsEmpty -= 1>>
-					<<set _rockfallStoneCost = (_rockfallsEmpty * 10)>>
-					<<if _rockfallStoneCost > $stone>>
-						<<set $stone -= _rockfallStoneCost>>
-						<<set $defenseBuildings.rockfall.loaded += _rockfallsEmpty>>
-						<<set $defenseBuildings.rockfall.empty -= _rockfallsEmpty>>
-						Your colony loads as many as they can. That ends up being <<print _rockfallsEmpty>> rockfall<<if _rockfallsEmpty > 1>>s<</if>>, costing <<print _rockfallStoneCost>> stone.<br><br>
-					<</if>>
-				<</for>>
-			<<elseif _rockfallEmpty == 1>>
-				Your colony can't load your rockfall; you need <<print (10 - $stone)>> more stone.<br><br>
-			<<else>>
-				One of your thunder informs you they can't load the rockfall; you need <<print (10 - $stone)>> more stone.<br><br>
-			<</if>>
-		<</if>>
-	<<elseif $autoLoad == false>>
+		<<builderRestDisplay>>
 	<</if>>
 
 
@@ -303,53 +129,131 @@
 		/* Egg and hatchling information. */
 		/* First: hatchlings have a random chance to find either food or water and present it to you. How sweet. */
 		/* Then, any eggs that have hatched, or hatchies that have grown up. */
-
-	<<if $hatchlings.length > 1>>
-		<<if _hatchFood > 0 && _hatchWater > 0>>
-			Your hatchlings present you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
-		<<elseif _hatchfood > 0 && _hatchWater == 0>>
-			Your hatchlings present you with <span class="food"><<print _hatchFood>></span> food that they found. How sweet!<br><br>
-		<<elseif _hatchfood == 0 && _hatchWater > 0>>
-			Your hatchlings present you with <span class="water"><<print _hatchWater>></span> water that they found. How sweet!<br><br>
-		<</if>>
-	<<elseif $hatchlings.length == 1>>
-		<<if _hatchFood > 0>>
-			Your hatchling presents you with <span class="food"><<print _hatchFood>> food</span> that they found today. How sweet!<br><br>
-		<</if>>
-		<<if _hatchWater > 0>>
-			Your hatchling presents you with <span class="water"><<print _hatchWater>> water</span> that they found today. How sweet!<br><br>
-		<</if>>
-	<<else>>
-	<</if>>
 	
-	<<if _hatchcheck >= 2>>
-		<strong><<print _hatchcheck>> eggs have hatched in the Nursery.
-		<<if _growcheck >= 2>>
-			<<print _growcheck>> hatchlings have grown up.<br><br>
-		<<elseif _growcheck == 1>>
-			A hatchling has grown up.<br><br>
-		<<else>>
-			<br><br>
-		<</if>>
-		</strong>
-	<<elseif _hatchcheck == 1>>
-		<strong>An egg has hatched.
-		<<if _growcheck >= 2>>
-			<<print _growcheck>> hatchlings have grown up.<br><br>
-		<<elseif _growcheck == 1>>
-			A hatchling has grown up.<br><br>
-		<<else>>
-			<br><br>
-		<</if>>
-		</strong>
+	<<run console.log("_firstHatched (rest) = " + _firstHatched)>>
+	<<run console.log("_hatchCheck (rest) = " + _hatchCheck)>>
+	<<if _firstHatched == true && _hatchCheck > 0>>
+		<<linkappend "Something has happened...">>
+			<hr>
+			<<if _hatchCheck > 1>>
+				Your head snaps up from being curled around the <<plural $eggs.length "egg" "eggs">> as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $player.title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to //tap! Tap! Tap!// at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell...<br><br>
+			
+				You remember yourself after a moment, and use your claws to gently split the shell. The hatchling within, so small - so, //so// small in its egg - cries out with a high note that has you prizing away more and more shell. Eventually, a thin snout pokes out of the shell, nostrils flaring and sniffling as it takes its first breath of air. Soon enough, it returns to cracking and pushing, as you continue the task of assisting it.<br><br>
+
+				So long later - though the moon has scarcely shifted - the hatchling shrieks, and the last of the shell falls away from it. You pull it close and clean it, rumbling softly in your throat as exhaustion claims the little thing and sends it drifting off against your chest, little breaths slowing to the gentle and deep motions of dreams.<br><br>
+
+				You hardly have time to admire the new life—<em>your</em> first hatchling!—when another begins to rock. It's almost too much for you. Your claws tremble, threatening to become ungentle with emotion as you help the second free. Your crests rattle wildly, you half-choke on the smoke that wishes to pour from your throat.<br><br>
+
+				It's all too much, and yet, a new heat is added to your hearts as your little ones rest against you. Nothing will ever touch them. Not if you can help it.
+			<<else>>
+				Your head snaps up from being curled around the <<plural $eggs.length "egg" "eggs">> as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $player.title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to //tap! Tap! Tap!// at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell...<br><br>
+			
+				You remember yourself after a moment, and use your claws to gently split the shell. The hatchling within, so small - so, //so// small in its egg - cries out with a high note that has you prizing away more and more shell. Eventually, a thin snout pokes out of the shell, nostrils flaring and sniffling as it takes its first breath of air. Soon enough, it returns to cracking and pushing, as you continue the task of assisting it.<br><br>
+
+				So long later - though the moon has scarcely shifted - the hatchling shrieks, and the last of the shell falls away from it. You pull it close and clean it, rumbling softly in your throat as exhaustion claims the little thing and sends it drifting off against your chest, little breaths slowing to the gentle and deep motions of dreams.<br><br>
+
+				You clean them, warm with new light. They are small, delicate in the extreme and scarcely larger than your claw. You would do anything for them.
+			<</if>>
+			<hr>
+			<</linkappend>><br><br>
 	<<else>>
-		<<if _growcheck >= 2>>
-			<strong><<print _growcheck>> hatchlings have grown up.</strong><br><br>
-		<<elseif _growcheck == 1>>
-			<strong>A hatchling has grown up.</strong><br><br>
-		<<else>>
+		<<if _hatchCheck > 0>>
+			<strong><<plural _hatchCheck "egg has" "eggs have">> hatched in the Nursery!</strong><br>
 		<</if>>
 	<</if>>
+
+		<<run console.log("_firstGrown(rest) = " + _firstGrown)>>
+	<<if _firstGrown == true && _growCheck > 0>>
+		<<linkappend "Something has happened...">>
+			<hr>
+			As you're doing your nightly rounds along the colony, you discover your first hatchling - your first egg, your shining-jewel - outside the nursery, watching you solemnly. You tilt your head in silent permission for them to speak.<br><br>
+			
+			"I think I am ready for work," they say softly. "I am large and strong enough, and have been exploring the edges of the home-grounds. I know what is edible now, and how to navigate - you've taught me well." It sounds so much like a plead. "I wish to work, <<print $player.title>>. Please."<br><br>
+			
+			You startle at the sound of your title - for all that you have raised them, your heart-of-hearts has referred to you as nothing but the purring-click that all hatchlings call their brooders. Certainly, you told them of who you are - //what// you are. But they never saw cause to address you as such.<br><br>
+			
+			... They mean it.<br><br>
+			
+			In respect to the gravity of their request, you assume your mantle of <<print $player.title>>, and, with quiet authority, inform them to be gone from the nursery by dawn. They will work now. The relief and gratitude in their eyes is painful as they disappear into the nursery - to say goodbye to their younger sibling, you assume.<br><br>
+			
+			Your chest feels tight as you continue your evening rounds. Has time really moved so quickly?
+			<hr>
+		<</linkappend>><br><br>
+	<<elseif _growCheck > 0>>
+		<strong><<plural _growCheck "hatchling has" "hatchlings have">> have moved out of the Nursery!</strong><br><br>
+	<<elseif _hatchCheck > 0>>
+		<br>
+	<<else>>
+	<</if>>
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEFENSES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		/* Building actions being handled. Might move this to endDay. */
+		/* Currently only contains rockfall status, as determined by autoload. */
+		/* (Autoload is currently the only way to load the rockfalls...) */
+
+	<<switch _rockfallStatus>>
+		<<case 0>>
+		
+		<<case 1>>
+			The <<plural $defenseBuildings.rockfall.amount "rockfall was" "rockfalls were">> fully reloaded, and wait to be used.<br><br>
+		
+		<<case 2>>
+			Some of your rockfalls were loaded; <<plural $defenseBuildings.rockfall.empty "rockfall remains" "rockfalls remain">> empty.<br><br>
+		
+		<<case 3>>
+			Your <<plural $defenseBuildings.rockfall.amounts "rockfall was" "rockfalls were">> left unloaded, due to lack of ammo. You need at least <<print $defenseBuildings.rockfall.loadCost>> stone to load one more, and <<print ($defenseBuildings.rockfall.loadCost * $defenseBuildings.rockfall.empty)>> total stone for all of them.<br><br>
+
+		<<case 4>>
+			Your <<plural $defenseBuildings.rockfall.empty "rockfall was" "rockfalls were">> left unloaded, as your current policy is to fill them manually.<br><br>
+
+	<</switch>>
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOUSING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+<<if _newHouse.length > 1>>
+	<<for _i = 0; _i < _newHouse.length; _i++>>
+		<<if _i < (_newHouse.length - 1)>>
+			<<print _newHouse[_i]>>, 
+		<<else>>
+			and <<print _newHouse[_i]>>
+		<</if>>
+	<</for>>
+	have found unused shelters to live in.
+<<elseif _newHouse.length > 0>>
+	<<print _newHouse[0]>> found an unused shelter to live in.
+<</if>>
+
+<<if _movedHouse.length > 1>>
+	<<for _i = 0; _i < _movedHouse.length; _i++>>
+		<<if _i < (_movedHouse.length - 1)>>
+			<<print _movedHouse[_i]>>, 
+		<<else>>
+			and <<print _movedHouse[_i]>>
+		<</if>>
+	<</for>>
+	found better accomodations and decided to move.
+<<elseif _movedHouse.length > 0>>
+	<<print _movedHouse[0]>> found better accomodations and decided to move.
+<</if>>
+
+<<if _noHouse.length > 1>>
+	<<for _i = 0; _i < _noHouse.length; _i++>>
+		<<if _i < (_noHouse.length - 1)>>
+			<<print _noHouse[_i]>>, 
+		<<else>>
+			and <<print _noHouse[_i]>>
+		<</if>>
+	<</for>>
+	have nowhere to shelter for the night; you might want to build more homes, because they'll be eating more to cope.<br><br>
+
+<<elseif _noHouse.length > 0>>
+	<<print _noHouse[0]>> has nowhere to shelter for the night; you might want to build another home, because they'll be eating more to cope.<br><br>
+
+<<elseif _newHouse.length > 0 || _movedHouse.length > 0>>
+	<br><br>
+
+<</if>>
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONSUMPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -366,11 +270,11 @@
 				<<set _remaining = ($player.health / 2)>>
 				Your stomach rumbles quietly and your throat feels terribly dry. You didn't get to eat or drink today. You can last <<print _remaining>> more day<<if _remaining > 1>>s<</if>> without eating or drinking...
 			<<elseif _pcHungry == true>>
-				Your stomach rumbles quietly, but you were able to drink 4 water.
+				Your stomach rumbles quietly, but you were able to drink 5 water.
 			<<elseif _pcThirsty == true>>
-				Your throat feels terribly dry, but you were able to eat 3 food.
+				Your throat feels terribly dry, but you were able to eat 4 food.
 			<<else>>
-				You eat 3 food and drink 4 water.
+				You eat 4 food and drink 5 water.
 			<</if>>
 		<<else>>
 			<<if _pcHungry == true && _pcThirsty == true>>
@@ -385,323 +289,39 @@
 			<</if>>
 		<</if>>
 		
-	<<if $dragons.length == 0>>
-		<<if $hatchlings.length > 1>>
-			Your hatchlings eat <<print _hatchEat>> food and drink <<print _hatchDrink>> water.<br><br>
-		<<elseif $hatchlings.length == 1>>
-			Your hatchling eats <<print _hatchEat>> food and drinks <<print _hatchDrink>> water.<br><br>
-		<<else>>
-			<br><br>
-		<</if>>
-	<<else>>
-
 		<<if $hatchlings.length > 0>>
-			<<if _hatchEat > 0 && _hatchDrink > 0>>
-				Your hatchling<<if $hatchlings.length > 1>>s<</if>> ate <<print _hatchEat>> food and drank <<print _hatchDrink>> water.
-			<<elseif _hatchEat > 0>>
-				Your hatchling<<if $hatchlings.length > 1>>s<</if>> ate <<print _hatchEat>> food.
-			<<elseif _hatchDrink > 0>>
-				Your hatchling<<if $hatchlings.length > 1>>s<</if>> drank <<print _hatchDrink>> water.
-			<<else>>
+			<<if _hatchlingFood > 0 || _hatchlingWater > 0>>
+				Your <<plural $hatchlings.length "hatchling has" "hatchlings have">> <<print _hatchlingFood>> food and <<print _hatchlingWater>> water.
 			<</if>>
-
-			<<if _hatchUnfed > 0 && _hatchNoWater > 0>>
-				Unfortunately, <<print _hatchUnfed>> hatchling<<if _hatchUnfed > 1>>s<</if>> didn't eat, and <<print _hatchNoWater>> hatchling<<if _hatchNoWater > 1>>s<</if>> didn't drink. You needed <<print _hatchHungry>> more food and <<print _hatchThirsty>> more water...
-			<<elseif _hatchUnfed >= 1 && _hatchNoWater == 0>>
-				Unfortunately, <<print _hatchUnfed>> hatchling<<if _hatchUnfed > 1>>s<</if>> didn't eat. You needed <<print _hatchHungry>> more food for them...
-			<<elseif _hatchUnfed == 0 && _hatchNoWater >= 1>>
-				Unfortunately, <<print _hatchNoWaater>> hatchling<<if _hatchNoWater > 1>>s<</if>> didn't eat. You needed <<print _hatchThirsty>> more food for them...
-			<<else>>
+			<<if _hatchlingHungry > 0 || _hatchlingThirsty > 0>>
+				<<set _needyHatchlings = (_hatchlingHungry + _hatchlingThirsty)>>
+				Unfortunately, <<plural _needyHatchlings "hatchling" "hatchlings">> didn't have any; you needed <<print _hatchlingFoodNeed>> more food and <<print _hatchlingWaterNeed>> water for them.
 			<</if>>
 		<</if>>
 
-		<<if $home >= ($dragons.length) && _eat > 0 && _drink > 0>>
-			The rest of your colony eats <<print _eat>> food, and drinks <<print _drink>> water.
-		<<elseif $home < ($dragons.length) && _eat > 0 && _drink > 0>>
-			The rest of your colony eats <<print _eat>> food, and drinks <<print _drink>> water. They had a little more than usual because there isn't enough to shelter all of them, and they need more to cope with the exposure.
-		<</if>>
-		<<if _unfed gte 2 && _nowater gte 2>>
-			However, <<print _unfed>> dragons did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
-		<<elseif _unfed gte 2 && _nowater == 1>>
-			However, <<print _unfed>> dragons did not eat, and one dragon did not drink. You needed <<print _hungry>> more food and <<print _thirsty>> more water to satisfy them.<br><br>
-		<<elseif _unfed gte 2 && _nowater == 0>>
-			However, <<print _unfed>> dragons did not eat. You needed <<print _hungry>> more food to feed them.<br><br>
-		<<elseif _unfed == 1 && _nowater == 0>>
-			However, one dragon did not eat. You needed <<print _hungry>> more food to feed them.<br><br>
-		<<elseif _unfed == 1 && _nowater gte 2>>
-			However, one dragon did not eat, and <<print _nowater>> dragons did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
-		<<elseif _unfed == 1 && _nowater == 1>>
-			However, one dragon did not eat, and one dragon did not drink. You needed <<print _hungry>> more food, and <<print _thirsty>> more water to satisfy them.<br><br>
-		<<elseif _unfed == 0 && _nowater gte 2>>
-			However, <<print _nowater>> dragons did not drink. You needed <<print _thirsty>> more water to satisfy them.<br><br>
-		<<elseif _unfed == 0 && _nowater == 1>>
-			However, one dragon did not drink. You needed <<print _thirsty>> more water to satisfy them.<br><br>
-		<<else>>
-			<br><br>
-		<</if>>
-	<</if>>
-	
-	<<run console.log("end day " + $home)>>
+		<<if $dragons.length > 0>>
+			<<if _dragonsAte > 0 && _dragonsDrank > 0>>
+				The rest of your colony eats <<print _dragonsAte>> food, and drinks <<print _dragonsDrank>> water.
 
+			<<elseif _dragonsAte > 0>>
+				The rest of your colony eats <<print _dragonsAte>> food.
 
-		/* This section handles auto-housing, if the player has it enabled. */
-		/* The name and shelter type the dragon has moved into are displayed here. */
-		/* Dragons that are unsheltered are also listed, because unsheltered dragons consume more. */
-	<<if $dragons.length >= 1>>
-		<<if _newHouse.length > 2>>
-			<<for _i to 0; _i < _newHouse.length; _i++>>
-				<<if _i < (_newHouse.length - 1)>>
-					<<print _newHouse[_i]>>, 
-				<<else>>
-				and <<print _newHouse[_i]>>
-				<</if>>
-			<</for>>
-			found unoccupied places to sleep for the night. They probably won't leave now.
-			<<if _changedHome.length > 2>>
-				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 1)>>
-						<<print _changedHome[_i]>>, 
-					<<else>>
-						and <<print _changedHome[_i]>>
-					<</if>>
-				<</for>>
-				have swapped homes after finding somewhere better to live.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 2>>
-				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 1>>
-				<<print _changedHome>> has moved into a new, better home.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<else>>
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
+			<<elseif _dragonsDrank > 0>>
+				The rest of your colony drinks <<print _dragonsDrank>> water.
+
 			<</if>>
-		<<elseif _newHouse.length == 2>>
-			<<print _newHouse[0]>> and <<print _newHouse[1]>> have found unoccupied places to slep for the night. They probably won't leave now.
-			<<if _changedHome.length > 2>>
-				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 1)>>
-						<<print _changedHome[_i]>>, 
-					<<else>>
-						and <<print _changedHome[_i]>>
-					<</if>>
-				<</for>>
-				have swapped homes after finding somewhere better to live.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 2>>
-				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 1>>
-				<<print _changedHome>> has moved into a new, better home.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<else>>
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
+
+			<<if _dragonsHungry.length > 0 & _dragonsThirsty.length > 0>>
+				<<print _dragonsHungry.length>> did not get to eat, and <<print _dragonsThirsty.length>> did not drink. You needed <<print _dragonsFoodNeeded>> more food to feed them, and <<print _dragonsWaterNeeded>> more water.
+				
+			<<elseif _dragonsHungry.length > 0>>
+				<<print _dragonsHungry.length>> did not eat today—you needed <<print _dragonsFoodNeeded>> more food to fill them all.
+
+			<<elseif _dragonsThirsty.length > 0>>
+				<<print _dragonsThirsty.length>> did not drink today—you needed <<print _dragonsWaterNeeded>> more water to slake them all.
+
 			<</if>>
-		<<elseif _newHouse.length == 1>>
-			<<print _newHouse[0]>> found an unoccupied place to sleep for the night. They probably won't leave now.
-			<<if _changedHome.length > 2>>
-				<<for _i to 0; _i < _changedHome.length; _i++>>
-					<<if _i < (_changedHome.length - 1)>>
-						<<print _changedHome[_i]>>, 
-					<<else>>
-						and <<print _changedHome[_i]>>
-					<</if>>
-				<</for>>
-				have swapped homes after finding somewhere better to live.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 2>>
-				<<print _changedHome[0]>> and <<print _changedHome[1]>> have moved into new, better homes.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<elseif _changedHome.length == 1>>
-				<<print _changedHome>> has moved into a new, better home.
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<<else>>
-				<<if _homeless.length > 2>>
-					<<for _i to 0; _i < _homeless.length; _i++>>
-						<<if _i < (_homeless.length - 1)>>
-							<<print _homeless[_i]>>, 
-						<<else>>
-							and <<print _homeless[_i]>>
-						<</if>>
-					<</for>>
-					don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 2>>
-						<<print _homeless[0]>> and <<print _homeless[1]>> don't have anywhere to sleep yet.<br><br>
-				<<elseif _homeless.length == 1>>
-						<<print _homeless[0]>> doesn't have anywhere to sleep yet.<br><br>
-				<<else>>
-					<br><br>
-				<</if>>
-			<</if>>
-		<<else>>
-		<</if>>
-	<<else>>
-	<</if>>
+		<</if>><br><br>
 
 
 
@@ -710,11 +330,13 @@
 		/* This happens if they go three days without food, or three days without water. */
 
 	<<if _left.length >= 2>>
-		<<nobr>><<for _i to 0; _i < _left.length; _i++>>
+		<<for _i to 0; _i < _left.length; _i++>>
 			<<if _i !== (_left.length - 1)>>
 				<<print _left[_i]>>, 
 			<<elseif _i == (_left.length - 1)>>
-				and <<print _left[_i]>><</if>><</for>>, after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<br><br><</nobr>>
+				and <<print _left[_i]>>,
+			<</if>>
+	<</for>> after being denied their rations, have left. You don't expect to see them come back, no matter how it hurts.<br><br>
 	<<elseif _left.length == 1>>
 		<<print _left>>, after finding too little for themselves, leaves quietly. On your final rounds, you are not surprised to see them gone entirely.<br><br>
 	<</if>>
@@ -733,9 +355,7 @@
 				[[It's time for another day...|HydraRaid]]
 
 			<<case "none">>
-				/* <<set _eventChance to random(15)>> */
-				<<set _eventChance = 4>>
-				<<run console.log("_eventChance: " + _eventChance)>>
+				<<set _eventChance to random(15)>>
 				<<if _eventChance <= 3>>
 					<<set _dream to random(0, 5)>>
 					<<if _dream == 1>>
@@ -748,8 +368,7 @@
 				[[It's time for another day.|Sandbox Central]]
 					<</if>>
 				<<elseif _eventChance == 4>>
-					/* <<set _event = random(0,2)>> */
-					<<set _event = 2>>
+					<<set _event = random(0,2)>>
 					<<switch _event>>
 						<<case 0>>
 							Before you can settle down to bed, there comes a commotion [[at the edge of your home.|eventJoin]]

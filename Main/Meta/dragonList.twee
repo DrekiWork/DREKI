@@ -1,15 +1,64 @@
 :: dragonList
 <<nobr>>
     <<set _count = 0>>
-    <<for _drg to 0; _drg lt $dragons.length; _drg++>>
-        <<capture _drg>>
-            <<set _count += 1>>
-            <<if _count < 4>>
-                <<link "$dragons[_drg].name">> <<set $int to _drg>> <<goto "Interact">><</link>>, <<print $dragons[_drg].job>> | 
-            <<else>>
-                <<set _count = 0>>
-                <<link "$dragons[_drg].name">> <<set $int to _drg>> <<goto "Interact">><</link>>, <<print $dragons[_drg].job>> |<br>
-            <</if>>
-        <</capture>>
-    <</for>>
+
+    <div id="dragonList">
+        <<for _drg to 0; _drg lt $dragons.length; _drg++>>
+            <<capture _drg>>
+                <<switch $dragons[_drg].job>>
+                    <<case "builder">>
+                        <<set _altText = "A small, pixelated icon of a half-built wall.">>
+                    <<case "forager">>
+                        <<set _altText = "A small, pixelated icon of a berry bush.">>
+                    <<case "rainier">>
+                        <<set _altText = "A small, pixelated icon of three droplets of water.">>
+                    <<case "salvager">>
+                        <<set _altText = "A small, pixelated icon of a pair of sparkles.">>
+                    <<case "scavenger">>
+                        <<set _altText = "A small, pixelated icon consisting of a group of rocks and trees.">>
+                    <<case "slacker">>
+                        <<set _altText = "A small, pixelated icon of two stylized letter 'z's.">>
+                    <<case "soldier">>
+                        <<set _altText = "A small, pixelated icon of four claw marks.">>
+                    <<default>>
+                        <<set _altText = "A job icon for " + $dragons[_drg].job + "... wait, why are you seeing this?">>
+                <</switch>>
+            <div class="indivdual-card"><<link "$dragons[_drg].name">>
+                <<set $int to _drg>>
+                    <<goto "Interact">>
+                <</link>>
+                <br>
+                <<set _imgPath = "Media/JobSymbols/" + $dragons[_drg].job + ".png">>
+                <<capture _xp>>
+                <<set _xpKey = $dragons[_drg].job + "xp">>
+                <<set _xp = Math.round($dragons[_drg][_xpKey] * 10)>>
+                <img @src="_imgPath" style="width:16px;height:16px;" @alt="_altText"> <<print $dragons[_drg].job.toUpperFirst()>>, 
+                <<if $dragons[_drg].job !== "slacker">>
+                    <<print _xp>> day<<if _xp > 1 || _xp < 1>>s<</if>>
+                <<else>>
+                    ∞ days
+                <</if>>
+                <</capture>>
+                <div id="jobList">
+                <div id="jobChange">Change job?</div>
+                <<for _job = 0; _job < $dJobs.length; _job++>>
+                    <<capture _job>>
+                        <<if $dragons[_drg].job == $dJobs[_job]>>
+                            <<print $dJobs[_job].toUpperFirst()>>
+                        <<else>>
+                            <<set _this = $dJobs[_job].toUpperFirst()>>
+                            <<link "_this">>
+                                <<set $dragons[_drg].job to $dJobs[_job]>>
+                                <<replace "#dragonList">>
+                                    <<include "dragonList">>
+                                <</replace>>
+                            <</link>>
+                        <</if>>
+                    <</capture>>
+                <</for>>
+                </div>
+            <</capture>>
+        <</for>>
+    </div>
+
 <</nobr>>

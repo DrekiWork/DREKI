@@ -1,0 +1,43 @@
+:: FeedHatchlings [widget]
+    /* Now that hatchlings have aged, eggs have hatched, */
+    /* Dragons have done their jobs, and the player is sated, */
+    /* It's time to feed the children! */
+<<widget "feedHatchlings">><<nobr>>
+
+        /* _hatchlingFood/Water track how much your hatchlings have consumed. */
+        /* _hatchlingHungry/Thirsty track how many haven't gotten what they need. */
+        /* _hatchlingFoodNeed/WaterNeed tracks how much more you needed. */
+    <<set _hatchlingFood = 0>>
+    <<set _hatchlingWater = 0>>
+    <<set _hatchlingHungry = 0>>
+    <<set _hatchlingThirsty = 0>>
+    <<set _hatchlingFoodNeed = 0>>
+    <<set _hatchlingWaterNeed = 0>>
+
+    <<for _i = 0; _i < $hatchlings.length; _i++>>
+
+            /* Comparing overall food to how much the hatchling will eat. */
+            /* If there's enough, they eat. */
+            /* If not, they are noted hungry and the player is told. */
+            /* Hatchlings also track how many days they've gone hungry. */
+            /* Eventually, this will kill them if it reaches two. */
+            /* Same deal with water. =) */
+        <<if $food >= 4>>
+            <<set _hatchlingFood += 4>>
+            <<set $food -= 4>>
+        <<else>>
+            <<set $hatchlings[_i].hunger += 1>>
+            <<set _hatchlingFoodNeed += 4>>
+            <<set _hatchlingHungry += 1>>
+        <</if>>
+
+        <<if $water >= 3>>
+            <<set _hatchlingWater += 3>>
+            <<set $water -= 3>>
+        <<else>>
+            <<set $hatchlings[_i].thirst += 1>>
+            <<set _hatchlingWaterNeed += 3>>
+            <<set _hatchlingThirsty += 1>>
+        <</if>>
+    <</for>>
+<</nobr>><</widget>>

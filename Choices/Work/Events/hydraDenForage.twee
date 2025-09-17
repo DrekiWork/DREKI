@@ -1,51 +1,46 @@
 :: HydraFoodEvent 
 <<nobr>>
 <<set _danger = random(0, 3)>>
+<<if previous() == "Sandbox Central">>
+	<<set _risk = 1>>
+<<else>>
+	<<set _risk = random(1)>>
+<</if>>
 
 <<switch $hydraEggTaken>>
 
     <<case true>>
 
-	    <<set _collect = random(5,17)>>
-    	<<set $food += _collect>>
-	    You're gliding lazily over your territory when you realize where you're going - the hydra's den. The allure of its food stores were callng you - but you can't do that now. Not until the hydra is dead, or your thunder is destroyed. <br> <br>
-	    You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with <span class="food"><<print _collect>> food</span>. <br> <br>
-	    <<if $player.action >= 1>>
-	    	<span id="forageChoices">
-		    	You could [[hunt again|Food]]; look for 
-			    <<link "something else">>
-				    <<replace "#forageChoices">>
-					    [[Water]], [[wood|Wood]], 
-					    <<if $ghunt == false>>
-					    	[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-				    	<<else>>
-					    	or [[stone|Stone]]?
-					    <</if>>
-				    <</replace>>
-			    <</link>>; or you can simply [[stay home.|Sandbox Central]]
-		    </span>
-	    <<else>>
-		    It's time to [[go home.|Sandbox Central]]
-	    <</if>>
+		<<if $hydraBeat == false>>
+			<<set _collect = random(5,17)>>
+			<<addResource "food" _collect>>
+			
+			You're gliding lazily over your territory when you realize where you're going - the hydra's den. The allure of its food stores were callng you - but you can't do that now. Not until the hydra is dead, or your thunder is destroyed. <br> <br>
+			You shudder and turn away, flapping extra hard. You throw your nervous energy into foraging instead, and return home with <span class="food"><<print _collect>> food</span>. <br> <br>
+			<<include "foragingOptions">>
+		<<else>>
+			<<set $player.action += 1>>
+			<<goto "HydraDen">>
+		<</if>>
 
 
     <<case false>>
 
+		<<run console.log("Risk: " + _risk)>>
     	<<set _collect = random(30, 40)>>
-	    <<set _risk to random(1)>> 
 
     	While gliding over your territory, you find something strange. While a cave isn't normally worth your attention, there are a great deal of tracks leading in... and nothing leading out. In addition to being a potential threat, the idea of another predator on <em>your</em> territory irritates you deeply.<br><br>
     	<span id="c1">
 		    You could 
 		    <<link "investigate">>
+				<<run console.log(_collect)>>
 				<<replace "#c1">>
 				<<if _risk == 1 && $hydraSeen == false>>
 					<<set $hydraSeen to true>>
 					<<set $visitPlaces = true>>
 					<hr>
 					You push into the cave, wings pressed tight against your sides and every sense on high alert. It is musty but warm in the cave; if it didn't smell so strongly of something dangerous, you would make note of it as a potential storage cache... but it does, and you feel your spinal crest beginning to rattle with your mounting anxiety. <br> <br>
-					Before you get too deep, however, you spy something that shuts you up swiftly. A mound of flesh - rotting at the bottom but fresher to the top, and... <em>something</em>... sleeping coiled around it. You'd think it was a serpent if it didn't have three heads that you can see, and if it weren't larger than you. Nausea wells up your throat, and it is only by a desperate will to live that you swallow it down. As it stands, the mess before you feels like a terrible joke - a monster guarding its decayed horde, and you daring to challenge it for a fraction of its wealth.
-					<br> <br>
+					Before you get too deep, however, you spy something that shuts you up swiftly. A mound of flesh - rotting at the bottom but fresher to the top, and... <em>something</em>... sleeping coiled around it. You'd think it was a serpent if it didn't have three heads that you can see, and if it weren't larger than you. Nausea wells up your throat, and it is only by a desperate will to live that you swallow it down. As it stands, the mess before you feels like a terrible joke - a monster guarding its decayed horde, and you daring to challenge it for a fraction of its wealth.<br><br>
 					<span id="c2">
 						You have a choice. You can either 
 						<<link "try stealing food anyway">>
@@ -53,10 +48,7 @@
 								<<set _danger = random(3)>>
 								<<if _danger == 3>>
 									<<set _collect = Math.round(_collect /= (_danger * 2))>>
-									<<set $food += _collect>>
-									<<if $food > $foodCap>>
-										<<set $food = $foodCap>>
-									<</if>>
+									<<addResource "food" _collect>>
 									You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 									You do not have the nerve for this. You have even less as one great pupil flexes, and the hydra's tongue flicks. <br> <br>
 									It sees you. <br> <br>
@@ -64,30 +56,10 @@
 									You don't stop until you're home - and even then you tremble. It takes some time until you've recovered enough to see that you collected <span class="food"><<print _collect>> food</span>. <br> <br>
 									... Was it worth it? 
 									<br> <br>
-									<<if $player.action >= 1>>
-										<span id="forageChoices">
-											You could [[hunt again|Food]]; look for 
-											<<link "something else">>
-												<<replace "#forageChoices">>
-													[[Water]], [[wood|Wood]], 
-													<<if $ghunt == false>>
-														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-													<<else>>
-														or [[stone|Stone]]?
-													<</if>>
-												<</replace>>
-											<</link>>
-											; or you can simply [[stay home.|Sandbox Central]]
-										</span>
-									<<else>>
-										You decide to [[stay home.|Sandbox Central]]
-									<</if>>
+									<<include "foragingOptions">>
 								<<elseif _danger == 2>>
 									<<set _collect = Math.round(_collect /= (_danger * 2))>>
-									<<set $food += _collect>>
-									<<if $food > $foodCap>>
-										<<set $food = $foodCap>>
-									<</if>>
+									<<addResource "food" _collect>>
 									You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 									You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. <br> <br>
 									But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... <br> <br>
@@ -95,57 +67,19 @@
 									You feel its great body move as you clear the entrance to its den, then hear furious hissing echoing through the cave. It doesn't matter; you are gone. Thankfully, you are gone. <br> <br>
 									When you land back at home, your nerves have settled enough for you to count your haul: <span class="food"><<print _collect>> food</span>. Though slightly disappointing, you are more so relieved that you survived, even if you now know you have a rather distressing neighbor. <br> <br>
 									It didn't follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. <br> <br>
-									<<if $player.action >= 1>>
-										<span id="forageChoices">
-											You could [[hunt again|Food]]; look for 
-											<<link "something else">>
-												<<replace "#forageChoices">>
-													[[Water]], [[wood|Wood]], 
-													<<if $ghunt == false>>
-														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-													<<else>>
-														or [[stone|Stone]]?
-													<</if>>
-												<</replace>>
-												<</link>>; or you can simply [[stay home.|Sandbox Central]]
-											</span>
-										<<else>>
-											You decide to [[stay home.|Sandbox Central]]
-										<</if>>
+									<<include "foragingOptions">>
 
 									<<elseif _danger == 1>>
 										<<set _collect = Math.round(_collect /= (_danger * 2))>>
-										<<set $food += _collect>>
-										<<if $food > $foodCap>>
-											<<set $food = $foodCap>>
-										<</if>>
+										<<addResource "food" _collect>>
 										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. <br> <br>
 										But it does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... <br> <br>
 										By the time your throat pouch is half full, your raw nerves have you struggling to breathe. You give up on the idea of collecting any more - you might just die of terror rather than anything the hydra would do to you. <br> <br>
 										Leaving is as uneventful as your arrival, if marked by your hearts pounding wildly. By the time you return home, you are settled fully, however, and count out your haul with some small pride: <span class="food"><<print _collect>> food</span>. Not bad, given the pressure you were working under. <br> <br>
-										<<if $player.action >= 1>>
-											<span id="forageChoices">
-												You could [[hunt again|Food]]; look for 
-												<<link "something else">>
-													<<replace "#forageChoices">>
-														[[Water]], [[wood|Wood]], 
-														<<if $ghunt == false>>
-															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-														<<else>>
-															or [[stone|Stone]]?
-														<</if>>
-													<</replace>>
-												<</link>>; or you can simply [[stay home.|Sandbox Central]]
-											</span>
-										<<else>>
-											You decide to [[stay home.|Sandbox Central]]
-										<</if>>
+										<<include "foragingOptions">>
 									<<else>>
-										<<set $food += _collect>>
-										<<if $food > $foodCap>>
-											<<set $food = $foodCap>>
-										<</if>>
+										<<addResource "food" _collect>>
 										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>
 										You do not have the nerve for this. You have even less as the hydra shifts in sleep, one of its many heads pushing languidly into its stores. <br> <br>
 										It does not wake. You continue to collect your scraps, breathing cautiously, stepping lightly... <br> <br>
@@ -153,24 +87,7 @@
 										Not soon enough - though faster than expected - you find yourself reaching capacity. You dare to swipe a few more pieces from its pile directly (and almost collapse when a head nearly brushes you), then - more than satisfied - you creep out. <br> <br>
 										It still does not wake. <br> <br>
 										By the time you get home, however, you are aglow with triumph, having brought back <span class="food"><<print _collect>> food</span>. <br> <br>
-										<<if $player.action >= 1>>
-											<span id="forageChoices">
-												You could [[hunt again|Food]]; look for 
-												<<link "something else">>
-													<<replace "#forageChoices">>
-														[[Water]], [[wood|Wood]], 
-														<<if $ghunt == false>>
-															[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-														<<else>>
-															or [[stone|Stone]]?
-														<</if>>
-													<</replace>>
-												<</link>>
-												; or you can simply [[stay home.|Sandbox Central]]
-											</span>
-										<<else>>
-											You decide to [[stay home.|Sandbox Central]]
-										<</if>>
+										<<include "foragingOptions">>
 									<</if>>
 								<</replace>>
 						<</link>>, or you can 
@@ -179,47 +96,12 @@
 								<<set _collect to random(12)>>
 								Fear in your hearts and survival on your mind, you slink away from the hydra. There are better - less potentially fatal - ways to gather a meal for you and yours. This is not the way. <br> <br>
 								<<if _collect >= 0>>
-									<<set $food += _collect>>
-									<<if $food > $foodCap>>
-										<<set $food = $foodCap>>
-									<</if>>
+									<<addResource "food" _collect>>
 									You prove it by collecting <span class="food"><<print _collect>> food</span>; scraps from around your territory, never straying near the hydra's den. It is disappointing when you consider how much the great creature was sleeping on, but... you have all your limbs. You like to think you, ultimately, made the right choice. <br> <br>
-									<<if $player.action >= 1>>
-										<span id="forageChoices">
-											You could [[hunt again|Food]]; look for 
-											<<link "something else">>
-												<<replace "#forageChoices">>
-													[[Water]], [[wood|Wood]], 
-													<<if $ghunt == false>>
-														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-													<<else>>
-														or [[stone|Stone]]?
-													<</if>>
-												<</replace>>
-											<</link>>; or you can simply [[stay home.|Sandbox Central]]
-										</span>
-									<<else>>
-										It's time to [[go home.|Sandbox Central]]
-									<</if>>
+									<<include "foragingOptions">>
 								<<else>>
 									You don't find anything for the rest of your patrol. It's frustrating and frankly a little insulting - but it is what it is. Still, when you think about how much that hydra was sleeping on, you can't help but think... <br> <br>
-									<<if $player.action >= 1>>
-										<span id="forageChoices">
-											You could [[hunt again|Food]]; look for 
-											<<link "something else">>
-												<<replace "#forageChoices">>
-													[[Water]], [[wood|Wood]], 
-													<<if $ghunt == false>>
-														[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-													<<else>>
-														or [[stone|Stone]]?
-													<</if>>
-												<</replace>>
-											<</link>>; or you can simply [[stay home.|Sandbox Central]]
-										</span>
-									<<else>>
-										It's time to [[go home.|Sandbox Central]]
-									<</if>>
+									<<include "foragingOptions">>
 								<</if>>
 							<</replace>>
 						<</link>>. 
@@ -270,7 +152,7 @@
 														You can 
 														<<link "glide">>
 															<<replace "#c4">>
-																<<set $food += _collect>>
+																<<addResource "food" _collect>>
 																<hr>
 																You spread your wings and double - triple - quadruple check that the the hydra is very much asleep. Despite the tremble in your frame, your glide is smooth and silent. You land easily on the stone near the entrance and flee as quickly and quietly as you can. Behind you is silence; before you, freedom. You take to the skies in a flurry of waterfall-born mist as the sunlight greets you, and rush home with the paltry <<print _collect>> food you stole earlier. [[Better that than risking your thunder.|Sandbox Central]]
 															<</replace>>
@@ -303,7 +185,7 @@
 																		<</replace>>
 																	<</link>>, or you could 
 																	<<link "leave" "Sandbox Central">>
-																		<<set $food += _collect>>
+																		<<addResource "food" _collect>>
 																	<</link>>. <br> <br>
 																	If you take the egg, there is no going back. You will draw the hydra's wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you <em>cycles!</em> - and a hydra egg, to either hatch as your own or kill as you see fit. <br> <br>
 																	You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
@@ -331,7 +213,7 @@
 																	<</link>>, 
 																	or you could 
 																	<<link "leave" "Sandbox Central">>
-																		<<set $food += _collect>>
+																		<<addResource "food" _collect>>
 																	<</link>>. <br> <br>
 																	If you take the egg, there is no going back. You will draw the hydra's wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you <em>cycles!</em> - and a hydra egg, to either hatch as your own or kill as you see fit. <br> <br>
 																	You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
@@ -339,13 +221,13 @@
 																	not enough dragons. Your thunder is tiny, with only <<print $dragons.length>> dragons. No, you are thinking big ideas - ideas that hatchlings have, ideas that little creatures with no concept of mortality dream of. You can't kill a hydra. Not like this. <br> <br>
 																	You shake your head and stretch your wings. When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you've collected in your throat. You spread your wings and carefully, silently, glide away with the <<print _collect>> you stole earlier. 
 																	<<link "One day, you will be back." "Sandbox Central">>
-																		<<set $food += _collect>>
+																		<<addResource "food" _collect>>
 																	<</link>>
 																<<else>>
 																	a stupid idea; you shake your head, terror wending up your throat once more. No. No, you would need support for that - you would need many dragons, and right now you do not have that. You are not equipped to kill a hydra, not right now. <br> <br>
 																	When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you've collected in your throat. You spread your wings and carefully, silently, glide away with the <<print _collect>> you stole earlier.
 																	<<link "One day, you will be back." "Sandbox Central">>
-																		<<set $food += _collect>>
+																		<<addResource "food" _collect>>
 																	<</link>>
 																<</if>>
 															<</linkappend>>
@@ -357,7 +239,7 @@
 										it will likely come at the cost of waking the hydra - though if you 
 										<<link "steal meat">>
 											<<replace "#c3">>
-												<<set $food = $foodCap>>
+												<<addResource "food" $foodCap>>
 												<<if $player.health < 10>>
 													<<set $player.health += 1>>
 												<<else>>
@@ -383,24 +265,7 @@
 									Instead you spend your time hunting, taking your fear and adrenaline out on whatever you can find. Ultimately, you catch enough to be worth <span class="food"><<print _collect>> food</span>, but your crest still twitches with nerves. You check the den. <br> <br>
 									It never left. <br> <br>
 									You linger on this as you fly away, thoughts adrift and the shake never quite disappearing. <br> <br>
-									<<if $player.action >= 1>>
-									<span id="forageChoices">
-										You could [["hunt again"|Food]]; look for 
-										<<link "something else">>
-											<<replace "#forageChoices">>
-												[[Water]], [[wood|Wood]], 
-												<<if $ghunt == false>>
-													[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-												<<else>>
-													or [[stone|Stone]]?
-												<</if>>
-											<</replace>>
-										<</link>>; 
-										or you can simply [[stay home.|Sandbox Central]]
-									</span>
-								<<else>>
-									It's time to [[go home.|Sandbox Central]]
-								<</if>>
+									<<include "foragingOptions">>
 								<</if>>
 							<</replace>>
 						<</link>> 
@@ -408,40 +273,16 @@
 						<<link "look elsewhere">>
 							<<replace "#c2">>
 								<<set _collect = random(3, 15)>>
-								<<set $food += _collect>>
-								<<if $food > $foodCap>>
-									<<set $food = $foodCap>>
-								<</if>>
+								<<addResource "food" _collect>>
 								<hr>
 								You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. <br> <br>
 								When you return home, you are satisfied to have done so with <span class="food"><<print _collect>> food</span> in claw. Not much, but enough for one patrol, at least. <br> <br>
-								<<if $player.action >= 1>>
-									<span id="forageChoices">
-										You could [[hunt again|Food]]; look for 
-										<<link "something else">>
-											<<replace "#forageChoices">>
-												[[Water]], [[wood|Wood]], 
-												<<if $ghunt == false>>
-													[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-												<<else>>
-													or [[stone|Stone]]?
-												<</if>>
-											<</replace>>
-										<</link>>; 
-										or you can simply [[stay home.|Sandbox Central]]
-									</span>
-								<<else>>
-									It's time to [[go home.|Sandbox Central]]
-								<</if>>
+								<<include "foragingOptions">>
 							<</replace>>
 						<</link>>.
 					</span>
 				<<else>>
-					<<set $food += _collect>>
-					<<if $food > $foodCap>>
-						<<set $food = $foodCap>>
-					<<else>>
-					<</if>>
+					<<addResource "food" _collect>>
 					<hr>
 					You step into the cave, wings tight against your sides and every sense on high alert. From first sight there isn't much; just muddy tracks leading deeper into the cave. You don't smell anything dangerous either; just damp and cold. <br> <br>
 					As you walk further in, you find yourself relaxing somewhat. If this <em>were</em> some other predator's abode, they've long since left the area. You increasingly suspect that it isn't, though. There are far too many prey-tracks, and it seems some did leave... just not recently. <br> <br>
@@ -455,54 +296,18 @@
 					it would be a shame to waste food... That in mind, you carefully swoop down and begin picking through the carcasses. A great many of them are rotten through, but there are plenty fresh enough - and layered enough - that you can safely seperate the edible from the disgusting. <br> <br>
 					There's enough there to be worth calling an unexpected windfall, too! By the time you're done, you've collected <span class="food"><<print _collect>> food</span>, and are feeling like quite the clever dragon for having investigated the cave. <br> <br>
 
-					<<if $player.action >= 1>>
-						<span id="forageChoices">
-							You could [[hunt again|Food]]; look for 
-							<<link "something else">>
-								<<replace "#forageChoices">>
-									[[Water]], [[wood|Wood]], 
-									<<if $ghunt == false>>
-										[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-									<<else>>
-										or [[stone|Stone]]?
-									<</if>>
-								<</replace>>
-							<</link>>; 
-							or you can simply [[stay home.|Sandbox Central]]
-						</span>
-					<<else>>
-						It's time to [[go home.|Sandbox Central]]
-					<</if>>
+					<<include "foragingOptions">>
 				<</if>>
 				<</replace>>
 			<</link>>, or 
 			<<link "move on.">>
 				<<replace "#c1">>
 					<<set _collect = random(3, 15)>>
-					<<set $food += _collect>>
-					<<if $food > $foodCap>>
-						<<set $food = $foodCap>>
-					<<else>>
-					<</if>>
+					<<addResource "food" _collect>>
 					<hr>	
 					You tilt your wings and head off in a different direction. There is a greater chance of that cave being full of nothing but bones than anything worth taking; you have better things you can pursue. <br> <br>
 					When you return home, you are satisfied to have done so with <span class="food"><<print _collect>> food</span> in claw. Not much, but enough for one patrol, at least. <br> <br>
-					<<if $player.action >= 1>>
-						<span id="forageChoices">
-							You could [[hunt again|Food]]; look for 
-							<<link "something else">>
-								<<replace "#forageChoices">>[[water|Water]], [[wood|Wood]], 
-								<<if $ghunt == false>>
-									[[stone|Stone]], or [[gold?|Treasure]] Or you could [[go home,|Sandbox Central]] or [[look again.|Food]]
-								<<else>>
-									or [[stone|Stone]]?
-								<</if>>
-								<</replace>>
-							<</link>>; or you can simply [[stay home.|Sandbox Central]]
-						</span>
-					<<else>>
-						It's time to [[go home.|Sandbox Central]]
-					<</if>>
+					<<include "foragingOptions">>
 				<</replace>>
 			<</link>>
 		</span>

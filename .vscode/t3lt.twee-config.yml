@@ -40,3 +40,41 @@ sugarcube-2:
       name: errorPopup
     updateDefense:
       name: updateDefense
+    addResource:
+      name: addResource
+    plural:
+      name: plural
+    buildTimeSanityCheck:
+      name: buildTimeSanityCheck
+    timeKeeper:
+      name: timeKeeper
+    eggUpdates:
+      name: eggUpdates
+    hatchlingUpdates:
+      name: hatchlingUpdates
+    dailyPlayerReset:
+      name: dailyPlayerReset
+    feedPlayer:
+      name: feedPlayer
+    dragonJobs:
+      name: dragonJobs
+    dragonsJobs:
+      name: dragonsJobs
+    shelterMoving:
+      name: shelterMoving
+    feedHatchlings:
+      name: feedHatchlings
+    feedDragons:
+      name: feedDragons
+    capResources:
+      name: capResources
+    voluntaryDeparture:
+      name: voluntaryDeparture
+    exileDragons:
+      name: exileDragons
+    builderRestDisplay:
+      name: builderRestDisplay
+    resetDefense:
+      name: resetDefense
+    relationshipEventTrigger:
+      name: relationshipEventTrigger

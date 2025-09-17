@@ -1,0 +1,48 @@
+:: resourceWidgets [widget]
+
+    /* This first one... adds Resources. waohg  */
+    /* Typically called for foraging, and NEVER for endDay */
+    /* Since endDay relies on NOT capping before everything */
+    /* Is fed, watered, or otherwise used productively. */
+<<widget "addResource">><<nobr>>
+    
+        /* Accepts two arguments: */
+        /* The first is resource type - food, water, wood, stone, and gold. */
+        /* This is used for the switch case. */
+        /* The second is how much has been collected. */
+        /* Once the collection is added, capResources is run to... cap resources. */
+    <<switch _args[0]>>
+        <<case "food">>
+            <<set $food += _args[1]>>
+
+        <<case "gold">>
+            <<set $gold += _args[1]>>
+
+        <<case "stone">>
+            <<set $stone += _args[1]>>
+
+        <<case "water">>
+            <<set $water += _args[1]>>
+
+        <<case "wood">>
+            <<set $wood += _args[1]>>
+
+    <</switch>>
+
+    <<capResources>>
+
+<</nobr>><</widget>>
+
+    /* Used to cap all resources that a player can have. */
+    /* Currently used primarily in endDay, this will also */
+    /* Be used in other arenas where the player could potentially */
+    /* Overflow multiple caps at once, making sure they don't. */
+<<widget "capResources">><<nobr>>
+    
+    <<set $food = Math.clamp($food, 0, $foodCap)>>
+    <<set $stone = Math.clamp($stone, 0, $buildingMaterialCap)>>
+    <<set $water = Math.clamp($water, 0, $waterCap)>>
+    <<set $wood = Math.clamp($wood, 0, $buildingMaterialCap)>>
+    <<updateBar>>
+
+<</nobr>><</widget>>

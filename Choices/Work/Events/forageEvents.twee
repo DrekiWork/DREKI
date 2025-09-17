@@ -15,30 +15,20 @@
                     <<set _material = either("food", "gold", "stone", "water", "wood")>>
                     <<switch _material>>
                         <<case "food">>
-                            <<set $food += _gather>>
-                            <<if $food > $foodCap>>
-                                <<set $food = $foodCap>>
-                            <</if>>
+                            <<addResource "food" _gather>>
 
                         <<case "gold">>
-                            <<set $gold += _gather>>
+                            <<addResource "gold" _gather>>
 
                         <<case "stone">>
-                            <<set $stone += _gather>>
-                            <<if $stone > $buildingMaterialCap>>
-                                <<set $stone = $buildingMaterialCap>>
-                            <</if>>
+                            <<addResource "stone" _gather>>
 
                         <<case "water">>
-                            <<set $water += _gather>>
-                            <<if $water > $waterCap>>
-                                <<set $water = $waterCap>>
-                            <</if>>
+                            <<addResource "water" _gather>>
+
                         <<case "wood">>
-                            <<set $wood += _gather>>
-                            <<if $wood > $buildingMaterialCap>>
-                                <<set $wood = $buildingMaterialCap>>
-                            <</if>>
+                            <<addResource "wood" _gather>>
+
                     <</switch>>
                     <<updateBar>>
                     Frustrated beyond belief and feeling more than a little incompetent, you head back to your colony. Despite your irritation, you keep your eyes open and are rewarded with... very little, but it's something. By the time you get back, you have <<print _gather>> more <<print _material>>. [[Wonderful.|Sandbox Central]]
@@ -146,18 +136,15 @@
                         <hr><br>
                         You roam to the very edges of your territory, and then some. It's common sense to put distance between one's home and a dragon's land, after all, so who would dare try to chase you away? No one. Of course, just outside of your territory there are dirt tracks, flattened and packed by land-bound folk, but nothing more permanent than footsteps. You enjoy being outside of your land, until you see a disturbance between the trees, a short way from a particularly thin road. Attention caught – if not by the apparently abandoned items, then by the gleam you can see surrounding it – you descend to investigate.
                         <br><br>
-                        You're not sure what you were expecting, but it wasn't this. You've found a trail of gold. If you were at all blind, you might suspect it to be a particularly profligate trap. Unfortunately, your eyes work just fine, and you can see signs of a fight. A fight between creatures that hoard gold just as much as you and yours, apparently - though the tracks are so far removed from draconic you might suspect particularly rich magpies started  a fight, were it not for the smashed cart and crushed bodies beneath it. There's shockingly little blood for all the violence, and you see no tracks leading away. Waste not, want not?
+                        You're not sure what you were expecting, but it wasn't this. You've found a trail of gold. If you were at all blind, you might suspect it to be a particularly profligate trap. Unfortunately, your eyes work just fine, and you can see signs of a fight. One between creatures that hoard gold just as much as you and yours, apparently - though the tracks are so far removed from draconic you might suspect particularly rich magpies started  a fight, were it not for the smashed cart and crushed bodies beneath it. There's little blood for all the violence, and you see no tracks leading away. Waste not, want not?
                         <br><br>
                         <div id="decision2">
                             <<link "Take it all.">>
                                 <<replace "#decision2">>
                                     <<set _goldGain = random(51, 68)>>
-                                    <<set $gold += _goldGain>>
+                                    <<addResource "gold" _goldGain>>
                                     <<set _foodGain = random(17, 22)>>
-                                    <<set $food += _foodGain>>
-                                    <<if $food > $foodCap>>
-                                        <<set $food = $foodCap>>
-                                    <</if>>
+                                    <<addResource "food" _foodGain>>
                                     <<updateBar>>
                                     <hr><br>
                                     Meat is meat and gold is gold. The cart is so splintered as to be useless, but the bodies are whole enough and the treasure is just as shiny. You take it all, grasping the dead in your arms and swallowing your gold with a hunger entirely divorced from your belly. If they didn't want to be eaten and stolen from, they should have been stronger. Such was the way of the world.

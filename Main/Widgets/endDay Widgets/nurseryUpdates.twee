@@ -1,0 +1,70 @@
+:: NurseryUpdateWidgets [widget]
+
+    /* eggUpdates ages eggs and eggs alone. */
+    /* It increases their age (time) by one, */
+    /* Checks if they are at hatching age (7), */
+    /* Then proceeds to filter any eggs that have 'hatched'. */
+<<widget "eggUpdates">><<nobr>>
+    <<run console.log("eggUpdates ran")>>
+    
+        /* _hatchCheck keeps track of how many eggs hatched this loop. */
+        /* The for-loop runs through and updates all eggs, one by one. */
+        /* HatchMaker runs on any egg that is 7+. */
+        /* Afterward, the if check fires to trigger a special scene for baby's first egg. */
+        /* Last but not least, $eggs are filtered to ensure no one is too old. */
+    <<set _firstHatched = false>>
+    <<set _hatchCheck = 0>>
+    <<for _i to 0; _i < $eggs.length; _i++>>
+        <<set $eggs[_i].time++>>
+        <<if $eggs[_i].time >= 7>>
+            <<hatchMaker>>
+            <<set _hatchCheck += 1>>
+            <<set $eggsHatched += 1>>
+        <<else>>
+        <</if>>
+        <<run console.log("_hatchCheck = " + _hatchCheck)>>
+    <<if $eggsHatched == 1>>
+        <<run console.log("_firstHatched = " + _firstHatched)>>
+        <<set _firstHatched = true>>
+    <</if>>
+    <</for>>
+        <<run console.log("_firstHatched = " + _firstHatched)>>
+
+    <<set $eggs = $eggs.filter(egg => egg.time < 7)>>
+
+<</nobr>><</widget>>
+
+    /* hatchlingUpdates focuses on... hatchies! */
+    /* Like eggUpdates, it ages hatches, */
+    /* Checks if they are at growing age (15), */
+    /* And filters the array to only hold hatchies that aren't grown. */
+<<widget "hatchlingUpdates">><<nobr>>
+
+        /* _growCheck tracks how many hatchlings grew up this loop. */
+        /* Hatchling time is increased by one; */
+        /* dragonMaker creates a new colonist whenever a hatchling 'ages up', */
+        /* $hatchlingsGrown is the ultimate tracker of all hatchlings grown up. */
+        /* _firstGrown is a flag for a special event. */
+        /* Then hatchlings are filtered out by their age, */
+        /* and $eggSpace is recalculated to make sure nests aren't unnecessarily filled. */
+    <<set _growCheck = 0>>
+    <<set _firstGrown = false>>
+    <<run console.log("$hatchlingsGrown = " + $hatchlingsGrown)>>
+    <<for _i = 0; _i < $hatchlings.length; _i++>>
+        <<set $hatchlings[_i].time++>>
+        <<if $hatchlings[_i].time >= 15>>
+            <<dragonMaker>>
+            <<set _growCheck += 1>>
+            <<set $hatchlingsGrown += 1>>
+        <<else>>
+        <</if>>
+        <<if $hatchlingsGrown == 1>>
+            <<set _firstGrown = true>>
+        <</if>>
+    <</for>>
+
+
+    <<set $hatchlings = $hatchlings.filter(hatchling => hatchling.time < 15)>>
+    <<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+
+<</nobr>><</widget>>

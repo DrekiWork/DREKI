@@ -127,10 +127,10 @@
     <<else>>
         <<if $egg >= 2>>
             It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision.
-                <<if $hatchling >= 2>>
+                <<if $hatchlings.length >= 2>>
                     The hatchlings are chirping in terror, bundled in a corner, as a
-                <<elseif $hatchling == 1>>
-                    Your hatchling trembles in a corner, chirping with terror, as a
+                <<elseif $hatchlings.length == 1>>
+                    Your hatchling is chirping with terror, cowering in a corner, as a
                 <<else>>
                     A
                 <</if>>
@@ -140,9 +140,9 @@
                     Your battle cries draw the attention of your guards over; the thief - hearing reinforcements arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above. Only one of your guards continues the chase, smoke streaming from their snarling mouth—the rest split to patrol your territory.<br><br>
 
                     When you return, you tremble with lingering adrenaline and fury. You do not address your concerned thunder; you storm into the nursery and gather all the eggs to yourself.
-                    <<if $hatchling >= 2>>
+                    <<if $hatchlings.length >= 2>>
                         Your hatchlings, thoroughly shaken, tuck themselves against you as well. It is almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
-                    <<elseif $hatchling == 1>>
+                    <<elseif $hatchlings.length == 1>>
                         Your hatchling, thoroughly shaken, tucks themselves against you as well. Their fearful whines are almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
                     <</if>>
                     [[You do not sleep.|Nursery]]
@@ -150,9 +150,9 @@
                     Your battle cries draw the attention of your guard; the thief - hearing another dragon arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above. Your soldier rushes past you regardless, smoke streaming from their snarling maw.<br><br>
 
                     When you return, you tremble with lingering adrenaline and fury. You do not address your concerned thunder; you storm into the nursery and gather all the eggs to yourself.
-                    <<if $hatchling >= 2>>
+                    <<if $hatchlings.length >= 2>>
                         Your hatchlings, thoroughly shaken, tuck themselves against you as well. It is almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
-                    <<elseif $hatchling == 1>>
+                    <<elseif $hatchlings.length == 1>>
                         Your hatchling, thoroughly shaken, tucks themselves against you as well. Their fearful whines are almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
                     <</if>>
                 <<else>>
@@ -162,9 +162,9 @@
                 <</if>>
         <<else>>
             It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision.
-                <<if $hatchling >= 2>>
+                <<if $hatchlings.length >= 2>>
                     There are hatchlings in there - your little ones! 
-                <<elseif $hatchling == 1>>
+                <<elseif $hatchlings.length == 1>>
                     There is a hatchling in there - your little one! 
                 <<else>>
                 <</if>>
@@ -188,68 +188,49 @@
     <<set _i = random(0, ($goneDragons.length - 1))>>
     You stall midflight, uncertain that you're actually seeeing one of your own. It takes a moment for you to recognize the dragon hovering at the border of your territory.
     <<switch $goneDragons[_i].personality>>
-        <<case default>>
-            As you fly closer, you recognize <<print $goneDragons[_i].name>>. They're hovering patiently in place, only occasionally scanning the area. For you, presumably. As they recognize your approach, they visibly straighten.<br><br>
-
-            "<<print $player.title>>," they greet, dipping their head. You don't deign to respond. "I understand I am threatening trespass. However, I... I wish to return. I miss the colony. Please, <<print $player.title>>."<br><br>
-
-            You tilt your head slightly, considering.
-
-        <<case "Absentminded" "Dreamy" "Queer" "Whimsical">>
+        <<case "dreamer">>
             It's <<print $goneDragons[_i].name>>. You aren't certain why they would be here after leaving, but if they mean ill... You don't think they would, though. From what you remember, <<print $goneDragons[_i].name>> wasn't wholly present in the world. Not enough for an attack, at least.<br><br>
 
             You fly closer, observing <<print $goneDragons[_i].name>>'s movements. They don't notice you; not until you're practically upon them, and even then they only smile at you with some relief. They look worse for wear; their scales are gritty, their body thin. You bite down on your empathy – they are not yours anymore – and question what they're doing at your territory. They seem confused by the question.<br><br>
 
             "I'm coming home," they explain uncertainly. "I... I don't want to be out <em>there</em> anymore." <<print $goneDragons[_i].name>> stares at you expectantly, as though that's really enough of an explanation. Yet it seems to be all they actually have to say for themselves.
             
-        <<case "Lax" "Lazy" "Mellow" "Negligent">>
+        <<case "lazy">>
             You fly closer. Though the other has clearly spotted you, they circle in place, coasting on the last of the day's warm updrafts as they wait for you to come closer. You're surprised to realize it's <<print $goneDragons[_i].name>>; and more so to realize that they bothered coming home. You would have sworn they'd have simply found a nice grove to sleep in, and probably never come back. If anything, they look like they've been fleeing for quite a while; there are not-quite healed injuries scored over their sides, and a thinness speaking of hunger.<br><br>
 
             "<<print $player.title>>," they greet, in a familiar half-drawl. You're still not sure if it's intentional. "I want to come home."<br><br>
 
             The bluntness catches you almost as off-guard as the <em>audacity</em> of their request, and your flapping falls out of rhythm for a moment. As you recover your flight, you also recover your wits, and consider their request.
             
-        <<case "Emotional" "Insecure" "Nervous" "Sensitive">>
+        <<case "idealistic">>
             You barely make it more than a full length before the dragon before you spots you, rises, and begins to rush towards you. You roll out of the way, feeling their slipstream sweep by you. You spin to see them doing the same—and realize with a start that it's <<print $goneDragons[_i].name>>.
 
             "<<print $player.title>>!" They cry, shooting towards you once more. They pull up short, sunken eyes huge and crests rattling with emotion. "<<print $player.title>>, I'm sorry, I— I thought I could live out there, but I — it's too much! It's too cruel! Please, let me back, I want to come back!"<br><br>
 
             You stare in bewilderment at the trembling former-colonist. They're clearly in a rough state; wherever they went, it did not treat them kindly. Their wings can barely carry them, and they look utterly gaunt.
             
-        <<case "Abrasive" "Aloof" "Ambitious" "Harsh" "Impatient" "Independent" "Moody">>
+        <<case "cynical">>
             The dragon in the distance puffs small bursts of flame as you approach, clearly fuming to themselves. As you recognize <<print $goneDragons[_i].name>>, you decide – somewhat dryly – that yes, they would be stewing, wouldn't they?<br><br>
 
             You call out, not bothering to introduce yourself to a previous colonymate, and instead simply demand to know why they're here. They grimace, teeth flashing. "... To come back," they admit. It sounds only a little like plucking a scale would have been easier. "I was... <em>fine</em>, but... Not anymore. So I'm coming home."<br><br>
 
             Despite the absolute confidence in their statement, you contemplate them warily. Even now, <<print $goneDragons[_i].name>> is struggling to keep their impatience to themselves.
 
-        <<case "Dependable" "Hardworking" "Loyal" "Practical" "Rational" "Responsible">>
+        <<case "industrious">>
             You're as surprised as not to see <<print $goneDragons[_i].name>> hovering at your border. They are visibly struggling to maintain the lift necessary, but no less remain where they are. Relief mingles with the exhaustion in their posture as they spot you. "<<print $player.title>>," they greet, dipping their already drooping head as much as they are able. "It is an honor to see you again."<br><br>
 
-            <<print $goneDragons[_i].name>> twitches when you demand to know why they're haunting your border. You can guess of course; such a <<print $goneDragons[_i].personality>> dragon would inevitably return... but you want to hear it after they had the audacity to abandon your colony.<br><br>
+            <<print $goneDragons[_i].name>> twitches when you demand to know why they're haunting your border. You can guess of course... but you want to hear it after they had the audacity to abandon your colony.<br><br>
 
             "... I wish to return. I made a mistake in leaving at all, <<print $player.title>>, and I want to rectify it—by any means I can," they say.
+
+            
+        <<case default>>
+            As you fly closer, you recognize <<print $goneDragons[_i].name>>. They're hovering patiently in place, only occasionally scanning the area. For you, presumably. As they recognize your approach, they visibly straighten.<br><br>
+
+            "<<print $player.title>>," they greet, dipping their head. You don't deign to respond. "I understand I am threatening trespass. However, I... I wish to return. I miss the colony. Please, <<print $player.title>>."<br><br>
+
+            You tilt your head slightly, considering.
     <</switch>><br><br>
-
-        /* "Caring", "Chatty", "Clever", "Confident", "Creative", "Curious", 
-		"Energetic", 
-		"Formal", "Friendly", 
-		"Generous", "Gentle", "Greedy", 
-        "Intelligent",
-		"Organized", 
-		"Patient", "Persistent", "Placid", 
-		"Quiet", "Quaint", 
-		"Resourceful", 
-		"Selfish", "Selfless", "Skeptical", "Spontaneous", 
-		"Thoughtful", "Tolerant", 
-		"Witty" */
-
-    <<set _forage to Math.round($goneDragons[_i].foragexp * 10)>>
-    <<set _rain to Math.round($goneDragons[_i].rainxp * 10)>>
-    <<set _scav to Math.round($goneDragons[_i].scavxp * 10)>>
-
-
-     When they lived in your colony, they served <<print _forage>> days as a forager, <<print _rain>> days as a rainier, and <<print _scav>> days as a scavenger. <<print $goneDragons[_i].name>> left due to being <<print $goneDragons[_i].left>>d. <br><br>
 
     <div id="choice">
     <<linkappend "Take them back.">>
