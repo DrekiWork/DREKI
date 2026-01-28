@@ -1,6 +1,8 @@
 :: Nursery [WIP] {"position":"650,550","size":"100,100"}
 <<nobr>>
-	<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+	<<countDragons "eggs">>
+	<<countDragons "hatchlings">>
+	<<set $eggSpace = (($nest * 3) - (_eggs + _hatchlings))>>
 
 	Your Nursery is carved in the very back of your storage cavern; warm and protected from the elements, as well as allowing the hatchlings easy access to your food and water stores. You have
 		<<plural $nest "nest" "nests">>
@@ -9,44 +11,43 @@
 	.<br><br>
 	
 	Currently, you have 
-		<<plural $eggs.length "egg" "eggs">>
+		<<plural _eggs "egg" "eggs">>
 	and 
-		<<plural $hatchlings.length "hatchling" "hatchlings">>
+		<<plural _hatchlings "hatchling" "hatchlings">>
 	in the nursery.
 	
 	<br><br>
 			/* Checking first that eggs are more than hatchlings, with descending hatchling numbers. */
-		<<if $eggs.length >= $hatchlings.length && $hatchlings.length >= 2>>
+		<<if _eggs >= _hatchlings && _hatchlings >= 2>>
 			The hatchlings are being cautious around the nestled eggs, though they clearly want to play.
 
-		<<elseif $hatchlings.length >= $eggs.length && $eggs.length >= 2>>
+		<<elseif _hatchlings >= _eggs && _eggs >= 2>>
 			The eggs have been delegated to a distant corner in an effort to keep them out of the way of the rambunctious hatchlings.
 
-		<<elseif $eggs.length >= 2 && $hatchlings.length == 0>>
+		<<elseif _eggs >= 2 && _hatchlings == 0>>
 			It's warmly quiet with only eggs in here. You take a moment to rest with them.
 
-		<<elseif $eggs.length >= 2 && $hatchlings.length == 1>>
+		<<elseif _eggs >= 2 && _hatchlings == 1>>
 			Your hatchling is clearly bored out of their wits with only eggs for company. They perk up as you enter and race to you, desperate for entertainment.
 
-		<<elseif $eggs.length == 1 && $hatchlings.length >= 2>>
+		<<elseif _eggs == 1 && _hatchlings >= 2>>
 			Your egg has been moved out of the way of its hyper siblings.
 
-		<<elseif $eggs.length == 1 && $hatchlings.length == 1>>
+		<<elseif _eggs == 1 && _hatchlings == 1>>
 			You find the hatchling sleeping peacefully with its unhatched sibling. You fight down a croon so as to avoid waking them up.
 
-		<<elseif $eggs.length == 1 && $hatchlings.length == 0>>
+		<<elseif _eggs == 1 && _hatchlings == 0>>
 			There's a sole egg here. You take a moment to turn it and clean its shell.
-			<<if $eggs[0].time >= 5>>You croon with satisfaction as it rocks under your ministrations.<</if>>
 
-		<<elseif $hatchlings.length >= 2 && $eggs.length == 0>>
+		<<elseif _hatchlings >= 2 && _eggs == 0>>
 			The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
 
-		<<elseif $hatchlings.length == 1 && $eggs.length == 0>>
+		<<elseif _hatchlings == 1 && _eggs == 0>>
 			Your lone hatchling perks up as you enter and loudly demands
 			<<linkappend "you entertain them.">> 
 				<<set _play to random(4)>>
 				<<if _play == 0>>
-					The hatchling shrieks with delight as you turn on them, and just as eagerly chases you around when you manage to catch them.
+					The hatchling climbs you like a little mountain and begins barking orders; you oblige, for a time... until you decide you've had enough. With a roar, you throw yourself about, while the hatchlings clings to your horns and crest, shrilling with glee.
 				<<elseif _play == 1>>
 					You and your hatchling spend time trying to steal pebble 'eggs' from each others' nests. You wonder if you ever told them where they came from...
 				<<elseif _play == 2>>

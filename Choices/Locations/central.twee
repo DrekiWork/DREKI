@@ -16,6 +16,14 @@
 			/* This is the home of the player, and will be treated as such. */
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+	
+		/* Counting all dragons and ages first, if any. */
+	<<countDragons "eggs">>
+	<<countDragons "hatchlings">>
+	<<countDragons "winglets">>
+	<<countDragons "adults">>
+	<<countDragons "elders">>
+
 
 
 		/* Time here; this comments on how old your colony is. */
@@ -75,7 +83,7 @@
 		and backed against a sheer cliff. There's
 	<</if>>
 		<<if $home > 1>>
-			<<set _noHome = ($dragons.length - $home)>>
+			<<set _noHome = (_adults - $home)>>
 			enough room for <<print $home>> dragons to find a place to sleep - perhaps even comfortably. 
 			<<if _noHome > 1>>
 				However, you have <<print _noHome>> dragons that still need somewhere to sleep.
@@ -85,9 +93,9 @@
 			<</if>>
 		<<elseif $home == 1>>
 			one spot to sleep.
-			<<if $dragons.length > 1>>
-				However, you have <<print $dragons.length>> dragons that still need somewhere to sleep.
-			<<elseif $dragons.length == 1>>
+			<<if _adults > 1>>
+				However, you have <<print _adults>> dragons that still need somewhere to sleep.
+			<<elseif _adults == 1>>
 				However, you have one dragon that doesn't have a place to rest.
 			<<else>>
 			<</if>>
@@ -217,7 +225,7 @@
 	<</if>>
 	[[Build something|Building]] <br>
 	[[Check the nursery|Nursery]] <br>
-	<<if $dragons.length >= 1>>
+	<<if _adults >= 1>>
 		[[Interact with your thunder|Pop]] <br>
 	<</if>>
 [[Rest|Rest]]

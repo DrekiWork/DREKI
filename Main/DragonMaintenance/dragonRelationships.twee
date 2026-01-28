@@ -1,0 +1,88 @@
+:: DragonRelationships [widget]
+<<nobr>>
+    /* Okay, so I don't QUITE know what I'm doing here, but we're going to try anyway.
+       The goal is a simple system: dragons sometimes hook up. That's it.
+       A portion of (adult) dragons are chosen from the adult total.
+       They're paired randomly. If their archetypes match, an egg is created.
+       Gotta check that there's dragons to pair first though. */
+<<widget "tryForEgg">>
+    <<countDragons "adults">>
+    <<run console.log("Ran tryForEgg.")>>
+    <<if _adults >= 2>>
+
+            /* Now that we've established there are adults to do the boinking,
+               We need to make sure that there's enough nesting space to hold the results.
+               If not, no boinking. Easy as. */
+        <<countDragons "hatchlings">>
+        <<countDragons "eggs">>
+        <<set _laidEggs = 0>>
+	    <<set _space = (($nest * 3) - (_eggs + _hatchlings))>>
+        
+        <<if _space > 0>>
+                /* _adultDragons is a temporary array to hold all viable options.
+                   _laidEggs simply keeps track of how many eggs have been made.
+                   Each time the relationship attempt runs, _laid eggs is compared */
+            <<set _adultDragons = []>>
+
+            <<for _i = 0; _i < $dragons.length; _i++>>
+                <<if $dragons[_i].stage == "adult">>
+                    <<run _adultDragons.push($dragons[_i])>>
+
+                <<else>>
+                    /* Children and eggs not viable for pairing up. */
+
+                <</if>>
+            <</for>>
+
+            <<for _i = (_adultDragons.length - 1); _i > 0; _i-->>
+
+                <<if _space > 0>>
+                    <<set _indice = random(0, (_i - 1))>>
+
+                        /* Couples are set here, and their archetypes are compared. */
+                    <<set _parent1 = _adultDragons[_i]>>
+                    <<set _parent2 = _adultDragons[_indice]>>
+
+                        /* If either parent likes the other, an egg is laid.
+                           The optics aren't great but I'm not doing a fleshed out relationship system yet. */
+                    <<if $personalities[_parent1.personality].likes.includes(_parent2.personality)>>
+                        <<colonistMaker "laid egg">>
+                        <<set _space -= 1>>
+                        <<set _laidEggs += 1>>
+
+                    <<elseif $personalities[_parent2.personality].likes.includes(_parent1.personality)>>
+                        <<colonistMaker "laid egg">>
+                        <<set _space -= 1>>
+                        <<set _laidEggs += 1>>
+
+                    <<else>>
+                        /* No chemistry, no reaction. */
+                        <<run _adultDragons.splice(_i, 1)>>
+                        <<run _adultDragons.splice(_indice, 1)>>
+                        <<set _i = (_adultDragons.length - 1)>>
+                        <<continue>>
+
+                    <</if>>
+                <<else>>
+                    <<break>>
+                <</if>>
+
+            <</for>>
+        <<else>>
+                /* No space, no eggs. */
+            <<run console.log("There were adults, but not enough room in the nursery.")>>
+
+        <</if>>
+
+    <<else>>
+            /* No adults, no eggs. Easy as. */
+        <<run console.log("Not enough dragons to create a relationship. Get more adults!")>>
+
+    <</if>>
+
+    <<countDragons "hatchlings">>
+    <<countDragons "eggs">>
+    <<set $eggSpace = (($nest * 3) - (_eggs + _hatchlings))>>
+<</widget>>
+
+<</nobr>>

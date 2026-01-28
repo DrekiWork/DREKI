@@ -31,6 +31,8 @@ Made by Recila!</sup>
 
 	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
 <<if hasVisited("tutorialOpen") || $cheat == true>>
+	<<countDragons "adults">>
+	
 	Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
 		/* Links to bugtest, my cheat page, if cheating is enabled on game set. */
@@ -70,7 +72,7 @@ Made by Recila!</sup>
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
-				<td>&ensp;</td> <td><<print $dragons.length>>&ensp;/&ensp;<<print ($home)>></td>
+				<td>&ensp;</td> <td><<print _adults>>&ensp;/&ensp;<<print ($home)>></td>
 		</tr>
 	</table>
 
@@ -79,13 +81,15 @@ Made by Recila!</sup>
 	
 	<details>
 		<summary><h3>POLICIES ▼</h3></summary>
+		<<countDragons "adults">>
 		<center>———</center>
 		<details>
 			<summary><h4>Social ▼</h4></summary>
-			<<if $dragons.length > 0 && $builtRut == true>>
+			<<if _adults > 0 && $builtRut == true>>
 					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
 					/* Autoselect is 'true'. */
-					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label>
+					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label><br>
+					<label><<checkbox "$freelyMate" true false autocheck>>Should dragons have eggs whenever they please? </label>
 			<</if>><br>
 		</details>
 
@@ -138,13 +142,15 @@ Made by Recila!</sup>
 /* One version previous is kept as reference (personal and player). */
 /* The gleeful tone is neecessary for personal success. */
 
-	<h1> Pre-Pre-Alpha 0.31.0.0</h1>
+	<h1> Pre-Pre-Alpha 0.31.2.0</h1>
 	<em><strong>COLONIST UPDATE</strong></em>
 
-	<h2> Pre-Pre-Alpha 0.31.0.0 </h2>
+	<h2> Pre-Pre-Alpha 0.31.2.0 </h2>
 	<strong>New!</strong>
 	<ul>
 	<li>Colonist IDs! You won't see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named 'Sparky' or what have you, the game can still tell them apart.</li>
+	<li>Colonists have actually just been refactored wholesale; hatchlings and eggs have been merged into the overall colonist array, the colonist making widgets have been thus merged together, and lots of things have been fixed up. All in the name of making families work.</li>
+	<li>Colonists can have (extremely simplified!) relationships now. Specifically, they either are or are not mates, and they either are or are not family.</li>
 	<li>Job icons! Thunder list has icons next to titles for at-a-glance recognition.</li>
 	<li>New job! <strong>Salvagers</strong> look for gold for you! Since their job is specifically to get gold, while they don't often find any, they bring in a <em>lot</em> when they do. Maybe.</li>
 	<li>The start of job sites! Currently not constructable, plans are in place. Will provide buffs based on upgrade level, similar to the moat structure.</li>
@@ -186,7 +192,8 @@ Made by Recila!</sup>
 	
 	<strong>Bugs Created</strong>
 	<ul>
-	<li>'Cheating' link in Bugtesting/Cheating mode doesn't have a link. Bit of a headscratcher, that.</li>
+	<li>'Cheating' link in Bugtesting/Cheating mode doesn't have an underline. Bit of a headscratcher, that.</li>
+	<li>I've probably made bugs in relation to the colonist refactor. Sorry.</li>
 	<li></li>
 	</ul><br>
 <</nobr>>

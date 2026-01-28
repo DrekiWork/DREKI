@@ -10,17 +10,21 @@
 
 		/* timeKeeper moves days, cycles, and event timers forward. */
 	<<timeKeeper>>
+			
+		/* Then we age up everyone. */
+		/* This is also how we count eggs, hatchlings, and adults. */
+		/* With everyone aged, new eggs are 'made'. */
+	<<ageUpdates>>
+
+	<<if $freelyMate == true>>
+		<<tryForEgg>>
+	<</if>>
 
 		/* Before we continue, exileDragons will run to prevent */
 		/* Dragons that were voluntarily kicked out from taking */
 		/* Up necessary resources, though it also stops them from */
 		/* Adding any more resources to your pile. */
 	<<exileDragons>>
-			
-		/* eggUpdates ages eggs, hatches them, removes them from the array, and runs hatchlingMaker. */
-		/* hatchlingUpdates does the same but for hatchlings. */
-	<<eggUpdates>>
-	<<hatchlingUpdates>>
 		
 		/* Resets player energy and unique daily actions. */
 	<<dailyPlayerReset>>

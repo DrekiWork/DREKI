@@ -65,7 +65,7 @@ a  {
 }
 
 	/* Cards for dragons. */
-.indivdual-card {
+.individual-card {
   background-color: #222;
   border: 1px solid #444;
   border-radius: 0;

@@ -1,6 +1,13 @@
 :: Building [WIP] {"position":"950,550","size":"100,100"}
 You need to make something, but what? What does your colony need right now?<<nobr>>
 <<countWorkers "builder">>
+
+<<countDragons "eggs">>
+<<countDragons "hatchlings">>
+<<countDragons "winglets">>
+<<countDragons "adults">>
+<<countDragons "elders">>
+
 <<if _wantedCount > 0 && $buildQueue.length > 0>>
 	<br><br>
 	Your builder<<if _wantedCount > 1>>s<</if>> have been told to build:
@@ -22,8 +29,8 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<<include "buildStorage">>
 	</div>
 
-<<if $dragons.length > 10 && _wantedCount > 0>>
-	<<link "Job Sites">> <<toggleclass "#jobSite" "hidden">> <</link>>
+<<if _adults > 10 && _wantedCount > 0>>
+	<br> <br> <<link "Job Sites">> <<toggleclass "#jobSite" "hidden">> <</link>>
 	<div id="jobSite" class="hidden">
 		<<include "buildJobSite">>
 	</div>
@@ -145,7 +152,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<<if $wood >= 3>>
 		<<button "Build">>
 			<<set $nest += 1>>
-			<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+			<<set $eggSpace = (($nest * 3) - (_eggs + _hatchlings))>>
 			<<set $wood -= 3>>
 			<<updateBar>>
 			<<replace "#shelter">>

@@ -27,7 +27,7 @@
         /* As dragons require more food when unsheltered. */
     <<for _i = 0; _i < $dragons.length; _i++>>
 
-        
+        <<if $dragons[_i].stage == "adult">>
             <<switch $dragons[_i].job>>
 
                     /* Swaps between jobs, which then allows for the */
@@ -80,65 +80,68 @@
 
             <</switch>>
 
-        <<if $dragons[_i].home !== "none">>
-                /* Taking the assigned _job variable, */
-                /* Queries the $jobInfo database for appropriate resource amounts. */
-                /* Said amounts are then removed from $food/$water, */
-                /* Or added to the necessary total, */
-                /* While unfed/watered dragons have their names added to */
-                /* The hungry/thirsty array for player visibility. */
-            <<if $food >= $jobInfo[_job].food>>
-                <<set $food -= $jobInfo[_job].food>>
-                <<set _dragonsAte += $jobInfo[_job].food>>
-                <<set $dragons[_i].hunger = 0>>
+            <<if $dragons[_i].home !== "none">>
+                    /* Taking the assigned _job variable, */
+                    /* Queries the $jobInfo database for appropriate resource amounts. */
+                    /* Said amounts are then removed from $food/$water, */
+                    /* Or added to the necessary total, */
+                    /* While unfed/watered dragons have their names added to */
+                    /* The hungry/thirsty array for player visibility. */
+                <<if $food >= $jobInfo[_job].food>>
+                    <<set $food -= $jobInfo[_job].food>>
+                    <<set _dragonsAte += $jobInfo[_job].food>>
+                    <<set $dragons[_i].hunger = 0>>
+
+                <<else>>
+                    <<run _dragonsHungry.push($dragons[_i].name)>>
+                    <<set _dragonsFoodNeeded += $jobInfo[_job].food>>
+                    <<set $dragons[_i].hunger += 1>>
+
+                <</if>>
+
+                <<if $water >= $jobInfo[_job].water>>
+                    <<set $water -= $jobInfo[_job].water>>
+                    <<set _dragonsDrank += $jobInfo[_job].water>>
+                    <<set $dragons[_i].thirst = 0>>
+
+                <<else>>
+                    <<run _dragonsThirsty.push($dragons[_i].name)>>
+                    <<set _dragonsWaterNeeded += $jobInfo[_job].water>>
+                    <<set $dragons[_i].thirst += 1>>
+                    
+                <</if>>
 
             <<else>>
-                <<run _dragonsHungry.push($dragons[_i].name)>>
-                <<set _dragonsFoodNeeded += $jobInfo[_job].food>>
-                <<set $dragons[_i].hunger += 1>>
+                    /* Unsheltered dragons consume double the */
+                    /* Resources of their housed counterparts. */
+                <<if $food >= ($jobInfo[_job].food * 2)>>
+                    <<set $food -= ($jobInfo[_job].food * 2)>>
+                    <<set _dragonsAte += ($jobInfo[_job].food * 2)>>
+                    <<set $dragons[_i].hunger = 0>>
+
+                <<else>>
+                    <<run _dragonsHungry.push($dragons[_i].name)>>
+                    <<set _dragonsFoodNeeded += ($jobInfo[_job].food * 2)>>
+                    <<set $dragons[_i].hunger += 1>>
+
+                <</if>>
+
+                <<if $water >= ($jobInfo[_job].water * 2)>>
+                    <<set $water -= ($jobInfo[_job].water * 2)>>
+                    <<set _dragonsDrank += ($jobInfo[_job].water * 2)>>
+                    <<set $dragons[_i].thirst = 0>>
+
+                <<else>>
+                    <<run _dragonsThirsty.push($dragons[_i].name)>>
+                    <<set _dragonsWaterNeeded += ($jobInfo[_job].water * 2)>>
+                    <<set $dragons[_i].thirst += 1>>
+                    
+                <</if>>
+
 
             <</if>>
-
-            <<if $water >= $jobInfo[_job].water>>
-                <<set $water -= $jobInfo[_job].water>>
-                <<set _dragonsDrank += $jobInfo[_job].water>>
-                <<set $dragons[_i].thirst = 0>>
-
-            <<else>>
-                <<run _dragonsThirsty.push($dragons[_i].name)>>
-                <<set _dragonsWaterNeeded += $jobInfo[_job].water>>
-                <<set $dragons[_i].thirst += 1>>
-                
-            <</if>>
-
         <<else>>
-                /* Unsheltered dragons consume double the */
-                /* Resources of their housed counterparts. */
-            <<if $food >= ($jobInfo[_job].food * 2)>>
-                <<set $food -= ($jobInfo[_job].food * 2)>>
-                <<set _dragonsAte += ($jobInfo[_job].food * 2)>>
-                <<set $dragons[_i].hunger = 0>>
-
-            <<else>>
-                <<run _dragonsHungry.push($dragons[_i].name)>>
-                <<set _dragonsFoodNeeded += ($jobInfo[_job].food * 2)>>
-                <<set $dragons[_i].hunger += 1>>
-
-            <</if>>
-
-            <<if $water >= ($jobInfo[_job].water * 2)>>
-                <<set $water -= ($jobInfo[_job].water * 2)>>
-                <<set _dragonsDrank += ($jobInfo[_job].water * 2)>>
-                <<set $dragons[_i].thirst = 0>>
-
-            <<else>>
-                <<run _dragonsThirsty.push($dragons[_i].name)>>
-                <<set _dragonsWaterNeeded += ($jobInfo[_job].water * 2)>>
-                <<set $dragons[_i].thirst += 1>>
-                
-            <</if>>
-
-
+            /* Not grown? Don't run for this. */
         <</if>>
     <</for>>
 <</nobr>><</widget>>

@@ -19,6 +19,10 @@
 	<<set $foodCap = ($cavern.amount * $cavern.storage)>>
 	<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 
+		/* Making sure that the pop only cares about ADULT dragons. */
+	<<countDragons "adults">>
+	<<set $pop = _adults>>
+
 		/* Reloads the caption. */
 	<<replace "#story-caption">>
 		<<include "StoryCaption">>

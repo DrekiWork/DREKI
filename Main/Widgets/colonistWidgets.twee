@@ -1,5 +1,4 @@
 :: ColonistWidgets [widget]
-<<nobr>>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
                     /* This widget page is for NPCS. */
@@ -8,50 +7,63 @@
                     /* Such as other colonies, traders, etc. */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+<<widget "colonistMaker">><<nobr>>
+    <<run console.log("Ran colonistMaker.")>>
 
+        /* Personalities is the overall archetype that dragons have. */
+    <<set _personality = either(Object.keys($personalities))>>
 
-    	/* Creates an egg with a timer. */
-	    /* The time is purely to make sure everyone hatches when they should. */
-    <<widget "eggMaker">><<nobr>>
-        <<run $eggs.push( {
-            
-            time: random(0, 6),
-            
-        } )>>
-    <</nobr>><</widget>>
+        /* Traits are displayed aspects WITHIN that archetype. */
+        /* Only one is used for now. */
+    <<set _trait = either($personalities[_personality].traits)>>
 
-        /* Creates hatchlings out of eggs. */
-        /* Much like eggs, it's just an advanced timer. */
-        /* Though health exists to determine if a hatchling dies... eventually =3c */
-    <<widget "hatchMaker">><<nobr>>
-        <<run $hatchlings.push( {
-            
-            time: 7,
+    <<switch _args[0]>>
 
-            health: 2
-            
-        } )>>
-    <</nobr>><</widget>>
-
-
-        /* Generates a colonist. */
-    <<widget "dragonMaker">><<nobr>>
-
+            /* Stolen eggs are those you abducted from rival colonies. */
+            /* They are basically entirely randomized, from hatch-time to appearance. */
+        <<case "stolen egg">>
+            <<run console.log("Ran stolen egg.")>>
             <<run $dragons.push( {
-            
-                    /* Names and personalities are pulled from the default page. */
+
+                    /* Unique ID. Since names can be the same, and players can rename colonists, */
+                    /* the ID ensures nobody is mixed up. */
+                    /* This is used for EVERYONE, not just colonists. */
+                id: $npcIDCounter,
+
+                    /* Names are just pulled from the default page. */
                 name: either($dNames), 
-                personality: either($dPers), 
+
+                    /* Personalities are overall archetypes, with a trait to display. */
+                    /* Archetypes are used to determine job preferences and compatibility. */
+                    /* Traits are fluff. */
+                personality: _personality, 
+                traits: _trait,
                 
                     /* Type is largely unused, but will become relevant with the introduction of non-dragon colonists. */
+                    /* That will likely be the hydra child, first... IF the PC passed the raid with flying colors =3c */
+                    /* Otherwise, no hydra for yoooouuuuuu. */
                 type: "dragon",
                 
-                    /* Time is kept track of for funsies, at the moment. Eventually it'll determine when a dragon becomes an elder. */
-                    /* (Might even figure out how to make eggs and hatchies work with that too.) */
-                time: 15,
+                    /* Time is used to determine how old a dragon is. */
+                    /* 0-6 are eggs, */
+                    /* 7-14 are hatchlings, */
+                    /* Winglets will exist eventually, maybe as 15-25? */
+                    /* Then adulthood. */
+                    /* Elder dragons will be gotten eventually as well, but not yet. */
+                    /* (Just to stop colonies from infinitely going.) */
+                time: random(0, 6),
 
-                    /* Much like time, age is fluff. Doesn't do anything for now. */
-                age: "Adult", 
+                    /* Stage is the life stage a dragon is at. */
+                    /* Eggs and hatchlings go in the nursery. */
+                    /* Their only job is to exist and grow up hale and healthy. */
+                    /* Winglets, when they exist, are mini colonists. */
+                    /* They aren't as capable but can actually contribute; when they grow up, they have half the XP as days worked. */
+                    /* (They are, after all, extremely limited by what they're allowed to do.) */
+                    /* Adults are your primary workforce: they do everything that needs to be done, as they are assigned. */
+                    /* They are also the most independent, and liable to do terrible things if unhappy. */
+                    /* Elders, when they exist, are retired dragons. */
+                    /* They can do social jobs (when those exist), but hard labor is off the table. */
+                stage: "egg", 
 
                     /* Appearance is all fluff. */
                 appearance: {
@@ -65,23 +77,35 @@
                     visquirk: either($dVisQuirk)
                 },
                 
-                    /* Job defaults to having no job - slacker - but can be anything in the $dJobs list. */
-                job: "slacker", 
+                    /* None is to keep eggs/hatchies from being counted in the workforce. */
+                    /* When they grow up, they'll be counted as slackers instead. */
+                job: "none", 
 
                     /* Home is what shelter the dragon lives in, mostly for flavor. */
                 home: "none",
                 
                     /* All xp is based on how long a dragon has worked in a job, with one day equalling 0.1 xp. */
-                foragexp: 0,
-                rainxp: 0,
-                scavxp: 0,
-                buildxp: 0,
-                soldierxp: 0,
+                    /* Each title correlates exactly to its job. */
+                experience: {
+                    builder: 0,
+                    forager: 0,
+                    rainier: 0,
+                    salvager: 0,
+                    scavenger: 0,
+                    soldier: 0
+                },
                 
                     /* Hunger and thirst track how long a colonist has gone without food or water respectively. */
                     /* If either hits three, the dragon leaves. */
                 hunger: 0, 
                 thirst: 0,
+
+                    /* Parents. Will later be used to avoid incest.
+                       For now, just there for flavor. */
+                family: {
+                    parent1: "unknown",
+                    parent2: "unknown"
+                },
 
                     /* Left is the reason a dragon left the colony, should that happen. */
                     /* Such as exile, not eating or drinking, or other. */
@@ -89,29 +113,93 @@
                 left: "stay",
 
                     /* Origin is how a dragon joined the colony. */
-                    /* Hatched there, returned from exile, wanderer... */
-                    /* 'stay' means it has yet to leave. */
-                origin: "stay"
-                
-                } )>>
-    <</nobr>><</widget>>
+                    /* 'Stolen' means an egg (or hatchling) was taken from a rival colony. */
+                    /* 'Home' means they were born to your colony. */
+                    /* 'Wanderer' is a refugee the founder took in. */
+                    /* 'Prisoner' is a hostage converted to the colony. */
+                    /* 'Lost child' is a wandering winglet or hatchling brought into the fold. */
+                origin: "stolen"
+            })>>
 
-        /* The wanderer generation is same as above EXCEPT they're given random XP ratios. */
-        /* XP is divided by 10 because XP is calculated to .1 in decimal, and keeping them whole makes things... weird. */
-        /* It's okay to not be rounded for that exact reason. */
-    <<widget "dragonWanderer">><<nobr>>
 
-        <<run $dragons.push( {
-            
-                name: either($dNames),
-                
-                type: "Dragon",
-                
-                personality: either($dPers),
+            /* Laid eggs are from couples within your colony. */
+            /* They have 0 time, and inherit appearances from their parents, generally. */
+        <<case "laid egg">>
 
-                time: random(15,40),
+            <<set _size = either(_parent1.appearance.size, _parent2.appearance.size)>>
+            <<set _color = either(_parent1.appearance.color, _parent2.appearance.color)>>
+            <<set _pattern = either(_parent1.appearance.pattern, _parent2.appearance.pattern)>>
+            <<set _visquirk = either(_parent1.appearance.visquirk, _parent2.appearance.visquirk)>>
+
+            <<run $dragons.push( {
+
+                id: $npcIDCounter,
+
+                name: either($dNames), 
+
+                personality: _personality, 
+                traits: _trait,
                 
-                age: "Adult",
+                type: "dragon",
+                
+                time: 0,
+
+                stage: "egg", 
+
+                appearance: {
+
+                    size: _size,
+
+                    color: _color,
+
+                    pattern: _pattern,
+
+                    visquirk: _visquirk
+                },
+                
+                job: "none", 
+
+                home: "none",
+
+                experience: {
+                    builder: 0,
+                    forager: 0,
+                    rainier: 0,
+                    salvager: 0,
+                    scavenger: 0,
+                    soldier: 0
+                },
+
+                hunger: 0, 
+                thirst: 0,
+
+                family: {
+                    parent1: _parent1.id,
+                    parent2: _parent2.id
+                },
+
+                left: "stay",
+
+                origin: "home"
+            })>>
+
+
+        <<case "stolen hatchling">>
+
+            <<run $dragons.push( {
+
+                id: $npcIDCounter,
+
+                name: either($dNames), 
+
+                personality: _personality, 
+                traits: _trait,
+                
+                type: "dragon",
+                
+                time: random(7, 13),
+
+                stage: "hatchling", 
 
                 appearance: {
 
@@ -124,29 +212,253 @@
                     visquirk: either($dVisQuirk)
                 },
                 
-                job: "slacker",
+                job: "none", 
 
                 home: "none",
-                
-                foragexp: (random(150) / 10),
-                
-                rainxp: (random(150) / 10),
-                
-                scavxp: (random(150) / 10),
 
-                buildxp: (random(150) / 10),
+                experience: {
+                    builder: 0,
+                    forager: 0,
+                    rainier: 0,
+                    salvager: 0,
+                    scavenger: 0,
+                    soldier: 0
+                },
 
-                soldierxp: (random(150) / 10),
-                
-                hunger: 0,
-                
+                hunger: 0, 
                 thirst: 0,
+
+                family: {
+                    parent1: "unknown",
+                    parent2: "unknown"
+                },
+
+                left: "stay",
+
+                origin: "stolen"
+            })>>
+
+        
+        <<case "wanderer hatchling">>
+            <<run $dragons.push( {
+
+                id: $npcIDCounter,
+
+                name: either($dNames), 
+
+                personality: _personality, 
+                traits: _trait,
+                
+                type: "dragon",
+                
+                time: random(7, 13),
+
+                stage: "hatchling", 
+
+                appearance: {
+
+                    size: either($dSize),
+
+                    color: either($dColor),
+
+                    pattern: either($dPattern),
+
+                    visquirk: either($dVisQuirk)
+                },
+                
+                job: "none", 
+
+                home: "none",
+
+                experience: {
+                    builder: 0,
+                    forager: 0,
+                    rainier: 0,
+                    salvager: 0,
+                    scavenger: 0,
+                    soldier: 0
+                },
+
+                hunger: 0, 
+                thirst: 0,
+
+                family: {
+                    parent1: "unknown",
+                    parent2: "unknown"
+                },
 
                 left: "stay",
 
                 origin: "wanderer"
-                
-            } )>>
+            })>>
 
-    <</nobr>><</widget>>
-<</nobr>>
+
+        <<case "colonist adult">>
+            <<run $dragons.push( {
+
+                id: $npcIDCounter,
+
+                name: either($dNames), 
+
+                personality: _personality, 
+                traits: _trait,
+                
+                type: "dragon",
+                
+                time: 15,
+
+                stage: "adult", 
+
+                appearance: {
+
+                    size: either($dSize),
+
+                    color: either($dColor),
+
+                    pattern: either($dPattern),
+
+                    visquirk: either($dVisQuirk)
+                },
+                
+                job: "slacker", 
+
+                home: "none",
+
+                experience: {
+                    builder: 0,
+                    forager: 0,
+                    rainier: 0,
+                    salvager: 0,
+                    scavenger: 0,
+                    soldier: 0
+                },
+
+                hunger: 0,
+                thirst: 0,
+
+                family: {
+                    parent1: "unknown",
+                    parent2: "unknown"
+                },
+
+                left: "stay",
+
+                origin: "home"
+            })>>
+
+
+        <<case "wanderer adult">>
+                /* Because wanderers can have varied ages and experience, */
+                /* We set their age pre-emptively, and then set _timeLeft */
+                /* to make sure they don't have more experience than days they've lived. */
+            <<set _time = random(15, 150)>>
+
+                /* _timeLeft is -14 because egg/hatchling stages. */
+            <<set _timeLeft = (_time - 14)>>
+
+                /* _jobs will be modified. When we're out of jobs, we break from the loop. */
+            <<set _jobs = $dJobs>>
+            <<set _jobs = _jobs.deleteAll("slacker")>>
+
+                /* And we initialize XP to prevent errors. */
+            <<set _buildxp = 0>>
+            <<set _foragexp = 0>>
+            <<set _rainxp = 0>>
+            <<set _salvxp = 0>>
+            <<set _scavxp = 0>>
+            <<set _solxp = 0>>
+
+                /* So now we start going through jobs. */
+            <<for _i; _i < $dJobs.length; _i++>>
+                    /* Start with choosing how much XP a dragon will get in a job. */
+                <<set _currentXP = random(_timeLeft)>>
+                    /* Then rotate through jobs based on current roll. */
+                <<set _currentJob = either(_jobs)>>
+                    /* And now remove the days from _timeLeft. */
+                <<set _timeLeft -= _currentXP>>
+
+                <<switch _currentJob>>
+                    <<case "builder">>
+                        <<set _buildxp = (_currentXP * 0.1)>>
+                    <<case "forager">>
+                        <<set _foragexp = (_currentXP * 0.1)>>
+                    <<case "rainier">>
+                        <<set _rainxp = (_currentXP * 0.1)>>
+                    <<case "salvager">>
+                        <<set _salvxp = (_currentXP * 0.1)>>
+                    <<case "scavenger">>
+                        <<set _scavxp = (_currentXP * 0.1)>>
+                    <<case "soldier">>
+                        <<set _solxp = (_currentXP * 0.1)>>
+                <</switch>>
+
+                    /* Remove the current job from the roster. */
+                <<set _jobs = _jobs.deleteAll(_currentJob)>>
+
+                    /* And if there's no jobs left (because slacker doesn't exist) */
+                    /* Kill the loop there, and move on. */
+                <<if _jobs.length < 1>>
+                    <<break>>
+                <</if>>
+            <</for>>
+
+            <<run $dragons.push( {
+
+                id: $npcIDCounter,
+
+                name: either($dNames), 
+
+                personality: _personality, 
+                traits: _trait,
+                
+                type: "dragon",
+                
+                time: _time,
+
+                stage: "adult", 
+
+                appearance: {
+
+                    size: either($dSize),
+
+                    color: either($dColor),
+
+                    pattern: either($dPattern),
+
+                    visquirk: either($dVisQuirk)
+                },
+                
+                job: "slacker", 
+
+                home: "none",
+
+                experience: {
+                    builder: _buildxp,
+                    forager: _foragexp,
+                    rainier: _rainxp,
+                    salvager: _salvxp,
+                    scavenger: _scavxp,
+                    soldier: _solxp
+                },
+
+                hunger: 0, 
+                thirst: 0,
+
+                family: {
+                    parent1: "unknown",
+                    parent2: "unknown"
+                },
+
+                left: "stay",
+
+                origin: "wanderer"
+            })>>
+
+        <<default>>
+            <<run console.log("You fucked up. How did this happen? ERROR at: colonistMaker, " + args[0])>>
+
+    <</switch>>
+
+    <<set $npcIDCounter += 1>>
+
+<</nobr>><</widget>>

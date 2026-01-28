@@ -51,7 +51,7 @@
                 
                 Once they are more or less settled in, [[you sleep.|Sandbox Central]]
                 <<for _i to 0; _i lt _join; _i++>>
-                    <<dragonWanderer>>
+                    <<colonistMaker "wanderer adult">>
                     <<set $pop += 1>>
                 <</for>>
             <</replace>>
@@ -68,7 +68,7 @@
 
                             The dragons slump in relief - even if they are confused as to why you said you wouldn't take all of them, only to change your mind. Nevertheless, the leader thanks you profusely. You direct them toward their new sleeping area, and [[go to sleep yourself.|Sandbox Central]]
                             <<for _i to 0; _i lt _takeIn; _i++>>
-                                <<dragonWanderer>>
+                                <<colonistMaker "wanderer adult">>
                                 <<set $pop += 1>>
                             <</for>>
                         <<elseif _takeIn < _join && _takeIn > 1>>
@@ -78,14 +78,14 @@
 
                             Their thanks are unsurprisingly subdued, but you put it out of mind as you [[go home.|Sandbox Central]]
                             <<for _i to 0; _i lt _takeIn; _i++>>
-                                <<dragonWanderer>>
+                                <<colonistMaker "wanderer adult">>
                                 <<set $pop += 1>>
                             <</for>>
                         <<elseif _takeIn == 1>>
                             You choose to take one of the dragons.<br><br>
 
                             You indicate the only dragon you'll be taking, and direct them to their new sleeping area. The remainder pull away quietly, and leave without your further direction. You were hoping to tell them where they might find another colony, but... oh well. You watch them for a moment, ensuring they leave, before turning and [[going to get some sleep.|Sandbox Central]]
-                            <<dragonWanderer>>
+                            <<colonistMaker "wanderer adult">>
                         <<else>>
                             You choose to take none of the dragons.<br><br>
 
@@ -111,6 +111,9 @@
 <<nobr>>
         <<countWorkers "soldier">>
         <<set _catchChance = random(0, 10)>>
+        <<countDragons "eggs">>
+        <<countDragons "hatchlings">>
+
     <<if _wantedCount > 0 && _catchChance == 10>>
         <<set _dragon1 = _wantedNames.pluck()>>
         <<run console.log(_dragon1)>>
@@ -125,24 +128,24 @@
 
         [[You do not sleep.|Nursery]]
     <<else>>
-        <<if $egg >= 2>>
+        <<if _eggs >= 2>>
             It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision.
-                <<if $hatchlings.length >= 2>>
+                <<if _hatchlings >= 2>>
                     The hatchlings are chirping in terror, bundled in a corner, as a
-                <<elseif $hatchlings.length == 1>>
+                <<elseif _hatchlings == 1>>
                     Your hatchling is chirping with terror, cowering in a corner, as a
                 <<else>>
                     A
                 <</if>>
-                dragon - a <em>stranger</em> - curls their claws around <em><strong>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!<br><br>
+                dragon - a <em>stranger</em> - curls their claws around <strong><em>your</em></strong> eggs. You launch yourself forward, teeth sinking into their shoulder as you bowl them to the ground. Panic and rage and adrenaline whirl through you in an intoxicating brew as you battle. The eggs - <em>your</em> eggs! The sheer, disgusting gall!<br><br>
 
                 <<if _wantedCount > 1>>
                     Your battle cries draw the attention of your guards over; the thief - hearing reinforcements arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above. Only one of your guards continues the chase, smoke streaming from their snarling mouth—the rest split to patrol your territory.<br><br>
 
                     When you return, you tremble with lingering adrenaline and fury. You do not address your concerned thunder; you storm into the nursery and gather all the eggs to yourself.
-                    <<if $hatchlings.length >= 2>>
+                    <<if _hatchlings >= 2>>
                         Your hatchlings, thoroughly shaken, tuck themselves against you as well. It is almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
-                    <<elseif $hatchlings.length == 1>>
+                    <<elseif _hatchlings == 1>>
                         Your hatchling, thoroughly shaken, tucks themselves against you as well. Their fearful whines are almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
                     <</if>>
                     [[You do not sleep.|Nursery]]
@@ -150,11 +153,13 @@
                     Your battle cries draw the attention of your guard; the thief - hearing another dragon arriving - throws you off and makes a break for the exit. You hear shrieks of fury - from the intruder and your thunder and perhaps both - as you right yourself to chase. By the time you're in the air, the intruder is gone. You snarl and spit fire into the air, howling your fury to the stars above. Your soldier rushes past you regardless, smoke streaming from their snarling maw.<br><br>
 
                     When you return, you tremble with lingering adrenaline and fury. You do not address your concerned thunder; you storm into the nursery and gather all the eggs to yourself.
-                    <<if $hatchlings.length >= 2>>
+                    <<if _hatchlings >= 2>>
                         Your hatchlings, thoroughly shaken, tuck themselves against you as well. It is almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
-                    <<elseif $hatchlings.length == 1>>
+                    <<elseif _hatchlings == 1>>
                         Your hatchling, thoroughly shaken, tucks themselves against you as well. Their fearful whines are almost - though not quite - enough to shake off the lingering remnants of your protective fury.<br><br>
                     <</if>>
+                    
+                    [[You do not sleep.|Nursery]]
                 <<else>>
                     You fight as hard as you can - and the intruder, either sensing the impending loss or panicking from being caught - at last scrambles for the exit. You don't dare to leave the nursery as they flee, though you stomp and roar and light sparks between your teeth. You gather your eggs to you and curl around them with a booming growl rattling along your throat.<br><br>
                     
@@ -162,9 +167,9 @@
                 <</if>>
         <<else>>
             It takes you a moment to understand what you have seen - but when you do, your fury is <em>overwhelming</em>. You roar and sprint into the nursery as a red mist descends across your vision.
-                <<if $hatchlings.length >= 2>>
+                <<if _hatchlings >= 2>>
                     There are hatchlings in there - your little ones! 
-                <<elseif $hatchlings.length == 1>>
+                <<elseif _hatchlings == 1>>
                     There is a hatchling in there - your little one! 
                 <<else>>
                 <</if>>
