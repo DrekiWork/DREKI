@@ -67,6 +67,7 @@
 <<nobr>>
     <<set $player.action -= 1>>
     <<set $hasVisited.kelpieLake = true>>
+    <<countDragons "adults">>
 
     As the lake comes into sight, you feel a preemptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
 

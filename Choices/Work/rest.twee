@@ -116,10 +116,12 @@
 			Your <<plural _hatchlings "hatchling presents" "hatchlings present">> you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
 		<</if>>
 		<<if _scavengerWood > 0 || _scavengerStone > 0>>
-			Your <<plural _scavengerCount "scavenger returns" "scavengers return">>, exhausted, with <span class="stone"><<print _scavengerStone>> stone</span>, and <span class="wood"><<print _scavengerWood>> wood</span>.
+			Your <<plural _scavengerCount "scavenger returns" "scavengers return">>, exhausted, with <span class="stone"><<print _scavengerStone>> stone</span>, and <span class="wood"><<print _scavengerWood>> wood</span>
 		<</if>>
 		<<if _scavengerGold > 0>>
-			They also found <span class="gold"><<print _scavengerGold>> gold</span>!
+			; they also found <span class="gold"><<print _scavengerGold>> gold</span>!
+		<<else>>
+			.
 		<</if>>
 		<<if _salvagerGold > 0 && _salvagerCount > 0>>
 			In a markedly pleasant surprise, your <<plural _salvagerCount "salvager" "salvagers">> actually managed to find <span class="gold"><<print _salvagerGold>> gold</span>!

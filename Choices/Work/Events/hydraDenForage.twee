@@ -7,6 +7,7 @@
 	<<set _risk = random(1)>>
 <</if>>
 <<countDragons "adults">>
+<<countDragons "hatchlings">>
 
 <<switch $hydraEggTaken>>
 
@@ -289,7 +290,7 @@
 					As you walk further in, you find yourself relaxing somewhat. If this <em>were</em> some other predator's abode, they've long since left the area. You increasingly suspect that it isn't, though. There are far too many prey-tracks, and it seems some did leave... just not recently. <br> <br>
 					Your slight distraction leads you to stumble - and it's sheer luck that you catch yourself before you go tumbling down a sudden overhang. You would have been fine regardless - there's space enough for you to roll into a sloppy glide - but it seems plenty of other animals weren't half as lucky if the reek of death is anything to go by. <br> <br>
 					Still... With nothing else living here, and 
-					<<if _adults >= 1 || $hatchlings.length >= 1>>
+					<<if _adults >= 1 || _hatchlings >= 1>>
 						a burgeoning thunder to care for, 
 					<<else>>
 						the future of your colony to think of, 

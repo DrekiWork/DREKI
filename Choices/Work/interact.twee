@@ -115,8 +115,7 @@
 				<</link>> if you like...
 		<</switch>><br><br>
 
-		<<set _xpKey = $dragons[$int].job + "xp">>
-		<<set _xp = Math.round($dragons[$int][_xpKey] * 10)>>
+		<<set _xp = Math.round($dragons[$int].experience[$dragons[$int].job] * 10)>>
 
 		<<switch $dragons[$int].job>>.
 				/* Note: Provide individual flavor for the personalities, IE: */
@@ -248,24 +247,37 @@
 			<</capture>>
 		<</for>><br>
 	
+	
 	<<link "Next Dragon">>
-		<<if $int >= ($dragons.length - 1)>>
-			<<set $int to 0>>
-			<<goto "Interact">>
-		<<else>>
-			<<set $int++>>
-			<<goto "Interact">>
-		<</if>>
-	<</link>><br>
-	<<link "Previous Dragon">>
-		<<if $int == 0>>
-			<<set $int = ($dragons.length - 1)>>
-			<<goto "Interact">>
-		<<else>>
-			<<set $int-->>
-			<<goto "Interact">>
-		<</if>>
-	<</link>><br>
+			/* Yeah so I straight up copied this from someone else,
+			   I'll fix my understanding via Mozilla docs later lmao.
+			   As I understand, it sets the current index to the start.
+			   Then it starts incrementing until it finds another dragon that's also an adult.
+			   When it has, it returns the index of that dragon, and the player is sent off.
+			   if it doesn't, it loops via the modulo operator ('%'). */
+        <<set _nextIndex = (() => {
+            const start = $int;
+            for (let k = 1; k < $dragons.length; k++) {
+                const ni = (start + k) % $dragons.length;
+                if ($dragons[ni].stage == "adult") return ni;
+            }
+            return start;
+        })()>>
+        <<set $int = _nextIndex>>
+        <<goto "Interact">>
+    <</link>><br>
+    <<link "Previous Dragon">>
+        <<set _prevIndex = (() => {
+            const start = $int;
+            for (let k = 1; k < $dragons.length; k++) {
+                const pi = (start - k + $dragons.length) % $dragons.length;
+                if ($dragons[pi].stage == "adult") return pi;
+            }
+            return start;
+        })()>>
+        <<set $int = _prevIndex>>
+        <<goto "Interact">>
+    <</link>><br>
 	<<if $dragons[$int].left == "stay">>
 		<<linkreplace "Exile">>
 			<<set $dragons[$int].left = "exile">>

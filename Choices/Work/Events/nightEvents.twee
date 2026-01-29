@@ -50,9 +50,8 @@
                 You tip your head silently. That is all the confirmation they need; the leader of the group rises slowly. You inform them of where they will be sleeping, and that you will address their food and work tomorrow; it is too late to be bothered with such things. They trip over themselves to express their gratitude, which you wave away easily.<br><br>
                 
                 Once they are more or less settled in, [[you sleep.|Sandbox Central]]
-                <<for _i to 0; _i lt _join; _i++>>
+                <<for _i = 0; _i < _join; _i++>>
                     <<colonistMaker "wanderer adult">>
-                    <<set $pop += 1>>
                 <</for>>
             <</replace>>
         <</link>><br>

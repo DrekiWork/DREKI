@@ -79,11 +79,11 @@
 
 	    /* Population counting widget. Counts eggs, hatchlings, adults, whatever. */
     <<widget "countDragons">>
-        <<switch args[0]>>
+        <<switch _args[0]>>
             <<case "eggs">>
-                <<set _eggs = $dragons.countWith(function (egg) { return egg.stage === "egg"; })>>
+                <<set _eggs = $dragons.countWith(function (dragon) { return dragon.stage === "egg"; })>>
             <<case "hatchlings">>
-                <<set _hatchlings = $dragons.countWith(function (hatchling) { return hatchling.stage === "hatchling"; })>>
+                <<set _hatchlings = $dragons.countWith(function (dragon) { return dragon.stage === "hatchling"; })>>
             <<case "winglets">>
                 <<set _winglets = $dragons.countWith(function (dragon) { return dragon.stage === "winglet"; })>>
             <<case "adults">>
