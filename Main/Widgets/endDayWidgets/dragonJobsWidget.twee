@@ -111,14 +111,17 @@
                     <<if $dragons[_i].personality == "cynical" || $dragons[_i].personality == "opportunistic" || $dragons[_i].personality == "rebellious">>
                         <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 1))>>
                         <<if _salvagerGoldChance >= 80>>
-                            <<set _salvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(2, 6))>>
+                            <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(2, 6))>>
+                            <<set _currentSalvagerGold = Match.clamp(_currentSalvagerGold, 0, 75)>>
                         <</if>>
                     <<else>>
                         <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 0.25))>>
-                        <<if _salvagerGoldChance >= 80>>
-                            <<set _salvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(3))>>
+                        <<if _salvagerGoldChance >= 85>>
+                            <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(3))>>
+                            <<set _currentSalvagerGold = Math.clamp(_currentSalvagerGold, 0, 50)>>
                         <</if>>
                     <</if>>
+                    <<set _salvagerGold += _currentSalvagerGold>>
 
                 <<case "scavenger">>
                         /* Scavengers may find gold, at an extremely low rate. */
