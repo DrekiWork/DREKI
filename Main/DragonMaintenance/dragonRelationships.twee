@@ -5,7 +5,6 @@
        A portion of dragons are chosen from the adult total.
        They're paired randomly. If their archetypes match, an egg is created.
        Gotta check that there's dragons to pair first though. */
-
             /* TODO:
                - Stop incest.
                 - Mated dragons shouldn't share parents.
