@@ -3,17 +3,26 @@
 <<if $player.home.space == 0>>
     Your home is little more than a divot in the cliff, winding down a small way to your resting place. Though you have decorated the entryway with thin gildings of gold, it is hardly worthy of a dragon of your station.<br><br>
     Still; it is your home.
-    <<if $gold > 1000>>
+    <<if $gold > 5000>>
         You settle down on a pile of riches—<<print $gold>> pieces of it, to be precise. It's not an insignificant amount, but you can hardly have too much...
-    <<elseif $gold > 50>>
+    <<elseif $gold > 500>>
         You settle down around a small hoard of your treasures; <<print $gold>> gold's worth, to be precise. It's not enough for you to comfortably lay upon, nor even close to assuring you of your wealth, but it's a good start.
-    <<elseif $gold > 1>>
+    <<elseif $gold > 10>>
         You lay atop your pitiable collection of treasures; <<print $gold>> gold's worth. It barely qualifies as a 'collection', nevermind a hoard worthy of your station, but that you have any at all makes you feel a little better.
     <<else>>
         You settle down on the ground, staring longingly at the gleam of your entryway. How shameful, that you have no gold!
     <</if>>
 <<elseif $player.home.space == 1>>
 <<else>>
+<</if>><br><br>
+
+<<if $trophies.includes("Hydra Bones") || $trophies.includes("Hydra")>>
+    Fragments of the hydra's skeleton decorate the walls of your lair. Pieces of its ribcage line your entryway, and its scales gleam in what little light enters your den. You puff embers, just to witness the light reflecting off your trophies. One of its skulls—little more than the orbital bone and a fragment of its jaw—looms overhead, cradling you in its maw.
+    <<if $player.specials.includes("Hydra")>>
+        It makes you feel nearly at home, held in the mouth of a monster.
+    <</if>>
+<<else>>
+    You've no trophies to mark your achievements yet, but you will.
 <</if>><br><br>
 
 [[Go back outside|Sandbox Central]]

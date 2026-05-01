@@ -219,7 +219,7 @@
                 <<set $days = 0>>
             <</if>>
             <<set $hydraBeat = true>>
-            <<run $trophies.push("Hydra Scales", "Hydra Bones", "Hydra Skulls")>>
+            <<run $trophies.push("Hydra")>>
         <</link>>
 
     <<elseif $defenseTotal >= 50>>
@@ -236,7 +236,7 @@
         You can't stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you've done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the <em>world</em> for your victory! You take to the air and plummet onto the hydra's corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren't already here, and <span class="food">the corpse becomes a buffet and mockery both!</span><br><br>
 
         <<link "The celebration lasts the entire night, and well into the morning." "HydraHeart">>
-            <<run $trophies.push("Hydra Bones", "Hydra Scales", "Hydra Skulls")>>
+            <<run $trophies.push("Hydra")>>
             <<set $hydraBeat = true>>
             <<if $days == 30>>
                 <<set $cycles += 1>>

@@ -2,7 +2,7 @@
 There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.<br><br><<nobr>>
 
 <<silently>>
-	<<set $theft++>>
+	<<set $eggStolen = true>>
 	<<set $player.action-->>
 	<<set _space to ($eggSpace)>>
 	<<if _space > 3>>
@@ -22,7 +22,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
 	<<case 1 2 3>>
-		<<eggMaker>>
+		<<colonistMaker "stolen egg">>
 		
 		You haven't even entered the other colony's nursery - though you've looked in, and have seen plenty of open nests and well-tended eggs - before something outside catches your eye. Upon closer investigation, you realize it is an egg, lying abandoned just beyond the nursery. A mute sort of fury overtakes you, for a moment - they abandoned an egg? They'd //kill// an egg? For what? They have space, there are so many dragons, and nests, why could they possibly kill an egg? - before your mind catches up with your emotions. //You// have found this egg now. //You// can take care of it now. And, you tell yourself, you will take better care of it than a colony that would kill their children.<br><br>
 		<<if $eggSpace > 1>>
@@ -33,7 +33,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			
 				You creep into the nursery, crest rattling with tension. From the nests you pluck out <<numberinput "_take" 1 0 _space>> <<linkappend "more.">> <br><br>
 					<<for _i to 0; _i < _take; _i++>>
-						<<eggMaker>>
+						<<colonistMaker "stolen egg">>
 					<</for>>
 					<<run console.log(_take)>>
 					<<if _take is 0>>
@@ -60,7 +60,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 		You avert your eyes and continue home. [[None of them have seen you, after all.|Nursery]]
 		<<silently>>
 			<<for _i to 0; _i < _take; _i++>>
-				<<eggMaker>>
+				<<colonistMaker "stolen egg">>
 			<</for>>
 		<</silently>><</linkappend>>
 
@@ -74,21 +74,58 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 					<<if _take == 0>>
 						... None of the eggs? No, that won't do. You're here, and they have so many - one or two or as many as your claws can carry won't go amiss. You shake your head and take <<numberinput "_take" 1 1 _space>> <<link "of them" "Nursery">>
 							<<for _i to 0; _i < _take; _i++>>
-								<<eggMaker>>
+								<<colonistMaker "stolen egg">>
 							<</for>>
 						<</link>>
 					<<elseif _take == 1>>
-						<<eggMaker>>
+						<<colonistMaker "stolen egg">>
 						Despite the greed tugging at your hearts, you restrain yourself and only take one - and it is for the better, as you hear someone pushing into the nursery. You throw yourself at them and fly, harder and faster than you thought you could. They don't follow for long - and though you scorn them for such pathetic dedication to their most vulnerable, you can't help but be grateful as you arrive home, [[safe and sound.|Nursery]]
 					<<else>>
 						You carefully pick up <<print _take>> eggs and creep out, feeling distinctly pleased with yourself. <<print _take>> new little ones. When you return, you arrange them carefully in their new nest, [[chirring all the while.|Nursery]]
 						<<for _i to 0; _i < _take; _i++>>
-								<<eggMaker>>
+								<<colonistMaker "stolen egg">>
 						<</for>>
 					<</if>>
 				<</replace>>
 			<</linkreplace>>
-		</span>	
+		</span>
 	
-	<</switch>>
+
+	<<case 10>>
+		Your entry into the colony's nursery is silent and unseen. Though you hear the dragons outside, they haven't noticed you at all; you start picking through the eggs, musing over which to take, when something rustles. You look up.<br><br>
+
+		The wide-eyed stare of a hatchling meets you, close enough that their nose is practically pressed to yours.<br><br>
+
+		"Hi!" They chirp, sitting back on their haunches. "I haven't met you before. You smell funny."<br><br>
+
+		You manage a response, though the details elude you. Your attention is occupied with making sure there's no other surprise younglings waiting to ambush you. There don't seem to be; only the one, watching you with happily bristling scales as you weave a story of being a taken-in wanderer. While they demand details of your alleged travels, your mind flies frantically for a solution.<br><br>
+
+		<span id="choices">You could 
+			<<linkreplace "take the hatchling">>
+				<<replace "#choices">>
+						/* UNFINISHED */
+					... You <em>have</em> already been seen. There's no way leaving the hatchling could end well for you, and besides - if you got in here, who knows what else could? Skilled though you are, you're not a subtle beast by any means. How could you leave a child in such an unsafe place? You're just doing what any responsible dragon should.<br><br>
+
+					"You know," you start, having finished another not-quite-lie of your deeds. Something about driving a bear off a waterfall. "I came in here to gather any little ones who wanted to go on an adventure."<br><br>
+
+					The hatchling lights up, claws scraping the nursery's ground with excitement. "You are? I want to go! I'm never allowed outside, everyone says it's dangerous, but—"<br><br>
+
+					"It is," you assure them quickly. The hatchling goes quiet, staring at you owlishly. "But that's why I'll be taking you. To keep you safe on our journey."<br><br>
+				<</replace>>
+			<</linkreplace>>;
+
+			<<linkreplace "just try to leave">>
+				<<replace "#choices">>
+					/* UNFINISHED */
+				<</replace>>
+			<</linkreplace>>;
+
+			or <<linkreplace "do what you came here to.">>
+				<<replace "#choices">>
+					/* UNFINISHED */
+				<</replace>>
+			<</linkreplace>>
+		</span>
+	
+<</switch>>
 <</nobr>>

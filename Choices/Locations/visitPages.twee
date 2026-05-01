@@ -67,6 +67,7 @@
 <<nobr>>
     <<set $player.action -= 1>>
     <<set $hasVisited.kelpieLake = true>>
+    <<countDragons "adults">>
 
     As the lake comes into sight, you feel a preemptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
 
@@ -123,7 +124,8 @@
                 <<replace "#decision">>
                     <hr><br>
                     <<countWorkers "builder">>
-                    <<if $dragons.length > 10 && _wantedCount > 0>>
+                    <<countDragons "adults">>
+                    <<if _adults > 10 && _wantedCount > 0>>
                         <<set $player.action -=1>>
                         <<set $defenseBuildings.moat.creatures = true>>
                         <<set _meat = random(17,30)>>
@@ -135,7 +137,7 @@
                         <hr><br>
                         You ponder the lake, and the beasts within. They're a nuisance, certainly. Vicious things with insatiable hunger and a near-suicidal drive. You're sure they've hunted all the fish in the lake to extinction, and they plainly are only surviving off whatever visitors are stupid enough to approach. You're not sure how their population is so out of control - occasional cannibalism, maybe? - but their ferocity has caught your attention... and more importantly, that of your builders. And you think they just might be onto something.
                         <br><br>
-                        No time like the present. You take to the skies, determined to gather up any and all available workers. You're sure they have better things to be doing; arguably <em>you</em> have more important work than indulging in this sort of fanciful thinking. But what's the point of being a <<print $player.title>> if not to occasionally indulge in your and your colony's odder ideas? When you've found <<print random(10,$dragons.length)>> dragons - most importantly among them a builder - you return to the lake. The beasts remain strangely still as you fly overhead. If you thought they were capable of such an emotion, you might think them scared.
+                        No time like the present. You take to the skies, determined to gather up any and all available workers. You're sure they have better things to be doing; arguably <em>you</em> have more important work than indulging in this sort of fanciful thinking. But what's the point of being a <<print $player.title>> if not to occasionally indulge in your and your colony's odder ideas? When you've found <<print random(10, _adults)>> dragons - most importantly among them a builder - you return to the lake. The beasts remain strangely still as you fly overhead. If you thought they were capable of such an emotion, you might think them scared.
                         <br><br>
                         Then one of the lake-creatures launches from the water, snapping and writhing in the air, and the rest follow, turning the lake into a frothing mash of teeth and scale. Your gathered colonists are understandably concerned about the eruption of violence - several of them have stumbled into the lake before, and you've issued warnings about the little monsters, but there is nothing quite like seeing a frenzy. You, personally, haven't actually seen the beasts get quite this worked up either... So you turn to your builder for their input, and are met with them watching the water intently.
                         <br><br>
@@ -208,7 +210,7 @@
             <</linkappend>><br>
         <<else>>
         <</if>>
-        <<if $dragons.length > 15>>
+        <<if _adults > 15>>
             <<link "Get rid of the beasts.">>
                 <<replace "#decision">>
                     <hr><br>
@@ -222,7 +224,7 @@
                         <br><br>
                         This is certainly possible.
                         <br><br>
-                        You swoop down for a drink before making your way back. Any dragons you encounter are promptly recruited to the lake, with orders to bring along anyone else they see. Nice as it is to have a busy colony, gathering them up is something of a chore... oh well. You suffer from your success. You swoop about a while longer, checking at home for any stragglers then breaking off to the lake. You're not sure how many you've personally summoned, but it was definitely less than the <<print random(11, ($dragons.length - 1))>> you find scattered about the lake. Most are basking in the glade, relishing a chance to soak up the sun without actually slacking off. Some are investigating the wood, plucking at the trees or shrubbery for goodies.
+                        You swoop down for a drink before making your way back. Any dragons you encounter are promptly recruited to the lake, with orders to bring along anyone else they see. Nice as it is to have a busy colony, gathering them up is something of a chore... oh well. You suffer from your success. You swoop about a while longer, checking at home for any stragglers then breaking off to the lake. You're not sure how many you've personally summoned, but it was definitely less than the <<print random(11, (_adults - 1))>> you find scattered about the lake. Most are basking in the glade, relishing a chance to soak up the sun without actually slacking off. Some are investigating the wood, plucking at the trees or shrubbery for goodies.
                         <<if $dragonsHelpedMoveBeasts == true>>
                             A few of your colonists are playing with the beasts, even; twirling over the water and teasing the hungry creatures with swats of their tails on heads. Having to move dozens of the things would grant anyone confidence, you suppose. And living with a moat of them.
                         <<else>>

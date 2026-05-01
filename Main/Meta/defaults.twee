@@ -85,7 +85,7 @@
             traits: ["abrasive", "aloof", "blunt", "critical", "insecure", "jaded", "mean", "pessimistic", "sarcastic", "skeptical", "witty"],
             jobs: ["salvager", "scavenger"],
             likes: ["militaristic", "opportunist"],
-            dislikes: ["dreamer", "idealist", "lazy"]
+            dislikes: ["dreamy", "idealist", "lazy"]
         }, 
         "dreamy": {
             traits: ["absentminded", "creative", "curious", "dreamy", "emotional", "imaginative", "quiet", "queer", "scatterbrained", "visionary", "whimsical"],
@@ -96,7 +96,7 @@
         "idealistic": {
             traits: ["altruistic", "empathetic", "enthusiastic", "gentle", "hopeful", "idealistic", "naive", "optimistic", "passionate", "selfless", "tolerant"], 
             jobs: ["forager", "rainier"], 
-            likes: ["social", "dreamer"], 
+            likes: ["social", "dreamy"], 
             dislikes: ["cynical", "opportunist", "lazy"]
         }, 
         "industrious": {
@@ -145,7 +145,7 @@
 
 		/* Ages. Originally planned to be used to track life stage (-7 - 0 as egg, 1-14 as hatchling, etc). */	
 		/* Not currently in use. */
-	<<set $dAge to ["Egg", "Hatchling", "Winglet", "Adult", "Elder"]>>
+	<<set $dAge to ["egg", "hatchling", "winglet", "adult", "elder"]>>
 	
 		/* Jobs. Mostly used to keep track of potential jobs, but will be used to let dragons auto-assign themselves. */
 			/* Slacker: No job. */
@@ -253,17 +253,9 @@
 	
 		/* Population count. Set to one to account for PC. */
 		/* Otherwise will equal the amount of -adult- colonists PC has. */
-	<<set $pop = 1>>
+	<<set $pop = 0>>
 
-		/* $eggs and $hatchlings are just arrays. */
-		/* Both hold objects that are functionally timers. */
-	<<set $eggs = []>>
-	<<set $hatchlings = []>>
-
-		/* $winglets isn't in use yet, but will hold half-developed dragons. */
-	<<set $winglets = []>>
-
-		/* These are your adult colonists. I should probably rename to colonists... */
+		/* These are all your colonists; eggs, hatchlings, adults, so on. */
 	<<set $dragons = []>>
 
 		/* Prisoners is currently unused, but will house... prisoner dragons, once I set up actually catching egg thieves or intruders. */
@@ -516,6 +508,9 @@
 		/* Social */
 			/* $findSleep determines if you need to assign dragons to shelters, or if they'll find their own. */
 		<<set $findSleep = true>>
+
+			/* $freelyMate determines if dragons reproduce on their own or not. Will be replaced later. */
+		<<set $freelyMate = true>>
 
 			/* $jobHunt determines if dragons will assign themselves a job. */
 		<<set $jobHunt = false>>

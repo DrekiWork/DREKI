@@ -42,7 +42,7 @@
         &nbsp;//Occupied hollows: <<print $shelter.hollows.occupied>>//<br><br>
     
         ''//Nursery//''<br>
-        Hatchlings / Eggs cheated in don't care if there aren't enough nests to hold them, afaik. If something breaks because you have more eggs / hatchis than nests, that's on you.<br>
+        Hatchlings / Eggs cheated in don't care if there aren't enough nests to hold them, afaik. If something breaks because you have more eggs / hatchis than nests, I'll review this again.<br>
         Nests: <<numberbox "$nest" $nest>><br>
         <hr>
 
@@ -54,16 +54,16 @@
      One click, one thing. I promise it's working; you won't see the update until you hit "Go" at the bottom and reload the sidebar. Don't spam this (for your sanity), and <em>DO. NOT.</em> Add more total eggs / hatchlings than you have eggspace. Colony dragon creates a dragon that was hatched in your colony, wanderer creates a dragon that joined via wanderer event.<br>
     Gimme: 
         <<link "Egg">>
-            <<eggMaker>>
+            <<colonistMaker "stolen egg">>
         <</link>> | 
         <<link "Hatchling">>
-            <<hatchMaker>>
+            <<colonistMaker "stolen hatchling">>
         <</link>> | 
         <<link "Colony Dragon">>
-            <<dragonMaker>>
+            <<colonistMaker "colonist adult">>
         <</link>> |
         <<link "Wanderer">>
-            <<dragonWanderer>>
+            <<colonistMaker "wanderer adult">>
         <</link>>
         <hr>
     </details>
@@ -77,20 +77,20 @@
 
     ''//Hydra//''<br>
     [[Hydra Den Event|HydraFoodEvent]]<br>
-    Have the Hydra egg? <<cycle "$hydraEggTaken" autoselect>>
+    Seen the hydra? <<cycle "$hydraSeen" autoselect>>
         <<option "Yes." true>>
         <<option "No." false>>
     <</cycle>><br>
-    Seen the hydra? <<cycle "$hydraSeen" autoselect>>
+    Have the Hydra egg? <<cycle "$hydraEggTaken" autoselect>>
         <<option "Yes." true>>
         <<option "No." false>>
     <</cycle>><br><br>
 
     ''//Lake Creatures//''<br>
-    <<linkreplace "Seen the creatures?">>
-        <<set $infestedNotice = true>>
-        Seen the lake creatures.
-    <</linkreplace>><br><br>
+    Seen the lake creatures? <<cycle "$infestedNotice" autoselect>>
+        <<option "Seen the creatures." true>>
+        <<option "Haven't seen the creatures." false>>
+    <</cycle>>><br><br>
 
     ''//Defenses//''<br>
     Defenses active?
@@ -102,6 +102,7 @@
     [[Go to DefenseTalk?|DefenseTalk]]<br>
     
     <<link "Run defenseCalc widget?">><<updateDefense>><</link>><br>
+    Your current defense is: <<print $defenseTotal>>.
     
     <<link "Run wantedCount widget?">>
         <<countWorkers "slacker">>

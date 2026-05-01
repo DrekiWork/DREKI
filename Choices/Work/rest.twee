@@ -77,8 +77,15 @@
 		/* Scavengers: Displays wood and/or stone gathered. */
 		/* Builders: What progress they've made on a project; how much they'll need; and how long it will take. Otherwise, alerts player to idleness. */
 			/* buildQueue is located under colonyWidgets. */
+		/* Counts adults first to make sure things aren't awful. */
 
-	<<if $dragons.length >= 1>>
+	<<countDragons "eggs">>
+	<<countDragons "hatchlings">>
+	<<countDragons "winglets">>
+	<<countDragons "adults">>
+	<<countDragons "elders">>
+
+	<<if _adults >= 1>>
 		<<if $hydraTime > 0>>
 			<<if _soldierCount > 0>>
 				<<if $hydraTime < 5>>
@@ -106,13 +113,15 @@
 			Your <<plural _rainierCount "rainier returns" "rainiers return">> for the last time today, having swept in <span class="water"><<print _rainierWater>> water</span> into your pools.
 		<</if>>
 		<<if _hatchlingFoundFood > 0 || _hatchlingFoundWater > 0>>
-			Your <<plural $hatchlings.length "hatchling presents" "hatchlings present">> you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
+			Your <<plural _hatchlings "hatchling presents" "hatchlings present">> you with <span class="food"><<print _hatchFood>> food</span> and <span class="water"><<print _hatchWater>> water</span> that they found. How sweet! <br><br>
 		<</if>>
 		<<if _scavengerWood > 0 || _scavengerStone > 0>>
-			Your <<plural _scavengerCount "scavenger returns" "scavengers return">>, exhausted, with <span class="stone"><<print _scavengerStone>> stone</span>, and <span class="wood"><<print _scavengerWood>> wood</span>.
+			Your <<plural _scavengerCount "scavenger returns" "scavengers return">>, exhausted, with <span class="stone"><<print _scavengerStone>> stone</span>, and <span class="wood"><<print _scavengerWood>> wood</span>
 		<</if>>
 		<<if _scavengerGold > 0>>
-			They also found <span class="gold"><<print _scavengerGold>> gold</span>!
+			; they also found <span class="gold"><<print _scavengerGold>> gold</span>!
+		<<else>>
+			.
 		<</if>>
 		<<if _salvagerGold > 0 && _salvagerCount > 0>>
 			In a markedly pleasant surprise, your <<plural _salvagerCount "salvager" "salvagers">> actually managed to find <span class="gold"><<print _salvagerGold>> gold</span>!
@@ -146,9 +155,9 @@
 
 				It's all too much, and yet, a new heat is added to your hearts as your little ones rest against you. Nothing will ever touch them. Not if you can help it.
 			<<else>>
-				Your head snaps up from being curled around the <<plural $eggs.length "egg" "eggs">> as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $player.title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to //tap! Tap! Tap!// at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell...<br><br>
+				Your head snaps up from being curled around the <<plural $eggs.length "egg" "eggs">> as something moves. Nothing happens for another moment, and you wonder if your paranoia is simply acting up - it is not easy being a <<print $player.title>>. But there is another shift, and this, you realize, is one of the eggs. You scramble to your claws, panic and joy tearing at your hearts as something within begins to <em>tap! Tap! Tap!</em> at the inside. You drop again to your belly, snuffling and cooing to the egg. Yes, you have seen many eggs hatch - assisted many yourself! - but there is something... something so different now; something strange and wonderful about this little rocking stone, the crackling of its shell...<br><br>
 			
-				You remember yourself after a moment, and use your claws to gently split the shell. The hatchling within, so small - so, //so// small in its egg - cries out with a high note that has you prizing away more and more shell. Eventually, a thin snout pokes out of the shell, nostrils flaring and sniffling as it takes its first breath of air. Soon enough, it returns to cracking and pushing, as you continue the task of assisting it.<br><br>
+				You remember yourself after a moment, and use your claws to gently split the shell. The hatchling within, so small - so, <em>so</em> small in its egg - cries out with a high note that has you prizing away more and more shell. Eventually, a thin snout pokes out of the shell, nostrils flaring and sniffling as it takes its first breath of air. Soon enough, it returns to cracking and pushing, as you continue the task of assisting it.<br><br>
 
 				So long later - though the moon has scarcely shifted - the hatchling shrieks, and the last of the shell falls away from it. You pull it close and clean it, rumbling softly in your throat as exhaustion claims the little thing and sends it drifting off against your chest, little breaths slowing to the gentle and deep motions of dreams.<br><br>
 
@@ -184,6 +193,10 @@
 	<<elseif _hatchCheck > 0>>
 		<br>
 	<<else>>
+	<</if>>
+
+	<<if _laidEggs > 0>>
+		As you're doing your evening checks in the Nursery, you can't help but count again... There's <<plural _laidEggs "more egg" "more eggs">> in the <<plural $nest "nest" "nests">>. Looks like your colonists have been busy. Maybe you'll find out the parents another time.<br><br>
 	<</if>>
 
 
@@ -289,9 +302,9 @@
 			<</if>>
 		<</if>>
 		
-		<<if $hatchlings.length > 0>>
+		<<if _hatchlings > 0>>
 			<<if _hatchlingFood > 0 || _hatchlingWater > 0>>
-				Your <<plural $hatchlings.length "hatchling has" "hatchlings have">> <<print _hatchlingFood>> food and <<print _hatchlingWater>> water.
+				Your <<plural _hatchlings "hatchling has" "hatchlings have">> <<print _hatchlingFood>> food and <<print _hatchlingWater>> water.
 			<</if>>
 			<<if _hatchlingHungry > 0 || _hatchlingThirsty > 0>>
 				<<set _needyHatchlings = (_hatchlingHungry + _hatchlingThirsty)>>
@@ -299,7 +312,7 @@
 			<</if>>
 		<</if>>
 
-		<<if $dragons.length > 0>>
+		<<if _adults > 0>>
 			<<if _dragonsAte > 0 && _dragonsDrank > 0>>
 				The rest of your colony eats <<print _dragonsAte>> food, and drinks <<print _dragonsDrank>> water.
 

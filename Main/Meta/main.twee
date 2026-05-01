@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>alpha 0.31.0.0
+<sup>alpha 0.31.3.5
 Made by Recila!</sup>
 
 
@@ -31,9 +31,11 @@ Made by Recila!</sup>
 
 	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
 <<if hasVisited("tutorialOpen") || $cheat == true>>
+	<<countDragons "adults">>
+	
 	Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
-		/* Links to bugtest, my cheat page, if cheating is enabled on game set. */
+		/* Links to ::bugTest, my cheat page, if cheating is enabled on game set. */
 	<<if $cheat == true>>
 		<<link "Cheating">><<goto "BugTest">><</link>>
 	<</if>>
@@ -50,12 +52,12 @@ Made by Recila!</sup>
 				<td> <<print $water>> </td> <td> / </td> <td> <<print $waterCap>> </td> <br>
 		</tr>
 		<tr>
-			<td>Wood: &ensp;</td> 
-				<td> <<print $wood>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
-		</tr>
-		<tr>
 			<td>Stone: &ensp;</td>
 				<td> <<print $stone>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
+		</tr>
+		<tr>
+			<td>Wood: &ensp;</td> 
+				<td> <<print $wood>> </td> <td> / </td> <td> <<print $buildingMaterialCap>> </td>
 		</tr>
 		<tr>
 			<td>&emsp;</td>
@@ -66,11 +68,11 @@ Made by Recila!</sup>
 	</table>
 
 	<hr>
-		/* Left contains amount of shelter space available, right is amount of dragons needing shelter... I should swap these. */
+		/* Left side is amount of adult dragons currently occupying space, right side is how much shelter-space is available total. */
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
-				<td>&ensp;</td> <td><<print $dragons.length>>&ensp;/&ensp;<<print ($home)>></td>
+				<td>&ensp;</td> <td><<print _adults>>&ensp;/&ensp;<<print ($home)>></td>
 		</tr>
 	</table>
 
@@ -79,13 +81,19 @@ Made by Recila!</sup>
 	
 	<details>
 		<summary><h3>POLICIES ▼</h3></summary>
+		<<countDragons "adults">>
 		<center>———</center>
 		<details>
 			<summary><h4>Social ▼</h4></summary>
-			<<if $dragons.length > 0 && $builtRut == true>>
-					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
-					/* Autoselect is 'true'. */
-					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label>
+			<<if _adults > 0>>
+						/* Lets dragons at end-day shelter themselves, instead of players manually assigning.
+					   	   Autoselect is 'true'. */
+					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label><br>
+
+						/* Runs <<tryForEgg>> at day-end, which starts the egg factory.
+						   Production can get out of hand quick, so this is necessary.
+						   Autoselect is 'true'. */
+					<label><<checkbox "$freelyMate" false true autocheck>>Should dragons have eggs whenever they please? </label>
 			<</if>><br>
 		</details>
 
@@ -93,8 +101,8 @@ Made by Recila!</sup>
 	
 		<<if $defenseTalk == true>><details>
 		<summary><h4>Defense ▼</h4></summary>
-			/* Lets rockfalls be loaded at day-end. */
-			/* Autoselect is 'true' */
+				/* Lets rockfalls be loaded at day-end.
+				   Autoselect is 'true' */
 			<label><<checkbox "$autoLoad" false true autocheck>>Auto-load empty rockfalls?</label><br>
 		</details>
 
@@ -119,8 +127,8 @@ Made by Recila!</sup>
 	<</link>>
 	<br>
 
-	/* I should really just remove this, but does the same as above - albeit for the world notes. */
-	/* Acts as a tutorial reminder, should anyone need that, plus lore repository. */
+		/* Acts as a tutorial reminder, should anyone need that, plus lore repository.
+		   Currently VERY unfinished. */
 	<<link "World Notes">>
 		<<script>>
 			Dialog.setup("Encyclopedia");
@@ -132,24 +140,24 @@ Made by Recila!</sup>
 
 :: Patchnotes
 <<nobr>>
-/* These are patchnotes. */
-/* Organized by new content - QoL adjustments - patched bugs - new bugs. */
-/* Should have a current focus tab somewhere... */
-/* One version previous is kept as reference (personal and player). */
-/* The gleeful tone is neecessary for personal success. */
+		/* These are patchnotes.
+		   Organized by new content - QoL adjustments - patched bugs - new bugs.
+		   Should have a current focus tab somewhere...
+		   The gleeful tone is neecessary for personal success. */
 
-	<h1> Pre-Pre-Alpha 0.31.0.0</h1>
+	<h1> Pre-Pre-Alpha 0.31.3.5</h1>
 	<em><strong>COLONIST UPDATE</strong></em>
-
-	<h2> Pre-Pre-Alpha 0.31.0.0 </h2>
-	<strong>New!</strong>
+	
 	<ul>
-	<li>Colonist IDs! You won't see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named 'Sparky' or what have you, the game can still tell them apart.</li>
+	<li>Colonist IDs! You won't see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named 'Sparky' or what have you, the game won't try to call every Sparky that ever existed.</li>
+	<li>Colonists have actually just been refactored wholesale; hatchlings and eggs have been merged into the overall colonist array, the colonist making widgets have been thus merged together, and lots of things have been fixed up. All in the name of making families work.</li>
+	<li>Colonists can have eggs together! Parents are tracked, though nothing else is. This is the start of a relationship system. To accompany this, there's a new social policy tracking if colonists are allowed to breed, otherwise things get ridiculous REAL quick. This will be tinkered with regularly.</li>
 	<li>Job icons! Thunder list has icons next to titles for at-a-glance recognition.</li>
 	<li>New job! <strong>Salvagers</strong> look for gold for you! Since their job is specifically to get gold, while they don't often find any, they bring in a <em>lot</em> when they do. Maybe.</li>
 	<li>The start of job sites! Currently not constructable, plans are in place. Will provide buffs based on upgrade level, similar to the moat structure.</li>
-	<li>Personalities have been restructured into archetypes; previous personalities are now defined as 'traits'. Certain archetypes are good at certain jobs, and prefer (or disdain) the company of other archetypes... except for lazy personalities, who don't want to do work and don't like anyone but other lazy dragons. No one much cares for lazy dragons either. Interact page has been updated to reflect this.</li>
+	<li>Personalities have been restructured into archetypes; previous personalities are now defined as 'traits'. Certain archetypes are good at certain jobs, and prefer (or disdain) the company of other archetypes... except for lazy personalities, who don't want to do work and don't like anyone but other lazy dragons. No one much cares for lazy dragons either. Interact page has been updated to reflect archetypes, though information on what archetypes like who / what jobs is not yet available. Will be soon, prommie.</li>
 	<li>Encylopedia real?! Encyclopedia real! Presently, there is only a tutorial refresher, as well as some loose explanations of dragon personalities. Details will be added per dev fiat, and whenever I manage to revive my laptop / get the data out of it. =)</li>
+	<li>Player's den operates as a trophy room. Perhaps trophies will later have a purpose...?</li>
 	<li></li>
 	</ul><br>
 
@@ -170,7 +178,9 @@ Made by Recila!</sup>
 	<li>To further this: if a dragon's personality aligns with their job, the cap is higher, but still capped! Just because a dreamy dragon is foraging, they can't get 100 food! They'll just pick up a max of 45 instead, with higher chances to collect more. (job preferences and personalities will continue to be refined.)</li>
 	<li>Not sheltering dragons is now more punishing. Put them in a rut or a hollow, but DO NOT let them out in the cold.</li>
 	<li>The player also consumes SLIGHTLY more on a daily basis if sheltered. Only one more—4 food, 5 water—to better reflect the change to the rest of their grown colonists.</li>
-	<li>goldBonus has once again been nerfed. I'll figure it out. </li>
+	<li>goldBonus has once again been nerfed. I'll figure it out.</li>
+	<li>Bit more of a grace period before the Hydra raid starts; players somewhat more time to put up defenses & make sure their dragons are ready to go.</li>
+	<li>"What's the harm in Salvagers having no cap? Their chances of bringing in gold is slim," thought I. Then I bore horrified witness to three salvagers apparently pillaging a settlement for 1177 gold in one evening. Salvagers capped; those who like their job can bring in up to 75 (with a SLIGHTLY higher chance of succeeding their checks), those who don't can bring in up to 50 (with a slightly lower chance of succeeding in finding gold at all), or they might have bad luck and find nothing at all. Dragons still <em>really</em> like gold, after all.</li>
 	<li></li>
 	</ul><br>
 
@@ -181,25 +191,41 @@ Made by Recila!</sup>
 	<li>Encountering the Hydra Den post-victory directs the PC to the visit page now.</li>
 	<li>Builders should no longer report 0 days left until a building is finished; they should just finish the building. Oughta help a touch with defense preparations.</li>
 	<li>Central no longer allows foraging if your stores are capped... not sure how I missed that, to be quite honest.</li>
+	<li>Builders now actually build things instead of constantly 'starting work'. Again.</li>
+	<li>Dragons no longer breed with eggs / hatchlings. They also stop the egg factory when there's no more room in the nursery, rather than making the nests overfloweth.</li>
+	<li>It was pointed out to me that the order of the resources on the side v. how they're presented when choosing what to forage for differ. That can't stand.</li>
+	<li>Everydragon is counted properly. Remember to always double-check your writing when you've been doing something for several hours or else you'll miss something silly and obvious. <3 </li>
+	<li>No longer able to preview eggs/hatchlings via the Interact page. That was fun while it lasted.</li>
+	<li>Dragons should accurately report how many days they've worked / how good they are at their jobs in the Interact page.</li>
+	<li>It's clearer that Scavengers are bringing in the 'they also found [whatever] gold!' rather than your salvs.</li>
+	<li>Moat construction slightly reworded to imply that it's a multi-step process.</li>
+	<li>Thunder page works again; sad as we are to see Undefined go, it's for the best.</li>
+	<li>Dragons stop saying they suck at their job when they're actually veterans in the Interact page. (I broke a lot of things in the Interact page.)</li>
 	<li></li>
 	</ul><br>
 	
 	<strong>Bugs Created</strong>
 	<ul>
-	<li>'Cheating' link in Bugtesting/Cheating mode doesn't have a link. Bit of a headscratcher, that.</li>
+	<li>'Cheating' link in Bugtesting/Cheating mode doesn't have an underline. Bit of a headscratcher, that.</li>
+	<li>I've probably made bugs in relation to the colonist refactor. Sorry.</li>
+	<li>Hatchling & Egg 'first grown/hatched' events not firing. I'm really not sure what's going on there, but I'll get it. Until then, a bit of flavor is missing.</li>
+	<li>The breeding system does not care about parentage. I'm going to figure that out, to try and minimize line-breeding.</li>
+	<li>I've probably missed a reference or two to now irrelevant variables (such as `$hatchlings` or `$eggs`, or using `$dragons.length` instead of `_adults`) so I'll be hunting those down.</li>
 	<li></li>
 	</ul><br>
+
+	<sup>Hey, if you're reading this? The dev loves you <3 </sup>
 <</nobr>>
 
 :: OOC Chat
 <<nobr>>
 
-	/* This is the 'end demo' page. */
-	/* Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current 'end'. */
-	/* It includes hints on if the player has missed anything or if they've found it all, and a teaser on what's the next 'big' update. */
-	/* This page always returns to either the Sandbox, or to the game START. */
+		/* This is the 'end demo' page.
+		   Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current 'end'.
+		   It includes hints on if the player has missed anything or if they've found it all, and a teaser on what's the next 'big' update.
+		   This page always returns to either the Sandbox, or to the game START.
 	
-	/* CURRENT DEMO END: Hydra Raid. */
+		   CURRENT DEMO END: Hydra Raid. */
 
 	Hello, this is the dev here! I've some words to share...<br><br>
 

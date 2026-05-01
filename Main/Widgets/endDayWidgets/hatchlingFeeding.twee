@@ -14,7 +14,7 @@
     <<set _hatchlingFoodNeed = 0>>
     <<set _hatchlingWaterNeed = 0>>
 
-    <<for _i = 0; _i < $hatchlings.length; _i++>>
+    <<for _i = 0; _i < $dragons.length; _i++>>
 
             /* Comparing overall food to how much the hatchling will eat. */
             /* If there's enough, they eat. */
@@ -22,22 +22,28 @@
             /* Hatchlings also track how many days they've gone hungry. */
             /* Eventually, this will kill them if it reaches two. */
             /* Same deal with water. =) */
-        <<if $food >= 4>>
-            <<set _hatchlingFood += 4>>
-            <<set $food -= 4>>
-        <<else>>
-            <<set $hatchlings[_i].hunger += 1>>
-            <<set _hatchlingFoodNeed += 4>>
-            <<set _hatchlingHungry += 1>>
-        <</if>>
+        <<if $dragons[_i].stage == "hatchling">>
+            <<if $food >= 4>>
+                <<set _hatchlingFood += 4>>
+                <<set $food -= 4>>
+                <<set $dragons[_i].hunger = 0>>
+            <<else>>
+                <<set $hatchlings[_i].hunger += 1>>
+                <<set _hatchlingFoodNeed += 4>>
+                <<set _hatchlingHungry += 1>>
+                <<set $dragons[_i].hunger += 1>>
+            <</if>>
 
-        <<if $water >= 3>>
-            <<set _hatchlingWater += 3>>
-            <<set $water -= 3>>
-        <<else>>
-            <<set $hatchlings[_i].thirst += 1>>
-            <<set _hatchlingWaterNeed += 3>>
-            <<set _hatchlingThirsty += 1>>
+            <<if $water >= 3>>
+                <<set _hatchlingWater += 3>>
+                <<set $water -= 3>>
+                <<set $dragons[_i].thirst = 0>>
+            <<else>>
+                <<set $hatchlings[_i].thirst += 1>>
+                <<set _hatchlingWaterNeed += 3>>
+                <<set _hatchlingThirsty += 1>>
+                <<set $dragons[_i].thirst += 1>>
+            <</if>>
         <</if>>
     <</for>>
 <</nobr>><</widget>>

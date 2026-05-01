@@ -4,6 +4,7 @@
 	/* Specifically rest, so I will be putting it in the endDay */
 	/* Widget hole. */
 <<widget "builderRestDisplay">><<nobr>>
+	<<countWorkers "builder">>
 	
 		/* First we're checking if we have builders and a queue. */
 		/* If yes to both, your builders start working. */
@@ -11,16 +12,16 @@
 		/* Reminds the player to assign some builders to work. */
 		/* If you have builders and no queue, the player is */
 		/* Then told the builders are just chilling. */
-	<<if $buildQueue.length > 0 && _builderCount > 0>>
+	<<if $buildQueue.length > 0 && _wantedCount > 0>>
 
-		Your <<plural _builderCount "builder" "builders">> 
+		Your 
 
 		<<switch $builderStatus>>
 			<<case 1>>
-				have completed the planning stage for a <<print $buildQueue[0]>>.<br><br>
+				<<plural _wantedCount "builder has" "builders have">>  completed the planning stage for a <<print $buildQueue[0]>>.<br><br>
 
 			<<case 2>>
-				are working on a <<print $buildQueue[0]>>;
+				<<plural _wantedCount "builder is" "builders are">>  working on a <<print $buildQueue[0]>>;
 				<<if _resourceDown == false>>
 					they should be done in <<plural $buildTime "day" "days">>.
 				<<else>>
@@ -34,12 +35,12 @@
 					<<if _buildWood > 0>>
 						<<print _buildWood>> wood;
 					<</if>>
-					when they have what they need, the <<plural _builderCount "builder" "builders">> will continue work.
+					when they have what they need, the <<plural _wantedCount "builder" "builders">> will continue work.
 				<</if>>
 				<br><br>
 			
 			<<case 3>>
-				have finished work on a <<print _finished>>!
+				<<plural _wantedCount "builder has" "builders have">> finished work on a <<print _finished>>!
 				<<if $buildQueue.length > 0>>
 					Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
 				<<else>>
@@ -52,12 +53,12 @@
 
 		<</switch>>
 	
-	<<elseif $buildQueue.length > 0 && _builderCount == 0>>
+	<<elseif $buildQueue.length > 0 && _wantedCount == 0>>
 		There's <<plural $buildQueue.length "building" "buildings">> to be built, but no one to build them.<br><br>
 		
 
-	<<elseif $buildQueue.length == 0 && _builderCount > 0>>
-		Your <<plural _builderCount "builder is" "builders are">> waiting for your next project.<br><br>
+	<<elseif $buildQueue.length == 0 && _wantedCount > 0>>
+		Your <<plural _wantedCount "builder is" "builders are">> waiting for your next project.<br><br>
 
 	<<else>>
 
@@ -76,7 +77,9 @@
 		/* but buildQueue needs to know so it doesn't fire erroneously. */
 	<<if $buildQueue.length > 0>>
 
-		<<if _builderCount > 0>>
+		<<countWorkers "builder">>
+
+		<<if _wantedCount > 0>>
 
 				/* With builders existent, resourceDown is set to note */
 				/* It exists. Should it become true, it means we need */
@@ -226,7 +229,7 @@
 						<<run console.log("Got ready.")>>
 						<<set $buildTime = (Math.round($defenseBuildings.palisade.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
 						<<run console.log("Buildtime 2: " + $buildTime)>>
-						<<if $buildTime < 1>>
+						<<if $buildTime > 1>>
 							<<set $buildTime = 1>>
 						<</if>>
 						<<set _startBuild = true>>

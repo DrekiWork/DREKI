@@ -369,7 +369,7 @@ Config.saves.onSave = function (save, details) {
 	favicon.type = "png";
 	favicon.href = "https://github.com/DrekiWork/DREKI/blob/main/Media/Dreki%20symbol%20(no%20BG,%20no%20jewel).png?raw=true";
 	document.head.appendChild(favicon);
-}());</script><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-passagedata pid="1" name="Sandbox Central" tags="WIP Central Hub" position="800,425" size="100,100">&lt;&lt;nobr&gt;&gt;
+}());</script><tw-tag name="widget" color="blue"></tw-tag><tw-tag name="Cheater" color="purple"></tw-tag><tw-tag name="HEY-DUMMY" color="red"></tw-tag><tw-tag name="Info" color="yellow"></tw-tag><tw-tag name="Opener" color="green"></tw-tag><tw-tag name="Special" color="green"></tw-tag><tw-tag name="WIP" color="orange"></tw-tag><tw-passagedata pid="1" name="Sandbox Central" tags="WIP Central Hub" position="800,425" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -674,17 +674,26 @@ Config.saves.onSave = function (save, details) {
 &lt;&lt;if $player.home.space == 0&gt;&gt;
     Your home is little more than a divot in the cliff, winding down a small way to your resting place. Though you have decorated the entryway with thin gildings of gold, it is hardly worthy of a dragon of your station.&lt;br&gt;&lt;br&gt;
     Still; it is your home.
-    &lt;&lt;if $gold &gt; 1000&gt;&gt;
+    &lt;&lt;if $gold &gt; 5000&gt;&gt;
         You settle down on a pile of riches—&lt;&lt;print $gold&gt;&gt; pieces of it, to be precise. It&#39;s not an insignificant amount, but you can hardly have too much...
-    &lt;&lt;elseif $gold &gt; 50&gt;&gt;
+    &lt;&lt;elseif $gold &gt; 500&gt;&gt;
         You settle down around a small hoard of your treasures; &lt;&lt;print $gold&gt;&gt; gold&#39;s worth, to be precise. It&#39;s not enough for you to comfortably lay upon, nor even close to assuring you of your wealth, but it&#39;s a good start.
-    &lt;&lt;elseif $gold &gt; 1&gt;&gt;
+    &lt;&lt;elseif $gold &gt; 10&gt;&gt;
         You lay atop your pitiable collection of treasures; &lt;&lt;print $gold&gt;&gt; gold&#39;s worth. It barely qualifies as a &#39;collection&#39;, nevermind a hoard worthy of your station, but that you have any at all makes you feel a little better.
     &lt;&lt;else&gt;&gt;
         You settle down on the ground, staring longingly at the gleam of your entryway. How shameful, that you have no gold!
     &lt;&lt;/if&gt;&gt;
 &lt;&lt;elseif $player.home.space == 1&gt;&gt;
 &lt;&lt;else&gt;&gt;
+&lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;&lt;if $trophies.includes(&quot;Hydra Bones&quot;) || $trophies.includes(&quot;Hydra&quot;)&gt;&gt;
+    Fragments of the hydra&#39;s skeleton decorate the walls of your lair. Pieces of its ribcage line your entryway, and its scales gleam in what little light enters your den. You puff embers, just to witness the light reflecting off your trophies. One of its skulls—little more than the orbital bone and a fragment of its jaw—looms overhead, cradling you in its maw.
+    &lt;&lt;if $player.specials.includes(&quot;Hydra&quot;)&gt;&gt;
+        It makes you feel nearly at home, held in the mouth of a monster.
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;else&gt;&gt;
+    You&#39;ve no trophies to mark your achievements yet, but you will.
 &lt;&lt;/if&gt;&gt;&lt;br&gt;&lt;br&gt;
 
 [[Go back outside|Sandbox Central]]
@@ -694,14 +703,20 @@ On mentioning that, you have &lt;&lt;print ($shelter.ruts.amount + $shelter.sett
 
 &lt;&lt;nobr&gt;&gt;
 	&lt;&lt;countDragons &quot;adults&quot;&gt;&gt;
+	&lt;&lt;set _adultDragons = []&gt;&gt;
+	&lt;&lt;for _i = 0; _i &lt; $dragons.length; _i++&gt;&gt;
+		&lt;&lt;if $dragons[_i].stage == &quot;adult&quot;&gt;&gt;
+			&lt;&lt;run _adultDragons.push($dragons[_i])&gt;&gt;
+
+		&lt;&lt;/if&gt;&gt;
+	&lt;&lt;/for&gt;&gt;
 	&lt;&lt;if _adults &gt;= 50&gt;&gt;
-			&lt;&lt;set _derg to _adults&gt;&gt;
-			&lt;&lt;set _a to random(0, (_derg - 1))&gt;&gt;
-			&lt;&lt;print $dragons[_a].name&gt;&gt; bumps into you as you approach what has become the colony plaza. Seeing so many dragons fills you with pride - though there&#39;s an undeniable concern that you won&#39;t be able to take care of them all...&lt;br&gt;&lt;br&gt;
+			&lt;&lt;set _a to random(0, (_adultDragons.length - 1))&gt;&gt;
+			&lt;&lt;print _adultDragons[_a].name&gt;&gt; bumps into you as you approach what has become the colony plaza. Seeing so many dragons fills you with pride - though there&#39;s an undeniable concern that you won&#39;t be able to take care of them all...&lt;br&gt;&lt;br&gt;
 			&lt;&lt;include &quot;dragonList&quot;&gt;&gt;
 
 	&lt;&lt;elseif _adults &gt;= 10&gt;&gt;
-			&lt;&lt;set _derg to ($dragons.length - 1)&gt;&gt;
+			&lt;&lt;set _derg to (_adultDragons.length - 1)&gt;&gt;
 			&lt;&lt;set _a to random(0, _derg)&gt;&gt;
 			&lt;&lt;set _b to random(0, _derg)&gt;&gt;
 			&lt;&lt;if _a == _b &amp;&amp; _a == _derg&gt;&gt;
@@ -711,14 +726,14 @@ On mentioning that, you have &lt;&lt;print ($shelter.ruts.amount + $shelter.sett
 			&lt;&lt;elseif _a == _b&gt;&gt;
 				&lt;&lt;set _b++&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
-		There&#39;s a respectable number of dragons lazing about. You spot &lt;&lt;print $dragons[_a].name&gt;&gt; talking to &lt;&lt;print $dragons[_b].name&gt;&gt;, and feel pleased that they are comfortable enough to talk freely.&lt;br&gt;&lt;br&gt;
+		There&#39;s a respectable number of dragons lazing about. You spot &lt;&lt;print _adultDragons[_a].name&gt;&gt; talking to &lt;&lt;print _adultDragons[_b].name&gt;&gt;, and feel pleased that they are comfortable enough to talk freely.&lt;br&gt;&lt;br&gt;
 
 		Would you like to interact with someone?&lt;br&gt;&lt;br&gt;
 		&lt;&lt;include &quot;dragonList&quot;&gt;&gt;
 
-	&lt;&lt;elseif $dragons.length &gt;= 2&gt;&gt;
+	&lt;&lt;elseif _adults &gt;= 2&gt;&gt;
 		&lt;&lt;silently&gt;&gt;
-			&lt;&lt;set _derg to ($dragons.length - 1)&gt;&gt;
+			&lt;&lt;set _derg to (_adultDragons.length - 1)&gt;&gt;
 			&lt;&lt;set _a to random(0, _derg)&gt;&gt;
 			&lt;&lt;set _b to random(0, _derg)&gt;&gt;
 			&lt;&lt;if _a == _b &amp;&amp; _a == _derg&gt;&gt;
@@ -727,11 +742,11 @@ On mentioning that, you have &lt;&lt;print ($shelter.ruts.amount + $shelter.sett
 				&lt;&lt;set _b++&gt;&gt;
 			&lt;&lt;/if&gt;&gt;
 		&lt;&lt;/silently&gt;&gt;
-		There are a few dragons milling about here, such as &lt;&lt;print $dragons[_a].name&gt;&gt; and &lt;&lt;print $dragons[_b].name&gt;&gt;. &lt;br&gt; &lt;br&gt;
+		There are a few dragons milling about here, such as &lt;&lt;print _adultDragons[_a].name&gt;&gt; and &lt;&lt;print _adultDragons[_b].name&gt;&gt;. &lt;br&gt; &lt;br&gt;
 		Would you like to interact with someone?&lt;br&gt;
 		&lt;&lt;include &quot;dragonList&quot;&gt;&gt;
 		
-	&lt;&lt;elseif $dragons.length == 1&gt;&gt;
+	&lt;&lt;elseif _adults == 1&gt;&gt;
 		You can see &lt;&lt;print $dragons[0].name&gt;&gt;. &lt;&lt;linkappend &quot;Do you want to talk to them?&quot;&gt;&gt; &lt;br&gt; &lt;br&gt;
 				&lt;&lt;switch $dragons[0].personality&gt;&gt;
 				&lt;&lt;case &quot;cynical&quot;&gt;&gt;
@@ -831,6 +846,7 @@ On mentioning that, you have &lt;&lt;print ($shelter.ruts.amount + $shelter.sett
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="KelpieLake" tags="" position="725,100" size="100,100">&lt;&lt;nobr&gt;&gt;
     &lt;&lt;set $player.action -= 1&gt;&gt;
     &lt;&lt;set $hasVisited.kelpieLake = true&gt;&gt;
+    &lt;&lt;countDragons &quot;adults&quot;&gt;&gt;
 
     As the lake comes into sight, you feel a preemptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it&#39;s enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn&#39;t know better, they&#39;d have a meal of you.&lt;br&gt;&lt;br&gt;
 
@@ -1549,7 +1565,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
                 &lt;&lt;set $days = 0&gt;&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;&lt;set $hydraBeat = true&gt;&gt;
-            &lt;&lt;run $trophies.push(&quot;Hydra Scales&quot;, &quot;Hydra Bones&quot;, &quot;Hydra Skulls&quot;)&gt;&gt;
+            &lt;&lt;run $trophies.push(&quot;Hydra&quot;)&gt;&gt;
         &lt;&lt;/link&gt;&gt;
 
     &lt;&lt;elseif $defenseTotal &gt;= 50&gt;&gt;
@@ -1566,7 +1582,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
         You can&#39;t stop yourself. You shriek with glee, a noise so loud it tears your vocal chords to make it and starts another outcry, but you&#39;ve done it! You killed the hydra, and you did it without a single death! You could burn the forest—no, the &lt;em&gt;world&lt;/em&gt; for your victory! You take to the air and plummet onto the hydra&#39;s corpse, ripping and devouring and tearing apart with abandon. Your thunder follows, those who weren&#39;t already here, and &lt;span class=&quot;food&quot;&gt;the corpse becomes a buffet and mockery both!&lt;/span&gt;&lt;br&gt;&lt;br&gt;
 
         &lt;&lt;link &quot;The celebration lasts the entire night, and well into the morning.&quot; &quot;HydraHeart&quot;&gt;&gt;
-            &lt;&lt;run $trophies.push(&quot;Hydra Bones&quot;, &quot;Hydra Scales&quot;, &quot;Hydra Skulls&quot;)&gt;&gt;
+            &lt;&lt;run $trophies.push(&quot;Hydra&quot;)&gt;&gt;
             &lt;&lt;set $hydraBeat = true&gt;&gt;
             &lt;&lt;if $days == 30&gt;&gt;
                 &lt;&lt;set $cycles += 1&gt;&gt;
@@ -2025,6 +2041,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 	&lt;&lt;set _risk = random(1)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;countDragons &quot;adults&quot;&gt;&gt;
+&lt;&lt;countDragons &quot;hatchlings&quot;&gt;&gt;
 
 &lt;&lt;switch $hydraEggTaken&gt;&gt;
 
@@ -2307,7 +2324,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 					As you walk further in, you find yourself relaxing somewhat. If this &lt;em&gt;were&lt;/em&gt; some other predator&#39;s abode, they&#39;ve long since left the area. You increasingly suspect that it isn&#39;t, though. There are far too many prey-tracks, and it seems some did leave... just not recently. &lt;br&gt; &lt;br&gt;
 					Your slight distraction leads you to stumble - and it&#39;s sheer luck that you catch yourself before you go tumbling down a sudden overhang. You would have been fine regardless - there&#39;s space enough for you to roll into a sloppy glide - but it seems plenty of other animals weren&#39;t half as lucky if the reek of death is anything to go by. &lt;br&gt; &lt;br&gt;
 					Still... With nothing else living here, and 
-					&lt;&lt;if _adults &gt;= 1 || $hatchlings.length &gt;= 1&gt;&gt;
+					&lt;&lt;if _adults &gt;= 1 || _hatchlings &gt;= 1&gt;&gt;
 						a burgeoning thunder to care for, 
 					&lt;&lt;else&gt;&gt;
 						the future of your colony to think of, 
@@ -2385,9 +2402,8 @@ It is light in your claws; as is the second, as is the third. Decision made, you
                 You tip your head silently. That is all the confirmation they need; the leader of the group rises slowly. You inform them of where they will be sleeping, and that you will address their food and work tomorrow; it is too late to be bothered with such things. They trip over themselves to express their gratitude, which you wave away easily.&lt;br&gt;&lt;br&gt;
                 
                 Once they are more or less settled in, [[you sleep.|Sandbox Central]]
-                &lt;&lt;for _i to 0; _i lt _join; _i++&gt;&gt;
+                &lt;&lt;for _i = 0; _i &lt; _join; _i++&gt;&gt;
                     &lt;&lt;colonistMaker &quot;wanderer adult&quot;&gt;&gt;
-                    &lt;&lt;set $pop += 1&gt;&gt;
                 &lt;&lt;/for&gt;&gt;
             &lt;&lt;/replace&gt;&gt;
         &lt;&lt;/link&gt;&gt;&lt;br&gt;
@@ -2985,7 +3001,8 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 	&lt;&lt;elseif _forage &gt;= 1&gt;&gt;
 		&lt;&lt;set _collect = random(3, 6)&gt;&gt;
 		&lt;&lt;if _scene == 0&gt;&gt;
-			You haven&#39;t even left your home yet before the ground collapses under your paw. Once you&#39;ve settled slightly, &lt;&lt;if ($dragons.length + $hatchlings.length) &gt;= 1&gt;&gt;and your thunder has stopped laughing, &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;you investigate properly. As it turns out, there is a little pool growing under your home. That&#39;s concerning. Still, after emptying and properly filling it, you have &lt;span class=&quot;water&quot;&gt;&lt;&lt;print _collect&gt;&gt; more water&lt;/span&gt;.&lt;br&gt;&lt;br&gt;
+			&lt;&lt;countDragons &quot;eggs&quot;&gt;&gt;
+			You haven&#39;t even left your home yet before the ground collapses under your paw. Once you&#39;ve settled slightly, &lt;&lt;if ($dragons.length - _eggs) &gt;= 1)&gt;&gt;and your thunder has stopped laughing, &lt;&lt;else&gt;&gt;&lt;&lt;/if&gt;&gt;you investigate properly. As it turns out, there is a little pool growing under your home. That&#39;s concerning. Still, after emptying and properly filling it, you have &lt;span class=&quot;water&quot;&gt;&lt;&lt;print _collect&gt;&gt; more water&lt;/span&gt;.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;elseif _scene == 1&gt;&gt;
 			Glittering in the corner of your eye catches your attention. While you&#39;re a little disappointed that it&#39;s not treasure, you&#39;re nonetheless pleased to find a small puddle so close to your colony. You collect &lt;span class=&quot;water&quot;&gt;&lt;&lt;print _collect&gt;&gt; water&lt;/span&gt; from it, and are happy to note that it will likely refill. Excellent.&lt;br&gt;&lt;br&gt;
 		&lt;&lt;else&gt;&gt;
@@ -3346,7 +3363,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 	&lt;&lt;if $defenseBuildings.moat.amount &lt; $defenseBuildings.moat.max&gt;&gt;
 		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
 		&lt;&lt;if $defenseBuildings.moat.amount == 0&gt;&gt;
-			You&#39;ve yet to construct one&lt;&lt;if $buildQueue.count(&quot;moat&quot;) &gt; 0&gt;&gt;, but you&#39;ve told your builders to work on it&lt;&lt;/if&gt;&gt;. Cost: &lt;&lt;print $defenseBuildings.moat.priceS&gt;&gt; stone and &lt;&lt;print $defenseBuildings.moat.priceW&gt;&gt; wood.&lt;br&gt;
+			You&#39;ve yet to begin construction&lt;&lt;if $buildQueue.count(&quot;moat&quot;) &gt; 0&gt;&gt;, but you&#39;ve told your builders to work on it &lt;&lt;else&gt;&gt;; starting it now will dig the claw-carved ravine, but you&#39;ll have to order further efforts later on to complete the moat.&lt;&lt;/if&gt;&gt;. Cost: &lt;&lt;print $defenseBuildings.moat.priceS&gt;&gt; stone and &lt;&lt;print $defenseBuildings.moat.priceW&gt;&gt; wood.&lt;br&gt;
 		&lt;&lt;elseif $defenseBuildings.moat.amount == 1&gt;&gt;
 			The moat has been dug out. Your builders seem to have &lt;em&gt;ideas&lt;/em&gt; to improve it, however...&lt;&lt;if $buildQueue.count(&quot;moat&quot;) &gt; 0&gt;&gt; And you&#39;ve told your builders to get to it.&lt;&lt;/if&gt;&gt; Cost: &lt;&lt;print $defenseBuildings.moat.priceS&gt;&gt; stone and &lt;&lt;print $defenseBuildings.moat.priceW&gt;&gt; wood.&lt;br&gt;
 		&lt;&lt;elseif $defenseBuildings.moat.amount == 2&gt;&gt;
@@ -3510,8 +3527,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 				&lt;&lt;/link&gt;&gt; if you like...
 		&lt;&lt;/switch&gt;&gt;&lt;br&gt;&lt;br&gt;
 
-		&lt;&lt;set _xpKey = $dragons[$int].job + &quot;xp&quot;&gt;&gt;
-		&lt;&lt;set _xp = Math.round($dragons[$int][_xpKey] * 10)&gt;&gt;
+		&lt;&lt;set _xp = Math.round($dragons[$int].experience[$dragons[$int].job] * 10)&gt;&gt;
 
 		&lt;&lt;switch $dragons[$int].job&gt;&gt;.
 				/* Note: Provide individual flavor for the personalities, IE: */
@@ -3643,24 +3659,37 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 			&lt;&lt;/capture&gt;&gt;
 		&lt;&lt;/for&gt;&gt;&lt;br&gt;
 	
+	
 	&lt;&lt;link &quot;Next Dragon&quot;&gt;&gt;
-		&lt;&lt;if $int &gt;= ($dragons.length - 1)&gt;&gt;
-			&lt;&lt;set $int to 0&gt;&gt;
-			&lt;&lt;goto &quot;Interact&quot;&gt;&gt;
-		&lt;&lt;else&gt;&gt;
-			&lt;&lt;set $int++&gt;&gt;
-			&lt;&lt;goto &quot;Interact&quot;&gt;&gt;
-		&lt;&lt;/if&gt;&gt;
-	&lt;&lt;/link&gt;&gt;&lt;br&gt;
-	&lt;&lt;link &quot;Previous Dragon&quot;&gt;&gt;
-		&lt;&lt;if $int == 0&gt;&gt;
-			&lt;&lt;set $int = ($dragons.length - 1)&gt;&gt;
-			&lt;&lt;goto &quot;Interact&quot;&gt;&gt;
-		&lt;&lt;else&gt;&gt;
-			&lt;&lt;set $int--&gt;&gt;
-			&lt;&lt;goto &quot;Interact&quot;&gt;&gt;
-		&lt;&lt;/if&gt;&gt;
-	&lt;&lt;/link&gt;&gt;&lt;br&gt;
+			/* Yeah so I straight up copied this from someone else,
+			   I&#39;ll fix my understanding via Mozilla docs later lmao.
+			   As I understand, it sets the current index to the start.
+			   Then it starts incrementing until it finds another dragon that&#39;s also an adult.
+			   When it has, it returns the index of that dragon, and the player is sent off.
+			   if it doesn&#39;t, it loops via the modulo operator (&#39;%&#39;). */
+        &lt;&lt;set _nextIndex = (() =&gt; {
+            const start = $int;
+            for (let k = 1; k &lt; $dragons.length; k++) {
+                const ni = (start + k) % $dragons.length;
+                if ($dragons[ni].stage == &quot;adult&quot;) return ni;
+            }
+            return start;
+        })()&gt;&gt;
+        &lt;&lt;set $int = _nextIndex&gt;&gt;
+        &lt;&lt;goto &quot;Interact&quot;&gt;&gt;
+    &lt;&lt;/link&gt;&gt;&lt;br&gt;
+    &lt;&lt;link &quot;Previous Dragon&quot;&gt;&gt;
+        &lt;&lt;set _prevIndex = (() =&gt; {
+            const start = $int;
+            for (let k = 1; k &lt; $dragons.length; k++) {
+                const pi = (start - k + $dragons.length) % $dragons.length;
+                if ($dragons[pi].stage == &quot;adult&quot;) return pi;
+            }
+            return start;
+        })()&gt;&gt;
+        &lt;&lt;set $int = _prevIndex&gt;&gt;
+        &lt;&lt;goto &quot;Interact&quot;&gt;&gt;
+    &lt;&lt;/link&gt;&gt;&lt;br&gt;
 	&lt;&lt;if $dragons[$int].left == &quot;stay&quot;&gt;&gt;
 		&lt;&lt;linkreplace &quot;Exile&quot;&gt;&gt;
 			&lt;&lt;set $dragons[$int].left = &quot;exile&quot;&gt;&gt;
@@ -3787,10 +3816,12 @@ It is light in your claws; as is the second, as is the third. Decision made, you
 			Your &lt;&lt;plural _hatchlings &quot;hatchling presents&quot; &quot;hatchlings present&quot;&gt;&gt; you with &lt;span class=&quot;food&quot;&gt;&lt;&lt;print _hatchFood&gt;&gt; food&lt;/span&gt; and &lt;span class=&quot;water&quot;&gt;&lt;&lt;print _hatchWater&gt;&gt; water&lt;/span&gt; that they found. How sweet! &lt;br&gt;&lt;br&gt;
 		&lt;&lt;/if&gt;&gt;
 		&lt;&lt;if _scavengerWood &gt; 0 || _scavengerStone &gt; 0&gt;&gt;
-			Your &lt;&lt;plural _scavengerCount &quot;scavenger returns&quot; &quot;scavengers return&quot;&gt;&gt;, exhausted, with &lt;span class=&quot;stone&quot;&gt;&lt;&lt;print _scavengerStone&gt;&gt; stone&lt;/span&gt;, and &lt;span class=&quot;wood&quot;&gt;&lt;&lt;print _scavengerWood&gt;&gt; wood&lt;/span&gt;.
+			Your &lt;&lt;plural _scavengerCount &quot;scavenger returns&quot; &quot;scavengers return&quot;&gt;&gt;, exhausted, with &lt;span class=&quot;stone&quot;&gt;&lt;&lt;print _scavengerStone&gt;&gt; stone&lt;/span&gt;, and &lt;span class=&quot;wood&quot;&gt;&lt;&lt;print _scavengerWood&gt;&gt; wood&lt;/span&gt;
 		&lt;&lt;/if&gt;&gt;
 		&lt;&lt;if _scavengerGold &gt; 0&gt;&gt;
-			They also found &lt;span class=&quot;gold&quot;&gt;&lt;&lt;print _scavengerGold&gt;&gt; gold&lt;/span&gt;!
+			; they also found &lt;span class=&quot;gold&quot;&gt;&lt;&lt;print _scavengerGold&gt;&gt; gold&lt;/span&gt;!
+		&lt;&lt;else&gt;&gt;
+			.
 		&lt;&lt;/if&gt;&gt;
 		&lt;&lt;if _salvagerGold &gt; 0 &amp;&amp; _salvagerCount &gt; 0&gt;&gt;
 			In a markedly pleasant surprise, your &lt;&lt;plural _salvagerCount &quot;salvager&quot; &quot;salvagers&quot;&gt;&gt; actually managed to find &lt;span class=&quot;gold&quot;&gt;&lt;&lt;print _salvagerGold&gt;&gt; gold&lt;/span&gt;!
@@ -5108,7 +5139,7 @@ It is light in your claws; as is the second, as is the third. Decision made, you
     &lt;&lt;else&gt;&gt;
         It&#39;s time to [[go home.|Sandbox Central]]
     &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="StorySubtitle" tags="" position="975,600" size="100,100">&lt;sup&gt;alpha 0.31.0.0
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="StorySubtitle" tags="" position="975,600" size="100,100">&lt;sup&gt;alpha 0.31.3.5
 Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="StoryCaption" tags="Special" position="100,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 
 	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
@@ -5117,7 +5148,7 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	
 	Cycle &lt;&lt;print $cycles&gt;&gt;, Day &lt;&lt;print $days&gt;&gt;
 	&lt;br&gt;
-		/* Links to bugtest, my cheat page, if cheating is enabled on game set. */
+		/* Links to ::bugTest, my cheat page, if cheating is enabled on game set. */
 	&lt;&lt;if $cheat == true&gt;&gt;
 		&lt;&lt;link &quot;Cheating&quot;&gt;&gt;&lt;&lt;goto &quot;BugTest&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
@@ -5134,12 +5165,12 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 				&lt;td&gt; &lt;&lt;print $water&gt;&gt; &lt;/td&gt; &lt;td&gt; / &lt;/td&gt; &lt;td&gt; &lt;&lt;print $waterCap&gt;&gt; &lt;/td&gt; &lt;br&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
-			&lt;td&gt;Wood: &amp;ensp;&lt;/td&gt; 
-				&lt;td&gt; &lt;&lt;print $wood&gt;&gt; &lt;/td&gt; &lt;td&gt; / &lt;/td&gt; &lt;td&gt; &lt;&lt;print $buildingMaterialCap&gt;&gt; &lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
 			&lt;td&gt;Stone: &amp;ensp;&lt;/td&gt;
 				&lt;td&gt; &lt;&lt;print $stone&gt;&gt; &lt;/td&gt; &lt;td&gt; / &lt;/td&gt; &lt;td&gt; &lt;&lt;print $buildingMaterialCap&gt;&gt; &lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Wood: &amp;ensp;&lt;/td&gt; 
+				&lt;td&gt; &lt;&lt;print $wood&gt;&gt; &lt;/td&gt; &lt;td&gt; / &lt;/td&gt; &lt;td&gt; &lt;&lt;print $buildingMaterialCap&gt;&gt; &lt;/td&gt;
 		&lt;/tr&gt;
 		&lt;tr&gt;
 			&lt;td&gt;&amp;emsp;&lt;/td&gt;
@@ -5150,7 +5181,7 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	&lt;/table&gt;
 
 	&lt;hr&gt;
-		/* Left contains amount of shelter space available, right is amount of dragons needing shelter... I should swap these. */
+		/* Left side is amount of adult dragons currently occupying space, right side is how much shelter-space is available total. */
 	&lt;table&gt;
 		&lt;tr&gt;
 			&lt;td&gt;Shelter Space: &lt;/td&gt;
@@ -5167,11 +5198,15 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 		&lt;center&gt;———&lt;/center&gt;
 		&lt;details&gt;
 			&lt;summary&gt;&lt;h4&gt;Social ▼&lt;/h4&gt;&lt;/summary&gt;
-			&lt;&lt;if _adults &gt; 0 &amp;&amp; $builtRut == true&gt;&gt;
-					/* Lets dragons at end-day shelter themselves, instead of players manually assigning. */
-					/* Autoselect is &#39;true&#39;. */
+			&lt;&lt;if _adults &gt; 0&gt;&gt;
+						/* Lets dragons at end-day shelter themselves, instead of players manually assigning.
+					   	   Autoselect is &#39;true&#39;. */
 					&lt;label&gt;&lt;&lt;checkbox &quot;$findSleep&quot; false true autocheck&gt;&gt;Should dragons find their own places to sleep?&lt;/label&gt;&lt;br&gt;
-					&lt;label&gt;&lt;&lt;checkbox &quot;$freelyMate&quot; true false autocheck&gt;&gt;Should dragons have eggs whenever they please? &lt;/label&gt;
+
+						/* Runs &lt;&lt;tryForEgg&gt;&gt; at day-end, which starts the egg factory.
+						   Production can get out of hand quick, so this is necessary.
+						   Autoselect is &#39;true&#39;. */
+					&lt;label&gt;&lt;&lt;checkbox &quot;$freelyMate&quot; false true autocheck&gt;&gt;Should dragons have eggs whenever they please? &lt;/label&gt;
 			&lt;&lt;/if&gt;&gt;&lt;br&gt;
 		&lt;/details&gt;
 
@@ -5179,8 +5214,8 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	
 		&lt;&lt;if $defenseTalk == true&gt;&gt;&lt;details&gt;
 		&lt;summary&gt;&lt;h4&gt;Defense ▼&lt;/h4&gt;&lt;/summary&gt;
-			/* Lets rockfalls be loaded at day-end. */
-			/* Autoselect is &#39;true&#39; */
+				/* Lets rockfalls be loaded at day-end.
+				   Autoselect is &#39;true&#39; */
 			&lt;label&gt;&lt;&lt;checkbox &quot;$autoLoad&quot; false true autocheck&gt;&gt;Auto-load empty rockfalls?&lt;/label&gt;&lt;br&gt;
 		&lt;/details&gt;
 
@@ -5201,8 +5236,8 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	&lt;&lt;/link&gt;&gt;
 	&lt;br&gt;
 
-	/* I should really just remove this, but does the same as above - albeit for the world notes. */
-	/* Acts as a tutorial reminder, should anyone need that, plus lore repository. */
+		/* Acts as a tutorial reminder, should anyone need that, plus lore repository.
+		   Currently VERY unfinished. */
 	&lt;&lt;link &quot;World Notes&quot;&gt;&gt;
 		&lt;&lt;script&gt;&gt;
 			Dialog.setup(&quot;Encyclopedia&quot;);
@@ -5211,26 +5246,24 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 		&lt;&lt;/script&gt;&gt;
 	&lt;&lt;/link&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Patchnotes" tags="" position="100,725" size="100,100">&lt;&lt;nobr&gt;&gt;
-/* These are patchnotes. */
-/* Organized by new content - QoL adjustments - patched bugs - new bugs. */
-/* Should have a current focus tab somewhere... */
-/* One version previous is kept as reference (personal and player). */
-/* The gleeful tone is neecessary for personal success. */
+		/* These are patchnotes.
+		   Organized by new content - QoL adjustments - patched bugs - new bugs.
+		   Should have a current focus tab somewhere...
+		   The gleeful tone is neecessary for personal success. */
 
-	&lt;h1&gt; Pre-Pre-Alpha 0.31.2.0&lt;/h1&gt;
+	&lt;h1&gt; Pre-Pre-Alpha 0.31.3.5&lt;/h1&gt;
 	&lt;em&gt;&lt;strong&gt;COLONIST UPDATE&lt;/strong&gt;&lt;/em&gt;
-
-	&lt;h2&gt; Pre-Pre-Alpha 0.31.2.0 &lt;/h2&gt;
-	&lt;strong&gt;New!&lt;/strong&gt;
+	
 	&lt;ul&gt;
-	&lt;li&gt;Colonist IDs! You won&#39;t see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named &#39;Sparky&#39; or what have you, the game can still tell them apart.&lt;/li&gt;
+	&lt;li&gt;Colonist IDs! You won&#39;t see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named &#39;Sparky&#39; or what have you, the game won&#39;t try to call every Sparky that ever existed.&lt;/li&gt;
 	&lt;li&gt;Colonists have actually just been refactored wholesale; hatchlings and eggs have been merged into the overall colonist array, the colonist making widgets have been thus merged together, and lots of things have been fixed up. All in the name of making families work.&lt;/li&gt;
-	&lt;li&gt;Colonists can have (extremely simplified!) relationships now. Specifically, they either are or are not mates, and they either are or are not family.&lt;/li&gt;
+	&lt;li&gt;Colonists can have eggs together! Parents are tracked, though nothing else is. This is the start of a relationship system. To accompany this, there&#39;s a new social policy tracking if colonists are allowed to breed, otherwise things get ridiculous REAL quick. This will be tinkered with regularly.&lt;/li&gt;
 	&lt;li&gt;Job icons! Thunder list has icons next to titles for at-a-glance recognition.&lt;/li&gt;
 	&lt;li&gt;New job! &lt;strong&gt;Salvagers&lt;/strong&gt; look for gold for you! Since their job is specifically to get gold, while they don&#39;t often find any, they bring in a &lt;em&gt;lot&lt;/em&gt; when they do. Maybe.&lt;/li&gt;
 	&lt;li&gt;The start of job sites! Currently not constructable, plans are in place. Will provide buffs based on upgrade level, similar to the moat structure.&lt;/li&gt;
-	&lt;li&gt;Personalities have been restructured into archetypes; previous personalities are now defined as &#39;traits&#39;. Certain archetypes are good at certain jobs, and prefer (or disdain) the company of other archetypes... except for lazy personalities, who don&#39;t want to do work and don&#39;t like anyone but other lazy dragons. No one much cares for lazy dragons either. Interact page has been updated to reflect this.&lt;/li&gt;
+	&lt;li&gt;Personalities have been restructured into archetypes; previous personalities are now defined as &#39;traits&#39;. Certain archetypes are good at certain jobs, and prefer (or disdain) the company of other archetypes... except for lazy personalities, who don&#39;t want to do work and don&#39;t like anyone but other lazy dragons. No one much cares for lazy dragons either. Interact page has been updated to reflect archetypes, though information on what archetypes like who / what jobs is not yet available. Will be soon, prommie.&lt;/li&gt;
 	&lt;li&gt;Encylopedia real?! Encyclopedia real! Presently, there is only a tutorial refresher, as well as some loose explanations of dragon personalities. Details will be added per dev fiat, and whenever I manage to revive my laptop / get the data out of it. =)&lt;/li&gt;
+	&lt;li&gt;Player&#39;s den operates as a trophy room. Perhaps trophies will later have a purpose...?&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;
 	&lt;/ul&gt;&lt;br&gt;
 
@@ -5251,7 +5284,8 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	&lt;li&gt;To further this: if a dragon&#39;s personality aligns with their job, the cap is higher, but still capped! Just because a dreamy dragon is foraging, they can&#39;t get 100 food! They&#39;ll just pick up a max of 45 instead, with higher chances to collect more. (job preferences and personalities will continue to be refined.)&lt;/li&gt;
 	&lt;li&gt;Not sheltering dragons is now more punishing. Put them in a rut or a hollow, but DO NOT let them out in the cold.&lt;/li&gt;
 	&lt;li&gt;The player also consumes SLIGHTLY more on a daily basis if sheltered. Only one more—4 food, 5 water—to better reflect the change to the rest of their grown colonists.&lt;/li&gt;
-	&lt;li&gt;goldBonus has once again been nerfed. I&#39;ll figure it out. &lt;/li&gt;
+	&lt;li&gt;goldBonus has once again been nerfed. I&#39;ll figure it out.&lt;/li&gt;
+	&lt;li&gt;Bit more of a grace period before the Hydra raid starts; players somewhat more time to put up defenses &amp; make sure their dragons are ready to go.&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;
 	&lt;/ul&gt;&lt;br&gt;
 
@@ -5262,6 +5296,16 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	&lt;li&gt;Encountering the Hydra Den post-victory directs the PC to the visit page now.&lt;/li&gt;
 	&lt;li&gt;Builders should no longer report 0 days left until a building is finished; they should just finish the building. Oughta help a touch with defense preparations.&lt;/li&gt;
 	&lt;li&gt;Central no longer allows foraging if your stores are capped... not sure how I missed that, to be quite honest.&lt;/li&gt;
+	&lt;li&gt;Builders now actually build things instead of constantly &#39;starting work&#39;. Again.&lt;/li&gt;
+	&lt;li&gt;Dragons no longer breed with eggs / hatchlings. They also stop the egg factory when there&#39;s no more room in the nursery, rather than making the nests overfloweth.&lt;/li&gt;
+	&lt;li&gt;It was pointed out to me that the order of the resources on the side v. how they&#39;re presented when choosing what to forage for differ. That can&#39;t stand.&lt;/li&gt;
+	&lt;li&gt;Everydragon is counted properly. Remember to always double-check your writing when you&#39;ve been doing something for several hours or else you&#39;ll miss something silly and obvious. &lt;3 &lt;/li&gt;
+	&lt;li&gt;No longer able to preview eggs/hatchlings via the Interact page. That was fun while it lasted.&lt;/li&gt;
+	&lt;li&gt;Dragons should accurately report how many days they&#39;ve worked / how good they are at their jobs in the Interact page.&lt;/li&gt;
+	&lt;li&gt;It&#39;s clearer that Scavengers are bringing in the &#39;they also found [whatever] gold!&#39; rather than your salvs.&lt;/li&gt;
+	&lt;li&gt;Moat construction slightly reworded to imply that it&#39;s a multi-step process.&lt;/li&gt;
+	&lt;li&gt;Thunder page works again; sad as we are to see Undefined go, it&#39;s for the best.&lt;/li&gt;
+	&lt;li&gt;Dragons stop saying they suck at their job when they&#39;re actually veterans in the Interact page. (I broke a lot of things in the Interact page.)&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;
 	&lt;/ul&gt;&lt;br&gt;
 	
@@ -5269,16 +5313,21 @@ Made by Recila!&lt;/sup&gt;</tw-passagedata><tw-passagedata pid="49" name="Story
 	&lt;ul&gt;
 	&lt;li&gt;&#39;Cheating&#39; link in Bugtesting/Cheating mode doesn&#39;t have an underline. Bit of a headscratcher, that.&lt;/li&gt;
 	&lt;li&gt;I&#39;ve probably made bugs in relation to the colonist refactor. Sorry.&lt;/li&gt;
+	&lt;li&gt;Hatchling &amp; Egg &#39;first grown/hatched&#39; events not firing. I&#39;m really not sure what&#39;s going on there, but I&#39;ll get it. Until then, a bit of flavor is missing.&lt;/li&gt;
+	&lt;li&gt;The breeding system does not care about parentage. I&#39;m going to figure that out, to try and minimize line-breeding.&lt;/li&gt;
+	&lt;li&gt;I&#39;ve probably missed a reference or two to now irrelevant variables (such as `$hatchlings` or `$eggs`, or using `$dragons.length` instead of `_adults`) so I&#39;ll be hunting those down.&lt;/li&gt;
 	&lt;li&gt;&lt;/li&gt;
 	&lt;/ul&gt;&lt;br&gt;
+
+	&lt;sub&gt;Hey, if you&#39;re reading this? The dev loves you &lt;3 &lt;/sub&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="52" name="OOC Chat" tags="" position="225,725" size="100,100">&lt;&lt;nobr&gt;&gt;
 
-	/* This is the &#39;end demo&#39; page. */
-	/* Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current &#39;end&#39;. */
-	/* It includes hints on if the player has missed anything or if they&#39;ve found it all, and a teaser on what&#39;s the next &#39;big&#39; update. */
-	/* This page always returns to either the Sandbox, or to the game START. */
+		/* This is the &#39;end demo&#39; page.
+		   Any time I reach a new milestone in DREKI, this page will be updated to congratulate the player on reaching the current &#39;end&#39;.
+		   It includes hints on if the player has missed anything or if they&#39;ve found it all, and a teaser on what&#39;s the next &#39;big&#39; update.
+		   This page always returns to either the Sandbox, or to the game START.
 	
-	/* CURRENT DEMO END: Hydra Raid. */
+		   CURRENT DEMO END: Hydra Raid. */
 
 	Hello, this is the dev here! I&#39;ve some words to share...&lt;br&gt;&lt;br&gt;
 
@@ -5979,11 +6028,11 @@ For now, you have no food, no water, and no treasure.
 
 	    /* Population counting widget. Counts eggs, hatchlings, adults, whatever. */
     &lt;&lt;widget &quot;countDragons&quot;&gt;&gt;
-        &lt;&lt;switch args[0]&gt;&gt;
+        &lt;&lt;switch _args[0]&gt;&gt;
             &lt;&lt;case &quot;eggs&quot;&gt;&gt;
-                &lt;&lt;set _eggs = $dragons.countWith(function (egg) { return egg.stage === &quot;egg&quot;; })&gt;&gt;
+                &lt;&lt;set _eggs = $dragons.countWith(function (dragon) { return dragon.stage === &quot;egg&quot;; })&gt;&gt;
             &lt;&lt;case &quot;hatchlings&quot;&gt;&gt;
-                &lt;&lt;set _hatchlings = $dragons.countWith(function (hatchling) { return hatchling.stage === &quot;hatchling&quot;; })&gt;&gt;
+                &lt;&lt;set _hatchlings = $dragons.countWith(function (dragon) { return dragon.stage === &quot;hatchling&quot;; })&gt;&gt;
             &lt;&lt;case &quot;winglets&quot;&gt;&gt;
                 &lt;&lt;set _winglets = $dragons.countWith(function (dragon) { return dragon.stage === &quot;winglet&quot;; })&gt;&gt;
             &lt;&lt;case &quot;adults&quot;&gt;&gt;

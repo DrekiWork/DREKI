@@ -1,5 +1,7 @@
 :: colonyWidgets [widget]
 <<nobr>>
+        /* UNFINISHED DESC */
+        /* Provide proper explanation later. */
     <<widget "buildTimeSanityCheck">><<nobr>>
         <<if $buildTime >= 1>>
             <<set $builderStatus = 2>>
@@ -65,6 +67,7 @@
         <</if>>
     <</nobr>><</widget>>
     
+        /* Counts adult dragons working a specific job type. */
     <<widget "countWorkers">><<nobr>>
         <<set _wantedDragons = $dragons.filter(function(dragon) {
             return dragon.job === _args[0];
@@ -72,5 +75,22 @@
         <<set _wantedCount = _wantedDragons.length>>
         <<set _wantedNames = _wantedDragons.map(function(dragon) { return dragon.name; })>>
     <</nobr>><</widget>>
+
+
+	    /* Population counting widget. Counts eggs, hatchlings, adults, whatever. */
+    <<widget "countDragons">>
+        <<switch _args[0]>>
+            <<case "eggs">>
+                <<set _eggs = $dragons.countWith(function (dragon) { return dragon.stage === "egg"; })>>
+            <<case "hatchlings">>
+                <<set _hatchlings = $dragons.countWith(function (dragon) { return dragon.stage === "hatchling"; })>>
+            <<case "winglets">>
+                <<set _winglets = $dragons.countWith(function (dragon) { return dragon.stage === "winglet"; })>>
+            <<case "adults">>
+                <<set _adults = $dragons.countWith(function (dragon) { return dragon.stage === "adult"; })>>
+            <<case "elders">>
+                <<set _elders = $dragons.countWith(function (dragon) { return dragon.stage === "elder"; })>>
+        <</switch>>
+    <</widget>>
 
 <</nobr>>

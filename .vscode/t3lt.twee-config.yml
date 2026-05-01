@@ -8,22 +8,14 @@ sugarcube-2:
       name: growUp
     hatchDragon:
       name: hatchDragon
-    wanderDragon:
-      name: wanderDragon
-    dragonMaker:
-      name: dragonMaker
-    hatchMaker:
-      name: hatchMaker
-    eggMaker:
-      name: eggMaker
+    colonistMaker:
+      name: colonistMaker
     updateBar:
       name: updateBar
     endDay:
       name: endDay
     numberinput:
       name: numberinput
-    dragonWanderer:
-      name: dragonWanderer
     updateHome:
       name: updateHome
     addRut:
@@ -78,3 +70,11 @@ sugarcube-2:
       name: resetDefense
     relationshipEventTrigger:
       name: relationshipEventTrigger
+    ageUpdates:
+      name: ageUpdates
+    countDragons:
+      name: countDragons
+    tryForEgg:
+      name: tryForEgg
+    adultIndices:
+      name: adultIndices

@@ -1,6 +1,13 @@
 :: Building [WIP] {"position":"950,550","size":"100,100"}
 You need to make something, but what? What does your colony need right now?<<nobr>>
 <<countWorkers "builder">>
+
+<<countDragons "eggs">>
+<<countDragons "hatchlings">>
+<<countDragons "winglets">>
+<<countDragons "adults">>
+<<countDragons "elders">>
+
 <<if _wantedCount > 0 && $buildQueue.length > 0>>
 	<br><br>
 	Your builder<<if _wantedCount > 1>>s<</if>> have been told to build:
@@ -22,8 +29,8 @@ You need to make something, but what? What does your colony need right now?<<nob
 		<<include "buildStorage">>
 	</div>
 
-<<if $dragons.length > 10 && _wantedCount > 0>>
-	<<link "Job Sites">> <<toggleclass "#jobSite" "hidden">> <</link>>
+<<if _adults > 10 && _wantedCount > 0>>
+	<br> <br> <<link "Job Sites">> <<toggleclass "#jobSite" "hidden">> <</link>>
 	<div id="jobSite" class="hidden">
 		<<include "buildJobSite">>
 	</div>
@@ -145,7 +152,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<<if $wood >= 3>>
 		<<button "Build">>
 			<<set $nest += 1>>
-			<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+			<<set $eggSpace = (($nest * 3) - (_eggs + _hatchlings))>>
 			<<set $wood -= 3>>
 			<<updateBar>>
 			<<replace "#shelter">>
@@ -274,7 +281,7 @@ You need to make something, but what? What does your colony need right now?<<nob
 	<<if $defenseBuildings.moat.amount < $defenseBuildings.moat.max>>
 		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
 		<<if $defenseBuildings.moat.amount == 0>>
-			You've yet to construct one<<if $buildQueue.count("moat") > 0>>, but you've told your builders to work on it<</if>>. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+			You've yet to begin construction<<if $buildQueue.count("moat") > 0>>, but you've told your builders to work on it <<else>>; starting it now will dig the claw-carved ravine, but you'll have to order further efforts later on to complete the moat.<</if>>. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 1>>
 			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however...<<if $buildQueue.count("moat") > 0>> And you've told your builders to get to it.<</if>> Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
 		<<elseif $defenseBuildings.moat.amount == 2>>

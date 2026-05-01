@@ -1,0 +1,53 @@
+:: AgingWidgets [widget]
+
+    /* Because the dragons have been merged into one, */
+    /* We now only have a central aging widget. */
+    /* We increment age, then switch based on stage. */
+    /* Eggs at 7 are 'hatched'; */
+    /* Hatchlings at 14 'grow up'; */
+    /* And adults are simply aged by one day. */
+    /* This is also how I count how many of a stage */
+    /* Currently exist in the colony. =) */
+<<widget "ageUpdates">><<nobr>>
+        
+    <<run console.log("ageUpdates ran")>>
+
+    <<countDragons "eggs">>
+    <<countDragons "hatchlings">>
+    <<countDragons "winglets">>
+    <<countDragons "adults">>
+    <<countDragons "elders">>
+
+    <<set _hatchCheck = 0>>
+    <<set _growCheck = 0>>
+
+    <<for _i = 0; _i < $dragons.length; _i++>>
+
+        <<set $dragons[_i].time += 1>>
+
+        <<switch $dragons[_i].stage>>
+            <<case "egg">>
+                <<if $dragons[_i].time >= 7>>
+                    <<set $dragons[_i].stage = "hatchling">>
+                    <<set $dragons[_i].time = 7>>
+                    <<set _hatchCheck += 1>>
+                    <<set _hatchlings += 1>>
+                <<else>>
+                <</if>>
+            <<case "hatchling">>
+                <<if $dragons[_i].time >= 14>>
+                    <<set $dragons[_i].stage = "adult">>
+                    <<set $dragons[_i].time = 14>>
+                    <<set $dragons[_i].job = "slacker">>
+                    <<set _growCheck += 1>>
+                    <<set _adults += 1>>
+                <<else>>
+
+                <</if>>
+            <<default>>
+        <</switch>>
+    <</for>>
+    
+        
+
+<</nobr>><</widget>>
