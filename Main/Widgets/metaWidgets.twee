@@ -20,8 +20,8 @@
 	<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 
 		/* Making sure that the pop only cares about ADULT dragons. */
-	<<countDragons "adults">>
-	<<set $pop = _adults>>
+	<<updateHome>>
+	<<set $pop = $dragons.length>>
 
 		/* Reloads the caption. */
 	<<replace "#story-caption">>

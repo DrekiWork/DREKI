@@ -5,11 +5,21 @@
 
 		/* Title is what the player is referred to by colonists and others. */
 		/* Actions are how many times a player can leave the colony before day end. */
+		/* actionsTaken is the collective hub for limited daily actions. */
+			/* lookedForGold is if the player has done the treasure foraging action. */
+			/* stolenEggs is if the player has raided a different colony for eggs that day. */
 		/* Health is health; lost if player doesn't eat or drink at day end. */
 		/* Specials is trophies claimed from defeated bosses, ex. the Hydra's Heart. */
+			/* Specials will offer certain bonuses later down the line. */
+			/* It varies. Some will simply be reputation buffs/flavor, */
+			/* Others will have more... permanent... effects. */
 	<<set $player = {
 		title : "Founder",
 		action : 5,
+		actionsTaken : {
+			lookedForGold : false,
+			stolenEggs : false
+		},
 		health : 10,
 		home : {
 			built : false,
@@ -18,14 +28,6 @@
 		},
 		specials : []
 	}>>
-
-		/* Set to false to allow the player to look for gold once per day at game start. */
-		/* Gets reset on rest. */
-	<<set $goldHunt = false>>
-
-		/* Tracks if the player has atttempted to steal an egg 'today'. */
-		/* Resets each rest to false to allow another attempt. */
-	<<set $eggStolen = false>>
 
 		/* visitPlaces flag determines if the player has run into a special location. */
 		/* False means they haven't and can't choose to go to a special location from Sandbox. */
@@ -46,31 +48,37 @@
 	<<set $npcIDCounter = 0>>
 
 		/* Name list to be chosen from, in alphabetical order. */
+		/* These are all references in one way or another. */
+		/* Current references: */
+		/* Spyro, CotL, WoF, Eragon, Destiny, Elden Ring, Dark Souls, Skyrim, */
+		/* Godzilla, The Hobbit, Warframe, FFXIV */
 	<<set $dNames to [
-		"Abaddon", "Adula", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Aysaelo", "Azizi", 
-		"Baeliru", "Bakari", "Baruti", "Beroan", "Blaze", "Boldar", "Boris", "Brantley", "Briam", "Brigid", "Bruno", 
+		"Abaddon", "Adula", "Agheel", "Ajax", "Alban", "Alaric", "Alcar", "Alduin", "Alisaie", "Alphinaud", "Altair", "Alvar", "Andor", "Angelus", "Apara", "Aragorn", "Arden", "Argus", "Aric", "Asher", "Astor", "Athine", "Avery", "Aysaelo", "Azizi", 
+		"Baeliru", "Bakari", "Baruti", "Bayle", "Beroan", "Blaze", "Boldar", "Boris", "Brantley", "Briam", "Brigid", "Bruno", 
 		"Cadmus", "Caedialo", "Caius", "Camo", "Caspar", "Cedric", "Cigam", "Clay", "Conan", "Copano", "Cosmos", "Cyclone", "Cynder", "Cyprin", "Cyril", "Cyrus", 
 		"Damon", "Darius", "Delbin", "Devlin", "Drobit", 
-		"Eirlys", "Eleri", "Ember", "Enzo", "Eivias", 
-		"Fírnen", "Flame", "Flavius", "Fonsworthy", 
-		"Galadriel", "Gavin", "Ghidora", "Gildas", "Gildor", "Gimli", "Glaedr","Greyoll", "Grigori", "Gwyneth", "Gunnar", 
-		"Halen", "Halvor", "Haldor", "Hexus", "Helgi", 
+		"Eirlys", "Eivias", "Eleri", "Ember", "Enzo", "Estinien", 
+		"Fírnen", "Flame", "Flavius", "Follie", "Fonsworthy", "Fortissax", 
+		"Galadriel", "Gavin", "Ghidora", "Ghost", "Gildas", "Gildor", "Gimli", "Glaedr", "Glory", "Greyoll", "Grigori", "Gwyneth", "Gunnar", 
+		"Hagar", "Halen", "Halvor", "Haldor", "Heket", "Hexus", "Helgi", "Hollow", "Hornet",
 		"Iola", "Isaak", "Ilmarinen", "Ivor", 
 		"Jaren", "Jarvis", "Jed", "Jormungandr", 
-		"Kael", "Kasiya", "Kosoko", 
-		"Laird", "Lateef", "Legna", "Lenora","Lindar", "Liraz", "Lirien", "Lutalo", 
-		"Magnus", "Makar", "Malefor", "Maximos", "Mazi", "Miasmar", 
-		"Nestor", "Nevin", "Nils", "Nithring", 
-		"Obasi", "Odahviing", "Ophelia", "Oswin", 
-		"Paarthurnax", "Pyra", 
-		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Revilo", 
-		"Sadiki", "Saphira", "Sif", "Seren", "Skipper", "Shruikan", "Smaug", "Soot", "Spry", "Spyro", "Storm", "Sunburn", 
-		"Tamlin", "Tanwen", "Terrador", "Theodorix", "Thor", "Tirion", "Titan", "Todor", "Tomas", "Torin", "Trondo", "Twister", 
-		"Ulric", "Unika", "Ullr", "Urgost", "Useni", 
+		"Kael", "Kalameet", "Kallimar", "Kasiya", "Kosoko", "Krile", 
+		"Laird", "Lateef", "Legna", "Lenora", "Leshy", "Lindar", "Liraz", "Lirien", "Lotus", "Lutalo", "Lyse", 
+		"Magnus", "Makar", "Malefor", "Marchosias", "Maximos", "Mazi", "Miasmar", "Midir", "Minfilia", "Moonwatcher", 
+		"Narinder", "Nekros", "Nestor", "Nevin", "Nils", "Nithring", 
+		"Obasi", "Oberon", "Odahviing", "Ophelia", "Ordis", "Oswin", 
+		"Paarthurnax", "Peril", "Placidusax", "Priscilla", "Pyra", 
+		"Qibli", "Quinn", 
+		"Rhiannon", "Rhys", "Ragnar", "Ramses", "Rell", "Revilo", "Riven", "Roathe", 
+		"Sadiki", "Saphira", "Seath", "Seren", "Skipper", "Shamura", "Shaxx", "Shruikan", "Sif", "Sinh", "Simaris", "Smaug", "Soot", "Spry", "Spyro", "Starflight", "Storm", "Sunburn", "Sunny", 
+		"Tamlin", "Tanwen", "Taranis", "Tataru", "Terrador", "Teshin", "Thancred", "Theodorix", "Thor", "Tirion", "Titan", "Titania", "Todor", "Tomas", "Torin", "Trondo", "Tsunami", "Twister", 
+		"Ulric", "Unika", "Ullr", "Urgost", "Urianger", "Useni", 
 		"Valen", "Varalys", "Varda", "Vathek", "Volteer", 
 		"Woden", "Wren", 
-		"Yara", 
-		"Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc"
+		"Xerxes", "Xur", 
+		"Yara", "Yngya", "Y'shtola", 
+		"Zander", "Zane", "Zantor", "Zaren", "Zephyr", "Zinc", "Zulaak"
 	]>>
 	
 		/* Personality archetypes. */
@@ -93,6 +101,12 @@
             likes: ["social", "rebellious"],
             dislikes: ["militaristic", "cynical", "lazy"]
         }, 
+        "fastidious": {
+            traits: ["demanding", "exacting", "meticulous", "nervous", "obsessive", "organized", "perceptive", "precise", "sensitive", "vain"], 
+            jobs: ["builder", "rainier"], 
+            likes: ["industrious", "idealist"], 
+            dislikes: ["dreamy", "rebellious", "lazy"]
+        }, 
         "idealistic": {
             traits: ["altruistic", "empathetic", "enthusiastic", "gentle", "hopeful", "idealistic", "naive", "optimistic", "passionate", "selfless", "tolerant"], 
             jobs: ["forager", "rainier"], 
@@ -101,45 +115,39 @@
         }, 
         "industrious": {
             traits: ["conscientious", "consistent", "dependable", "efficient", "hardworking", "loyal", "methodical", "patient", "practical", "responsible"], 
-            jobs: ["rainier", "builder"], 
-            likes: ["militaristic", "perfectionist"], 
-            dislikes: ["social", "dreamer", "lazy"]
+            jobs: ["soldier", "builder"], 
+            likes: ["militaristic", "fastidious"], 
+            dislikes: ["social", "dreamy", "lazy"]
         }, 
         "lazy": {
-            traits: ["apathetic", "disorganized", "impatient", "indifferent", "lax", "lazy", "negligent", "selfish", "unmotivated"], 
+            traits: ["apathetic", "disorganized", "indifferent", "lax", "negligent", "selfish", "unmotivated"], 
             jobs: ["none"],
             likes: ["lazy"], 
-            dislikes: ["cynical", "dreamer", "idealist", "industrious", "opportunist", "perfectionist", "rebellious", "social", "militaristic"]
-        }, 
-        "opportunistic": {
-            traits: ["adaptable", "ambitious", "clever", "cunning", "greedy", "independent", "intelligent", "opportunistic", "resourceful", "shrewd"], 
-            jobs: ["salvager", "scavenger"], 
-            likes: ["militaristic", "cynic"], 
-            dislikes: ["perfectionist", "idealist", "lazy"]
-        }, 
-        "fastidious": {
-            traits: ["demanding", "exacting", "meticulous", "nervous", "obsessive", "organized", "perceptive", "precise", "sensitive", "vain"], 
-            jobs: ["builder", "rainier"], 
-            likes: ["industrious", "idealist"], 
-            dislikes: ["dreamer", "rebellious", "lazy"]
-        }, 
-        "rebellious": {
-            traits: ["bold", "daring", "defiant", "energetic", "moody", "nonconformist", "rebellious", "reckless", "spontaneous", "unpredictable"],
-            jobs: ["salvager", "soldier"],
-            likes: ["dreamer", "opportunist"],
-            dislikes: ["perfectionist", "militaristic", "lazy"]
-        }, 
-        "social": {
-            traits: ["caring", "charismatic", "chatty", "friendly", "generous", "outgoing", "persuasive", "placid", "thoughtful", "tolerant", "warm"], 
-            jobs: ["rainier", "forager"], 
-            likes: ["idealist", "dreamer"], 
-            dislikes: ["cynical", "industrious", "lazy"]
+            dislikes: ["cynical", "dreamy", "idealist", "industrious", "opportunist", "fastidious", "rebellious", "social", "militaristic"]
         }, 
         "militaristic": {
             traits: ["authoritative", "confident", "disciplined", "harsh", "persistent", "pragmatic", "rational", "resilient", "serious", "tough"], 
             jobs: ["soldier", "builder"], 
             likes: ["industrious", "opportunist"], 
-            dislikes: ["dreamer", "rebellious", "lazy"]
+            dislikes: ["dreamy", "rebellious", "lazy"]
+        }, 
+        "opportunistic": {
+            traits: ["adaptable", "ambitious", "clever", "cunning", "greedy", "independent", "intelligent", "opportunistic", "resourceful", "shrewd"], 
+            jobs: ["salvager", "scavenger"], 
+            likes: ["militaristic", "cynic"], 
+            dislikes: ["fastidious", "idealist", "lazy"]
+        }, 
+        "rebellious": {
+            traits: ["bold", "daring", "defiant", "energetic", "moody", "nonconformist", "rebellious", "reckless", "spontaneous", "unpredictable"],
+            jobs: ["salvager", "soldier"],
+            likes: ["dreamy", "opportunist"],
+            dislikes: ["fastidious", "militaristic", "lazy"]
+        }, 
+        "social": {
+            traits: ["caring", "charismatic", "chatty", "friendly", "generous", "outgoing", "persuasive", "placid", "thoughtful", "tolerant", "warm"], 
+            jobs: ["rainier", "forager"], 
+            likes: ["idealist", "dreamy"], 
+            dislikes: ["cynical", "industrious", "lazy"]
         }
     }>>
 
@@ -249,14 +257,17 @@
 /* ~~~~~~~~~~~~~ POPULATION SET-UP ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 	
-	/* ~~~ IN-COLONY POPULATION TRACKERS ~~~ */		
-	
-		/* Population count. Set to one to account for PC. */
-		/* Otherwise will equal the amount of -adult- colonists PC has. */
-	<<set $pop = 0>>
+	/* ~~~ IN-COLONY POPULATION TRACKERS ~~~ */
 
-		/* These are all your colonists; eggs, hatchlings, adults, so on. */
+		/* These are your colonists. $dragons is adults,
+		   $hatchlings are younglings still in the nursery,
+		   and $eggs are... eggs.
+		   I did this so that the interact page functions sanely,
+		   I can make hatchlings individually interactable,
+		   and eggs can be their own happy little campers. */
 	<<set $dragons = []>>
+	<<set $hatchlings = []>>
+	<<set $eggs = []>>
 
 		/* Prisoners is currently unused, but will house... prisoner dragons, once I set up actually catching egg thieves or intruders. */
 	<<set $prisoners = []>>
@@ -293,9 +304,9 @@
 		/* Gold provides a small buff to your resource-gathering colonists... and may be used in special ways later. */
 	<<set $food = 0>>
 	<<set $water = 0>>
-	<<set $gold = 0>>
-	<<set $wood = 0>>
 	<<set $stone = 0>>
+	<<set $wood = 0>>
+	<<set $gold = 0>>
 
 		/* Resource storage set-up. */
 		/* Pools for water, caverns for food, dugouts for wood and stone. */
@@ -355,7 +366,7 @@
 					<!-- Wood cost to build a shelter. -->
 				priceW : #,
 					<!-- OPTIONAL: How long builders will take to construct the shelter. -->
-			*	buildTime : #,
+				buildTime : #,
 					<!-- How much, of the total space provided by shelters, is open to new occupants. -->
 				free: #,
 					<!-- How much, of the total space provided by shelters, is in use by colonists. -->
@@ -471,6 +482,121 @@
 		/* $defenseTotal is the numerical representation of your defensiveness. */
 		/* 0 by default because no structures, but recalced when a new one is built. */
 	<<set $defenseTotal = 0>>
+
+
+
+	/* ~~~ JOBSITE BUILDINGS ~~~ */
+
+		/* Jobsites are buildings that offer bonuses to specific workers. */
+		/* They are unlocked after the Hydra is beaten. */
+		/* $jobSites is the datamap containing every site. */
+	<<set $jobSites = {}>>
+
+
+		/* Builder site. */
+		/* Needs to be constructed before the rest, so goes first. */
+		/* 'Max' means it can be upgraded to improve the buffs offered. */
+		/* In the case of builders, just lets them construct more things. */
+	<<set $jobSites.builder = {
+		amount : 0,
+		max : 3,
+		priceS : 50,
+		priceW : 50,
+		buildTime : 10
+
+	}>>
+
+			/* FOOD SITES */
+				/* Food and water buildings will be here, */
+				/* Since there will be multiple jobs covering food, */
+				/* And possibly multiple jobs handling water. */
+
+		/* Forager site. */
+		/* One of the first jobSites available to be constructed. */
+		/* Cheap and easy to build, with only two tiers. */
+		/* First offers a passive buff to storage, allowing */
+		/* More food to be kept in the cavern. */
+		/* Second raises gathering cap for foragers + */
+		/* a little more cavern storage buff. */
+	<<set $jobSites.forager = {
+		amount : 0,
+		max : 2,
+		priceS : 25,
+		priceW : 50,
+		buildTime : 6
+
+	}>>
+
+		/* Rainier site. */
+		/* Cheap and easy to build, with only two tiers. */
+		/* Operates same as forager site: */
+		/* Tier one gives storage buff to pools, */
+		/* Tier two raises gathering cap + additional storage buff. */
+	<<set $jobSites.rainier = {
+		amount : 0,
+		max : 2,
+		priceS : 50,
+		priceW : 25,
+		buildTime : 6
+
+	}>>
+
+			/* OTHER MATERIAL SITES */
+				/* Currently only building mats and gold, */
+				/* Other Materials are inedibles that are */
+				/* Still necessary to the colony's growth. */
+	
+		/* Scavenger site. */
+		/* Follows Forager / Rainier sites for first two; */
+		/* Third allows Founder to choose what material they focus on. */
+		/* Focus doesn't GUARANTEE a material, but it increases odds. */
+	<<set $jobSites.scavenger = {
+		amount : 0,
+		max : 3,
+		priceS : 75,
+		priceW : 75,
+		buildTime : 8
+
+	}>>
+
+		/* Salvager site... */
+		/* A one and done. */
+		/* Your builders are VERY SERIOUS about gold, so */
+		/* They put their all into it. */
+		/* Building improves gold bonus, increases odds */
+		/* Of salvs finding gold at all, and most importantly: */
+		/* Heck yeah, dragon hoard. */
+	<<set $jobSites.salvager = {
+		amount : 0,
+		max : 1,
+		priceS : 250,
+		priceW : 250,
+		prcieGold : 750,
+		buildTime : 15
+
+	}>>
+
+			/* OTHER JOBS' SITES */
+				/* Jobs that don't directly provide material, */
+				/* (Either edible, useful, or gold,) */
+				/* That nevertheless still provide a service */
+				/* To the colony. I think eventually I'll add */
+				/* A nursery 'upgrade' as part of the jobSites, */
+				/* When I add Brooders (or whatever I call Nusery jobs) */
+				/* To allow for them to more aptly care for the young'ins. */
+				/* This would also include teachers, herbalists, and */
+				/* Other such important-but-not-gathering jobs. =) */
+			
+		/* Soldier site. */
+		/* Uh... I don't actually know? Whoops. */
+	<<set $jobSites.soldier = {
+		amount : 0,
+		max : 2,
+		priceS : 50,
+		priceW : 50,
+		buildTime : 10
+
+	}>>
 
 
 

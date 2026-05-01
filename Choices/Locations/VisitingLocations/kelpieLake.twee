@@ -1,73 +1,7 @@
-:: HydraDen
-<<nobr>>
-    <<set $player.action -= 1>>
-    <<set $hasVisited.hydraDen = true>>
-    
-        /* If you haven't beaten the hydra, this is a good way to trigger the event. */
-        /* This is mostly in place to allow players a chance to steal the egg again without total RNG reliance. */
-    <<if $hydraBeat == true>>
-        <<switch visited()>>
-                /* Visit cases will also exist for 2-4, 5-11, and 12-15. I just haven't written them yet. */
-
-            <<case 1>>
-                    /* First visit. Making sure the hydra didn't leave any other surprises for you. */
-                    /* Purely fluff, of course. */
-                
-                Your flight to the Hydra's nest – or what <em>was</em> its nest, you suppose – is fraught with nerves. The wind seems to fight your wings, as though urging you back. Your hearts begin to pound; a familiar tremble rises along your spinal crests as the waterfall emerges in your view. It's changed since you last saw it. The basin and the river it flows into have been gouged, presumably by the Hydra's exit. The trees that once shrouded the pool have been torn apart; crushed or pushed aside with what seems to be minimal effort. Though the beast is dead and there is no more of a threat, you cannot bring yourself to land.<br>
-
-                Even from this distance, the path it carved seems monumental in comparison to yourself. Your best guess is that the width of its track must be equal to your full wingspan. Perhaps slightly larger – and its weight heavy enough to let the basin's water flow down a new bed. Not far, admittedly; the ground slopes gently to a hill, where the water has begun to pool at its base.<br>
-
-                You investigate the forming lake; it will not last. Though you are able to snap up an immature fish, you can see the sediment piling already. It will form another river in time, or perhaps close itself off entirely.<br>
-
-                ... You are, of course, stalling.<br>
-
-                The air stinks of meat, rotting or beginning to, as you swoop down by the cave entrance. It fills the air and sits heavily in your lungs. You're sure that if you so much as tapped your teeth together – or if your claws were to scrape over flint – the fetid fumes would doubtlessly erupt. Admittedly, that had been true before, but now? Perhaps that little spark would collapse the den entirely, and spare you from looking for any more of its brood. You still have its egg, after all; you must know if there are more, for the safety of your colony.<br>
-
-                This knowledge does not make your entry any less nerve-wracking. The cave walls are scarred by the hydra's passing; its belly has ground some smaller pebbles into shards that clatter away from your claws. The drop, when you reach it, is no more: the edge has been shattered, crumbled by the beast's bulk as it left. You don't risk trying to maneuver the slope regardless. Your wings carry you into the den proper, over jagged rocks and cracked stone. Were you not here for a purpose, you might be tempted to haul some back to the colony.<br>
-
-                You do not want to be here, still. The further into the den you go, the more raw your nerves. The mound of corpses has collapsed— no, not collapsed. You allow yourself to sink lower than what stalactites still cling to the ceiling. If the heap had previously been a rotting thing of gluttony and greed, the messs that greets you now is no less than an image of the massive serpent's wrath. There is no floor to the cavern, not anymore. There is no stone to be seen, no rock nor dirt: there is only bodies. Tossed with abandon to the far edges of the cavern, crushed under the hydra, bones and blood and fermenting flesh cover the ground more thoroughly than shrubs over fertile soil. You cannot tell one corpse from the next; the bodies blend into each other, bones broken into flesh not their own, meat ground together and blood dried and rancid pooling into a horrific new landscape.<br>
-
-                There is simply too much. You don't even feel horrified; you <em>can't</em>. Numbness like frost settles over you, hiding away whatever response you ought to be having and softening them to distant things. No more than old memories, blurred and vague. How could there be so much death in one location, truly? How could there still be life flourishing above when it seemed all you had ever met, seen, or hunted was festering on the ground, scattered in an eruption of rage? Once there stood a hill made purely of death, but now you must tread in it. The solidity of ground, when you sink enough into the meat to reach it, seems wholly incongruous. You are not precisely wading – but the topmost edge of your curved claws only barely clears the shallower carnage. Strange. It feels like you should sink in more, like you did the mound; sink into the meat and flesh until it wormed under your scales and melded with your flesh. It seemed, perhaps, the innumerable and indistinguishable bodies should pull you to pieces and let yours join and fester.<br>
-
-                You don't have much warning. One moment, you have landed in the massacre. The next, you are heaving into it, your stomach unable to bear the combination of the stench, the wet meat squelching against you, the feel of its rotting juices sluicing between your scales— You heave again, retching nothing but bile. Only when your gut is well and truly empty are you able to move forward. You avoid the deeper patches. Already, you can guess that there is nothing. What could have survived such a violent display? An egg or a hatchling would only have been crushed by it – left to rot just as surely as the rest of these bodies. Yet you must look.<br>
-
-                Unlike before, you feel no temptation to the meat. If there is any that is not yet foul, it isn't worth finding – and should you do so, it would be too contaminated regardless. Inedible. Even moving through it, your body arching and wings mantled away from the gore, you feel... unclean. More than your claws. More than the sickness that must be brewing in the untended remains of the hydra's horde. It waxes and wanes as you sift through the gore, curdling with particularly vile carcasses and easing as you work through what might be generously described as old carrion. Perhaps even scavengers would deem parts of the massacre fit for consumption, if they were desperate enough. You suspect they're still driven away by the lingering scent of the hydra.<br>
-
-                By the time you have cleared enough of the cavern to be satisfied – or perhaps desperate enough to leave that you are willing to sacrifice thoroughness for speed – you can no longer smell the rancid air. It coats your throat and lungs still; you can feel the slime of rot lingering, but you cannot smell it anymore. Your claws are wholly miscolored by your searching, and your body aches from the unnatural posture you've adopted to put as much space between yourself and the carnage. You don't care. There are no eggs, gleaming in the mess. There are no hatchling hydras writhing through the bodies as though it were only muck. You do not need to stay. You will not stay. You <em>cannot</em> stay, not today. Not this time. Fire burns down your wings as you flap them, forcing yourself airborne. You maneuver through the cave with ease, racing out the tunnel as though the hydra itself was following you out. Cold water splashes atop you, forcing you down— you follow eagerly, dropping into the basin.<br>
-
-                You swim for as long as you can, taking the opportunity to polish yourself with the sand at the bottom. You scrape and rub and half-bury yourself, desperate to clean away the disgusting sensation clinging to you. You surface once, then twice, and finally a third time. Some of your scales have been scoured off; they will regrow, thankfully, but you do not feel wholly yourself.<br>
-
-                ... It does not matter. You've done what you needed to. As clean as you can feel, [[you take to the skies for home.|Sandbox Central]]
-
-
-            <<default>>
-                    /* Any visit after the fifteenth; grants food and stone by default. */
-                
-                <<set _foodCollect = random(1,7)>>
-                <<set $food += _foodCollect>>
-                <<set _stoneCollect = random(3,14)>>
-                <<set $stone += _stoneCollect>>
-                
-                The hydra's cave no longer fills you with horror, you find. The sight of the split river—thinning though the off-shoot may be—spurs no more anxiety than the den of a bear. Worrisome, but only if you are stupid. You peruse the grounds absently, plucking what stone hasn't been taken and snapping up carrion-feeders that are daring to brave the rotting den.<br>
-
-                You don't care to linger for long. There isn't much of value, really; you take your <span class="food"><<print _foodCollect>> scraps</span> and <span class="stone"><<print _stoneCollect>> stones</span> and [[go home.|Sandbox Central]]
-
-        <</switch>>
-
-    <<else>>
-            /* Sends the player to the hydra food event, because they clearly still need to take the egg. */
-        <<goto "HydraFoodEvent">>
-
-    <</if>>
-
-<</nobr>>
-
-
 :: KelpieLake
 <<nobr>>
     <<set $player.action -= 1>>
     <<set $hasVisited.kelpieLake = true>>
-    <<countDragons "adults">>
 
     As the lake comes into sight, you feel a preemptive irritation rising. You can already see the beasts; only flashes of their scales, sure, but it's enough to annoy you. You settle down warily on the shoreline, watching the way the water ripples. It looks so peaceful. If only you didn't know better, they'd have a meal of you.<br><br>
 
@@ -91,7 +25,7 @@
                 <<set $food += _collect>>
                 <hr><br>
                 You take to the air, not bothering to get to the water's edge first; the beasts are on your shadow in an instant regardless, practically frothing the water with their own hunger. How they aren't hurting each other is beyond you, with the way their writhing bodies twist and tangle into one indistinct mass. It makes things easier for you, at least. When one lunges, too impatient to wait any longer, your jaws close around its skull. The crunch is almost more satisfying than its sudden limpness. The lake-creatures pile after the blood that drips down as though they are starved—and maybe they are—as you carry the corpse to shore.<br><br>
-                You only do this once more before a close call has you deciding to leave, carrying your two prizes - worth <span class="food"><<print _collect>> food</span> by your estimation - [[back home.|Sandbox Central]]
+                You only do this once more before a close call has you deciding to leave, carrying your two prizes — worth <span class="food"><<print _collect>> food</span> by your estimation — [[back home.|Sandbox Central]]
 
             <</replace>>
         <</link>><br>
@@ -124,8 +58,7 @@
                 <<replace "#decision">>
                     <hr><br>
                     <<countWorkers "builder">>
-                    <<countDragons "adults">>
-                    <<if _adults > 10 && _wantedCount > 0>>
+                    <<if $dragons.length > 10 && _wantedCount > 0>>
                         <<set $player.action -=1>>
                         <<set $defenseBuildings.moat.creatures = true>>
                         <<set _meat = random(17,30)>>
@@ -135,11 +68,11 @@
                         <<updateBar>>
                         <<set $dragonsHelpedMoveBeasts = true>>
                         <hr><br>
-                        You ponder the lake, and the beasts within. They're a nuisance, certainly. Vicious things with insatiable hunger and a near-suicidal drive. You're sure they've hunted all the fish in the lake to extinction, and they plainly are only surviving off whatever visitors are stupid enough to approach. You're not sure how their population is so out of control - occasional cannibalism, maybe? - but their ferocity has caught your attention... and more importantly, that of your builders. And you think they just might be onto something.
+                        You ponder the lake, and the beasts within. They're a nuisance, certainly. Vicious things with insatiable hunger and a near-suicidal drive. You're sure they've hunted all the fish in the lake to extinction, and they plainly are only surviving off whatever visitors are stupid enough to approach. You're not sure how their population is so out of control despite the starvation - occasional cannibalism, maybe? - but their ferocity has caught your attention... and more importantly, that of your builders. And you think they just might be onto something.
                         <br><br>
-                        No time like the present. You take to the skies, determined to gather up any and all available workers. You're sure they have better things to be doing; arguably <em>you</em> have more important work than indulging in this sort of fanciful thinking. But what's the point of being a <<print $player.title>> if not to occasionally indulge in your and your colony's odder ideas? When you've found <<print random(10, _adults)>> dragons - most importantly among them a builder - you return to the lake. The beasts remain strangely still as you fly overhead. If you thought they were capable of such an emotion, you might think them scared.
+                        No time like the present. You take to the skies, determined to gather up any and all available workers. You're sure they have better things to be doing; arguably <em>you</em> have more important work than indulging in this sort of fanciful thinking. But what's the point of being a <<print $player.title>> if not to occasionally indulge in your and your colony's odder ideas? When you've found <<print random(10, $dragons.length)>> dragons - most importantly among them a builder - you return to the lake. The beasts remain strangely still as you fly overhead. If you thought they were capable of such an emotion, you might think them scared.
                         <br><br>
-                        Then one of the lake-creatures launches from the water, snapping and writhing in the air, and the rest follow, turning the lake into a frothing mash of teeth and scale. Your gathered colonists are understandably concerned about the eruption of violence - several of them have stumbled into the lake before, and you've issued warnings about the little monsters, but there is nothing quite like seeing a frenzy. You, personally, haven't actually seen the beasts get quite this worked up either... So you turn to your builder for their input, and are met with them watching the water intently.
+                        Then one of the creatures launches from the water, snapping and writhing in the air, and the rest follow, turning the lake into a frothing mash of teeth and scale. Your gathered colonists are understandably concerned about the eruption of violence - several of them have stumbled into the lake before, and you've issued warnings about the little monsters, but there is nothing quite like seeing a frenzy. You, personally, haven't actually seen the beasts get quite this worked up either... So you turn to your builder for their input, and are met with them watching the water intently.
                         <br><br>
                         Alright then.
                         <br><br>
@@ -210,8 +143,8 @@
             <</linkappend>><br>
         <<else>>
         <</if>>
-        <<if _adults > 15>>
-            <<link "Get rid of the beasts.">>
+        <<if $dragons.length >= 15>>
+            <<link "Get rid of the beasts...">>
                 <<replace "#decision">>
                     <hr><br>
                     <<if $defenseBuildings.moat.creatures == true>>
@@ -224,7 +157,7 @@
                         <br><br>
                         This is certainly possible.
                         <br><br>
-                        You swoop down for a drink before making your way back. Any dragons you encounter are promptly recruited to the lake, with orders to bring along anyone else they see. Nice as it is to have a busy colony, gathering them up is something of a chore... oh well. You suffer from your success. You swoop about a while longer, checking at home for any stragglers then breaking off to the lake. You're not sure how many you've personally summoned, but it was definitely less than the <<print random(11, (_adults - 1))>> you find scattered about the lake. Most are basking in the glade, relishing a chance to soak up the sun without actually slacking off. Some are investigating the wood, plucking at the trees or shrubbery for goodies.
+                        You swoop down for a drink before making your way back. Any dragons you encounter are promptly recruited to the lake, with orders to bring along anyone else they see. Nice as it is to have a busy colony, gathering them up is something of a chore... oh well. What a horrible thing, to suffer from success. You glide about a while longer, checking at home for any stragglers then breaking off to the lake. You're not sure how many you've personally summoned, but it was definitely less than the <<print random(11, ($dragons.length - 1))>> you find scattered about the lake. Most are basking in the glade, relishing a chance to soak up the sun without actually slacking off. Some are investigating the wood, plucking at the trees or shrubbery for goodies.
                         <<if $dragonsHelpedMoveBeasts == true>>
                             A few of your colonists are playing with the beasts, even; twirling over the water and teasing the hungry creatures with swats of their tails on heads. Having to move dozens of the things would grant anyone confidence, you suppose. And living with a moat of them.
                         <<else>>
@@ -247,7 +180,7 @@
                         <</link>>
 
                     <<elseif $defenseBuildings.moat.amount >= 2 && $defenseBuildings.moat.creatures == false>>
-                        Though you're eager to remove these nuisances once and for all, you stop. Your builders were interested in these creatures, and looking at them, you can see the value in having such vicious beasts guarding your colony. You could use them in your moat; and sure, a number would die in the effort regardless, but you would have some for yourself.
+                        Though you're eager to remove the nuisances once and for all, you stop. Your builders were interested in these creatures, and looking at them, you can see the value in having such vicious beasts guarding your colony. You could use them in your moat; and sure, a number would die in the effort regardless, but you would have some for yourself.
                         <br><br>
                         <div id="confirmKill">
                             Are you sure you want to get rid of them?
@@ -259,7 +192,7 @@
                                     <<addResource "food" _meat>>
                                     <<unset $dragonsHelpedMoveBeasts>>
                                     <hr><br>
-                                    Tempting though it is to use them in your moat - you think the ravenous creatures would take many chunks out of land-bound intruders, assuming they don't just eat them outright... They aren't worth the hassle. Transporting them would doubtlessly be a difficult and time-consuming task, involving your full day or taking your dragons from their duties. And you aren't the type to hoard living things. (Not including your colonists, of course.)
+                                    Tempting though it is to use them in your moat — you think the ravenous creatures would take many chunks out of land-bound intruders, assuming they don't just eat them outright... They aren't worth the hassle. Transporting them would doubtlessly be a difficult and time-consuming task, involving your full day or taking your dragons from their duties. Maintaining the menagerie would be a problem itself, you suspect.
                                     <br><br>
                                     You take to the air for home, but you won't stay there long. You gather up whoever you see, and tell them to wait for you at the lake - if they find anyone along the way, tell them to come too! You'll have a feast of it. A few of your more nervous colonists seem apprehensive, but ultimately, they're not going to disagree with their <<print $player.title>>. When you're sure you've gathered enough you had back yourself.
                                     <br><br>
@@ -267,7 +200,7 @@
                                     <br><br>
                                     Once, you swore to boil them alive. That time is come.
                                     <br><br>
-                                    You organize your colonists into an aerial column, with yourself at the head. With a line of ten, they cover the length of the lake neatly. When you swoop down, fire roaring from your maw, they follow. And the lake boils. The creatures plainly have no idea how to handle the onslaught; they leap from the water, not to snap at your dragons but just to escape the heat. They swim furiously, piling into each other the closer to the shore they arrive. Some dive, you know, and perhaps they dive deeply enough to escape, but the majority flounder helplessly - struggling to stay ahead of the wall of flame or throwing themselves ashore in their desperation. Whatever dragons aren't part of your flyover methodically slaughter those foolish beasts. When you reach the end the lake, the creatures struggle onto land. Helplessly they writhe, confused and terrified and dying by the dozen.
+                                    You organize your colonists into an aerial column, with yourself at the head. With a line of ten, they cover the length of the lake neatly. When you swoop down, fire roaring from your maw, they follow. And the lake boils. The creatures plainly have no idea how to handle the onslaught; they leap from the water, not to snap at your dragons but just to escape the heat. They swim furiously, piling into each other the closer to the shore they arrive. Some dive, you know, and perhaps they dive deeply enough to escape, but the majority flounder helplessly - struggling to stay ahead of the wall of flame or throwing themselves ashore in their desperation. Whatever dragons aren't part of your flyover methodically slaughter those foolish beasts. When you reach the end of the lake, the creatures struggle onto land. Helplessly they writhe, confused and terrified and dying by the dozen.
                                     <br><br>
                                     You perform another sweep, boiling out more of the beasts. Dead bodies float along the surface of the lake, but you know there are more hiding below. You have your column pluck the bodies from the water and dive. You can hold your breath long enough for a hunt. And you do. Over and over, the water still warm on your scales, you chase the beasts down into the depths of <em>your</em> lake. You are joined in time by more of your colonists, and you don't stop until the lake is empty. Sunset casts the area in a bloody light, and you marvel at what you've created. A butcher's paradise.
                                     <br><br>
@@ -286,7 +219,7 @@
                         </div>
                     <</if>>
                 <</replace>>
-            <</link>><br>
+            <</link>> It will take the rest of the day, though.<br>
         <</if>>
 
         Or you can just [[go home.|Sandbox Central]]

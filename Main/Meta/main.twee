@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>alpha 0.31.3.5
+<sup>alpha 0.31.3.8
 Made by Recila!</sup>
 
 
@@ -31,7 +31,6 @@ Made by Recila!</sup>
 
 	/* Makes sure the player is in the game before attempting to present colony-relevant information. */
 <<if hasVisited("tutorialOpen") || $cheat == true>>
-	<<countDragons "adults">>
 	
 	Cycle <<print $cycles>>, Day <<print $days>>
 	<br>
@@ -72,7 +71,7 @@ Made by Recila!</sup>
 	<table>
 		<tr>
 			<td>Shelter Space: </td>
-				<td>&ensp;</td> <td><<print _adults>>&ensp;/&ensp;<<print ($home)>></td>
+				<td>&ensp;</td> <td><<print $dragons.length>>&ensp;/&ensp;<<print $home>></td>
 		</tr>
 	</table>
 
@@ -81,19 +80,24 @@ Made by Recila!</sup>
 	
 	<details>
 		<summary><h3>POLICIES ▼</h3></summary>
-		<<countDragons "adults">>
 		<center>———</center>
 		<details>
 			<summary><h4>Social ▼</h4></summary>
-			<<if _adults > 0>>
+			<<if $dragons.length > 0>>
 						/* Lets dragons at end-day shelter themselves, instead of players manually assigning.
 					   	   Autoselect is 'true'. */
-					<label><<checkbox "$findSleep" false true autocheck>>Should dragons find their own places to sleep?</label><br>
+					<label><<checkbox "$findSleep" false true autocheck>> Should dragons find their own places to sleep?</label><br>
+
+						/* Lets dragons choose a job upon growing up, rather than the player manually assigning.
+						   They choose based on personality and preferences, so unlucky players will still have to reassign.
+						   Autoselect is 'false'. */
+					<label><<checkbox "$jobHunt" false true autocheck>> Should dragons choose a job upon growing up?</label><br>
+					<<run console.log("jobHunt is: " + $jobHunt)>>
 
 						/* Runs <<tryForEgg>> at day-end, which starts the egg factory.
 						   Production can get out of hand quick, so this is necessary.
 						   Autoselect is 'true'. */
-					<label><<checkbox "$freelyMate" false true autocheck>>Should dragons have eggs whenever they please? </label>
+					<label><<checkbox "$freelyMate" false true autocheck>> Should dragons have eggs whenever they please? </label>
 			<</if>><br>
 		</details>
 
@@ -145,12 +149,12 @@ Made by Recila!</sup>
 		   Should have a current focus tab somewhere...
 		   The gleeful tone is neecessary for personal success. */
 
-	<h1> Pre-Pre-Alpha 0.31.3.5</h1>
+	<h1> Pre-Pre-Alpha 0.31.3.8</h1>
 	<em><strong>COLONIST UPDATE</strong></em>
 	
 	<ul>
 	<li>Colonist IDs! You won't see these, but under the hood, this is how the game keeps track of unique individuals for things like, say... relationships! So if you have multiple dragons named 'Sparky' or what have you, the game won't try to call every Sparky that ever existed.</li>
-	<li>Colonists have actually just been refactored wholesale; hatchlings and eggs have been merged into the overall colonist array, the colonist making widgets have been thus merged together, and lots of things have been fixed up. All in the name of making families work.</li>
+	<li>Colonists have once again been modified by A Lot. Eggs and hatchlings now store complete data of what they'll be when they're grown, and parents, since...</li>
 	<li>Colonists can have eggs together! Parents are tracked, though nothing else is. This is the start of a relationship system. To accompany this, there's a new social policy tracking if colonists are allowed to breed, otherwise things get ridiculous REAL quick. This will be tinkered with regularly.</li>
 	<li>Job icons! Thunder list has icons next to titles for at-a-glance recognition.</li>
 	<li>New job! <strong>Salvagers</strong> look for gold for you! Since their job is specifically to get gold, while they don't often find any, they bring in a <em>lot</em> when they do. Maybe.</li>
@@ -168,6 +172,7 @@ Made by Recila!</sup>
 	<li>Self-assign shelters and auto-load rockfalls are checks now, since there was some confusion with the previous selection method.</li>
 	<li>Foraging end-of has been moved to its own page. It checks what isn't topped in your stores before presenting options, and if you're full-up on everything (including having looked for gold), just tells you to go home.</li>
 	<li>The above also applies to the Central foraging options: It will no longer present foraging options if all of your stores are full, and you've looked for valuables.</li>
+	<li>The buildQueue can have items removed via clicking on them in the Building page. Yay! Now those millions of hollows can be removed from your queue. =)</li>
 	<li>In a QoL for me, not for thee: `endDay` has been seperated into multiple widgets, with `endDay` itself operating as a master widget. Makes things a touch more organized in the backend, and has allowed me to comment on it THOROUGHLY.</li>
 	<li></li>
 	</ul><br>
@@ -197,10 +202,12 @@ Made by Recila!</sup>
 	<li>Everydragon is counted properly. Remember to always double-check your writing when you've been doing something for several hours or else you'll miss something silly and obvious. <3 </li>
 	<li>No longer able to preview eggs/hatchlings via the Interact page. That was fun while it lasted.</li>
 	<li>Dragons should accurately report how many days they've worked / how good they are at their jobs in the Interact page.</li>
-	<li>It's clearer that Scavengers are bringing in the 'they also found [whatever] gold!' rather than your salvs.</li>
+	<li>It's clearer that Scavengers are bringing in the 'they also found (whatever) gold!' rather than your salvs.</li>
 	<li>Moat construction slightly reworded to imply that it's a multi-step process.</li>
 	<li>Thunder page works again; sad as we are to see Undefined go, it's for the best.</li>
 	<li>Dragons stop saying they suck at their job when they're actually veterans in the Interact page. (I broke a lot of things in the Interact page.)</li>
+	<li>When choosing to take in every wanderer / more than one wanderer, they should actually appropriately join rather than deciding their planet needs them.</li>
+	<li>Wanderers once again have xp for jobs. weird bug, that one.</li>
 	<li></li>
 	</ul><br>
 	
@@ -210,7 +217,6 @@ Made by Recila!</sup>
 	<li>I've probably made bugs in relation to the colonist refactor. Sorry.</li>
 	<li>Hatchling & Egg 'first grown/hatched' events not firing. I'm really not sure what's going on there, but I'll get it. Until then, a bit of flavor is missing.</li>
 	<li>The breeding system does not care about parentage. I'm going to figure that out, to try and minimize line-breeding.</li>
-	<li>I've probably missed a reference or two to now irrelevant variables (such as `$hatchlings` or `$eggs`, or using `$dragons.length` instead of `_adults`) so I'll be hunting those down.</li>
 	<li></li>
 	</ul><br>
 

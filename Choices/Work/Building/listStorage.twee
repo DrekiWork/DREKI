@@ -1,0 +1,63 @@
+:: buildStorage
+<<nobr>>
+	''Cavern'' <br>
+	Cost: 10 stone and 10 wood to build. You've already dug out a cavern to store food in; by expanding it and supporting it with wood brackets and stone bases, you can keep even more. You currently have <<print $cavern.amount>>. <br>
+	<<if $stone >= 10 && $wood >= 10>><<button "Build">>
+			<<set $cavern.amount += 1>>
+			<<set $foodCap = ($cavern.amount * $cavern.storage)>>
+			<<set $stone -= 10>>
+			<<set $wood -= 10>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>
+	<<if $stone < 10 && $wood < 10>>
+		''You don't have enough!'' You are missing <<print (10 - $stone)>> stone, and <<print (10 - $wood)>> wood!
+	<<elseif $stone < 10 && $wood >= 10>>
+		''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
+	<<elseif $stone >= 10 && $wood < 10>>
+		''You don't have enough!'' You are missing <<print (10 - $wood)>> wood!
+	<</if>>
+	<</if>>
+	<br> <br>
+
+	''Pool'' <br>
+	Cost: 10 stone to build. After digging a hole in the ground, lining it with stones, and filling the gaps with mud, you can create a place to store water. You currently have <<print $pool.amount>>. <br>
+		<<if $stone >= 10>><<button "Build">>
+			<<set $pool.amount += 1>>
+			<<set $waterCap = ($pool.amount * $pool.storage)>>
+			<<set $stone -= 10>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>''You don't have enough!'' You are missing <<print (10 - $stone)>> stone!
+	<</if>>
+	<br> <br>
+	
+	''Dug-out'' <br>
+	Cost: 15 stone and 15 wood to build. By opening up a bit more space in the fissure, you add more room to your wood and stone storage. You currently have <<print $dugOut.amount>>. <br>
+	<<if $stone >= 15 && $wood >= 15>><<button "Build">>
+			<<set $dugOut.amount += 1>>
+			<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
+			<<set $stone -= 15>>
+			<<set $wood -= 15>>
+			<<updateBar>>
+			<<replace "#storage">>
+				<<include "buildStorage">>
+			<</replace>>
+	<</button>>
+	<<else>>''You don't have enough!'' 
+	<<if $stone < 15 && $wood < 15>>
+		You are missing <<print (15 - $stone)>> stone, and <<print (15 - $wood)>> wood!
+	<<elseif $stone < 15 && $wood >= 15>>
+		You are missing <<print (15 - $stone)>> stone!
+	<<elseif $stone >= 15 && $wood < 15>>
+		You are missing <<print (15 - $wood)>> wood!
+	<</if>>
+	<</if>>
+	<br> <br>
+<</nobr>>

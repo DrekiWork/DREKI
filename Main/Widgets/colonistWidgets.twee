@@ -23,7 +23,7 @@
             /* They are basically entirely randomized, from hatch-time to appearance. */
         <<case "stolen egg">>
             <<run console.log("Ran stolen egg.")>>
-            <<run $dragons.push( {
+            <<run $eggs.push( {
 
                     /* Unique ID. Since names can be the same, and players can rename colonists, */
                     /* the ID ensures nobody is mixed up. */
@@ -64,6 +64,31 @@
                     /* Elders, when they exist, are retired dragons. */
                     /* They can do social jobs (when those exist), but hard labor is off the table. */
                 stage: "egg", 
+
+                    /* Status is the dragon's current... status. Or health. */
+                    /* Overall health is how much HP a dragon has; how many */
+                    /* fatal rolls they can take before going down. */
+                    /* An egg gets fatally sick... that's that. */
+                    /* Hatchlings can live two fatal rolls on their health, */
+                    /* While adults have the best odds with three fatal rolls. */
+                    /* Conditions are things currently affecting a colonist's health. */
+                    /* Healthy cannot co-exist with other conditions. */
+                    /* (Given, y'know, there's not currently permanent disabilities) */
+                    /* (or other such things that an individual can be healthy while) */
+                    /* (having a condition that affects their day to day.) */
+                    /* Conditions currently are: injured or ill. */
+                    /* The severity of which ranges from mild, severe, or fatal. */
+                    /* When a condition reaches fatal, the colonist is given nightly */
+                    /* death rolls. One 'successful' death roll knocks off a health point, */
+                    /* no health points, the colonist dies. */
+                    /* When not affected by a condition, there's no severity to avoid */
+                    /* Prior condition follow-through. Don't want someone to recover from */
+                    /* A nearly-fatal injury to get a cold that kills them instantly. */
+                status: {
+                    health: 1,
+                    condition: "healthy",
+                    severity: "none"
+                },
 
                     /* Appearance is all fluff. */
                 appearance: {
@@ -131,7 +156,7 @@
             <<set _pattern = either(_parent1.appearance.pattern, _parent2.appearance.pattern)>>
             <<set _visquirk = either(_parent1.appearance.visquirk, _parent2.appearance.visquirk)>>
 
-            <<run $dragons.push( {
+            <<run $eggs.push( {
 
                 id: $npcIDCounter,
 
@@ -145,6 +170,12 @@
                 time: 0,
 
                 stage: "egg", 
+
+                status: {
+                    health: 2,
+                    condition: "healthy",
+                    severity: "none"
+                },
 
                 appearance: {
 
@@ -186,7 +217,7 @@
 
         <<case "stolen hatchling">>
 
-            <<run $dragons.push( {
+            <<run $hatchlings.push( {
 
                 id: $npcIDCounter,
 
@@ -200,6 +231,12 @@
                 time: random(7, 13),
 
                 stage: "hatchling", 
+
+                status: {
+                    health: 2,
+                    condition: "healthy",
+                    severity: "none"
+                },
 
                 appearance: {
 
@@ -240,7 +277,7 @@
 
         
         <<case "wanderer hatchling">>
-            <<run $dragons.push( {
+            <<run $hatchlings.push( {
 
                 id: $npcIDCounter,
 
@@ -254,6 +291,12 @@
                 time: random(7, 13),
 
                 stage: "hatchling", 
+
+                status: {
+                    health: 2,
+                    condition: "healthy",
+                    severity: "none"
+                },
 
                 appearance: {
 
@@ -309,6 +352,12 @@
 
                 stage: "adult", 
 
+                status: {
+                    health: 3,
+                    condition: "healthy",
+                    severity: "none"
+                },
+
                 appearance: {
 
                     size: either($dSize),
@@ -355,10 +404,14 @@
 
                 /* _timeLeft is -14 because egg/hatchling stages. */
             <<set _timeLeft = (_time - 14)>>
+            <<run console.log("_timeLeft is: " + _timeLeft)>>
 
                 /* _jobs will be modified. When we're out of jobs, we break from the loop. */
-            <<set _jobs = $dJobs>>
-            <<set _jobs = _jobs.deleteAll("slacker")>>
+            <<set _jobs = []>>
+            <<set _jobs = $dJobs.flat()>>
+            <<run console.log("_jobs is: " + _jobs)>>
+            <<run _jobs.deleteAll("slacker")>>
+            <<run console.log("_jobs is: " + _jobs)>>
 
                 /* And we initialize XP to prevent errors. */
             <<set _buildxp = 0>>
@@ -367,37 +420,47 @@
             <<set _salvxp = 0>>
             <<set _scavxp = 0>>
             <<set _solxp = 0>>
+            <<run console.log("buildXP initialized at: " + _buildxp)>>
 
                 /* So now we start going through jobs. */
-            <<for _i; _i < $dJobs.length; _i++>>
+            <<for _i = 0; _i < $dJobs.length; _i++>>
                     /* Start with choosing how much XP a dragon will get in a job. */
                 <<set _currentXP = random(_timeLeft)>>
+                <<run console.log("_currentXP is: " + _currentXP)>>
                     /* Then rotate through jobs based on current roll. */
                 <<set _currentJob = either(_jobs)>>
+                <<run console.log("currentJob is: " + _currentJob)>>
                     /* And now remove the days from _timeLeft. */
                 <<set _timeLeft -= _currentXP>>
 
                 <<switch _currentJob>>
                     <<case "builder">>
-                        <<set _buildxp = (_currentXP * 0.1)>>
+                        <<set _buildxp += (_currentXP * 0.1)>>
+                        <<run console.log("_buildXP 2 is: " + _buildxp)>>
                     <<case "forager">>
-                        <<set _foragexp = (_currentXP * 0.1)>>
+                        <<set _foragexp += (_currentXP * 0.1)>>
+                        <<run console.log("_forageXP is: " + _foragexp)>>
                     <<case "rainier">>
-                        <<set _rainxp = (_currentXP * 0.1)>>
+                        <<set _rainxp += (_currentXP * 0.1)>>
+                        <<run console.log("_rainXP is: " + _rainxp)>>
                     <<case "salvager">>
-                        <<set _salvxp = (_currentXP * 0.1)>>
+                        <<set _salvxp += (_currentXP * 0.1)>>
+                        <<run console.log("_salvXP is: " + _salvxp)>>
                     <<case "scavenger">>
-                        <<set _scavxp = (_currentXP * 0.1)>>
+                        <<set _scavxp += (_currentXP * 0.1)>>
+                        <<run console.log("_scavxp is: " + _scavxp)>>
                     <<case "soldier">>
-                        <<set _solxp = (_currentXP * 0.1)>>
+                        <<set _solxp += (_currentXP * 0.1)>>
+                        <<run console.log("soldier xp is: " + _solxp)>>
                 <</switch>>
 
+
                     /* Remove the current job from the roster. */
-                <<set _jobs = _jobs.deleteAll(_currentJob)>>
+                <<run _jobs.deleteAll(_currentJob)>>
 
                     /* And if there's no jobs left (because slacker doesn't exist) */
                     /* Kill the loop there, and move on. */
-                <<if _jobs.length < 1>>
+                <<if _jobs.length < 1 || _timeLeft <= 0>>
                     <<break>>
                 <</if>>
             <</for>>
@@ -416,6 +479,12 @@
                 time: _time,
 
                 stage: "adult", 
+
+                status: {
+                    health: 3,
+                    condition: "healthy",
+                    severity: "none"
+                },
 
                 appearance: {
 

@@ -1,0 +1,89 @@
+:: buildJobSite
+<<nobr>>
+	<<switch $jobSites.builder.amount>>
+			/* UNFINISHED */
+		<<case 3>>
+				/* With builder site fully constructed, every other job site is unlocked:
+				   Forager, Rainier
+				   Scavenger, Soldier
+				   Salvager */
+			''Builder Stockpile''<br>
+			"Stockpile" is no longer accurate, but it's what your builders insist on calling it. Not only is there nearly a full hall—half open-air, the rest dug into the mountain for easy access to your wood and stone—each connected wall and column is carved in some way. Crude or patterned or so tenderly as to make the material seem soft, nota single feature has gone undecorated. Tablets of stone in varying sizes occupy stands or the ground, allowing for more complex arrangements of planning. There are even models of ideas, past projects, and future works scattered about.<br>
+			This jobsite is complete, as you must often remind your builders.<br><br>
+
+			''Forager Site''<br>
+
+
+			''Rainier Site''<br>
+
+
+			''Salvager Site''<br>
+
+
+			''Scavenger Site''<br>
+
+
+			''Soldier Site''<br>
+			
+
+
+		<<case 2>>
+			''Builder Stockpile''<br>
+			The space has grown; a pair of stone columns support a heavy roof sheltering their material, and a number of stone surfaces have been flattened for scratching thoughts into. A couple also hide convenient storage for presently unused wood and stone.Yet they wish for more. Cost: <<print Math.round($jobSites.builder.priceS * 2)>> stone and <<print Math.round($jobSites.builder.priceW * 2)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 2)>> days to complete.<br><br>
+
+			''Forager Site''<br>
+
+
+			''Rainier Site''<br>
+
+
+			''Scavenger Site''<br>
+
+
+			''Soldier Site''<br>
+
+
+		<<case 1>>
+			''Builder Stockpile''<br>
+			An area around the crag has been cleared for their use, and promptly overrun with half-carved wood and stone. Yet they insist more can be done for their stockpile. Cost: <<print Math.round($jobSites.builder.priceS * 1.5)>> stone and <<print Math.round($jobSites.builder.priceW * 1.5)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 1.5)>> days to complete.<br><br>
+
+			''Forager Camp''<br>
+			A location could be made for foragers as well; you would need to get your foragers in one place to discuss with your builders, but you suspect they would see the benefits quickly. Cost: <<print $jobSites.forager.priceS>> stone and <<print $jobSites.forager.priceW>> wood. It will take <<print $jobSites.forager.buildTime>> days to complete.
+
+			''Rainier Pond''<br>
+			Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.
+
+			''Scavenger Dropsite''<br>
+			Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.
+			
+
+		<<default>>
+			<<if $buildQueue.includes("builderJobSite")>>
+				''Builder Stockpile''<br>
+				Your builders insist they need a dedicated space for organizing and planning. You've given them permission, but they haven't constructed it yet.
+			<<else>>
+				''Builder Stockpile''<br>
+				Your builders insist they need a dedicated space for organizing and planning. Cost: <<print $jobSites.builder.priceS>> stone and <<print $jobSites.builder.priceW>> wood. It will take <<print $jobSites.builder.buildTime>> days to build.<br>
+			<</if>>
+
+	<</switch>>
+	In progress! Sorry! Can't build yet!
+	<ul>
+		<li>Forager—Baskets, stakes, etc just a bit into the forest. Lots of shading. Foragers discussing zones + arguing over preservation methods.</li>
+		<li>Rainier—Cleared space in shade of cliff, by pools. Rainiers flavored to be cleaning pools?</li>
+		<li>Scavenger—Barely organized chaos in 'landing zone' of colony home. Scavengers sorting hauls.</li>
+		<li>Salvager—Safehouse carved halfway up cliff-face. Salvagers lounging in safe-house, coming and going.</li>
+		<li>Builder—Carved stone and lumber, some in progress, short distance from storage cavern. Builders going over plans or directing each other in shaping wood / stone.</li>
+		<li>Soldier—Stone dummies reinforced, in various shapes; water and food available under shaded area, far from resting spaces. Soldiers training, planning routes, moving between shifts.</li>
+		<li></li>
+	</ul>
+<</nobr>>
+
+:: buildSpecial
+<<nobr>>
+	In progress! Sorry! Not real yet!
+	<ul>
+		<li>Graveyard—Your first colonist has died, so now you can erect a gravesite. =)</li>
+		<li></li>
+	</ul>
+<</nobr>>

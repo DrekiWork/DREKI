@@ -70,15 +70,15 @@
                 - Fastidious
                     - Jobs: Builder, Rainier
                     - Likes: Industrious, Idealist
-                    - Disllikes: Dreamer, Rebellious
+                    - Disllikes: Dreamy, Rebellious
                 - Idealistic
                     - Jobs: Forager, Rainier
                     - Likes: Social, Dreamy
                     - Dislikes: Cynical, Opportunist
                 - Industrious
-                    - Jobs: Rainier, Builder
+                    - Jobs: Soldier, Builder
                     - Likes: Militaristic, Fastidious
-                    - Dislikes: Social, Dreamer
+                    - Dislikes: Social, Dreamy
                 - Lazy
                     - Jobs: None
                     - Likes: Lazy
@@ -86,18 +86,18 @@
                 - Militaristic
                     - Jobs: Soldier, Builder
                     - Likes: Industrious, Opportunist
-                    - Dislikes: Dreamer, Rebellious
+                    - Dislikes: Dreamy, Rebellious
                 - Opportunistic
                     - Jobs: Salvager, Scavenger
                     - Likes: Industrious, Idealist
                     - Dislikes: Fastidious, Rebellious
                 - Rebellious
                     - Jobs: Salvager, Soldier
-                    - Likes: Dreamer, Opportunist
-                    - Dislikes: Perfectionist, Militaristic
+                    - Likes: Dreamy, Opportunist
+                    - Dislikes: Fastidious, Militaristic
                 - Social
                     - Jobs: Rainier, Forager
-                    - Likes: Idealist, Dreamer
+                    - Likes: Idealist, Dreamy
                     - Dislikes: Cynical, Industrious
         - Relationships
             - Sometimes dragons decide to get together and maybe have eggs. =)

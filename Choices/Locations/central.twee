@@ -16,13 +16,6 @@
 			/* This is the home of the player, and will be treated as such. */
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-	
-		/* Counting all dragons and ages first, if any. */
-	<<countDragons "eggs">>
-	<<countDragons "hatchlings">>
-	<<countDragons "winglets">>
-	<<countDragons "adults">>
-	<<countDragons "elders">>
 
 
 
@@ -48,18 +41,18 @@
 
 	It's
 		<<switch $player.action>>
-		<<case 5>>
-			very early; the sun hasn't yet sent the moon to its death, and your breath fogs before you in night's lingering chill. You have plenty of time to do work.
-		<<case 4>>
-			just past sunrise; the world is warming up, and you can't resist spreading your wings to warm them a little. You can do quite a lot today.
-		<<case 3>>
-			almost exactly noon; you find yourself relaxing on a particularly warm rock before you can think too much of it. You still have time to gather.
-		<<case 2>>
-			getting late in the day; there's a dearth of prey-animals as they all start to nap, and you briefly enjoy the quiet. There's a little time to work yet.
-		<<case 1>>
-			almost evening; night-creatures are beginning to come out and you find yourself reluctant to stray too far from home. You can probably go out once more for the day.
-		<<case 0>>
-			sunset; the sky is painted in orange and purples as night avenges itself upon the sun's death, and asserts its comforting chill. You're done leaving your thunder for today; it is time to stay at home.
+			<<case 5>>
+				very early; the sun hasn't yet sent the moon to its death, and your breath fogs before you in night's lingering chill. You have plenty of time to do work.
+			<<case 4>>
+				just past sunrise; the world is warming up, and you can't resist spreading your wings to warm them a little. You can do quite a lot today.
+			<<case 3>>
+				almost exactly noon; you find yourself relaxing on a particularly warm rock before you can think too much of it. You still have time to gather.
+			<<case 2>>
+				getting late in the day; there's a dearth of prey-animals as they all start to nap, and you briefly enjoy the quiet. There's a little time to work yet.
+			<<case 1>>
+				almost evening; night-creatures are beginning to come out and you find yourself reluctant to stray too far from home. You can probably go out once more for the day.
+			<<case 0>>
+				sunset; the sky is painted in orange and purples as night avenges itself upon the sun's death, and asserts its comforting chill. You're done leaving your thunder for today; it is time to stay at home.
 		<</switch>><br><br>
 
 
@@ -82,37 +75,30 @@
 	<<else>>
 		and backed against a sheer cliff. There's
 	<</if>>
-		<<if $home > 1>>
-			<<set _noHome = (_adults - $home)>>
-			enough room for <<print $home>> dragons to find a place to sleep - perhaps even comfortably. 
-			<<if _noHome > 1>>
-				However, you have <<print _noHome>> dragons that still need somewhere to sleep.
-			<<elseif _noHome == 1>>
-				However, you have one dragon that doesn't have a place to rest.
-			<<else>>
-			<</if>>
-		<<elseif $home == 1>>
-			one spot to sleep.
-			<<if _adults > 1>>
-				However, you have <<print _adults>> dragons that still need somewhere to sleep.
-			<<elseif _adults == 1>>
-				However, you have one dragon that doesn't have a place to rest.
-			<<else>>
-			<</if>>
-		<<else>>
-			nowhere to shelter.
-		<</if>><br><br>
 
-		<<if $player.home.built == true>>
-			Your own home is marked by a subtle arch of stone against a particularly jagged face of the cliff, easily mistaken for a rockslide than anything intentional. It calls to you. [[Go inside?|playerHome]]<br><br>
-		<<else>>
-			You don't have a home yourself, yet - though you have the perfect spot in mind...<br><br>
+
+	<<set _noHome = ($dragons.length - $home)>>
+	<<if $home > 0>>
+		<<plural $home "place for a dragon" "places for an equal number of dragons">> to sleep—perhaps even comfortably.
+		<<if _noHome > 0>>
+			You still need <<plural _noHome "more shelter" "more shelters">> to house everyone, however.
 		<</if>>
+	<<elseif $home == 0 && $dragons.length > 0>>
+		nowhere for your <<plural $dragons.length "dragon" "dragons">> to sleep.
+	<<elseif $home == 0 && $dragons.length == 0>>
+		no shelters built for your future colony.
+	<</if>><br><br>
+
+	<<if $player.home.built == true>>
+		Your own home is marked by a subtle arch of stone against a particularly jagged face of the cliff, easily mistaken for a rockslide than anything intentional. It calls to you. [[Go inside?|playerHome]]<br><br>
+	<<else>>
+		You don't have a home yourself, yet - though you have the perfect spot in mind...<br><br>
+	<</if>>
 
 	<<if $hydraBeat == false>>
 		Your storage is located in a fissure carved through the cliff face; though you aren't sure how it got there, there's room enough for you to safely hide away your thunder's necessities.
 	<<else>>
-		Your storage is located in a cavern carved through the cliff face, the entryway widened by vicious claws as long as your forelimbs. The skulls of the hydra have been inset to the cliff, looming over your colony in perpetual reminder of your first great trial.
+		Your storage is located in a cavern carved through the cliff face, the entryway widened by vicious claws as long as your forelimbs. The bones of the hydra have been inset to the cliff, looming over your colony in perpetual reminder of your first great trial.
 	<</if>> <<linkreplace "Check inside?">>
 
 		<br>&emsp;Inside, you've expanded your food cavern 
@@ -156,7 +142,7 @@
 
 	What do you want to do?<br>
 	<<if $player.action >= 1>>
-		<<if $food < $foodCap || $water < $waterCap || $wood < $buildingMaterialCap || $stone < $buildingMaterialCap || $ghunt !== true>>
+		<<if $food < $foodCap || $water < $waterCap || $wood < $buildingMaterialCap || $stone < $buildingMaterialCap || $player.actionsTaken.lookedForGold !== true>>
 			<<linkappend "Go foraging.">> For?
 			<br> <<if $food < $foodCap>>
 					&emsp;[[Food|FoodHunt]]
@@ -169,8 +155,6 @@
 					&emsp;Your collection pools are full.
 				<</if>>
 			<br> &emsp;<<linkappend "Building materials">>
-				<<run console.log("Building material cap: " + $buildingMaterialCap)>>
-				<<run console.log("Wood is capped? " + ($wood <= $buildingMaterialCap))>>
 				<br> <<if $wood < $buildingMaterialCap>>
 						&emsp;&emsp;[[Wood|WoodHunt]]
 					<<else>>
@@ -182,7 +166,7 @@
 						&emsp;&emsp;Your dugouts are full of stone.
 					<</if>>
 				<</linkappend>>
-			<br> <<if $goldHunt !== true>>
+			<br> <<if $player.actionsTaken.lookedForGold !== true>>
 					&emsp;[[Treasure|GoldHunt]]
 				<<else>>
 					&emsp;As much as you want to, you've spent enough time looking for valuables today.
@@ -191,9 +175,9 @@
 		<<else>>
 			Your stores are full; even if you went foraging, you wouldn't be able to keep anything you found.
 		<</if>><br>
-		<<if $eggSpace > 0 && $eggStolen == false>>
+		<<if $eggSpace > 0 && $player.actionsTaken.stolenEggs == false>>
 			[[Get eggs|EggTheft]] <br>
-		<<elseif $eggSpace <= 0 && $eggStolen == false>>
+		<<elseif $eggSpace <= 0 && $player.actionsTaken.stolenEggs == false>>
 			You don't see a point in risking yourself for eggs that you don't have room for. <br>
 		<<else>>
 			You shouldn't risk trying to steal more eggs today. <br>
@@ -225,7 +209,7 @@
 	<</if>>
 	[[Build something|Building]] <br>
 	[[Check the nursery|Nursery]] <br>
-	<<if _adults >= 1>>
+	<<if $dragons.length >= 1>>
 		[[Interact with your thunder|Pop]] <br>
 	<</if>>
 [[Rest|Rest]]

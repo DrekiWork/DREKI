@@ -2,8 +2,8 @@
 There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.<br><br><<nobr>>
 
 <<silently>>
-	<<set $eggStolen = true>>
-	<<set $player.action-->>
+	<<set $player.actionsTaken.stolenEggs = true>>
+	<<set $player.action -= 1>>
 	<<set _space to ($eggSpace)>>
 	<<if _space > 3>>
 		<<set _space = 3>>
@@ -92,6 +92,8 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 	
 
 	<<case 10>>
+			/* UNFINISHED */
+			/* Do not allow _thief to equal 10 yet. */
 		Your entry into the colony's nursery is silent and unseen. Though you hear the dragons outside, they haven't noticed you at all; you start picking through the eggs, musing over which to take, when something rustles. You look up.<br><br>
 
 		The wide-eyed stare of a hatchling meets you, close enough that their nose is practically pressed to yours.<br><br>

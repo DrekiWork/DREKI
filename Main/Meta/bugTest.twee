@@ -60,6 +60,8 @@
             <<colonistMaker "stolen hatchling">>
         <</link>> | 
         <<link "Colony Dragon">>
+            <<set _parent1 = "unknown">>
+            <<set _parent2 = "unknown">>
             <<colonistMaker "colonist adult">>
         <</link>> |
         <<link "Wanderer">>

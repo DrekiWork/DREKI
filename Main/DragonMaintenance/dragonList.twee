@@ -1,66 +1,111 @@
 :: dragonList
 <<nobr>>
-    <<countDragons "adults">>
-
+        /* Okay, so, this is the framework of the list that dragons are presented by in Pop. */
+        /* This is an individual card. */
     <div id="dragonList">
+    <div class="dragonList">
+
+            /* We start with our besty, the for loop. */
         <<for _drg to 0; _drg < $dragons.length; _drg++>>
-            <<if $dragons[_drg].stage == "adult">>
-                <<capture _drg>>
-                    <<switch $dragons[_drg].job>>
-                        <<case "builder">>
-                            <<set _altText = "A small, pixelated icon of a half-built wall.">>
-                        <<case "forager">>
-                            <<set _altText = "A small, pixelated icon of a berry bush.">>
-                        <<case "rainier">>
-                            <<set _altText = "A small, pixelated icon of three droplets of water.">>
-                        <<case "salvager">>
-                            <<set _altText = "A small, pixelated icon of a pair of sparkles.">>
-                        <<case "scavenger">>
-                            <<set _altText = "A small, pixelated icon consisting of a group of rocks and trees.">>
-                        <<case "slacker">>
-                            <<set _altText = "A small, pixelated icon of two stylized letter 'z's.">>
-                        <<case "soldier">>
-                            <<set _altText = "A small, pixelated icon of four claw marks.">>
-                        <<default>>
-                            <<set _altText = "A job icon for " + $dragons[_drg].job + "... wait, why are you seeing this?">>
-                    <</switch>>
-                <div class="individual-card"><<link "$dragons[_drg].name">>
-                    <<set $int to _drg>>
-                        <<goto "Interact">>
-                    <</link>>
-                    <br>
-                    <<set _imgPath = "Media/JobSymbols/" + $dragons[_drg].job + ".png">>
-                    <<capture _xp>>
+
+                /* _drg is captured to make sure the same dragon isn't cloned a million times. */
+            <<capture _drg>>
+
+                    /* Now we're showing images. If an image doesn't load, */
+                    /* This switch will put alt-text instead. */
+                    /* If a job isn't recognized, the game makes a comment anyway, */
+                    /* And implies there's an error that I should hear about. */
+                <<switch $dragons[_drg].job>>
+                    <<case "builder">>
+                        <<set _altText = "A small, pixelated icon of a half-built wall.">>
+                    <<case "forager">>
+                        <<set _altText = "A small, pixelated icon of a berry bush.">>
+                    <<case "rainier">>
+                        <<set _altText = "A small, pixelated icon of three droplets of water.">>
+                    <<case "salvager">>
+                        <<set _altText = "A small, pixelated icon of a pair of sparkles.">>
+                    <<case "scavenger">>
+                        <<set _altText = "A small, pixelated icon consisting of a group of rocks and trees.">>
+                    <<case "slacker">>
+                        <<set _altText = "A small, pixelated icon of two stylized letter 'z's.">>
+                    <<case "soldier">>
+                        <<set _altText = "A small, pixelated icon of four claw marks.">>
+                    <<default>>
+                        <<set _altText = "A job icon for " + $dragons[_drg].job + "... wait, why are you seeing this?">>
+                <</switch>>
+
+                /* Here's the actual card base. */
+            <div class="individual-card"><<link "$dragons[_drg].name">>
+
+                    /* $int is the variable used to determine what index */
+                    /* the player is interacting with in the $dragons array. */
+                <<set $int to _drg>>
+                    <<goto "Interact">>
+                <</link>>
+                <br>
+
+                    /* In media are the job symbols. */
+                    /* If it exists, this will find the path for it. */
+                <<set _imgPath = "Media/JobSymbols/" + $dragons[_drg].job + ".png">>
+
+                    /* Okay, now _xp is used to guesstimate how many days a dragon has been working. */
+                    /* As actual job experience is incremented in 0.1 on rest, multiply by 10 */
+                    /* And that's the days they've been at a job. */
+                <<capture _xp>>
                     <<set _xp = Math.round($dragons[_drg].experience[$dragons[_drg].job] * 10)>>
+
+                        /* With _xp set, we print the job symbol in a small size, */
+                        /* About equal to the actual text height. If not, */
+                        /* Alt-text is displayed. */
                     <img @src="_imgPath" style="width:16px;height:16px;" @alt="_altText"> <<print $dragons[_drg].job.toUpperFirst()>>, 
+                    
+                        /* Slackers don't have experience, because slackers don't work. */
+                        /* So they get an infinity symbol. Otherwise, plural it. */
                     <<if $dragons[_drg].job !== "slacker">>
-                        <<print _xp>> day<<if _xp > 1 || _xp < 1>>s<</if>>
+                        <<plural _xp "day" "days">>
                     <<else>>
                         ∞ days
                     <</if>>
-                    <</capture>>
-                    <div id="jobList">
-                    <div id="jobChange">Change job?</div>
-                    <<for _job = 0; _job < $dJobs.length; _job++>>
-                        <<capture _job>>
-                            <<if $dragons[_drg].job == $dJobs[_job]>>
-                                <<print $dJobs[_job].toUpperFirst()>>
-                            <<else>>
-                                <<set _this = $dJobs[_job].toUpperFirst()>>
-                                <<link "_this">>
-                                    <<set $dragons[_drg].job to $dJobs[_job]>>
-                                    <<replace "#dragonList">>
-                                        <<include "dragonList">>
-                                    <</replace>>
-                                <</link>>
-                            <</if>>
-                        <</capture>>
-                    <</for>>
-                    </div>
+
                 <</capture>>
-            <<else>>
-            <</if>>
+
+                    /* Now we start on the job lists below. */
+                    /* There's currently seven jobs in DREKI; */
+                    /* This allows players to quick-switch between them. */
+                <div id="jobList">
+                <div id="jobChange">Change job?</div>
+                <<for _job = 0; _job < $dJobs.length; _job++>>
+                    <<capture _job>>
+                        <<if $dragons[_drg].job == $dJobs[_job]>>
+
+                                /* If a dragon is working in a job, */
+                                /* there's no point in linking it. */
+                                /* That gets plaintext. */
+                            <<print $dJobs[_job].toUpperFirst()>>
+
+                        <<else>>
+
+                                /* Otherwise, it's linked, and the captured dragon */
+                                /* Will be reassigned, the page will reload, and */
+                                /* Everything will be updated appropriately. Yay! */
+                            <<set _this = $dJobs[_job].toUpperFirst()>>
+                            <<link "_this">>
+                                <<set $dragons[_drg].job to $dJobs[_job]>>
+                                <<replace ".dragonList">>
+                                    <<include "dragonList">>
+                                <</replace>>
+
+                            <</link>>
+
+                        <</if>>
+
+                    <</capture>>
+                    
+                <</for>>
+                </div>
+            <</capture>>
         <</for>>
+    </div>
     </div>
 
 <</nobr>>
