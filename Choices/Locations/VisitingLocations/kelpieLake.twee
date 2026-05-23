@@ -13,7 +13,8 @@
         <<link "Gather water.">>
             <<replace "#decision">>
                 <<set _collect = random(12,19)>>
-                <<set $water += _collect>>
+                <<addResource "water" _collect>>
+
                 <hr><br>
                 You sigh and march to the water's edge. The bare edge of a fin flicks in the light; almost pretty, really. A shame they're so vicious. As you take to the air over the lake, no less than seven of the creatures lunge for your shadow. You spit fire at them, driving them back as quickly as they appeared, and take the opportunity to gather as much water into your throat pouch as you can—over and over, until you're as full as you care to be, with these beasts after your neck.<br><br>
                 The <span class="water"><<print _collect>> water</span> you got is, at least, [[a nice reward for your efforts.|Sandbox Central]]
@@ -22,7 +23,8 @@
         <<link "Gather food.">>
             <<replace "#decision">>
                 <<set _collect = random(7,12)>>
-                <<set $food += _collect>>
+                <<addResource "food" _collect>>
+                
                 <hr><br>
                 You take to the air, not bothering to get to the water's edge first; the beasts are on your shadow in an instant regardless, practically frothing the water with their own hunger. How they aren't hurting each other is beyond you, with the way their writhing bodies twist and tangle into one indistinct mass. It makes things easier for you, at least. When one lunges, too impatient to wait any longer, your jaws close around its skull. The crunch is almost more satisfying than its sudden limpness. The lake-creatures pile after the blood that drips down as though they are starved—and maybe they are—as you carry the corpse to shore.<br><br>
                 You only do this once more before a close call has you deciding to leave, carrying your two prizes — worth <span class="food"><<print _collect>> food</span> by your estimation — [[back home.|Sandbox Central]]
@@ -65,7 +67,6 @@
                         <<set _water = random(17,30)>>
                         <<addResource "food" _meat>>
                         <<addResource "water" _water>>
-                        <<updateBar>>
                         <<set $dragonsHelpedMoveBeasts = true>>
                         <hr><br>
                         You ponder the lake, and the beasts within. They're a nuisance, certainly. Vicious things with insatiable hunger and a near-suicidal drive. You're sure they've hunted all the fish in the lake to extinction, and they plainly are only surviving off whatever visitors are stupid enough to approach. You're not sure how their population is so out of control despite the starvation - occasional cannibalism, maybe? - but their ferocity has caught your attention... and more importantly, that of your builders. And you think they just might be onto something.

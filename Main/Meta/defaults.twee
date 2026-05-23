@@ -35,7 +35,8 @@
 	<<set $visitPlaces = false>>
 	<<set $hasVisited = {
 		hydraDen : false,
-		kelpieLake : false
+		kelpieLake : false,
+		ruinedColony : false
 	}>>
 
 
@@ -227,10 +228,12 @@
 	/* ~~~ FLUFF ~~~ */
 	
 		/* Dragon sizes. Most likely to be 'normal'. */
+		<<run console.log("dSize ran.")>>
 	<<set $dSize = [
 		"small",
 		"normal", "normal", "normal", "normal",
 		"large"]>>
+		<<run console.log($dSize)>>
 
 		/* Dragon color. Dragons will always have one! */
 	<<set $dColor = ["red", "blue", "yellow", "green"]>>
@@ -669,5 +672,10 @@
 	<<set $infestedNotice = false>>
 	<<set $kelpieExtinction = false>>
 	<<set $lakeClaim = false>>
+
+		/* For the ruined colony. */
+		/* Currently just tracking if visits have happened. */
+	<<set $foundRuinedColony = false>>
+	
 <</nobr>>
 

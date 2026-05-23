@@ -28,6 +28,7 @@
         /* Which varies depending on what stage of defeat the Hydra is in. */
     <<set $hasVisited.kelpieLake = false>>
     <<set $hasVisited.hydraDen = false>>
+    <<set $hasVisited.ruinedColony = false>>
 <</nobr>><</widget>>
 
 

@@ -61,7 +61,7 @@
 	<<elseif _forage >= 1>>
 		<<set _collect = random(3, 6)>>
 		<<if _scene == 0>>
-			You haven't even left your home yet before the ground collapses under your paw. Once you've settled slightly, <<if ($dragons.length >= 1)>>and your thunder has stopped laughing, <<else>><</if>>you investigate properly. As it turns out, there is a little pool growing under your home. That's concerning. Still, after emptying and properly filling it, you have <span class="water"><<print _collect>> more water</span>.<br><br>
+			You haven't even left your home yet before the ground collapses under your paw. Once you've settled slightly, <<if $dragons.length >= 1>>and your thunder has stopped laughing, <<else>><</if>>you investigate properly. As it turns out, there is a little pool growing under your home. That's concerning. Still, after emptying and properly filling it, you have <span class="water"><<print _collect>> more water</span>.<br><br>
 		<<elseif _scene == 1>>
 			Glittering in the corner of your eye catches your attention. While you're a little disappointed that it's not treasure, you're nonetheless pleased to find a small puddle so close to your colony. You collect <span class="water"><<print _collect>> water</span> from it, and are happy to note that it will likely refill. Excellent.<br><br>
 		<<else>>

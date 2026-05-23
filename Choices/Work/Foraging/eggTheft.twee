@@ -12,6 +12,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 	<<set _take to 0>>
 	<<set _thief to random(9)>>
 <</silently>>
+<<run console.log("You rolled: " + _thief)>>
 <<switch _thief>>
 
 	<<case 0>>

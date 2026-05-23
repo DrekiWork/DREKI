@@ -1,0 +1,108 @@
+:: EncyclopediaTutorial
+<<nobr>>
+    Welcome to the refresher! All basics of gameplay will be covered here. If your questions are more in-depth, such as calculations on rest, how defenses work, or on colonist personality interactions, you'll find those details under the corresponding sub-tabs to the left.
+
+    <h2>Player</h2>
+    Where better to start than here? The main character! The dragon that started it all, the <<print $player.title>>! That's you.<br><br>
+
+    The game centers entirely around the <<print $player.title>>; if you still live, the colony can recover from just about anything, no matter how many dead colonists or hopeless foraging runs. To this end, they are tended first, and are your most reliable source of resources.<br><br>
+
+
+    <h2>Resources</h2>
+    Your resources are readily available on the sidebar to your left, in order of: <span class="food">food</span>, <span class="water">water</span>, <span class="stone">stone</span>, <span class="wood">wood</span>, and <span class="gold">gold</span>. All are numeric representations of how much of a thing you have. This bar is most likely currently hidden under the Encyclopedia, if not currently folded in, but rest assured: it is there.<br><br>
+
+    Let's take food as an example. The <strong>left</strong> number in food is how much you currently have. The <strong>right</strong> number is the maximum amount you can ever have.<br><br>
+    
+    So, your food bar is presently:
+        <<print $food>> / <<print $foodCap>> .
+    You have <<print $food>> food in storage, with a maximum capacity of <<print $foodCap>>.
+    <<if $food == $foodCap>>
+        Great! You've filled up your food storage! This means you can no longer forage for food specifically, but if your other resources aren't full, you can still look for them.
+    <<elseif $food > 0>>
+        Great! You've got some in storage; because your food has not filled up your storage, you can still go foraging for more food, or anything else that is not up to capacity.
+    <<else>>
+        Oh—you don't actually have any. That's okay! You can always go foraging more more from Central.
+    <</if>>
+    We'll cover foraging in a bit more detail in a moment, or you can scroll to the 'Forage' heading further down. For now, we will cover the details of your resources.<br><br>
+
+    <span class="food">Food</span> and <span class="water">water</span> are your most important resources. Whenever you end the day by resting, these two resources are consumed. If you do not have enough, nothing will be taken—but you, your hatchlings, or your dragons will suffer for the lack, leading to potentially grave consequences. These are very important to keep topped up!<br><br>
+
+    Next are <span class="stone">stone</span> and <span class="wood">wood</span>. These are building materials: significantly less important than food and water, but no less with material use in construction. Anything accessible in the build menu needs at least one of these. Shelters, defenses, even improving your storage capacity, all require wood and stone.<br><br>
+
+    Last, but certainly not least, is <strong><span class="gold">gold</span></strong>. Your treasure, your lovely shimmering hoard: <span class="gold">gold</span>. It has no cap, because as a dragon, you will never have enough. It has no plain and obvious purpose but for the fact that it is gold, and it is good decoration for your own den... so why is it here? Because your dragons will work hard if they have a hoard to be proud of.<br><br>
+
+    - player info<br>
+        &emsp;&emsp;- Keep yourself alive, or the game ends.<br>
+    - rest<br>
+        &emsp;&emsp;- Processes the day---moves time forward; ages your colony; exiles dragons; gets job rewards; builds things; feeds you, your hatchis, your dragons; checks your defenses; updates housing (if enabled); resets the player; and moves you on to the next day.<br>
+    - shelter<br>
+        &emsp;&emsp;- Order of preference, least to most: none -> hollow -> rut -> sett<br>
+            &emsp;&emsp;&emsp;&emsp;- None is self-explanatory. No shelter, no benefits. Dragons consume double their default meals to make up the difference.<br>
+            &emsp;&emsp;&emsp;&emsp;- Hollows are barracks; hold up to ten dragons, uncomfortably, but it's shelter.<br>
+            &emsp;&emsp;&emsp;&emsp;- Ruts are individual homes, cramped but better than sharing.<br>
+            &emsp;&emsp;&emsp;&emsp;- Setts are individual homes, expanded to be comfortable.<br>
+        &emsp;&emsp;- Currently does not actually offer luxury benefits so hollows are king, when you've got builders.<br>
+    - storage<br>
+        &emsp;&emsp;- Stores any resource that is not gold. Stone and wood have the same cap, but do not limit each other - if you build a dugout, you increase your stone & wood storage, but if you get stone, you don't take up wood space.<br>
+        &emsp;&emsp;- Operates on amount built * internal storage. By default, you get one with thirty space, so 30 storage. Will add organizational upgrades to improve space in individual structures, but for now: 1 structure has 30 space.<br>
+    - colonist info (jobs, personalities, relationships)<br>
+        &emsp;&emsp;- Jobs<br>
+            &emsp;&emsp;&emsp;&emsp;- Builders: Build stuff for you, per your orders. Take a portion of construction material per day; if they don't have enough, they whine. Loudly.<br>
+            &emsp;&emsp;&emsp;&emsp;- Soldiers: Guard your colony. Each is worth a certain amount in raids, and they try to keep away intruders / will hold unfamiliars on your territory. May hunt sometimes, to try and offset how much food they eat to keep up their training.<br><br>
+
+            &emsp;&emsp;&emsp;&emsp;- Foragers: Get food! Because they snack on the job, they eat less than most (only 1 food at dinner time) - but they do get thirsty.<br>
+            &emsp;&emsp;&emsp;&emsp;- Scavengers: Get building mats! Individuals will choose between wood or stone for a day. Eat and drink quite a bit; that's hard labor!<br>
+            &emsp;&emsp;&emsp;&emsp;- Rainiers: Get water! They inevitably sip their goods, so they only need 1 water on rest - but hauling is hungry work.<br>
+            &emsp;&emsp;&emsp;&emsp;- Salvagers: Tries to find gold. Their success... varies, but they'll haul in some on occasion. A luxury job, really, because they take a lot for the very small amount of work they actually do.<br><br>
+
+            &emsp;&emsp;&emsp;&emsp;- Slackers: Do nothing. But they don't eat or drink much, so if you're struggling but don't want to exile anyone, they're a good choice.<br><br>
+        
+        &emsp;&emsp;- Personalities<br>
+            &emsp;&emsp;&emsp;&emsp;- Personalities are sorted into archetypes; each archetype has individual preferences - what jobs they're good at, what other archetypes they like or dislike. All archetypes dislike lazy archetypes, however.<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Cynical<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Salvager, Scavenger<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Militaristic, Opportunist<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Dreamy, Idealist<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dreamy<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Forager, Scavenger<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Social, Rebellious<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Militaristic, Cynical<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Fastidious<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Builder, Rainier<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Industrious, Idealist<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Disllikes: Dreamy, Rebellious<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Idealistic<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Forager, Rainier<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Social, Dreamy<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Cynical, Opportunist<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Industrious<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Soldier, Builder<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Militaristic, Fastidious<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Social, Dreamy<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Lazy<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: None<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Lazy<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Everyone<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Militaristic<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Soldier, Builder<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Industrious, Opportunist<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Dreamy, Rebellious<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Opportunistic<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Salvager, Scavenger<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Industrious, Idealist<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Fastidious, Rebellious<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Rebellious<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Salvager, Soldier<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Dreamy, Opportunist<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Fastidious, Militaristic<br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Social<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Jobs: Rainier, Forager<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Likes: Idealist, Dreamy<br>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Dislikes: Cynical, Industrious<br>
+        &emsp;&emsp;- Relationships<br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- Sometimes dragons decide to get together and maybe have eggs. =)<br><br>
+    - foraging<br>
+    - defense<br>
+    - eggs and hatchlings<br>
+    - 
+<</nobr>>

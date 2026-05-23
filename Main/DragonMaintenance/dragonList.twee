@@ -46,7 +46,7 @@
 
                     /* In media are the job symbols. */
                     /* If it exists, this will find the path for it. */
-                <<set _imgPath = "Media/JobSymbols/" + $dragons[_drg].job + ".png">>
+                <<set _imgPath = "/Media/JobSymbols/" + $dragons[_drg].job + ".png">>
 
                     /* Okay, now _xp is used to guesstimate how many days a dragon has been working. */
                     /* As actual job experience is incremented in 0.1 on rest, multiply by 10 */

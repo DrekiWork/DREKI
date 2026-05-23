@@ -9,7 +9,8 @@
 
 <<widget "colonistMaker">><<nobr>>
     <<run console.log("Ran colonistMaker.")>>
-
+    <<run console.log("$dSize is: " + $dSize)>>
+    
         /* Personalities is the overall archetype that dragons have. */
     <<set _personality = either(Object.keys($personalities))>>
 
@@ -21,8 +22,14 @@
 
             /* Stolen eggs are those you abducted from rival colonies. */
             /* They are basically entirely randomized, from hatch-time to appearance. */
+            
+                        <<run console.log("dSize?")>>
+                        <<run console.log($dSize)>>
         <<case "stolen egg">>
             <<run console.log("Ran stolen egg.")>>
+            <<run console.log("dSize?")>>
+            <<run console.log($dSize)>>
+
             <<run $eggs.push( {
 
                     /* Unique ID. Since names can be the same, and players can rename colonists, */
@@ -91,15 +98,25 @@
                 },
 
                     /* Appearance is all fluff. */
+                    /* stolen eggs specifically struggles wtih calling all the
+                       $d* variables, so... workaround. */
                 appearance: {
 
-                    size: either($dSize),
+                    size: either("small",
+		                        "normal", "normal", "normal", "normal",
+		                        "large"),
 
-                    color: either($dColor),
+                    color: either("red", "blue", "yellow", "green"),
 
-                    pattern: either($dPattern),
+                    pattern: either("freckled", 
+                                    "piebald", 
+                                    "plain", "plain", "plain", "plain", "plain",
+                                    "smooth", 
+                                    "spotted",
+                                    "striped"),
 
-                    visquirk: either($dVisQuirk)
+                    visquirk: either("none", "none", "none", "none", "none", "none", "none", "none", "none", 
+		                            "clean", "dull", "raggedy", "sharp teeth", "stub-tail")
                 },
                 
                     /* None is to keep eggs/hatchies from being counted in the workforce. */

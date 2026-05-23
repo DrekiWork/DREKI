@@ -200,10 +200,16 @@
         /* Only food and water for now, and not exceptionally often. */
 
         /* Now adding all temporary variables to the main resources. */
-    <<set $food += (_foragerFood + _soldierHunt)>>
-    <<set $water += (_rainierWater)>>
-    <<set $gold += (_salvagerGold + _scavengerGold)>>
-    <<set $stone += (_scavengerStone)>>
-    <<set $wood += (_scavengerWood)>>
+    <<set _foodAdd = (_foragerFood + _soldierHunt)>>
+    <<set _waterAdd = (_rainierWater)>>
+    <<set _stoneAdd = (_scavengerStone)>>
+    <<set _woodAdd = (_scavengerWood)>>
+    <<set _goldAdd = (_salvagerGold + _scavengerGold)>>
+
+    <<set $food += _foodAdd>>
+    <<set $water += _waterAdd>>
+    <<set $stone += _stoneAdd>>
+    <<set $wood += _woodAdd>>
+    <<set $gold += _goldAdd>>
 
 <</nobr>><</widget>>

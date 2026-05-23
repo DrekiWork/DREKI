@@ -92,7 +92,13 @@
     Seen the lake creatures? <<cycle "$infestedNotice" autoselect>>
         <<option "Seen the creatures." true>>
         <<option "Haven't seen the creatures." false>>
-    <</cycle>>><br><br>
+    <</cycle>><br><br>
+
+    ''//Ruined Colony//''<br>
+    Seen the ruined colony? <<cycle "$foundRuinedColony" autoselect>>
+        <<option "Found the colony." true>>
+        <<option "Haven't found the colony." false>>
+    <</cycle>><br><br>
 
     ''//Defenses//''<br>
     Defenses active?

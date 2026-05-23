@@ -21,6 +21,8 @@
 
 	You have <<plural $dragons.length "other dragon" "other dragons">> living in your colony, using the same amount of shelter space.
 
+	<br><br>
+
 	On mentioning that, you have
 		<<if _sheltersBuilt > 0>>
 			<<plural _sheltersBuilt "shelter" "shelters">>
@@ -74,7 +76,11 @@
 		<<include "dragonList">>
 		
 	<<elseif $dragons.length == 1>>
-		You can see <<print $dragons[0].name>>. <<linkappend "Do you want to talk to them?">><br><br>
+		You can see <<print $dragons[0].name>>.
+		
+		<br>
+		
+		<<linkappend "Do you want to talk to them?">><br><br>
 				<<switch $dragons[0].personality>>
 					<<case "cynical">>
 						<<print $dragons[0].name>> tips their head in greeting. You speak with them for a short while, but their rather sharp personality makes it difficult to truly enjoy the conversation. As <<print $dragons[0].name>> returns your farewell, you wonder how they ever got so cold.
@@ -99,7 +105,7 @@
 					<<default>>
 						<<print $dragons[0].name>> greets you pleasantly. You have a friendly conversation, but nothing about it sticks out to you. As you part ways, you wonder if you know your only colony member all that well...
 				<</switch>>
-	<</linkappend>>
+	<</linkappend>><br>
 
 	<<link "Interact with them?" "Interact">>
 		<<set $int to 0>>

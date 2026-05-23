@@ -61,7 +61,7 @@
 		<</if>><br><br>
 	
 	<<if $hydraEggTaken == true>>
-		In a special corner, buried in sand and dampened, frayed wood, is the hydra egg, alive and well. Its shell is leathery, and you can see the faint shadow of the snake growing inside. The sight of it still gives you a thrill of nerves.<br><br>
+		In a dug out notch in the wall, buried in sand and dampened, frayed wood, is the hydra egg. Its shell is distressingly leathery, soft and frail to your cautious touch, yet you can see the faint shadow of the snake growing inside, alive and well. You think it reacts to your presence, sometimes... The sight of it still gives you a thrill of nerves.<br><br>
 	<<else>>
 	<</if>>
 	What would you like to do?

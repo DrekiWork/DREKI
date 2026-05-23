@@ -22,7 +22,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>alpha 0.31.3.8
+<sup>alpha 0.31.3.10
 Made by Recila!</sup>
 
 
@@ -149,7 +149,22 @@ Made by Recila!</sup>
 		   Should have a current focus tab somewhere...
 		   The gleeful tone is neecessary for personal success. */
 
-	<h1> Pre-Pre-Alpha 0.31.3.8</h1>
+
+	<h2> Pre-Pre-Alpha 0.31.3.10</h2>
+	<em>Bug patch!</em>
+	<ul>
+	<li>Stone caps correctly.</li>
+	<li>Salvagers & Scavengers should no longer break gold count.</li>
+	<li>endDay should no longer throw errors when hatchlings try to eat. (Why, hatchlings? Why?)</li>
+	<li>Dragons should be counted correctly.</li>
+	<li>Incest check no longer broken. Again.</li>
+	<li>Fixed the dent in Founder's head. They remember the abandoned colony on future encounters. (Will take one more visit to raise the flag, sorry!)</li>
+	<li>Minor English checks. It's my first language, I've no excuse.</li>
+	<li></li>
+	</ul>
+
+
+	<h2> Pre-Pre-Alpha 0.31.3.8</h2>
 	<em><strong>COLONIST UPDATE</strong></em>
 	
 	<ul>
@@ -220,7 +235,7 @@ Made by Recila!</sup>
 	<li></li>
 	</ul><br>
 
-	<sup>Hey, if you're reading this? The dev loves you <3 </sup>
+	<sup>Hey, if you're reading this? The dev loves you <3</sup>
 <</nobr>>
 
 :: OOC Chat
