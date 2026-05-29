@@ -50,19 +50,42 @@
 
 <<widget "updateDefense">><<nobr>>
 
-			/* Start with soldier counts. Each individual soldier is half a point.
-			I'll update this to eventually vary based on experience (probably to a plateau instead of exponential).
-			For now: this. */
+			/* Start with soldier counts.
+			   Soldiers only count if they ARE NOT manning outposts.
+			   Soldiers in outposts DO NOT offer bonuses to outposts based on personality.
+			   Those that like their jobs do a bit better!
+			   Those that don't do a bit worse.
+			   Easy as. */
 		<<countWorkers "soldier">>
-		<<set _soldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
-		<<set _soldierTotal = (_soldiers * 0.5)>>
+		<<if _wantedCount >= $defenseBuildings.outpost.amount>>
+			<<set _freeSoldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
+		<<else>>
+			<<set _freeSoldiers = 0>>
+		<</if>>
+
+		<<set _strongSoldiers = 0>>
+		<<set _regularSoldiers = 0>>
+		<<for _i = 0; _i < $dragons.length; _i++>>
+			<<if (_strongSoldiers + _regularSoldiers) < _freeSoldiers>>
+				<<if $dragons[_i].job == "soldier">>
+					<<if $personalities[$dragons[_i].personality].jobs.includes("soldier")>>
+						<<set _strongSoldiers += 1>>
+					<<else>>
+						<<set _regularSoldiers += 1>>
+					<</if>>
+				<</if>>
+			<<else>>
+				<<break>>
+			<</if>>
+		<</for>>
+		<<set _soldierTotal = ((_strongSoldiers * 0.7) + (_regularSoldiers * 0.4))>>
 
 			/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
 			Full surround grants a 1 point bonus per building.) */
 		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
 			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 1.25)>>
 		<<else>>
-			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 0.5)>>
+			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 0.25)>>
 		<</if>>
 
 			/* Checking outposts.

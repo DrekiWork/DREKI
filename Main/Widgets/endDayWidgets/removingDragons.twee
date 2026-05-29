@@ -14,7 +14,7 @@
     <<set _exiled = []>>
 
         /* Obligatory loop. */
-    <<for _i to 0; _i < $dragons.length; _i++>>
+    <<for _i = 0; _i < $dragons.length; _i++>>
     
             /* The meat! Starts with, of course, a dragon tagged for exile. */
             /* .left refers to if a dragon is going to go: not that it */
@@ -62,7 +62,7 @@
             <<if _rejoin >= 8>>
                 <<set $dragons[_i].origin = "exiled">>
                 <<run $goneDragons.push(clone($dragons[_i]))>>
-                <<set $goneDragons[($gonedragons.length - 1)].left = "stay">>
+                <<set $goneDragons[($goneDragons.length - 1)].left = "stay">>
 
             <<else>>
 
@@ -100,7 +100,7 @@
     <<if _dragonsHungry.length > 0 || _dragonsThirsty.length > 0>>
 
             /* Obligatory for-loop. */
-        <<for _i to 0; _i < $dragons.length; _i++>>
+        <<for _i = 0; _i < $dragons.length; _i++>>
 
                 /* If a dragon has suffered hunger-pangs or */
                 /* A dry throat for three days or more, they */
