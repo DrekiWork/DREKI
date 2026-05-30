@@ -40,23 +40,71 @@
 			''Scavenger Dropsite''<br>
 			Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.
 
-
 			''Soldier Garrison''<br>
 			Your soldiers argue the tactical value of a location for them to gather and train. You're less than certain of their intent, but the overall idea is sound. Cost: <<print Math.round($jobSites.soldier.priceS)>> stone and <<print Math.round($jobSites.soldier.priceW)>> wood. It will take <<print Math.round($jobSites.soldier.buildTime)>> days to complete.
 
 
 		<<case 1>>
 			''Builder Stockpile''<br>
-			An area around the crag has been cleared for their use, and promptly overrun with half-carved wood and stone. Yet they insist more can be done for their stockpile. Cost: <<print Math.round($jobSites.builder.priceS * 1.5)>> stone and <<print Math.round($jobSites.builder.priceW * 1.5)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 1.5)>> days to complete.<br><br>
+			An area around the crag has been cleared for their use, and promptly overrun with half-carved wood and stone. Yet they insist more can be done for their stockpile. Cost: <<print Math.round($jobSites.builder.priceS * 1.5)>> stone and <<print Math.round($jobSites.builder.priceW * 1.5)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 1.5)>> days to complete.<br>
+				<<button "Build">>
+					<<run $buildQueue.push("builderJobSite")>>
+					<<run console.log("buildQueue is: " + $buildQueue)>>
+					<<replace "#jobSite">>
+						<<include "buildJobSite">>
+					<</replace>>
+					<<replace "#build-queue">>
+						<<include "buildQueueList">>
+					<</replace>>
+				<</button>><br><br>
 
 			''Forager Camp''<br>
-			A location could be made for foragers as well; you would need to get your foragers in one place to discuss with your builders, but you suspect they would see the benefits quickly. Cost: <<print $jobSites.forager.priceS>> stone and <<print $jobSites.forager.priceW>> wood. It will take <<print $jobSites.forager.buildTime>> days to complete.
+			A location could be made for foragers as well; you would need to get your foragers in one place to discuss with your builders, but you suspect they would see the benefits quickly. Cost: <<print $jobSites.forager.priceS>> stone and <<print $jobSites.forager.priceW>> wood. It will take <<print $jobSites.forager.buildTime>> days to complete.<br>
+				<<button "Build">>
+					<<run $buildQueue.push("foragerJobSite")>>
+					<<run console.log("buildQueue is: " + $buildQueue)>>
+					<<replace "#jobSite">>
+						<<include "buildJobSite">>
+					<</replace>>
+					<<replace "#build-queue">>
+						<<include "buildQueueList">>
+					<</replace>>
+				<</button>><br><br>
 
 			''Rainier Pond''<br>
-			Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.
+			Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.<br>
+				<<button "Build">>
+					<<run $buildQueue.push("rainierJobSite")>>
+					<<run console.log("buildQueue is: " + $buildQueue)>>
+					<<replace "#jobSite">>
+						<<include "buildJobSite">>
+					<</replace>>
+					<<replace "#build-queue">>
+						<<include "buildQueueList">>
+					<</replace>>
+				<</button>><br><br>
 
-			''Scavenger Dropsite''<br>
-			Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.
+			<<if $jobSites.scavenger.amount < 1>>
+				''Scavenger Dropsite''<br>
+				Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.<br>
+				<<if $buildQueue.includes("scavengerJobSite")>>
+					&emsp;Your builders already planning.
+				<<else>>
+					<<button "Build">>
+						<<run $buildQueue.push("scavengerJobSite")>>
+						<<run console.log("buildQueue is: " + $buildQueue)>>
+						<<replace "#jobSite">>
+							<<include "buildJobSite">>
+						<</replace>>
+						<<replace "#build-queue">>
+							<<include "buildQueueList">>
+						<</replace>>
+					<</button>><br><br>
+				<</if>>
+			<<else>>
+				''Scavenger Dropsite''<br>
+				A short ways into the surrounding woods, a packed-dirt clearing has been stomped into existence. The builders initially put up posts to designate storage, but your scavengers immediately rearranged all of them to better suit their needs. At least the central coordinating area was left alone...? The massive tallying stone under the sheltered central area is already thoroughly scored.
+			<</if>>
 			
 
 		<<default>>
@@ -66,6 +114,16 @@
 			<<else>>
 				''Builder Stockpile''<br>
 				Your builders insist they need a dedicated space for organizing and planning. Cost: <<print $jobSites.builder.priceS>> stone and <<print $jobSites.builder.priceW>> wood. It will take <<print $jobSites.builder.buildTime>> days to build.<br>
+				<<button "Build">>
+					<<run $buildQueue.push("builderJobSite")>>
+					<<run console.log("buildQueue is: " + $buildQueue)>>
+					<<replace "#jobSite">>
+						<<include "buildJobSite">>
+					<</replace>>
+					<<replace "#build-queue">>
+						<<include "buildQueueList">>
+					<</replace>>
+				<</button>><br><br>
 			<</if>>
 
 	<</switch>>
