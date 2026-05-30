@@ -17,7 +17,7 @@
 	<<set _scene = random(2)>>
 
 		/* Ensures the player only goes looking for treasure ONCE a day. */
-	<<set $goldHunt = true>>
+	<<set $player.actionsTaken.lookedForGold = true>>
 
 
 	<<if _forage >= 8>>

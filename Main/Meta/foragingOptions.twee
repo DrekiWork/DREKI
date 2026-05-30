@@ -1,7 +1,7 @@
 :: foragingOptions
 <<nobr>>
     <<if $player.action >= 1>>
-        <<if $food !== $foodCap || $water !== $waterCap || $wood !== $buildingMaterialCap || $stone !== $buildingMaterialCap || $ghunt == false>>
+        <<if $food !== $foodCap || $water !== $waterCap || $wood !== $buildingMaterialCap || $stone !== $buildingMaterialCap || $player.actionsTaken.lookedForGold == false>>
             <span id="choice">
                 Do you want to
                 <<linkappend "keep foraging">>
@@ -16,7 +16,7 @@
                         <<if $stone < $buildingMaterialCap>>
                             [[stone|StoneHunt]]; 
                         <</if>>
-                        <<if $goldHunt == false>>
+                        <<if $player.actionsTaken.lookedForGold == false>>
                             <<if $wood < $buildingMaterialCap>>
                                 [[wood|WoodHunt]]; or [[gold|GoldHunt]]?
                             <<else>>

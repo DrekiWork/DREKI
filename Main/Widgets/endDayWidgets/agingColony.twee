@@ -1,53 +1,76 @@
 :: AgingWidgets [widget]
 
-    /* Because the dragons have been merged into one, */
-    /* We now only have a central aging widget. */
-    /* We increment age, then switch based on stage. */
-    /* Eggs at 7 are 'hatched'; */
-    /* Hatchlings at 14 'grow up'; */
-    /* And adults are simply aged by one day. */
-    /* This is also how I count how many of a stage */
-    /* Currently exist in the colony. =) */
+    /*  */
 <<widget "ageUpdates">><<nobr>>
         
     <<run console.log("ageUpdates ran")>>
-
-    <<countDragons "eggs">>
-    <<countDragons "hatchlings">>
-    <<countDragons "winglets">>
-    <<countDragons "adults">>
-    <<countDragons "elders">>
 
     <<set _hatchCheck = 0>>
     <<set _growCheck = 0>>
 
     <<for _i = 0; _i < $dragons.length; _i++>>
-
         <<set $dragons[_i].time += 1>>
-
-        <<switch $dragons[_i].stage>>
-            <<case "egg">>
-                <<if $dragons[_i].time >= 7>>
-                    <<set $dragons[_i].stage = "hatchling">>
-                    <<set $dragons[_i].time = 7>>
-                    <<set _hatchCheck += 1>>
-                    <<set _hatchlings += 1>>
-                <<else>>
-                <</if>>
-            <<case "hatchling">>
-                <<if $dragons[_i].time >= 14>>
-                    <<set $dragons[_i].stage = "adult">>
-                    <<set $dragons[_i].time = 14>>
-                    <<set $dragons[_i].job = "slacker">>
-                    <<set _growCheck += 1>>
-                    <<set _adults += 1>>
-                <<else>>
-
-                <</if>>
-            <<default>>
-        <</switch>>
+        <<run console.log>>
     <</for>>
-    
+
+    <<for _i = 0; _i < $hatchlings.length; _i++>>
+        <<set $hatchlings[_i].time += 1>>
+        <<run console.log("Hatchlings: " + $hatchlings)>>
+
+        <<if $hatchlings[_i].time >= 14>>
+            <<set $hatchlings[_i].stage = "adult">>
+            <<run console.log("hatchling is: " + $hatchlings[_i].stage)>>
+            <<if $jobHunt == false>>
+                <<set $hatchlings[_i].job = "slacker">>
+            <<else>>
+                <<if $hatchlings[_i].personality !== "lazy">>
+                    <<set $hatchlings[_i].job = either($personalities[$hatchlings[_i].personality].jobs)>>
+                <<else>>
+                    <<set $hatchlings[_i].job = "slacker">>
+                <</if>>
+            <</if>>
+            <<run console.log("and their job is: " + $hatchlings[_i].job)>>
+            <<run console.log("Hatchlings 2: " + $hatchlings)>>
+            <<run $dragons.push($hatchlings[_i])>>
+            <<run $hatchlings.splice(_i, 1)>>
+            <<set _i -= 1>>
+            <<set _growCheck += 1>>
+            
+            <<set $hatchlingsGrown += 1>>
+
+            <<if $hatchlingsGrown == 1>>
+                <<set _firstGrown = true>>
+            <<else>>
+                <<continue>>
+            <</if>>
+
+        <<else>>
+
+        <</if>>
+    <</for>>
+
+    <<for _i = 0; _i < $eggs.length; _i++>>
+        <<set $eggs[_i].time += 1>>
+        
+        <<if $eggs[_i].time >= 7>>
+            <<set $eggs[_i].stage = "hatchling">>
+            <<run $hatchlings.push($eggs[_i])>>
+            <<run $eggs.splice(_i, 1)>>
+            <<set _i -= 1>>
+            <<set _hatchCheck += 1>>
+
+            <<set $eggsHatched += 1>>
+
+            <<if $eggsHatched == 1>>
+                <<set _firstHatched = true>>
+            <<else>>
+                <<continue>>
+            <</if>>
+
+        <<else>>
+            
+        <</if>>
+    <</for>>
         
 
 <</nobr>><</widget>>

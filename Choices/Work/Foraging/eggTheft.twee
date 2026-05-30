@@ -2,8 +2,8 @@
 There's a few nearby colonies that you could steal eggs from... if you //truly// need to. And unfortunately, you have reached that point.<br><br><<nobr>>
 
 <<silently>>
-	<<set $eggStolen = true>>
-	<<set $player.action-->>
+	<<set $player.actionsTaken.stolenEggs = true>>
+	<<set $player.action -= 1>>
 	<<set _space to ($eggSpace)>>
 	<<if _space > 3>>
 		<<set _space = 3>>
@@ -12,14 +12,15 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 	<<set _take to 0>>
 	<<set _thief to random(9)>>
 <</silently>>
+<<run console.log("You rolled: " + _thief)>>
 <<switch _thief>>
 
 	<<case 0>>
-			As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br><br>
+		As you enter the nursery, claws delicate on moss-and-grass padded ground, guilt strikes you. The eggs are settled lovingly in their nest - freshly turned, you guess, by the down sticking to them. Possibly even freshly lain. You creep forward and curl your tail around the nest to keep them warm as you contemplate. There are some nests, but only a few eggs scattered between them - no more than five - and the only reason you were able to get in is because the sole dragon - the Founder - is away fetching materials. <br><br>
 
-			... You can't do this, can you? <br><br>
+		... You can't do this, can you? <br><br>
 
-			You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
+		You linger for some time, debating with yourself, arguing, even picking up one of the eggs from time to time. Ultimately, your guilt consumes you. [[You return home with nothing but your remorse.|Sandbox Central]]
 		
 	<<case 1 2 3>>
 		<<colonistMaker "stolen egg">>
@@ -92,6 +93,8 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 	
 
 	<<case 10>>
+			/* UNFINISHED */
+			/* Do not allow _thief to equal 10 yet. */
 		Your entry into the colony's nursery is silent and unseen. Though you hear the dragons outside, they haven't noticed you at all; you start picking through the eggs, musing over which to take, when something rustles. You look up.<br><br>
 
 		The wide-eyed stare of a hatchling meets you, close enough that their nose is practically pressed to yours.<br><br>
@@ -104,7 +107,7 @@ There's a few nearby colonies that you could steal eggs from... if you //truly//
 			<<linkreplace "take the hatchling">>
 				<<replace "#choices">>
 						/* UNFINISHED */
-					... You <em>have</em> already been seen. There's no way leaving the hatchling could end well for you, and besides - if you got in here, who knows what else could? Skilled though you are, you're not a subtle beast by any means. How could you leave a child in such an unsafe place? You're just doing what any responsible dragon should.<br><br>
+					... You <em>have</em> already been seen. There's no way leaving the hatchling could end well for you, and besides - if you got in here, who knows what else could? Skilled though you are, you're not a subtle creature by any means. How could you leave a child in such an unsafe place? You're just doing what any responsible dragon should.<br><br>
 
 					"You know," you start, having finished another not-quite-lie of your deeds. Something about driving a bear off a waterfall. "I came in here to gather any little ones who wanted to go on an adventure."<br><br>
 

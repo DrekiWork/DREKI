@@ -1,0 +1,118 @@
+:: buildShelters
+<<nobr>>
+	<<if $player.home.built !== true>>
+		''Your Lair''<br>
+		Cost: <<print $shelter.ruts.priceS>> stone to build... and 10 gold. Shamefully, you haven't built a home for yourself... a rut of your own would do for now, you think. You can improve it later.<br>
+			<<if $stone >= $shelter.ruts.priceS && $gold >= 10>>
+				<<button "Build">>
+				<<set $player.home.built = true>>
+				<<set $stone -= $shelter.ruts.priceS>>
+				<<set $gold -= 10>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+			<</button>>
+		<<elseif $stone < $shelter.ruts.priceS>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone!
+		<<elseif $gold < 10>>
+			''You don't have enough!'' You are missing <<print (10 - $gold)>> gold!
+		<<else>>
+			''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone and <<print (10 - $gold)>> gold!
+		<</if>><br><br>
+	<</if>>
+
+
+	''Rut'' <br>
+	Cost: <<print $shelter.ruts.priceS>> stone to build. By carving out a hole in the ground, you create a resting space for one colonist. You currently have <<print $shelter.ruts.amount>>. <br>
+		<<if $stone >= $shelter.ruts.priceS>><<button "Build">>
+				<<set $shelter.ruts.amount += 1>>
+				<<set $shelter.ruts.free += 1>>
+				<<updateHome>>
+				<<set $stone -= $shelter.ruts.priceS>>
+				<<updateBar>>
+				<<set $builtRut = true>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+		<</button>>
+	<<else>>''You don't have enough!'' You are missing <<print ($shelter.ruts.priceS - $stone)>> stone!
+	<</if>><br><br>
+
+
+	<<if $builtRut == true>>
+		''Sett'' <br>
+		Cost: <<print $shelter.setts.priceS>> stone, <<print $shelter.setts.priceW>> wood, and a free rut to build. Those ruts are pretty tiny... with a little bit of wooden support, some more stone, and a lot of digging, a rut can be expanded so the lucky dragon within can be more comfortable. You currently have <<print $shelter.setts.amount>>. <br>
+			<<if $stone >= $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free >= 1>><<button "Build">>
+					<<set $shelter.ruts.amount -= 1>>
+					<<set $shelter.ruts.free -= 1>>
+					<<set $shelter.setts.amount += 1>>
+					<<set $shelter.setts.free += 1>>
+					<<updateHome>>
+					<<set $stone -= $shelter.setts.priceS>>
+					<<set $wood -= $shelter.setts.priceW>>
+					<<updateBar>>
+					<<if $builtSett == false>>
+						<<set $builtSett = true>>
+					<</if>>
+					<<replace "#shelter">>
+						<<include "buildShelters">>
+					<</replace>>
+			<</button>>
+		
+			<<elseif $stone < $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone!
+			<<elseif $stone >= $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood!
+			<<elseif $stone >= $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing an empty rut!
+			<<elseif $stone < $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free >= 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and <<print ($shelter.setts.priceW - $wood)>> wood!
+			<<elseif $stone < $shelter.setts.priceS && $wood >= $shelter.setts.priceW && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone and an empty rut!
+			<<elseif $stone >= $shelter.setts.priceS && $wood < $shelter.setts.priceW && $shelter.ruts.free < 1>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceW - $wood)>> wood and an empty rut!
+			<<else>>
+				''You don't have enough!'' You are missing <<print ($shelter.setts.priceS - $stone)>> stone, <<print ($shelter.setts.priceW - $wood)>> wood, and an empty rut!
+			<</if>><br><br>
+	<</if>>
+
+
+	<<if _wantedCount > 0>>
+		''Hollow'' <br>
+		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. You have <<print $buildQueue.count("hollow")>> planned to be built, and <<print $shelter.hollows.amount>> built.<br>
+			<<button "Build">>
+				<<run $buildQueue.push(
+					"hollow"
+				)>>
+				<<run console.log("buildQueue is: " + $buildQueue)>>
+				<<replace "#shelter">>
+					<<include "buildShelters">>
+				<</replace>>
+				<<replace "#build-queue">>
+					<div id="build-queue">
+						<<include "buildQueueList">>
+					</div>
+				<</replace>>
+			<</button>><br><br>
+	<<else>>
+		''Hollow''<br>
+		You think you could make a large area for many dragons to sleep in, but you're not how to go about doing so... maybe if you had some dragons that specialized in building?
+	<</if>><br><br>
+	
+	
+	''Nest'' <br>
+	Cost: 3 wood. By prying apart and feathering wood, you create a nest for three eggs. You currently have <<print $nest>>. <br>
+	<<if $wood >= 3>>
+		<<button "Build">>
+			<<set $nest += 1>>
+			<<set $eggSpace = (($nest * 3) - ($eggs.length + $hatchlings.length))>>
+			<<set $wood -= 3>>
+			<<updateBar>>
+			<<replace "#shelter">>
+				<<include "buildShelters">>
+			<</replace>>
+		<</button>>
+	<<else>>
+		''You don't have enough!'' You are missing <<print (3 - $wood)>> wood!
+	<</if>>
+<</nobr>>

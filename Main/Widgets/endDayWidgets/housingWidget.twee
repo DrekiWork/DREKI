@@ -7,6 +7,9 @@
         /* First, making sure that the amount of shelter is up-to-date. */
     <<updateHome>>
 
+    <<run console.log("Housing widget ran.")>>
+    <<run console.log("findSleep is: " + $findSleep)>>
+
         /* With dragons and shelter confirmed, we start set-up. */
         /* _newHouse is dragons getting a home for the first time. */
         /* _movedHouse is dragons upgrading from one home to another. */

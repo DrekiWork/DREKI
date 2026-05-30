@@ -1,0 +1,58 @@
+:: buildQueueList
+<<nobr>>
+    <<countWorkers "builder">>
+
+    <<if $buildQueue.length > 1 && _wantedCount > 0>>
+        <br>
+        Your <<plural _wantedCount "builder is" "builders are">> currently working on a 
+
+        <<for _i = 0; _i < $buildQueue.length; _i += 1>>
+            <<set _building = _i>>
+
+            <<capture _building>>
+
+                <<if _i !== ($buildQueue.length - 1) && _i !== 0>>
+                    <<link $buildQueue[_building]>>
+                        <<run $buildQueue.splice(_building, 1)>>
+                        <<replace "#build-queue">>
+                            <div id="build-queue">
+                                <<include "buildQueueList">>
+                            </div>
+                        <</replace>>
+                    <</link>>, 
+
+                <<elseif _i == 0>>
+                    <<print $buildQueue[_i]>>, 
+
+                <<else>>
+                    and a 
+                    <<link $buildQueue[_building]>>
+                        <<run $buildQueue.splice(_building, 1)>>
+                        <<replace "#build-queue">>
+                            <div id="build-queue">
+                                <<include "buildQueueList">>
+                            </div>
+                        <</replace>>
+                    <</link>>.
+
+                <</if>>
+
+        <</capture>>
+
+        <</for>>
+
+        <br> You can remove a building from the queue.
+
+    <<elseif $buildQueue.length == 1 && _wantedCount > 0>>
+        <br>
+        <<set _building = $buildQueue[0]>>
+        Your <<plural _wantedCount "builder is" "builders are">> working on a <<print $buildQueue[0]>>.
+
+    <<elseif $buildQueue.length == 0 && _wantedCount > 0>>
+        <br>
+        Your <<plural _wantedCount "builder doesn't" "builders don't">> have any long-term projects right now.
+    
+    <<elseif $buildQueue.length > 0 && _wantedCount == 0>>
+
+    <</if>>
+<</nobr>>

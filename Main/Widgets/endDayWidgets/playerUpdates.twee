@@ -15,10 +15,10 @@
     <<set $player.action = 5>>
 
         /* Resets once-daily foraging actions. */
-        /* $eggStolen refers to if they've tried to steal dragon eggs, */
-        /* and $goldHunt refers to foraging for treasure. */
-    <<set $eggStolen = false>>
-    <<set $goldHunt = false>>
+        /* $...stolenEggs refers to if they've tried to steal dragon eggs, */
+        /* and $...lookedForGold refers to foraging for treasure. */
+    <<set $player.actionsTaken.stolenEggs = false>>
+    <<set $player.actionsTaken.lookedForGold = false>>
 
         /* Resets visiting unique locations. */
         /* kelpieLake refers to the infestedLake, */
@@ -28,6 +28,7 @@
         /* Which varies depending on what stage of defeat the Hydra is in. */
     <<set $hasVisited.kelpieLake = false>>
     <<set $hasVisited.hydraDen = false>>
+    <<set $hasVisited.ruinedColony = false>>
 <</nobr>><</widget>>
 
 

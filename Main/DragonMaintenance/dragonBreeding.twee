@@ -1,0 +1,35 @@
+:: dragonBreeding [script]
+
+    /* So first of all, this is copied and bastardized from someone else's question.
+       I'm not going to claim to understand it entirely,
+       and this is eventually going to be cannibalized and
+       used elsewhere while I figure out how JS actually works.
+       Much like how I treated filters. */
+
+    /* Checks for immediate-family incest; 
+       Siblings and parent-child relationships. */ 
+setup.isIncest = function(dragonA, dragonB) {
+
+        /* Okay, so first we set an array tracking each parent.
+           We make sure the array does NOT consider "unknown"
+           a valid value via my beloved filtering. */
+    const aParents = [dragonA.family.parent1, dragonA.family.parent2].filter(p => p !== "unknown");
+    const bParents = [dragonB.family.parent1, dragonB.family.parent2].filter(p => p !== "unknown");
+
+        /* With that sorted, we now check for siblingship.
+           As I understand this, it just goes real quick
+           through the array, and spits 'true' if anything matches.
+           If not, continue. */
+    for (let p of aParents) {
+        if (bParents.includes(p)) return true;
+    }
+
+        /* Next is parent-child.
+           First we'll see if B is parent of A,
+           then if A is parent of B. */
+    if (bParents.includes(dragonA.id)) return true;
+    if (aParents.includes(dragonB.id)) return true;
+
+        /* If no one is related, return false. */
+    return false;
+}

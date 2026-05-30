@@ -1,0 +1,49 @@
+:: Building [WIP] {"position":"950,550","size":"100,100"}
+You need to make something, but what? What does your colony need right now?<<nobr>>
+<<countWorkers "builder">>
+
+<div id="build-queue">
+	<<include "buildQueueList">>
+</div>
+
+<br>
+
+	<<link "Shelter">> <<toggleclass "#shelter" "hidden">> <</link>>
+		<div id="shelter" class="hidden">
+		<<include "buildShelters">>
+		</div>
+<br><br>
+
+
+	<<link "Storage">> <<toggleclass "#storage" "hidden">> <</link>>
+
+	<div id="storage" class="hidden">
+		<<include "buildStorage">>
+	</div>
+<br><br>
+
+
+<<if $dragons.length > 10 && _wantedCount > 1000000000 && $hydraBeat == true>>
+	Hey. Why do you have one billion builders? Honest question. You can't build any of this anyway.
+		/* WIP SECTION */
+	<<link "Job Sites">> <<toggleclass "#jobSite" "hidden">> <</link>>
+	<div id="jobSite" class="hidden">
+		<<include "buildJobSite">>
+	</div>
+	<br><br>
+<</if>>
+
+
+ <<if $defenseTalk == true>>
+ 	<<link "Defensive">> <<toggleclass "#defense" "hidden">> <</link>>
+
+	<div id="defense" class="hidden">
+		<<include "buildDefense">>
+	</div>
+	<br><br>
+
+<<else>>
+
+<</if>>
+
+<</nobr>>You are pretty sure [[you're done here.|Sandbox Central]]

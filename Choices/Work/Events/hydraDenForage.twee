@@ -6,8 +6,6 @@
 <<else>>
 	<<set _risk = random(1)>>
 <</if>>
-<<countDragons "adults">>
-<<countDragons "hatchlings">>
 
 <<switch $hydraEggTaken>>
 
@@ -164,8 +162,8 @@
 															<<linkappend "Or...">> <br> <br>
 																<hr>
 																Your throat dries. You have 
-																<<if _adults > 20>>
-																	plenty of dragons. <<print _adults>> is a large thunder to worry about - but that's a large thunder that might be able to prepare for somthing... stupid. Something big. Something like killing a hydra. <br> <br>
+																<<if $dragons.length > 20>>
+																	plenty of dragons. <<print $dragons.length>> is a large thunder to worry about - but that's a large thunder that might be able to prepare for somthing... stupid. Something big. Something like killing a hydra. <br> <br>
 																	Your attention drifts to the egg under your claws, and a terrible, horrible, <em>greedy</em> thought sits heavy on your shoulders. You could 
 																	<<link "take the egg">>
 																		<<replace "#c4">>
@@ -191,8 +189,8 @@
 																	<</link>>. <br> <br>
 																	If you take the egg, there is no going back. You will draw the hydra's wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you <em>cycles!</em> - and a hydra egg, to either hatch as your own or kill as you see fit. <br> <br>
 																	You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
-																<<elseif _adults > 10>>
-																	some dragons. <<print _adults>>. That's - not few. But it's not a great amount either; it's risky. It's stupid, to be thinking about this. About the egg under your claws, the hydra sleeping here. About killing it. <br> <br>
+																<<elseif $dragons.length > 10>>
+																	some dragons. <<print $dragons.length>>. That's - not few. But it's not a great amount either; it's risky. It's stupid, to be thinking about this. About the egg under your claws, the hydra sleeping here. About killing it. <br> <br>
 																	Your attention drifts to the egg under your claws, and a terrible, horrible, <em>greedy</em> thought sits heavy on your shoulders. You could 
 																	<<link "take the egg">>
 																		<<replace "#c4">>
@@ -219,8 +217,8 @@
 																	<</link>>. <br> <br>
 																	If you take the egg, there is no going back. You will draw the hydra's wrath once it awakens - you and your entire thunder. You will have some time to prepare before it awakes, and only a short while after that to finish preperations before it comes to slaughter you all. But if you win, your territory will be safer. You will have an abundance of food - enough to last you <em>cycles!</em> - and a hydra egg, to either hatch as your own or kill as you see fit. <br> <br>
 																	You can still leave. You have the scraps of food you stole; the hydra will likely remain asleep if its egg remains. There will be no risk, no attack. But the hydra will remain.
-																<<elseif _adults > 1>>
-																	not enough dragons. Your thunder is tiny, with only <<print _adults>> dragons. No, you are thinking big ideas - ideas that hatchlings have, ideas that little creatures with no concept of mortality dream of. You can't kill a hydra. Not like this. <br> <br>
+																<<elseif $dragons.length > 1>>
+																	not enough dragons. Your thunder is tiny, with only <<print $dragons.length>> dragons. No, you are thinking big ideas - ideas that hatchlings have, ideas that little creatures with no concept of mortality dream of. You can't kill a hydra. Not like this. <br> <br>
 																	You shake your head and stretch your wings. When you have more dragons, when you are more prepared - you can try. But for now, you must be satisfied with what you've collected in your throat. You spread your wings and carefully, silently, glide away with the <<print _collect>> you stole earlier. 
 																	<<link "One day, you will be back." "Sandbox Central">>
 																		<<addResource "food" _collect>>
@@ -290,7 +288,7 @@
 					As you walk further in, you find yourself relaxing somewhat. If this <em>were</em> some other predator's abode, they've long since left the area. You increasingly suspect that it isn't, though. There are far too many prey-tracks, and it seems some did leave... just not recently. <br> <br>
 					Your slight distraction leads you to stumble - and it's sheer luck that you catch yourself before you go tumbling down a sudden overhang. You would have been fine regardless - there's space enough for you to roll into a sloppy glide - but it seems plenty of other animals weren't half as lucky if the reek of death is anything to go by. <br> <br>
 					Still... With nothing else living here, and 
-					<<if _adults >= 1 || _hatchlings >= 1>>
+					<<if $dragons.length >= 1 || $hatchlings.length >= 1>>
 						a burgeoning thunder to care for, 
 					<<else>>
 						the future of your colony to think of, 

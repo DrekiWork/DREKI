@@ -179,7 +179,7 @@
         [[The world goes dark, and you die.|OOC Chat]]
 
 
-    <<elseif $defenseTotal <= 30>>
+    <<elseif $defenseTotal <= 25>>
         /* You failed. */
         You have lost.<br>
         The hydra swats you from the air; you hear a crunch more than you feel it, but you know even before your body reaches the ground that you will not be rising again. Breath rushes from your lungs as you crash into the dirt, but you don't feel that. You gasp for more; your throat fills with the scent of blood and smoke and dirt. You lay there, helpless, as the hydra tears apart your home. Your thunder is to become a ruin; the remains of your arrogance, to have stolen an egg you should never have seen.<br>
