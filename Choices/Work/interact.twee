@@ -55,7 +55,7 @@
 						<</link>>, though it's not something you've confirmed.
 
 				<<elseif $dragons[$int].family.parent1 !== "unknown">>
-					<<set _parent1Index = $dragons.findIndex(d => d.id == $dragons[$int].family.parent1)>>
+					<<set _parent1Index = $dragons.findIndex(dragon => dragon.id == $dragons[$int].family.parent1)>>
 					<<set _parent1 = $dragons[_parent1Index].name>>
 					You suspect one of their parents is
 						<<link _parent1>>
@@ -64,7 +64,7 @@
 						<</link>>, though you wouldn't know who <<print _parent1>> partnered with.
 
 				<<elseif $dragons[$int].family.parent2 !== "unknown">>
-					<<set _parent2Index = $dragons.findIndex(d => d.id == $dragons[$int].family.parent2)>>
+					<<set _parent2Index = $dragons.findIndex(dragon => dragon.id == $dragons[$int].family.parent2)>>
 					<<set _parent2 = $dragons[_parent2Index].name>>
 					You suspect one of their parents is <<link _parent2>>
 							<<set $int = _parent2Index>>
@@ -266,7 +266,7 @@
 					<<set _jobName = $jobInfo[_i].name.toUpperFirst()>>
 					<<capture _jobName>>
 						<<set _desc = $jobInfo[_i].desc>>
-						&emsp;<<link "_jobName">>
+						&emsp;<<setJobImage $jobInfo[_i].name>> <<link "_jobName">>
 							<<set $dragons[$int].job = $jobInfo[_i].name>>
 							<<run Engine.show()>>
 						<</link>><br>

@@ -86,6 +86,10 @@
     Have the Hydra egg? <<cycle "$hydraEggTaken" autoselect>>
         <<option "Yes." true>>
         <<option "No." false>>
+    <</cycle>><br>
+    Beaten the Hydra? <<cycle "$hydraBeat" autoselect>>
+        <<option "Yes." true>>
+        <<option "No." false>>
     <</cycle>><br><br>
 
     ''//Lake Creatures//''<br>

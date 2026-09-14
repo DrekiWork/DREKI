@@ -13,7 +13,7 @@
         /* and a larger colony needing more gold for more buffs. */
         /* The _goldBonus only works if $gold is 1 or higher. */
     <<if $gold >= 1>>
-        <<set _goldBonus = Math.round(100 * (1 - Math.exp((-$gold/20) / ($dragons.length * 15))))>>
+        <<set _goldBonus = (0.90 * (1 - Math.exp((-$gold/20) / ($dragons.length * 650))))>>
     <<else>>
         <<set _goldBonus = 1>>
     <</if>>
@@ -29,6 +29,11 @@
     <<set _scavengerCount = 0>>
     <<set _slackerCount = 0>>
     <<set _soldierCount = 0>>
+
+        /* Gathering numbers; I'll move these to default on a bigger update. */
+    <<set _foragerGatherCap = 25>>
+    <<set _rainierGatherCap = 25>>
+    <<set _scavengerGatherCap = 25>>
 
         /* Now the temporary variables for each haul that can */
         /* Be brought back, so nothing freaks if the haul is */
@@ -81,22 +86,22 @@
             <<case "forager">>
                 <<set _foragerCount += 1>>
                 <<if $dragons[_i].personality == "dreamy" || $dragons[_i].personality == "idealistic" || $dragons[_i].personality == "social">>
-                    <<set _currentForagerFood += Math.round(($dragons[_i].experience.forager * _goldBonus) + random(2, 6))>>
-                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, 45)>>
+                    <<set _currentForagerFood += Math.round(($dragons[_i].experience.forager * (1 + _goldBonus)) + random(2, 6))>>
+                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, (_foragerGatherCap + 10))>>
                 <<else>>
-                    <<set _currentForagerFood += Math.round(($dragons[_i].experience.forager * _goldBonus) + random(3))>>
-                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, 35)>>
+                    <<set _currentForagerFood += Math.round(($dragons[_i].experience.forager * (1 + _goldBonus)) + random(3))>>
+                    <<set _currentForagerFood = Math.clamp(_currentForagerFood, 1, _foragerGatherCap)>>
                 <</if>>
                 <<set _foragerFood += _currentForagerFood>>
 
             <<case "rainier">>
                 <<set _rainierCount += 1>>
                 <<if $dragons[_i].personality == "idealistic" || $dragons[_i].personality == "industrious" || $dragons[_i].personality == "fastidious">>
-                    <<set _currentRainierWater += Math.round(($dragons[_i].experience.rainier * _goldBonus) + random(2, 6))>>
-                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, 45)>>
+                    <<set _currentRainierWater += Math.round(($dragons[_i].experience.rainier * (1 + _goldBonus)) + random(2, 6))>>
+                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, (_rainierGatherCap + 10))>>
                 <<else>>
-                    <<set _currentRainierWater += Math.round(($dragons[_i].experience.rainier * _goldBonus) + random(3))>>
-                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, 35)>>
+                    <<set _currentRainierWater += Math.round(($dragons[_i].experience.rainier * (1 + _goldBonus)) + random(3))>>
+                    <<set _currentRainierWater = Math.clamp(_currentRainierWater, 1, _rainierGatherCap)>>
                 <</if>>
                 <<set _rainierWater += _currentRainierWater>>
 
@@ -109,16 +114,16 @@
                     /* Better chance to find gold. Slightly. */
                 <<set _salvagerCount += 1>>
                 <<if $dragons[_i].personality == "cynical" || $dragons[_i].personality == "opportunistic" || $dragons[_i].personality == "rebellious">>
-                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 1))>>
-                    <<if _salvagerGoldChance >= 80>>
-                        <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(2, 6))>>
-                        <<set _currentSalvagerGold = Math.clamp(_currentSalvagerGold, 0, 75)>>
+                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 0.25))>>
+                    <<if _salvagerGoldChance >= 90>>
+                        <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * (1 + _goldBonus)) + random(1, 3))>>
+                        <<set _currentSalvagerGold = Math.clamp(_currentSalvagerGold, 0, 25)>>
                     <</if>>
                 <<else>>
-                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 0.25))>>
-                    <<if _salvagerGoldChance >= 85>>
-                        <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * _goldBonus) + random(3))>>
-                        <<set _currentSalvagerGold = Math.clamp(_currentSalvagerGold, 0, 50)>>
+                    <<set _salvagerGoldChance = (random(100) + Math.round($dragons[_i].experience.salvager * 0.10))>>
+                    <<if _salvagerGoldChance >= 95>>
+                        <<set _currentSalvagerGold += (Math.round($dragons[_i].experience.salvager * (1 + _goldBonus)) + 1)>>
+                        <<set _currentSalvagerGold = Math.clamp(_currentSalvagerGold, 0, 15)>>
                     <</if>>
                 <</if>>
                 <<set _salvagerGold += _currentSalvagerGold>>
@@ -133,35 +138,39 @@
                     /* they're more likely to bring in everything. */
                 <<set _scavengerCount += 1>>
                 <<set _scavengerGoldLuck = random(100)>>
-                <<set _scavengerMaterialChoice = random(1)>>
+                <<if $scavengerDesiredResource == "both">>
+                    <<set _scavengerMaterialChoice = random(1)>>
+                <<else>>
+                    <<set _scavengerMaterialChoice = 2>>
+                <</if>>
                 <<if $dragons[_i].personality == "cynical" || $dragons[_i].personality == "dreamy" || $dragons[_i].personality == "opportunistic">>
-                    <<if _scavengerMaterialChoice == 1>>
-                        <<set _currentScavengerWood = Math.round($dragons[_i].experience.scavenger * _goldBonus) + random(2, 6)>>
-                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, 45)>>
+                    <<if _scavengerMaterialChoice == 1 || $scavengerDesiredResource == "wood">>
+                        <<set _currentScavengerWood = Math.round($dragons[_i].experience.scavenger * (1 + _goldBonus)) + random(2, 6)>>
+                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, (_scavengerGatherCap + 10))>>
                         <<set _scavengerWood += _currentScavengerWood>>
-                    <<else>>
-                        <<set _currentScavengerStone = Math.round($dragons[_i].experience.scavenger * _goldBonus) + random(2, 6)>>
-                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, 45)>>
+                    <<elseif _scavengerMaterialChoice == 0 || $scavengerDesiredResource == "stone">>
+                        <<set _currentScavengerStone = Math.round($dragons[_i].experience.scavenger * (1 + _goldBonus)) + random(2, 6)>>
+                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, (_scavengerGatherCap + 10))>>
                         <<set _scavengerStone += _currentScavengerStone>>
                     <</if>>
-                    <<if _scavengerGoldLuck > 95>>
-                        <<set _currentScavengerGold = Math.round($dragons[_i].experience.scavenger * 10)>>
-                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 25)>>
+                    <<if _scavengerGoldLuck > 99>>
+                        <<set _currentScavengerGold = Math.round($dragons[_i].experience.scavenger)>>
+                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 10)>>
                         <<set _scavengerGold += random(1, _currentScavengerGold)>>
                     <</if>>
                 <<else>>
-                    <<if _scavengerMaterialChoice == 1>>
-                        <<set _currentScavengerWood = Math.round($dragons[_i].experience.scavenger * _goldBonus) + random(3)>>
-                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, 35)>>
+                    <<if _scavengerMaterialChoice == 1 || $scavengerDesiredResource == "wood">>
+                        <<set _currentScavengerWood = Math.round($dragons[_i].experience.scavenger * (1 + _goldBonus)) + random(3)>>
+                        <<set _currentScavengerWood = Math.clamp(_currentScavengerWood, 1, _scavengerGatherCap)>>
                         <<set _scavengerWood += _currentScavengerWood>>
-                    <<else>>
-                        <<set _currentScavengerStone = Math.round($dragons[_i].experience.scavenger * _goldBonus) + random(3)>>
-                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, 35)>>
+                    <<elseif _scavengerMaterialChoice == 0 || $scavengerDesiredResource == "stone">>
+                        <<set _currentScavengerStone = Math.round($dragons[_i].experience.scavenger * (1 + _goldBonus)) + random(3)>>
+                        <<set _currentScavengerStone = Math.clamp(_currentScavengerStone, 1, _scavengerGatherCap)>>
                         <<set _scavengerStone += _currentScavengerStone>>
                     <</if>>
-                    <<if _scavengerGoldLuck > 95>>
-                        <<set _currentScavengerGold = Math.round($dragons[_i].experience.scavenger * 10)>>
-                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 25)>>
+                    <<if _scavengerGoldLuck > 99>>
+                        <<set _currentScavengerGold = Math.round($dragons[_i].experience.scavenger)>>
+                        <<set _currentScavengerGold = Math.clamp(_currentScavengerGold, 1, 5)>>
                         <<set _scavengerGold += random(1, _currentScavengerGold)>>
                     <</if>>
                 <</if>>
@@ -178,10 +187,10 @@
 
                 <<if _soldierHuntChance < 95>>
                     <<if $dragons[_i].personality == "rebellious" || $dragons[_i].personality == "militaristic">>
-                        <<set _currentSoldierHunt = Math.round($dragons[_i].experience.soldier * _goldBonus) + random(15,30)>>
+                        <<set _currentSoldierHunt = Math.round($dragons[_i].experience.soldier * (1 + _goldBonus)) + random(15,30)>>
                         <<set _currentSoldierHunt = Math.clamp(_currentSoldierHunt, 10, 50)>>
                     <<else>>
-                        <<set _currentSoldierHunt = Math.round($dragons[_i].experience.soldier * _goldBonus) + random(15,30)>>
+                        <<set _currentSoldierHunt = Math.round($dragons[_i].experience.soldier * (1 + _goldBonus)) + random(15,30)>>
                         <<set _currentSoldierHunt = Math.clamp(_currentSoldierHunt, 5, 40)>>
                     <</if>>
                     <<set _soldierHunt += _currentSoldierHunt>>

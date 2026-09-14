@@ -53,6 +53,6 @@
         Your <<plural _wantedCount "builder doesn't" "builders don't">> have any long-term projects right now.
     
     <<elseif $buildQueue.length > 0 && _wantedCount == 0>>
-
+        
     <</if>>
 <</nobr>>

@@ -6,7 +6,6 @@
 	"start": "START",
 	"tag-colors": {
 		"Cheater": "purple",
-		"HEY-DUMMY": "red",
 		"Info": "yellow",
 		"Opener": "green",
 		"Special": "green",
@@ -22,7 +21,7 @@ DREKI
 
 
 :: StorySubtitle
-<sup>alpha 0.31.3.10
+<sup>alpha 0.31.3.11
 Made by Recila!</sup>
 
 
@@ -92,12 +91,11 @@ Made by Recila!</sup>
 						   They choose based on personality and preferences, so unlucky players will still have to reassign.
 						   Autoselect is 'false'. */
 					<label><<checkbox "$jobHunt" false true autocheck>> Should dragons choose a job upon growing up?</label><br>
-					<<run console.log("jobHunt is: " + $jobHunt)>>
 
 						/* Runs <<tryForEgg>> at day-end, which starts the egg factory.
 						   Production can get out of hand quick, so this is necessary.
 						   Autoselect is 'true'. */
-					<label><<checkbox "$freelyMate" false true autocheck>> Should dragons have eggs whenever they please? </label>
+					<label><<checkbox "$freelyMate" false true autocheck>> Should dragons have eggs whenever they please?</label>
 			<</if>><br>
 		</details>
 
@@ -147,19 +145,33 @@ Made by Recila!</sup>
 		/* These are patchnotes.
 		   Organized by new content - QoL adjustments - patched bugs - new bugs.
 		   Should have a current focus tab somewhere...
-		   The gleeful tone is neecessary for personal success. */
+		   The gleeful tone is necessary for personal success. */
 
 
-	<h2> Pre-Pre-Alpha 0.31.3.10</h2>
-	<em>Bug patch!</em>
+	<h2> Pre-Pre-Alpha 0.31.3.11</h2>
+	<em>QoL</em>
+	<ul>
+	<li>Rest now presents your colony's tributes in a list, with icons. I made them, might as well use them!</li>
+	<li>In addition, the job listings in the interaction page ALSO have icons.</li>
+	<li></li>
+	</ul>
+
+	<em>Bugs patched</em>
 	<ul>
 	<li>Stone caps correctly.</li>
 	<li>Salvagers & Scavengers should no longer break gold count.</li>
-	<li>endDay should no longer throw errors when hatchlings try to eat. (Why, hatchlings? Why?)</li>
+	<li>endDay should no longer throw errors when hatchlings try to eat. (It's always hatchlings when it isn't builders. :) )</li>
 	<li>Dragons should be counted correctly.</li>
 	<li>Incest check no longer broken. Again.</li>
 	<li>Fixed the dent in Founder's head. They remember the abandoned colony on future encounters. (Will take one more visit to raise the flag, sorry!)</li>
 	<li>Minor English checks. It's my first language, I've no excuse.</li>
+	<li>Builders no longer lose their minds and demand infinite resources. Guess who forgot to clamp...!</li>
+	<li>Fixed dragonList job images. I'm not sure how I broke it, either.</li>
+	<li>Hatchlings will just leave on growing up if you've been a bad parent.</li>
+	<li>Debugged `buildQueue` significantly.</li>
+	<li>And `builderRestDisplay`.</li>
+	<li>So turns out I wasn't using the gold bonus as a percentage but as a multiplicative, so I've nerfed it to the ground!</li>
+	<li>Also temporarily curbed how much your various gatherers can bring in. Emphasis: <em>temporarily</em>. I'm working on a new system to make gatherers a little more varied in performance & make their caps somewhat less aribitrary.</li>
 	<li></li>
 	</ul>
 

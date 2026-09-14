@@ -81,18 +81,7 @@
 		''Hollow'' <br>
 		Cost: <<print $shelter.hollows.priceS>> stone and <<print $shelter.hollows.priceW>> wood to build. Your builders have an idea on how to make large amounts of shelter. It might not be <em>comfortable</em>, but it'll offer some protection. It'll take some time, but at least you don't need to have all the materials immediately ready. You have <<print $buildQueue.count("hollow")>> planned to be built, and <<print $shelter.hollows.amount>> built.<br>
 			<<button "Build">>
-				<<run $buildQueue.push(
-					"hollow"
-				)>>
-				<<run console.log("buildQueue is: " + $buildQueue)>>
-				<<replace "#shelter">>
-					<<include "buildShelters">>
-				<</replace>>
-				<<replace "#build-queue">>
-					<div id="build-queue">
-						<<include "buildQueueList">>
-					</div>
-				<</replace>>
+				<<queueBuildingButton "hollow" "#shelter" "buildShelters">>
 			<</button>><br><br>
 	<<else>>
 		''Hollow''<br>

@@ -38,32 +38,93 @@
 			There's a sole egg here. You take a moment to turn it and clean its shell.
 
 		<<elseif $hatchlings.length >= 2 && $eggs.length == 0>>
-			The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand you play.
+			The hatchlings are galloping around without regard for anything or anyone; not even you. When they spot you, they demand <<linkappend "you play.">>
+				<<set _play = random(3)>>
+				<<switch>>
+					<<case 0>>
+						The hatchlings charge you without actually waiting for your answer. Within moments you're at the mercy of their claws and fangs—by the time they're done with you, your little ones have killed you quite thoroughly!
+					<<case 1>>
+						You lower yourself and snarl at the little things. "Scatter!" screams one, and they do so in every direction. You give chase immediately, catching any hatchling so foolish as to get within your long reach. Your victims turn promptly on their previous nestmates with glee.
+					<<case 2>>
+						You agree, and are immediately turned into a tree for their amusement. The hatchlings climb all over you as you wander about the nursery. Eventually, they get it into their heads that you can be guided around, and their hubris must be corrected. Their climbling gets a lot more interesting after that.
+					<<case 3>>
+						The entertainment of today appears to be any random game that pops into their heads. You find yourself playing any and everything at once, which ultimately ends in you giving up and dropping to the ground to be a particularly interesting hill in the nursery.
+				<</switch>>
+			<</linkappend>>
 
 		<<elseif $hatchlings.length == 1 && $eggs.length == 0>>
 			Your lone hatchling perks up as you enter and loudly demands
 			<<linkappend "you entertain them.">> 
 				<<set _play to random(4)>>
-				<<if _play == 0>>
-					The hatchling climbs you like a little mountain and begins barking orders; you oblige, for a time... until you decide you've had enough. With a roar, you throw yourself about, while the hatchlings clings to your horns and crest, shrilling with glee.
-				<<elseif _play == 1>>
-					You and your hatchling spend time trying to steal pebble 'eggs' from each others' nests. You wonder if you ever told them where they came from...
-				<<elseif _play == 2>>
-					They lunge on you without waiting for an answer. You wrestle for a while, and ultimately die a dramatic death at their merciless fangs.
-				<<elseif _play == 3>>
-					You plop them in their nest, and - before the hatchling can protest - begin telling a story of your old colony. They listen with rapt attention.
-				<<elseif _play == 4>>
-					They shriek and rush off. You chase them around the nursery, batting lightly at their tail and nipping at their flailing wings. When you 'at last' catch them, your hatchling whirls on you and the chase begins anew.
-				<</if>>
+				<<switch _play>>
+					<<case 0>>
+						The hatchling climbs you like a little mountain and begins barking orders; you oblige, for a time... until you decide you've had enough. With a roar, you throw yourself about, while the hatchling clings to your horns and crest, shrilling with glee.
+					<<case 1>>
+						You and your hatchling spend time trying to steal pebble 'eggs' from each others' nests. You wonder if you ever told them where they came from...
+					<<case 2>>
+						They lunge on you without waiting for an answer. You wrestle for a while, and ultimately die a dramatic death at their merciless fangs.
+					<<case 3>>
+						You plop them in their nest, and - before the hatchling can protest - begin telling a story of your old colony. They listen with rapt attention.
+					<<case 4>>
+						They shriek and rush off. You chase them around the nursery, batting lightly at their tail and nipping at their flailing wings. When you 'at last' catch them, your hatchling whirls on you and the chase begins anew.
+					<<default>>
+				<</switch>>
 			<</linkappend>><br><br>
 		<<else>>
 			The nursery is empty. You examine its barren nests with a deep sense of sadness.
 		<</if>><br><br>
 	
-	<<if $hydraEggTaken == true>>
-		In a dug out notch in the wall, buried in sand and dampened, frayed wood, is the hydra egg. Its shell is distressingly leathery, soft and frail to your cautious touch, yet you can see the faint shadow of the snake growing inside, alive and well. You think it reacts to your presence, sometimes... The sight of it still gives you a thrill of nerves.<br><br>
+	<<if $hydraEggTaken == true && $hydraEggSmashed !== true && $hydraBeat == false>>
+		In a dug out notch in the wall, buried in sand and dampened, frayed wood, is the hydra egg. Its shell is distressingly leathery, soft and frail to your cautious touch, yet you can see the faint shadow of the snake growing inside, alive and well. You think it reacts to your presence, sometimes... The sight of it still gives you a thrill of nerves.
+		<br><br>
+	<<elseif $hydraEggTaken == true && $hydraEggSmashed !== true && $hydraBeat == true>>
+		In a dug out notch in the wall, buried in sand and dampened, frayed wood, is the hydra egg. Its shell is distressingly leathery, soft and frail to your cautious touch, yet you can see the faint shadow of the snake growing inside, alive and well. You think it reacts to your presence, sometimes... 
+		<<linkappend "The sight of it still gives you a thrill of nerves...">>
+			<br><br>
+			With the hydra dead, and armed with knowledge of what it <em>could</em> do, you are struck by what it will eventually become. What its parent was capable of. The stench of rotting flesh, the soft squish of it under your claws—the sheer, horrifying waste, and the vicious single-mindedness with which the hydra attacked your home... Is there any guarantee the child will not follow the trail of its parent?
+			<br><br>
+			The egg has served its purpose; the hydra itself is dead, and here is its young.
+			<br><br>
+			None of your colony would despise you for its destruction, you're sure. How could they? A monster's brood is no less monstrous for being merely an egg.
+			<br><br>
+			<div id="smash-Hydra-Egg-Choice">
+				<<link "Smash it.">>
+					<<set $hydraEggSmashed = true>>
+					<<replace "#smash-Hydra-Egg-Choice">>
+						<<if $hatchlings.length > 1>>
+							You shift your body, wings stretching to keep the hatchlings away as you consider the egg. 
+						<<elseif $hatchlings.length == 1>>
+							You shift your body, wings stretching to keep the hatchling away as you consider the egg. 
+						<<else>>
+						<</if>>
+						It is not a small thing. One of your feet—if you splay your claws—only barely covers the length of it. Width-wise, it is thin. An oblong egg, soft and leathery. Without the gleam of oozing corpse-rot on it, it is... unremarkable. Strange and large but not particularly important.
+						<br><br>
+						It tears beneath your claws all the same. There was a child within, you see—you <em>knew</em>, but here and now you see a brief glimpse of the forming body before crushing it, killing the thing before it can become a risk to you and yours.
+						<br><br>
+						A quick, inglorious death. You clean your foot on the damp wood and burn the mess away entirely.
+						<br><br>
+					<</replace>>
+				<</link>>
+				<<link "Let it be.">>
+					<<replace "#smash-Hydra-Egg-Choice">>
+						You consider the egg. Unremarkable but for being abnormally large, soft-shelled and oblong. A monster's brood. Yet instead of crushing it on the way home, you brought it here.
+						<<if $defenseBuildings.moat.creatures == true>>
+							As you did, you suppose, for the lake-beasts now outside the colony.
+						<</if>>
+						Perhaps your heart-fire is meant to spread more warmth than char. At least for now.
+						<br><br>
+						You tend the egg for a moment, fussing over it, then move on.
+						<br><br>
+					<</replace>>
+				<</link>>
+			</div>
+		<</linkappend>>
+	<<elseif $hydraEggTaken == false || $hydraEggSmashed == true>>
+
 	<<else>>
+
 	<</if>>
+	
 	What would you like to do?
 	
 	[[Go back|Sandbox Central]]

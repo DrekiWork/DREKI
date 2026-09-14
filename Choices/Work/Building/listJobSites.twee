@@ -2,11 +2,11 @@
 <<nobr>>
 	<<switch $jobSites.builder.amount>>
 			/* UNFINISHED */
-		<<case 3>>
+/* 		<<case 3>>
 				/* With builder site fully constructed, every other job site is unlocked:
 				   Forager, Rainier
 				   Scavenger, Soldier
-				   Salvager */
+				   Salvager 
 			''Builder Hall''<br>
 			You refuse to entertain calling this place a 'stockpile' for any longer. Not only is there nearly a full hall—half open-air, the rest dug into the mountain for easy access to your wood and stone—each connected wall and column is carved in some way. Crude or patterned or so tenderly as to make the material seem soft, not a single feature has gone undecorated. Tablets of stone in varying sizes occupy stands or the ground, allowing for more complex arrangements of planning. There are even models of ideas, past projects, and future works scattered about.<br>
 			This jobsite is complete, as you must often remind your builders.<br><br>
@@ -23,11 +23,11 @@
 			''Scavenger Dropsite''<br>
 
 
-			''Soldier Garrison''<br>
+			''Soldier Cantonment''<br> */
 			
 
 
-		<<case 2>>
+/*  		<<case 2>>
 			''Builder Stockpile''<br>
 			The space has grown; a pair of stone columns support a heavy roof sheltering their material, and a number of stone surfaces have been flattened for scratching thoughts into. A couple also hide convenient storage for presently unused wood and stone. Yet they wish for more. Cost: <<print Math.round($jobSites.builder.priceS * 2)>> stone and <<print Math.round($jobSites.builder.priceW * 2)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 2)>> days to complete.<br><br>
 
@@ -37,56 +37,26 @@
 			''Rainier Pond''<br>
 			Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.
 
-			''Scavenger Dropsite''<br>
-			Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.
-
-			''Soldier Garrison''<br>
-			Your soldiers argue the tactical value of a location for them to gather and train. You're less than certain of their intent, but the overall idea is sound. Cost: <<print Math.round($jobSites.soldier.priceS)>> stone and <<print Math.round($jobSites.soldier.priceW)>> wood. It will take <<print Math.round($jobSites.soldier.buildTime)>> days to complete.
-
-
-		<<case 1>>
-			''Builder Stockpile''<br>
-			An area around the crag has been cleared for their use, and promptly overrun with half-carved wood and stone. Yet they insist more can be done for their stockpile. Cost: <<print Math.round($jobSites.builder.priceS * 1.5)>> stone and <<print Math.round($jobSites.builder.priceW * 1.5)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 1.5)>> days to complete.<br>
-				<<button "Build">>
-					<<run $buildQueue.push("builderJobSite")>>
-					<<run console.log("buildQueue is: " + $buildQueue)>>
-					<<replace "#jobSite">>
-						<<include "buildJobSite">>
-					<</replace>>
-					<<replace "#build-queue">>
-						<<include "buildQueueList">>
-					<</replace>>
-				<</button>><br><br>
-
-			''Forager Camp''<br>
-			A location could be made for foragers as well; you would need to get your foragers in one place to discuss with your builders, but you suspect they would see the benefits quickly. Cost: <<print $jobSites.forager.priceS>> stone and <<print $jobSites.forager.priceW>> wood. It will take <<print $jobSites.forager.buildTime>> days to complete.<br>
-				<<button "Build">>
-					<<run $buildQueue.push("foragerJobSite")>>
-					<<run console.log("buildQueue is: " + $buildQueue)>>
-					<<replace "#jobSite">>
-						<<include "buildJobSite">>
-					<</replace>>
-					<<replace "#build-queue">>
-						<<include "buildQueueList">>
-					<</replace>>
-				<</button>><br><br>
-
-			''Rainier Pond''<br>
-			Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.<br>
-				<<button "Build">>
-					<<run $buildQueue.push("rainierJobSite")>>
-					<<run console.log("buildQueue is: " + $buildQueue)>>
-					<<replace "#jobSite">>
-						<<include "buildJobSite">>
-					<</replace>>
-					<<replace "#build-queue">>
-						<<include "buildQueueList">>
-					<</replace>>
-				<</button>><br><br>
-
-			<<if $jobSites.scavenger.amount < 1>>
+			<<if $jobSites.scavenger.amount == 0>>
 				''Scavenger Dropsite''<br>
-				Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.<br>
+				Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. Despite insisting it's for organization, their phrasing seems more interested in just having a place to dump their hauls... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.<br>
+				<<if $buildQueue.includes("scavengerJobSite")>>
+					&emsp;Your builders already planning.
+				<<else>>
+					<<button "Build">>
+						<<run $buildQueue.push("scavengerJobSite")>>
+						<<run console.log("buildQueue is: " + $buildQueue)>>
+						<<replace "#jobSite">>
+							<<include "buildJobSite">>
+						<</replace>>
+						<<replace "#build-queue">>
+							<<include "buildQueueList">>
+						<</replace>>
+					<</button>><br><br>
+				<</if>>
+			<<elseif $jobSites.scavenger.amount == 1>>
+				''Scavenger Dropsite''<br>
+				A short ways into the surrounding woods, a packed-dirt clearing has been stomped into existence. The builders initially put up posts to designate storage, but your scavengers immediately rearranged all of them to better suit their needs. At least the central coordinating area was left alone...? The massive tallying stone under the sheltered central area is already thoroughly scored.
 				<<if $buildQueue.includes("scavengerJobSite")>>
 					&emsp;Your builders already planning.
 				<<else>>
@@ -103,7 +73,81 @@
 				<</if>>
 			<<else>>
 				''Scavenger Dropsite''<br>
-				A short ways into the surrounding woods, a packed-dirt clearing has been stomped into existence. The builders initially put up posts to designate storage, but your scavengers immediately rearranged all of them to better suit their needs. At least the central coordinating area was left alone...? The massive tallying stone under the sheltered central area is already thoroughly scored.
+				The clearing is utterly barren of plantlife, yet arches of wood and stone remind you of a copse of strange trees regardless. Your builders clearly coordinated a bit more closely with the scavengers this time; the building materials are more obviously separated even while being less clearly organized within. There are trees still being carved next to splinters of useless bark, and stone in varying stages of usefulness waiting to be dragged to your dug-outs. The central area, at least, has nearly escaped the mess; the sole casualty of the shaded area is the tablet, victim to a wild scrawl of tallies and what you believe to be an attempt at mapping. One of the upper corners is relatively clear, presumably to allow <em>you</em> to contribute.<br>
+				This seems to be as good as it's getting.<br><br>
+			<</if>>
+
+			''Soldier Garrison''<br>
+			Your soldiers argue the tactical value of a location for them to gather and train. You're less than certain of their intent, but the overall idea is sound. Cost: <<print Math.round($jobSites.soldier.priceS)>> stone and <<print Math.round($jobSites.soldier.priceW)>> wood. It will take <<print Math.round($jobSites.soldier.buildTime)>> days to complete. */
+
+
+		<<case 1>>
+			''Builder Stockpile''<br>
+			An area around the crag has been cleared for their use, and promptly overrun with half-carved wood and stone. Also small facsimiles of constructs you've requested, and pillars that seem to have been torn at recklessly. You don't claim to understand what, exactly, is happening there at any given moment; the occasional yelling tells you plenty.<br><br>
+			
+			/* Yet they insist more can be done for their stockpile. Cost: <<print Math.round($jobSites.builder.priceS * 1.5)>> stone and <<print Math.round($jobSites.builder.priceW * 1.5)>> wood. It will take <<print Math.round($jobSites.builder.buildTime * 1.5)>> days to complete.<br>
+				<<if $buildQueue.includes("builderJobSite")>>
+					&emsmp;Your builders already have it in their plans.
+				<<else>>
+					<<button "Build">>
+						<<run $buildQueue.push("builderJobSite")>>
+						<<run console.log("buildQueue is: " + $buildQueue)>>
+						<<replace "#jobSite">>
+							<<include "buildJobSite">>
+						<</replace>>
+						<<replace "#build-queue">>
+							<<include "buildQueueList">>
+						<</replace>>
+					<</button>><br><br>
+				<</if>> */
+
+			''Forager Camp''<br>
+			<<if $jobSites.forager.amount < 1>>
+			A location could be made for foragers as well; you would need to get your foragers in one place to discuss with your builders, but you suspect they would see the benefits quickly. Cost: <<print $jobSites.forager.priceS>> stone and <<print $jobSites.forager.priceW>> wood. It will take <<print $jobSites.forager.buildTime>> days to complete.<br>
+				<<if $buildQueue.includes("foragerJobSite")>>
+					&emsp;Your builders already have it in their plans.<br><br>
+				<<else>>
+					<<button "Build">>
+						<<queueBuildingButton "foragerJobSite" "#jobSite" "buildJobSite">>
+					<</button>><br><br>
+				<</if>>
+			<<else>>
+				Some small distance into the woods, the trees are being used as shade for what appears to be a napping and eating site. Various flora of varying levels of poison are hung up for sorting in carved wood containers, and fauna in equally varying levels of being butchered are held in clever stone constructions, sunk into the trunks of the trees. The trees seem to have somehow survived the intrusions, given they are still growing leaves and new branches. Your foragers alternate lounging in the dappled light and chatting gaily as they work. It hasn't changed much of what they do, but the site allows them to better prep food for storage than what they can do in the field. <br><br>
+			<</if>>
+			
+			
+			''Rainier Pond''<br>
+			<<if $jobSites.rainier.amount < 1>>
+				Your rainiers already have a place to meet and argue over who is going where. You could point a builder their way to see about constructing a formal job site for them. Cost: <<print $jobSites.rainier.priceS>> stone and <<print $jobSites.rainier.priceW>> wood. It will take <<print $jobSites.rainier.buildTime>> days to complete.<br>
+				<<if $buildQueue.includes("rainierJobSite")>>
+					&emsp;Your builders already have it in their plans.<br><br>
+				<<else>>
+					<<button "Build">>
+						<<queueBuildingButton "rainierJobSite" "#jobSite" "buildJobSite">>
+					<</button>><br><br>
+				<</if>>
+			<<else>>
+				They've decided to gather around your storage pools, which is not where they were previously set up. Oh well. Most of the alloted material has gone to constructing shades and setting up what appear to be stone maps. Your more detail-oriented rainiers have clearly had a heavy claw in those; and possibly in keeping your water clean, given how little algae is in them recently.<br><br>
+			<</if>>
+
+			<<if $jobSites.scavenger.amount < 1>>
+				''Scavenger Dropsite''<br>
+				Seeing the builders have a dedicated space, your scavengers have begun petitioning for the same. You are slightly concerned by their phrasing, but the push seems mostly to be for the sake of organization... Cost: <<print $jobSites.scavenger.priceS>> stone and <<print $jobSites.scavenger.priceW>> wood. It will take <<print $jobSites.scavenger.buildTime>> days to build.<br>
+				<<if $buildQueue.includes("scavengerJobSite")>>
+					&emsp;Your builders already have it in their plans.
+				<<else>>
+					<<button "Build">>
+						<<queueBuildingButton "scavengerJobSite" "#jobSite" "buildJobSite">>
+					<</button>><br><br>
+				<</if>>
+			<<else>>
+				''Scavenger Dropsite''<br>
+				A packed-dirt clearing has been stomped into existence a little ways into the colony, in one of the informal landing zones. The builders initially put up posts to designate storage, but your scavengers immediately rearranged all of them to better suit their needs. At least the central coordinating area was left alone...? The massive tallying stone under the sheltered central area is already thoroughly scored. Having space to prep is doing wonders for your dugout. And you can tell the scavengers what material to focus on...<br>
+				You'd rather they try to find: <<listbox "$scavengerDesiredResource" autoselect>>
+					<<option "both">>
+					<<option "stone">>
+					<<option "wood">>
+				<</listbox>>.<br><br>
 			<</if>>
 			
 
@@ -115,19 +159,12 @@
 				''Builder Stockpile''<br>
 				Your builders insist they need a dedicated space for organizing and planning. Cost: <<print $jobSites.builder.priceS>> stone and <<print $jobSites.builder.priceW>> wood. It will take <<print $jobSites.builder.buildTime>> days to build.<br>
 				<<button "Build">>
-					<<run $buildQueue.push("builderJobSite")>>
-					<<run console.log("buildQueue is: " + $buildQueue)>>
-					<<replace "#jobSite">>
-						<<include "buildJobSite">>
-					<</replace>>
-					<<replace "#build-queue">>
-						<<include "buildQueueList">>
-					<</replace>>
+						<<queueBuildingButton "builderJobSite" "#jobSite" "buildJobSite">>
 				<</button>><br><br>
 			<</if>>
 
 	<</switch>>
-	In progress! Sorry! Can't build yet!
+/* 	In progress! Sorry! Can't build yet!
 	<ul>
 		<li>Forager—Baskets, stakes, etc just a bit into the forest. Lots of shading. Foragers discussing zones + arguing over preservation methods.</li>
 		<li>Rainier—Cleared space in shade of cliff, by pools. Rainiers flavored to be cleaning pools?</li>
@@ -136,14 +173,5 @@
 		<li>Builder—Carved stone and lumber, some in progress, short distance from storage cavern. Builders going over plans or directing each other in shaping wood / stone.</li>
 		<li>Soldier—Stone dummies reinforced, in various shapes; water and food available under shaded area, far from resting spaces. Soldiers training, planning routes, moving between shifts.</li>
 		<li></li>
-	</ul>
-<</nobr>>
-
-:: buildSpecial
-<<nobr>>
-	In progress! Sorry! Not real yet!
-	<ul>
-		<li>Graveyard—Your first colonist has died, so now you can erect a gravesite. =)</li>
-		<li></li>
-	</ul>
+	</ul> */
 <</nobr>>

@@ -69,7 +69,7 @@
 									It didn't follow you, however, and there will be time to deal with it when you are better equipped for such dangerous endeavors. <br> <br>
 									<<include "foragingOptions">>
 
-									<<elseif _danger == 1>>
+								<<elseif _danger == 1>>
 										<<set _collect = Math.round(_collect /= (_danger * 2))>>
 										<<addResource "food" _collect>>
 										You sneak forward, fighting a tremble in your claws. You scarcely dare to breathe as you move, step by step, towards the pile of flesh. So, so carefully, you circle it. Fresh scraps have fallen, and you pick them up with delicate teeth and eyes ever locked to the hydra. One head snorts as your trembling grasp fails. <br> <br>

@@ -163,13 +163,63 @@
 
 <<widget "addHollow">><<nobr>>
 
-	<<set $dragons[$int].home = "Hollow">>
+	<<set $dragons[$int].home = "hollow">>
 	<<set $shelter.hollows.free -= 1>>
 	<<set $shelter.hollows.occupied += 1>>
 	<<updateHome>>
 	<<run Engine.show()>>
 
 <</nobr>><</widget>>
+
+
+	/* After evicting a dragon,
+	   makes sure the various shelters match up to the amount of dragons
+	   actually housed in them.
+	   Quick and ugly fix. */
+<<widget "housingCountFix">>
+	<<set _noneHoused = 0>>
+	<<set _rutHoused = 0>>
+	<<set _settHoused = 0>>
+	<<set _hollowHoused = 0>>
+	<<set _errorHoused = 0>>
+
+	<<for _i = 0; _i > $dragons.length; _i++>>
+		<<switch $dragons[_i].home>>
+			<<case "none">>
+				<<set _noneHoused += 1>>
+
+			<<case "rut">>
+				<<set _rutHoused += 1>>
+			
+			<<case "sett">>
+				<<set _settHoused += 1>>
+			
+			<<case "hollow">>
+				<<set _hollowHoused += 1>>
+			
+			<<default>>
+				<<set _errorHoused += 1>>
+		<</switch>>
+	<</for>>
+
+	<<if _rutHoused > $shelter.ruts.occupied>>
+		<<set _houseDifference = (_rutHoused - $shelter.ruts.occupied)>>
+		<<set $shelter.ruts.occupied -= _houseDifference>>
+		<<set $shelter.ruts.occupied += _houseDifference>>
+	<</if>>
+
+	<<if _settHoused > $shelter.setts.occupied>>
+		<<set _houseDifference = (_settHoused - $shelter.setts.occupied)>>
+		<<set $shelter.setts.occupied -= _houseDifference>>
+		<<set $shelter.setts.occupied += _houseDifference>>
+	<</if>>
+
+	<<if _hollowHoused > $shelter.hollows.occupied>>
+		<<set _houseDifference = (_hollowHoused - $shelter.hollows.occupied)>>
+		<<set $shelter.hollows.occupied -= _houseDifference>>
+		<<set $shelter.hollows.occupied += _houseDifference>>
+	<</if>>
+<</widget>>
 
 
 	/* Pops a pop-up to let the user know something is wrong: and by extension, ME. */

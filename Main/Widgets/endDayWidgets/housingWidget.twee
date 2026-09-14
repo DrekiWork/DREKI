@@ -34,6 +34,7 @@
                 /* Until I implement that, shelter TYPE is flavor, */
                 /* While being sheltered at all decreases food consumption. */
             <<if $dragons[_i].stage == "adult">>
+                <<run console.log("Dragon lives in: " + $dragons[_i].home)>>
                 <<switch $dragons[_i].home>>
 
                         /* Unsheltered dragons will take anything, in order of preference. */
@@ -100,6 +101,9 @@
                         <<set _errorDragon = $dragons[_i].name>>
                         <<set _errorHouse = $dragons[_i].home>>
                         <<errorPopup "endDayHome">>
+
+                        <<housingCountFix>>
+                        <<set $dragons[_i].home = "none">>
 
                 <</switch>>
             <<else>>

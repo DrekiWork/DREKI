@@ -9,7 +9,6 @@
 
 <<widget "colonistMaker">><<nobr>>
     <<run console.log("Ran colonistMaker.")>>
-    <<run console.log("$dSize is: " + $dSize)>>
     
         /* Personalities is the overall archetype that dragons have. */
     <<set _personality = either(Object.keys($personalities))>>
@@ -22,9 +21,6 @@
 
             /* Stolen eggs are those you abducted from rival colonies. */
             /* They are basically entirely randomized, from hatch-time to appearance. */
-            
-                        <<run console.log("dSize?")>>
-                        <<run console.log($dSize)>>
         <<case "stolen egg">>
             <<run console.log("Ran stolen egg.")>>
             <<run console.log("dSize?")>>
@@ -421,14 +417,11 @@
 
                 /* _timeLeft is -14 because egg/hatchling stages. */
             <<set _timeLeft = (_time - 14)>>
-            <<run console.log("_timeLeft is: " + _timeLeft)>>
 
                 /* _jobs will be modified. When we're out of jobs, we break from the loop. */
             <<set _jobs = []>>
             <<set _jobs = $dJobs.flat()>>
-            <<run console.log("_jobs is: " + _jobs)>>
             <<run _jobs.deleteAll("slacker")>>
-            <<run console.log("_jobs is: " + _jobs)>>
 
                 /* And we initialize XP to prevent errors. */
             <<set _buildxp = 0>>
@@ -437,38 +430,29 @@
             <<set _salvxp = 0>>
             <<set _scavxp = 0>>
             <<set _solxp = 0>>
-            <<run console.log("buildXP initialized at: " + _buildxp)>>
 
                 /* So now we start going through jobs. */
             <<for _i = 0; _i < $dJobs.length; _i++>>
                     /* Start with choosing how much XP a dragon will get in a job. */
                 <<set _currentXP = random(_timeLeft)>>
-                <<run console.log("_currentXP is: " + _currentXP)>>
                     /* Then rotate through jobs based on current roll. */
                 <<set _currentJob = either(_jobs)>>
-                <<run console.log("currentJob is: " + _currentJob)>>
                     /* And now remove the days from _timeLeft. */
                 <<set _timeLeft -= _currentXP>>
 
                 <<switch _currentJob>>
                     <<case "builder">>
                         <<set _buildxp += (_currentXP * 0.1)>>
-                        <<run console.log("_buildXP 2 is: " + _buildxp)>>
                     <<case "forager">>
                         <<set _foragexp += (_currentXP * 0.1)>>
-                        <<run console.log("_forageXP is: " + _foragexp)>>
                     <<case "rainier">>
                         <<set _rainxp += (_currentXP * 0.1)>>
-                        <<run console.log("_rainXP is: " + _rainxp)>>
                     <<case "salvager">>
                         <<set _salvxp += (_currentXP * 0.1)>>
-                        <<run console.log("_salvXP is: " + _salvxp)>>
                     <<case "scavenger">>
                         <<set _scavxp += (_currentXP * 0.1)>>
-                        <<run console.log("_scavxp is: " + _scavxp)>>
                     <<case "soldier">>
                         <<set _solxp += (_currentXP * 0.1)>>
-                        <<run console.log("soldier xp is: " + _solxp)>>
                 <</switch>>
 
 

@@ -22,7 +22,7 @@
 
 	<<if _forage >= 8>>
 			/* _collect is how much gold a dragon finds. */
-		<<set _collect = random(8, 10)>>
+		<<set _collect = random(7, 10)>>
 
 		<<if _scene == 0>>
 			You're gliding lazily along some thermals when you spot a small group of dragons passing through; they don't seem to be adults, but the fact that strangers are in your lands is somewhat infuriating. Since they aren't grown, you elect to let them through peacefully - until you notice that they are leaving tracks. You follow them back to the winglets' colony and find... no one there. <br> <br>
@@ -34,7 +34,7 @@
 		<</if>>
 
 	<<elseif _forage >= 3>>
-		<<set _collect = random(4, 7)>>
+		<<set _collect = random(3, 6)>>
 		
 		<<if _scene == 0>>
 			You're bored out of your wits wandering your territory when you scent something... metallic. More so concerned with boredom than any hope of good fortune, you follow the trail to an abandoned den, with a not ignorable collection of goodies within. You take the <span class="gold"><<print _collect>> gold</span> and collapse the den; no need to let something else take up residence and be a problem. <br> <br>

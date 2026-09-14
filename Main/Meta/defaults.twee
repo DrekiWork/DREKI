@@ -311,6 +311,9 @@
 	<<set $wood = 0>>
 	<<set $gold = 0>>
 
+		/* Sets what you want your scavs to look for. */
+	<<set $scavengerDesiredResource = "both">>
+
 		/* Resource storage set-up. */
 		/* Pools for water, caverns for food, dugouts for wood and stone. */
 		/* Dugouts hold wood and stone, so they only need one cap. */
@@ -349,6 +352,7 @@
 		/* Set to -1 by default to stop the queue from trying to run at all. */
 		/* Much like $buildTime, $builderStatus is set to -1 to stop them from working at all. */
 	<<set $buildQueue = []>>
+	<<set $buildProgress = []>>
 	<<set $buildTime = -1>>
 	<<set $builderStatus = -1>>
 
@@ -631,6 +635,14 @@
 		/* Flag for checking if the defense tutorial has run. Falsey until it's happened. */
 	<<set $defenseTalk = false>>
 
+		/* Identifies if game is online or download version for various things; 
+		   mostly so it knows whether or not to get certain resources from Git.*/
+	<<set $isOnlineVersion = false>>
+
+		/* Sets game version for update widget.
+		   Currently does nothing! */
+	<<set $gameVersion = 0.31.3.11>>
+
 	
 	/* ~~~ POLICIES ~~~ */
 
@@ -662,6 +674,7 @@
 		/* If positive there would be a countdown, and zero would trigger. */
 	<<set $hydraSeen = false>>
 	<<set $hydraEggTaken = false>>
+	<<set $hydraEggSmashed = false>>
 	<<set $hydraTime = -1>>
 	<<set $hydraBeat = false>>
 

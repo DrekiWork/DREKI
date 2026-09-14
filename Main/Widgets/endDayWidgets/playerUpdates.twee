@@ -12,7 +12,7 @@
         /* Actions that happen at home, */
         /* Such as building or interacting, */
         /* Are 'free' actions that cost nothing. */
-    <<set $player.action = 5>>
+    <<set $player.action = Math.round($player.health / 2)>>
 
         /* Resets once-daily foraging actions. */
         /* $...stolenEggs refers to if they've tried to steal dragon eggs, */
