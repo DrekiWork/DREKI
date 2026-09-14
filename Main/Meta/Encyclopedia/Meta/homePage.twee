@@ -19,6 +19,17 @@
                 <</replace>>
             <</link>>
         </div>
+        <<if $foundRuinedColony == true>>
+            <div class="encyclopediaLink">
+                <<link"The Dead">>
+                    <<replace ".encyclopediaContent">>
+                        <div class="encyclopediaContent">
+                            <<include "EncyclopediaDeath">>
+                        </div>
+                    <</replace>>
+                <</link>>
+            </div>
+        <</if>>
     </div>
     <div class="encyclopediaContent">
         <<include "EncyclopediaWelcome">>

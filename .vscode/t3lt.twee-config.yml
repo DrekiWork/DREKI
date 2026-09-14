@@ -2,79 +2,138 @@ sugarcube-2:
   macros:
     eggOne:
       name: eggOne
+      container: false
     colOne:
       name: colOne
+      container: false
     growUp:
       name: growUp
+      container: false
     hatchDragon:
       name: hatchDragon
+      container: false
     colonistMaker:
       name: colonistMaker
+      container: false
     updateBar:
       name: updateBar
+      container: false
     endDay:
       name: endDay
+      container: false
     numberinput:
       name: numberinput
+      container: false
     updateHome:
       name: updateHome
+      container: false
+      description: Updates `$home` variable, used to indicate total shelter space.
     addRut:
       name: addRut
+      container: false
     addSett:
       name: addSett
+      container: false
     buildQueue:
       name: buildQueue
+      container: false
     countWorkers:
       name: countWorkers
+      container: false
     addHollow:
       name: addHollow
+      container: false
     errorPopup:
       name: errorPopup
+      container: false
     updateDefense:
       name: updateDefense
+      container: false
     addResource:
       name: addResource
+      container: false
     plural:
       name: plural
-    buildTimeSanityCheck:
-      name: buildTimeSanityCheck
+      container: false
+      description: |
+        Chooses between a singular and plural phrase based on a count.
+
+        Usage: <<plural count "singular" "plural">>
+
+        Example: <<plural $dragons.length "dragon" "dragons">>
+    buildTimeCheck:
+      name: buildTimeCheck
+      container: false
     timeKeeper:
       name: timeKeeper
+      container: false
     eggUpdates:
       name: eggUpdates
+      container: false
     hatchlingUpdates:
       name: hatchlingUpdates
+      container: false
     dailyPlayerReset:
       name: dailyPlayerReset
+      container: false
     feedPlayer:
       name: feedPlayer
+      container: false
     dragonJobs:
       name: dragonJobs
+      container: false
     dragonsJobs:
       name: dragonsJobs
+      container: false
     shelterMoving:
       name: shelterMoving
+      container: false
     feedHatchlings:
       name: feedHatchlings
+      container: false
     feedDragons:
       name: feedDragons
+      container: false
     capResources:
       name: capResources
+      container: false
     voluntaryDeparture:
       name: voluntaryDeparture
+      container: false
     exileDragons:
       name: exileDragons
+      container: false
     builderRestDisplay:
       name: builderRestDisplay
+      container: false
     resetDefense:
       name: resetDefense
+      container: false
     relationshipEventTrigger:
       name: relationshipEventTrigger
+      container: false
     ageUpdates:
       name: ageUpdates
+      container: false
     countDragons:
       name: countDragons
+      container: false
     tryForEgg:
       name: tryForEgg
+      container: false
     adultIndices:
       name: adultIndices
+      container: false
+    housingCountFix:
+      name: housingCountFix
+      container: false
+      description: |
+       After evicting a dragon, makes sure the various shelters match up to the amount of dragons actually housed in them.
+       
+       Quick and ugly fix.
+    queueBuildingButton:
+      name: queueBuildingButton
+      container: false
+    setJobImage:
+      name: setJobImage
+      container: false

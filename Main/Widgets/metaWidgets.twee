@@ -20,8 +20,8 @@
 	<<set $buildingMaterialCap = ($dugOut.amount * $dugOut.storage)>>
 
 		/* Making sure that the pop only cares about ADULT dragons. */
-	<<countDragons "adults">>
-	<<set $pop = _adults>>
+	<<updateHome>>
+	<<set $pop = $dragons.length>>
 
 		/* Reloads the caption. */
 	<<replace "#story-caption">>
@@ -50,19 +50,42 @@
 
 <<widget "updateDefense">><<nobr>>
 
-			/* Start with soldier counts. Each individual soldier is half a point.
-			I'll update this to eventually vary based on experience (probably to a plateau instead of exponential).
-			For now: this. */
+			/* Start with soldier counts.
+			   Soldiers only count if they ARE NOT manning outposts.
+			   Soldiers in outposts DO NOT offer bonuses to outposts based on personality.
+			   Those that like their jobs do a bit better!
+			   Those that don't do a bit worse.
+			   Easy as. */
 		<<countWorkers "soldier">>
-		<<set _soldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
-		<<set _soldierTotal = (_soldiers * 0.5)>>
+		<<if _wantedCount >= $defenseBuildings.outpost.amount>>
+			<<set _freeSoldiers = (_wantedCount - $defenseBuildings.outpost.amount)>>
+		<<else>>
+			<<set _freeSoldiers = 0>>
+		<</if>>
+
+		<<set _strongSoldiers = 0>>
+		<<set _regularSoldiers = 0>>
+		<<for _i = 0; _i < $dragons.length; _i++>>
+			<<if (_strongSoldiers + _regularSoldiers) < _freeSoldiers>>
+				<<if $dragons[_i].job == "soldier">>
+					<<if $personalities[$dragons[_i].personality].jobs.includes("soldier")>>
+						<<set _strongSoldiers += 1>>
+					<<else>>
+						<<set _regularSoldiers += 1>>
+					<</if>>
+				<</if>>
+			<<else>>
+				<<break>>
+			<</if>>
+		<</for>>
+		<<set _soldierTotal = ((_strongSoldiers * 0.7) + (_regularSoldiers * 0.4))>>
 
 			/* Checking palisades. Anything less than full surround (amount < max) means it's less effective and does .5 of total.
 			Full surround grants a 1 point bonus per building.) */
 		<<if $defenseBuildings.palisade.amount >= $defenseBuildings.palisade.max>>
 			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 1.25)>>
 		<<else>>
-			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 0.5)>>
+			<<set _palisadeTotal = ($defenseBuildings.palisade.amount * 0.25)>>
 		<</if>>
 
 			/* Checking outposts.
@@ -140,13 +163,63 @@
 
 <<widget "addHollow">><<nobr>>
 
-	<<set $dragons[$int].home = "Hollow">>
+	<<set $dragons[$int].home = "hollow">>
 	<<set $shelter.hollows.free -= 1>>
 	<<set $shelter.hollows.occupied += 1>>
 	<<updateHome>>
 	<<run Engine.show()>>
 
 <</nobr>><</widget>>
+
+
+	/* After evicting a dragon,
+	   makes sure the various shelters match up to the amount of dragons
+	   actually housed in them.
+	   Quick and ugly fix. */
+<<widget "housingCountFix">>
+	<<set _noneHoused = 0>>
+	<<set _rutHoused = 0>>
+	<<set _settHoused = 0>>
+	<<set _hollowHoused = 0>>
+	<<set _errorHoused = 0>>
+
+	<<for _i = 0; _i > $dragons.length; _i++>>
+		<<switch $dragons[_i].home>>
+			<<case "none">>
+				<<set _noneHoused += 1>>
+
+			<<case "rut">>
+				<<set _rutHoused += 1>>
+			
+			<<case "sett">>
+				<<set _settHoused += 1>>
+			
+			<<case "hollow">>
+				<<set _hollowHoused += 1>>
+			
+			<<default>>
+				<<set _errorHoused += 1>>
+		<</switch>>
+	<</for>>
+
+	<<if _rutHoused > $shelter.ruts.occupied>>
+		<<set _houseDifference = (_rutHoused - $shelter.ruts.occupied)>>
+		<<set $shelter.ruts.occupied -= _houseDifference>>
+		<<set $shelter.ruts.occupied += _houseDifference>>
+	<</if>>
+
+	<<if _settHoused > $shelter.setts.occupied>>
+		<<set _houseDifference = (_settHoused - $shelter.setts.occupied)>>
+		<<set $shelter.setts.occupied -= _houseDifference>>
+		<<set $shelter.setts.occupied += _houseDifference>>
+	<</if>>
+
+	<<if _hollowHoused > $shelter.hollows.occupied>>
+		<<set _houseDifference = (_hollowHoused - $shelter.hollows.occupied)>>
+		<<set $shelter.hollows.occupied -= _houseDifference>>
+		<<set $shelter.hollows.occupied += _houseDifference>>
+	<</if>>
+<</widget>>
 
 
 	/* Pops a pop-up to let the user know something is wrong: and by extension, ME. */

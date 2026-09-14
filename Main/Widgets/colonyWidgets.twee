@@ -2,95 +2,149 @@
 <<nobr>>
         /* UNFINISHED DESC */
         /* Provide proper explanation later. */
-    <<widget "buildTimeSanityCheck">><<nobr>>
+    <<widget "buildTimeCheck">><<nobr>>
         <<if $buildTime >= 1>>
             <<set $builderStatus = 2>>
         <<elseif $buildTime == 0>>
             <<switch $buildQueue[0]>>
-                <<case "hollow">>
-                    <<run console.log("finished building.")>>
-                    <<set $shelter.hollows.amount += 1>>
-                    <<set $shelter.hollows.free += (($shelter.hollows.amount * $shelter.hollows.shelter) - ($shelter.hollows.occupied))>>
-                    <<set _finished to "hollow">>
-                    <<set $buildTime = -1>>
-                    <<run $buildQueue.deleteAt(0)>>
-                    <<set $builderStatus to 3>>
 
-                <<case "palisade">>
-                    <<run console.log("finished building.")>>
-                    <<set $defenseBuildings.palisade.amount += 1>>
-                    <<set _finished to "palisade">>
-                    <<set $buildTime = -1>>
-                    <<run $buildQueue.deleteAt(0)>>
-                    <<set $builderStatus to 3>>
-                    <<if $defenseBuildings.palisade.amount == $defenseBuildings.palisade.max>>
-                        <<run $buildQueue.delete("palisade")>>
-                    <</if>>
-
+                    /* ~~~~~ DEFENSES ~~~~~ */
                 <<case "moat">>
                     <<run console.log("finished building.")>>
                     <<set $defenseBuildings.moat.amount += 1>>
                     <<set _finished to "moat">>
-                    <<set $buildTime = -1>>
-                    <<run $buildQueue.deleteAt(0)>>
-                    <<set $builderStatus = 3>>
-                    <<run console.log("Builder status: " + $builderStatus)>>
                     <<if $defenseBuildings.moat.amount == $defenseBuildings.moat.max>>
-                        <<run $buildQueue.delete("moat")>>
+                        <<run $buildQueue.deleteAll("moat")>>
                     <</if>>
 
                 <<case "outpost">>
-                    <<run console.log("finished building.")>>
                     <<set $defenseBuildings.outpost.amount += 1>>
                     <<set _finished to "outpost">>
-                    <<run console.log("finished is: " + _finished)>>
-                    <<set $buildTime = -1>>
-                    <<run $buildQueue.deleteAt(0)>>
-                    <<set $builderStatus to 3>>
                     <<if $defenseBuildings.outpost.amount == $defenseBuildings.outpost.max>>
-                        <<run $buildQueue.delete("outpost")>>
+                        <<run $buildQueue.deleteAll("outpost")>>
+                    <</if>>
+
+                <<case "palisade">>
+                    <<set $defenseBuildings.palisade.amount += 1>>
+                    <<set _finished to "palisade">>
+                    <<if $defenseBuildings.palisade.amount == $defenseBuildings.palisade.max>>
+                        <<run $buildQueue.deleteAll("palisade")>>
                     <</if>>
 
                 <<case "rockfall">>
-                    <<run console.log("finished building.")>>
                     <<set $defenseBuildings.rockfall.amount += 1>>
                     <<set $defenseBuildings.rockfall.empty += 1>>
                     <<set _finished to "rockfall">>
-                    <<set $buildTime = -1>>
-                    <<run $buildQueue.deleteAt(0)>>
-                    <<set $builderStatus to 3>>
                     <<if $defenseBuildings.rockfall.amount == $defenseBuildings.rockfall.max>>
-                        <<run $buildQueue.delete("rockfall")>>
+                        <<run $buildQueue.deleteAll("rockfall")>>
                     <</if>>
 
+
+                    /* ~~~~~ JOBSITES ~~~~~ */
+                <<case "builderJobSite">>
+                    <<set $jobSites.builder.amount += 1>>
+                    <<set _finished = "builder stockpile">>
+                    <<if $jobSites.builder.amount >= $jobSites.builder.max>>
+                        <<run $buildQueue.deleteAll("builderJobSite")>>
+                        <<set _finished = "builder hall">>
+                    <</if>>
+
+                <<case "foragerJobSite">>
+                    <<set $jobSites.forager.amount += 1>>
+                    <<set $cavern.storage += 5>>
+                    <<set _finished = "forager camp">>
+                    <<if $jobSites.forager.amount >= $jobSites.forager.max>>
+                        <<run $buildQueue.deleteAll("foragerJobSite")>>
+                    <</if>>
+
+                <<case "rainierJobSite">>
+                    <<set $jobSites.rainier.amount += 1>>
+                    <<set $pool.storage += 5>>
+                    <<set _finished = "rainier pond">>
+                    <<if $jobSites.rainier.amount >= $jobSites.rainier.max>>
+                        <<run $buildQueue.deleteAll("rainierJobSite")>>
+                    <</if>>
+
+                <<case "salvagerJobSite">>
+                    <<set $jobSites.salvager.amount += 1>>
+                    <<set _finished = "salvager trove">>
+                    <<if $jobSites.salvager.amount >= $jobSites.salvager.max>>
+                        <<run $buildQueue.deleteAll("salvagerJobSite")>>
+                    <</if>>
+                
+                <<case "scavengerJobSite">>
+                    <<set $jobSites.scavenger.amount += 1>>
+                    <<set $dugOut.storage += 5>>
+                    <<set _finished = "scavenger dropsite">>
+                    <<if $jobSites.scavenger.amount >= $jobSites.scavenger.max>>
+                        <<run $buildQueue.deleteAll("scavengerJobSite")>>
+                    <</if>>
+
+                <<case "soldierJobSite">>
+                    <<set $jobSites.soldier.amount += 1>>
+                    <<set _finished = "soldier cantonment">>
+                    <<if $jobSites.soldier.amount >= $jobSites.soldier.max>>
+                        <<run $buildQueue.deleteAll("soldierJobSite")>>
+                    <</if>>
+
+
+                    /* ~~~~~ SHELTERS ~~~~~ */
+                <<case "hollow">>
+                    <<set $shelter.hollows.amount += 1>>
+                    <<set $shelter.hollows.free += (($shelter.hollows.amount * $shelter.hollows.shelter) - ($shelter.hollows.occupied))>>
+                    <<set _finished = "hollow">>
+
             <</switch>>
+
+            
+            <<set $buildTime = -1>>
+            <<run $buildQueue.deleteAt(0)>>
+            <<set $builderStatus = 3>>
+            
+            <<run console.log("Builder status: " + $builderStatus)>>
+            <<run console.log("Finished building: " + _finished)>>
+
         <</if>>
     <</nobr>><</widget>>
     
         /* Counts adult dragons working a specific job type. */
     <<widget "countWorkers">><<nobr>>
         <<set _wantedDragons = $dragons.filter(function(dragon) {
-            return dragon.job === _args[0];
+            return dragon.job == _args[0];
         })>>
         <<set _wantedCount = _wantedDragons.length>>
         <<set _wantedNames = _wantedDragons.map(function(dragon) { return dragon.name; })>>
     <</nobr>><</widget>>
 
+        /* Used to throw buildings into the build queue, rather than endlessly repeating code.
+            _args[0]: what building is going into the queue?
+                - moat
+                - outpost
+                - palisade
+                - rockfall
+                - builderJobSite
+                - foragerJobSite
+                - rainierJobSite
+                - salvagerJobSite
+                - scavengerJobSite
+                - soldierJobSite
+                - hollow
+            _args[1]: what CSS selector (job tab) is being refreshed?
+            _args[2]: additionally, what passage needs to be reloaded? */
+    <<widget "queueBuildingButton">><<nobr>>
+        <<run $buildQueue.push(_args[0])>>
+        <<run console.log("$buildQueue is: " + $buildQueue)>>
 
-	    /* Population counting widget. Counts eggs, hatchlings, adults, whatever. */
-    <<widget "countDragons">>
-        <<switch _args[0]>>
-            <<case "eggs">>
-                <<set _eggs = $dragons.countWith(function (dragon) { return dragon.stage === "egg"; })>>
-            <<case "hatchlings">>
-                <<set _hatchlings = $dragons.countWith(function (dragon) { return dragon.stage === "hatchling"; })>>
-            <<case "winglets">>
-                <<set _winglets = $dragons.countWith(function (dragon) { return dragon.stage === "winglet"; })>>
-            <<case "adults">>
-                <<set _adults = $dragons.countWith(function (dragon) { return dragon.stage === "adult"; })>>
-            <<case "elders">>
-                <<set _elders = $dragons.countWith(function (dragon) { return dragon.stage === "elder"; })>>
-        <</switch>>
-    <</widget>>
+        <<replace _args[1]>>
+            <<include _args[2]>>
+        <</replace>>
+
+        <<replace "#build-queue">>
+            <div id="build-queue">
+                <<include "buildQueueList">>
+            </div>
+        <</replace>>
+
+    <</nobr>><</widget>>
 
 <</nobr>>

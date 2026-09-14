@@ -1,0 +1,108 @@
+:: buildDefense
+<<nobr>>
+	''Palisade'' <br>
+	<<if $defenseBuildings.palisade.amount < $defenseBuildings.palisade.max>>
+		Cost: <<print $defenseBuildings.palisade.priceS>> stone and <<print $defenseBuildings.palisade.priceW>> wood. One of the most basic fortifications available: a wall of sharpened logs, held upright by carefully positioned stones. You have built <<print $defenseBuildings.palisade.amount>> out of the <<print $defenseBuildings.palisade.max>> needed to surround your home-site, with <<print $buildQueue.count("palisade")>> planned to be built. <br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"palisade"
+			)>>
+			<<replace "#defense">>
+				<div id="defense">
+				<<include "buildDefense">>
+				</div>
+			<</replace>>
+			<<replace "#build-queue">>
+				<div id="build-queue">
+					<<include "buildQueueList">>
+				</div>
+			<</replace>>
+		<</button>>
+	<<else>>
+		You've entirely surrounded your colony's home with palisades. The sharpened logs claw at the sky like the earth's own talons, leaving only small gaps to enter and exit through. Better to focus your efforts elsewhere, now.
+	<</if>><br><br>
+
+
+	''Outpost'' <br>
+	<<if $defenseBuildings.outpost.amount < $defenseBuildings.outpost.max>>
+		Cost: <<print $defenseBuildings.outpost.priceS>> stone and <<print $defenseBuildings.outpost.priceW>> wood. Simple stands out in the territory for your soldiers to post at, as opposed to wandering blindly. You have built <<print $defenseBuildings.outpost.amount>> out of the <<print $defenseBuildings.outpost.max>> needed to survey (most) of your territory, with <<print $buildQueue.count("outpost")>> planned to be built. <br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"outpost"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+			<<replace "#build-queue">>
+				<div id="build-queue">
+					<<include "buildQueueList">>
+				</div>
+			<</replace>>
+		<</button>>
+	<<else>>
+		You've constructed as many outposts as you can reasonably justify; the majority of your land is visible from these scattered perches. Other things would be more useful.
+	<</if>><br><br>
+
+
+	''Rockfall'' <br>
+	<<if $defenseBuildings.rockfall.amount < $defenseBuildings.rockfall.max>>
+		Cost: <<print $defenseBuildings.rockfall.priceS>> stone and <<print $defenseBuildings.rockfall.priceW>> wood. A precaraiously placed stack of boulders, held back only by thin slabs of woods. You have built <<print $defenseBuildings.rockfall.amount>> out of the <<print $defenseBuildings.rockfall.max>> needed to drop boulders on every inch of your home... As of now, you've ordered <<print $buildQueue.count("rockfall")>> to be built.<br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"rockfall"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+			<<replace "#build-queue">>
+				<div id="build-queue">
+					<<include "buildQueueList">>
+				</div>
+			<</replace>>
+		<</button>>
+	<<else>>
+		The cliffs backing your colony have as many rockfalls as you are willing to risk, regardless of what the builders claim. Sometimes you swear you hear the jagged edge of the mountain groaning in protest - you'll build no more of these traps.
+	<</if>><br><br>
+
+
+	''Moat'' <br>
+	<<if $defenseBuildings.moat.amount < $defenseBuildings.moat.max>>
+		Simple in theory but a difficult and time-consuming defense in practice - a claw-carved ravine surrounding your home territory, filled with danger.
+		<<if $defenseBuildings.moat.amount == 0>>
+			You've yet to begin construction<<if $buildQueue.count("moat") > 0>>, but you've told your builders to work on it. <<else>>; starting it now will dig the claw-carved ravine, but you'll have to order further efforts later on to complete the moat.<</if>> This will be stage one of three. Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+		<<elseif $defenseBuildings.moat.amount == 1>>
+			The moat has been dug out. Your builders seem to have <em>ideas</em> to improve it, however...<<if $buildQueue.count("moat") > 0>> And you've told your builders to start on stage two of three.<<else>> If you agree, that will be stage two of three.<</if>> Cost: <<print $defenseBuildings.moat.priceS>> stone and <<print $defenseBuildings.moat.priceW>> wood.<br>
+		<<elseif $defenseBuildings.moat.amount == 2>>
+			Your moat is reinforced with strategically placed wood and stone pylons, and has several staves of the same to impale anything that falls in. <<if $infestedNotice == true && $kelpieExtinction == false>>
+				Your builders have an idea to finish the moat, involving a lot of water and those flesh-hungry creatures in the lake. Intrigued though you are, you dread the execution. Perhaps you should visit the infested lake.<<if $buildQueue.count("moat") > 0>> You've told your builders to get flooding the moat, which will in total<<else>> If you decide to fill the moat, it would in total<</if>> cost <<print $defenseBuildings.moat.priceWa>> water. <br>
+			<<else>>
+				Your builders have an idea to finish off the moat, but it will involve an obscene amount of water.<<if $buildQueue.count("moat") > 0>>You've given your builders the go-ahead.<</if>> Cost: <<print $defenseBuildings.moat.priceWa>> water.<br>
+			<</if>>
+		<</if>><br>
+		<<button "Build">>
+			<<run $buildQueue.push(
+				"moat"
+			)>>
+			<<replace "#defense">>
+				<<include "buildDefense">>
+			<</replace>>
+			<<replace "#build-queue">>
+				<div id="build-queue">
+					<<include "buildQueueList">>
+				</div>
+			<</replace>>
+		<</button>>
+	<<elseif $defenseBuildings.moat.amount == $defenseBuildings.moat.max && $defenseBuildings.moat.creatures == true>>
+		The moat is complete. Its placid waters hide a ravenous population of the lake's beasts. You have mixed feelings about their presence, but some of your colony toss scraps into the moat to watch them swarm.
+		<<if $kelpieExtinction == true>>
+			Given these are now the only survivors of the voracious creatures on your territory, you suppose it's for the best your colony feeds them occasionally.
+		<</if>>
+	<<else>>
+		The moat is complete. Its placid waters hide its true depth, as well as the moss and algae that grow on its sides, making climbing out a difficult feat.
+		<<if $infestedNotice == true && $kelpieExtinction == false>>
+			Your builders, however, seem to have an idea regarding the waters... It would involve the ravenous lake-beasts, however. Perhaps you should pay them a visit.
+		<<else>>
+		<</if>>
+	<</if>>
+	<br><br>
+<</nobr>>

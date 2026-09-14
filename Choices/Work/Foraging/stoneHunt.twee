@@ -18,7 +18,7 @@
 
 
 	<<if _forage >= 8>>
-		<<set _collect = random(12, 15)>>
+		<<set _collect = random(9, 12)>>
 
 		<<if _scene == 0>>
 			<<set _goldChance = random(5)>>
@@ -37,21 +37,36 @@
 		<</if>>
 
 	<<elseif _forage >= 3>>
-		<<set _collect = random(7, 11)>>
+		<<set _collect = random(5, 9)>>
 
 		<<if _scene == 0>>
-			You have found an abandoned colony. Your hearts stutter for a moment, and you search through it wildly. You find bones of adults and hatchlings, eggshells split open, all so very old. No living remnants, though. You went searching for supplies - and indeed the stones this colony used are in good shape - but it seems... in poor taste to do nothing for them. You pull up one of the slabs on a collapsing rut and gather the bones and shells in front of it, before taking your <span class="stone"><<print _collect>> stone</span> and leaving them to rest. You will try not to come back here. <br> <br>
+			<<if $foundRuinedColony == true>>
+				<<set _word = either("warmth", "fire", "inner-fire", "hearts")>>
+				You have...<br><br>
+
+				... you know this place. You slow in your patrol, recognizing the impromptu cairn of bones you constructed. Little has changed. You take a moment from your patrol to fix the bones and warm the tablet behind them. You hope the heat carries their spirits far, far above. You leave before the dead attempt to chase your <<print _word>>.<br><br>
+
+				In an effort to distance yourself from the tragedy, you find <span class="stone"><<print _collect>> stone</span> on the rest of your patrol.<br><br>
+			<<else>>
+				<<set $foundRuinedColony = true>>
+
+				You have found an abandoned colony. Your hearts stutter for a moment, and you search through it wildly. You find bones of adults and hatchlings, eggshells split open, all so very old. No living remnants, though. You went searching for supplies - and indeed the stones this colony used are in good shape - but it seems... in poor taste to do nothing for them. You pull up one of the slabs on a collapsing rut and gather the bones and shells in front of it. You offer fire to the tablet, warming it red-hot, and leave with your <span class="stone"><<print _collect>> stone</span> before the dead can hunt your fire. You will try not to come back here.
+				<br><br>
+
+				You think <strong>you'll remember this place.</strong><br><br>
+			<</if>>
 		<<elseif _scene == 1>>
-			You've gone well beyond your normal stomping range before you find anything useful - a mine. You aren't sure who or what built it, necessarily, but the jagged edges of their rocks imply they were using their claws to shape the stone. You don't think too hard about it; you simply take your <span class="stone"><<print _collect>> stone</span> and go. <br> <br>
+			You've gone well beyond your normal stomping range before you find anything useful - a mine. You aren't sure who or what built it, necessarily, but the jagged edges of their rocks imply they were using their claws to shape the stone. You don't think too hard about it; you simply take your <span class="stone"><<print _collect>> stone</span> and go.
+			<br><br>
 		<<else>>
-			After wandering some distance from your thunder's home, you find a collection of jagged rocks. You'll have to smooth down the sharpest edges, but the <span class="stone"><<print _collect>> stone</span> you find will work just fine. <br> <br>
+			After wandering some distance from your thunder's home, you find a collection of jagged rocks. You'll have to smooth down the sharpest edges, but the <span class="stone"><<print _collect>> stone</span> you find will work just fine.<br><br>
 		<</if>>
 		
 	<<elseif _forage >= 1>>
-		<<set _collect = random(3, 6)>>
+		<<set _collect = random(2, 5)>>
 
 		<<if _scene == 0>>
-			You've decided to try your claw at cliff-carving, and it is going terribly. Your claws hurt. The cliff is unphased. Frustrated and well away from home, you belt fire and abuse against the cliff - only for the parts you were working at to crumble away. Even more frustrated and now somewhat humiliated, you take the <span class="stone"><<print _collect>> stones</span> that aren't entirely useless and head back home. <br> <br>
+			You've decided to test yourself at cliff-carving, and it is going terribly. Your claws hurt. The cliff is unphased. Frustrated and well away from home, you belt fire and abuse against the cliff - only for the parts you were working at to crumble away. Even more frustrated and now somewhat humiliated, you take the <span class="stone"><<print _collect>> stones</span> that aren't entirely useless and head back home. <br> <br>
 		<<elseif _scene == 1>>
 			You're well in your territory when you find a little pile of rocks, delicately balanced atop each other. Though you marvel at it, you do still have a thunder to provide for - so you take all <span class="stone"><<print _collect>> stones</span> for yourself. With some small guilt, though, you remember to place a sapling there instead. Perhaps it will grow.  <br> <br>
 		<<else>>
@@ -60,7 +75,7 @@
 		
 	<<else>>
 		<<set _collect = 0>>
-		Despite searching for quite some time, and with no little tenacity, when you find stones, they are simply clots of dirt and muck, or little more than pebbles. The closest to a worthwhile collection was a boulder, but you alone aren't strong enough to break it to smaller pieces, or simply haul it back as is. Despite your best efforts, you return home, frustrated and empty-clawed. <br> <br>
+		Despite searching for quite some time, and with no little tenacity, when you find stones, they are simply clots of dirt and muck, or little more than pebbles. The closest to a worthwhile collection was a boulder, but you alone aren't strong enough to break it to smaller pieces, or simply haul it back as is. In all frustration of your best efforts, you return home, annoyed and empty-clawed. <br> <br>
 	<</if>>
 
 	

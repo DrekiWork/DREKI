@@ -1,11 +1,11 @@
 :: ErrorDialog
 <<nobr>>
-    Uh-oh! Something went awry - <em>don't worry</em>, it's probably not game breaking... but just in case, put your save file and a description of what you were doing up on the GitHub, or tell the dev on itch! <br>
-    Call: 
+    Uh-oh! Something went awry - <em>don't worry</em>, it's probably not game breaking... but just in case, put your save file and a description of what you were doing up on the GitHub, or tell the dev on itch!<br><br>
+    Call:<br>
     <<switch _args[0]>>
         <<case "builderStatus">>
             Your builders are in a weird state! Unfortunately, your builders will be busted if this stays, so I'll set them to planning. Sorry!<br>
-            Status: <<print $builderStatus>>.
+            Status, job: <<print $builderStatus>>, <<print $buildQueue[0]>>.
             <<set $builderStatus = 1>>
 
         <<case "buildQueueWeird">>
@@ -14,15 +14,17 @@
 
         <<case "endDayJob">>
             endDay caught a dragon with an unrecognized job!<br>
-            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Just a slacker with extra steps, really.
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Just a slacker with extra steps, really... so that's what they're gonna be. Sorry!
 
         <<case "endDayFeed">>
             endDay tried to feed a dragon with an unrecognized job!<br>
-            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Shame on them.
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorJob>>. Shame on them.<br>
+            They've been set to slacker to fix the immediate issue.
 
         <<case "endDayHome">>
             endDay tried to unhouse a dragon with an unrecognized house!<br>
-            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorHouse>>. You'd think they could just leave...
+            The dragon in question was: <<print _errorID>> <<print _errorDragon>>, <<print _errorHouse>>. You'd think they could just leave...<br>
+            They've been evicted to fix the error, and a cleaner has been run to make sure your housing counts are accurate. Sorry!
 
         <<default>>
             Whoops! Not sure. Please let the Dev know what you were up to, and provide your save, and they should be able to figure it out.

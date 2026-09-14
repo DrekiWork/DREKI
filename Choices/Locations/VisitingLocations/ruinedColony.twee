@@ -1,0 +1,6 @@
+:: RuinedColony
+<<nobr>>
+    <<set $hasVisited.ruinedColony = true>>
+    <<set $player.action -= 1>>
+
+<</nobr>>

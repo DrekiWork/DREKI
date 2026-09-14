@@ -1,10 +1,5 @@
 :: Story Stylesheet [stylesheet]
 
-#dragonList {
-	border: 0px, 2px;
-}
-
-
 	/* Used to hide passages until re-activated */
 .hidden {
 	display: none;
@@ -44,11 +39,12 @@ a  {
 
 
 	/* Grid display for dragon list. */
-#dragonList {
+.dragonList {
+  border: 0px, 2px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   grid-template-rows: auto;
-  padding: 1em
+  padding: 1em;
   margin: auto;
 }
 

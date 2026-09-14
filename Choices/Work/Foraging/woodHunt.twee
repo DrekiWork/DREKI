@@ -17,7 +17,7 @@
 	<<set _scene = random(2)>>
 
 	<<if _forage >= 8>>
-		<<set _collect = random(12, 15)>>
+		<<set _collect = random(9, 12)>>
 		
 		<<if _scene == 0>>
 			You're somewhat bewildered to see a group of beaver-folk - castoridans, if you remember correctly? - arguing loudly over their dams. A quick flying circuit reveals no potential lodges, but by the time you get back, the castoridean group has left. Possibly after having seen you, given the abandoned wood. Their loss is your gain; you can't take all of it, but you gather up the <span class="wood"><<print _collect>> wood</span> that you can and take off again. <br> <br>
@@ -31,7 +31,7 @@
 		<</if>>
 
 	<<elseif _forage >= 3>>
-		<<set _collect = random(7, 11)>>
+		<<set _collect = random(5, 9)>>
 
 		<<if _scene == 0>>
 			Your wood-seeking patrol is interrupted by the existence of a tree you don't recognize. Specifically, this tree is walking, and as you get closer the ent possessing it begins to panic. You end its fear quickly. Its host gives you a pleasant <span class="wood"><<print _collect>> wood</span> for your stores. <br> <br>
@@ -45,7 +45,7 @@
 		<</if>>
 		
 	<<elseif _forage >= 1>>
-		<<set _collect = random(3, 6)>>
+		<<set _collect = random(2, 5)>>
 
 		<<if _scene == 0>>
 			As you glide around your territory, you spy an immediately interesting object: an overturned caravan. To your disappointment, there's nothing truly worth taking - maybe you've been here before? It's difficult to recall - but you decide to take apart the frame this time. There isn't much, but it gives you <span class="wood"><<print _collect>> pieces of nicely carved wood</span> to use. <br> <br>

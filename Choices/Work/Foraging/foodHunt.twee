@@ -26,7 +26,7 @@
 		<</if>>
 	
 	<<elseif _forage >= 8>>
-		<<set _collect = random(12, 15)>>
+		<<set _collect = random(9, 12)>>
 		<<addResource "food" _collect>>
 
 		<<if _scene == 0>>
@@ -38,7 +38,7 @@
 		<</if>>
 
 	<<elseif _forage >= 3>>
-		<<set _collect = random(7, 11)>>
+		<<set _collect = random(5, 9)>>
 		<<addResource "food" _collect>>
 
 		<<if _scene == 0>>
@@ -50,7 +50,7 @@
 		<</if>>
 	
 	<<elseif _forage >= 1>>
-		<<set _collect = random(3, 6)>>
+		<<set _collect = random(2, 5)>>
 		<<addResource "food" _collect>>
 
 		<<if _scene == 0>>

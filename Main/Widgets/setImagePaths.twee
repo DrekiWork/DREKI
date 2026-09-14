@@ -1,0 +1,11 @@
+:: setImagePathsWidgets [widget]
+
+<<widget "setJobImage">><<nobr>>
+    <<if $isOnlineVersion == true>>
+        <<set _imgPath = "https://raw.githubusercontent.com/DrekiWork/DREKI/main/Media/JobSymbols/" + _args[0] + ".png">>
+    <<else>>
+        <<set _imgPath = "/Media/JobSymbols/" + _args[0] + ".png">>
+    <</if>>
+
+    <img @src="_imgPath" style="width:16px;height:16px;">
+<</nobr>><</widget>>

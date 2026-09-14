@@ -1,9 +1,11 @@
 :: BuilderRestDisplayWidget [widget]
 
 	/* It is not part of endDay but IS part of the day-end logic, */
-	/* Specifically rest, so I will be putting it in the endDay */
-	/* Widget hole. */
+	/* specifically rest, so I will be putting it in the endDay */
+	/* widget hole. */
 <<widget "builderRestDisplay">><<nobr>>
+	
+	<<run console.log("buildQueue is: " + $buildQueue)>>
 	<<countWorkers "builder">>
 	
 		/* First we're checking if we have builders and a queue. */
@@ -14,14 +16,14 @@
 		/* Then told the builders are just chilling. */
 	<<if $buildQueue.length > 0 && _wantedCount > 0>>
 
-		Your 
+		<<setJobImage "builder">> Your <<plural _wantedCount "builder is" "builders are">>
 
 		<<switch $builderStatus>>
 			<<case 1>>
-				<<plural _wantedCount "builder has" "builders have">>  completed the planning stage for a <<print $buildQueue[0]>>.<br><br>
+				working on plans for a <<print $buildQueue[0]>>.<br><br>
 
 			<<case 2>>
-				<<plural _wantedCount "builder is" "builders are">>  working on a <<print $buildQueue[0]>>;
+				working on a <<print $buildQueue[0]>>;
 				<<if _resourceDown == false>>
 					they should be done in <<plural $buildTime "day" "days">>.
 				<<else>>
@@ -40,7 +42,7 @@
 				<br><br>
 			
 			<<case 3>>
-				<<plural _wantedCount "builder has" "builders have">> finished work on a <<print _finished>>!
+				just finishing up a <<print _finished>>!
 				<<if $buildQueue.length > 0>>
 					Tomorrow, they'll start planning for a <<print $buildQueue[0]>>.
 				<<else>>
@@ -54,11 +56,18 @@
 		<</switch>>
 	
 	<<elseif $buildQueue.length > 0 && _wantedCount == 0>>
-		There's <<plural $buildQueue.length "building" "buildings">> to be built, but no one to build them.<br><br>
+		<<setJobImage "builder">> There's <<plural $buildQueue.length "building" "buildings">> to be built, but no one to build them.<br><br>
 		
 
 	<<elseif $buildQueue.length == 0 && _wantedCount > 0>>
-		Your <<plural _wantedCount "builder is" "builders are">> waiting for your next project.<br><br>
+		<<setJobImage "builder">> Your <<plural _wantedCount "builder is" "builders are">>
+
+		<<if $builderStatus == 3>>
+			just finishing up a <<print _finished>>! They've got nothing else to build, so they'll be waiting for your next plans.<br><br>
+			<<set $builderStatus = 1>>
+		<<else>>
+			waiting for your next project.<br><br>
+		<</if>>
 
 	<<else>>
 
@@ -87,6 +96,7 @@
 				/* Then establish how much of a resource was needed */
 				/* To complete the current stage of the structure. */
 			<<set _resourceDown = false>>
+			<<set _buildStart = false>>
 			<<set _buildStone = 0>>
 			<<set _buildWater = 0>>
 			<<set _buildWood = 0>>
@@ -107,8 +117,8 @@
 					<<if $buildTime >= 1>>
 						<<run console.log("started building moat.")>>
 						<<if $defenseBuildings.moat.amount < 2>>
-							<<set _buildStone = Math.round($defenseBuildings.moat.priceS / Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
-							<<set _buildWood = Math.round($defenseBuildings.moat.priceW / Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+							<<set _buildStone = Math.round($defenseBuildings.moat.priceS / Math.clamp(Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.moat.buildTime))>>
+							<<set _buildWood = Math.round($defenseBuildings.moat.priceW / Math.clamp(Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.moat.buildTime))>>
 							<<if $stone >= _buildStone && $wood >= _buildWood>>
 								<<set $buildTime -= 1>>
 								<<set $stone -= _buildStone>>
@@ -117,10 +127,8 @@
 								<<set _resourceDown = true>>
 							<</if>>
 
-							<<buildTimeSanityCheck>>
-
 						<<elseif $defenseBuildings.moat.amount == 2>>
-							<<set _buildWater = Math.round($defenseBuildings.moat.priceWa / Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+							<<set _buildWater = Math.round($defenseBuildings.moat.priceWa / Math.clamp(Math.round($defenseBuildings.moat.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.moat.buildTime))>>
 							<<if $water >= _buildWater>>
 								<<set $buildTime -= 1>>
 								<<set $water -= _buildWater>>
@@ -128,20 +136,6 @@
 								<<set _resourceDown = true>>
 							<</if>>
 
-							<<buildTimeSanityCheck>>
-
-						<</if>>
-						
-					<<elseif $buildTime == 0>>
-						<<run console.log("finished building.")>>
-						<<set $defenseBuildings.moat.amount += 1>>
-						<<set _finished to "moat">>
-						<<set $buildTime = -1>>
-						<<run $buildQueue.deleteAt(0)>>
-						<<set $builderStatus = 3>>
-						<<run console.log("Builder status: " + $builderStatus)>>
-						<<if $defenseBuildings.moat.amount == $defenseBuildings.moat.max>>
-							<<run $buildQueue.delete("moat")>>
 						<</if>>
 
 					<<else>>
@@ -151,7 +145,7 @@
 							<<set $buildTime = 1>>
 						<</if>>
 						<<set _startBuild = true>>
-						<<set $builderStatus to 1>>
+						<<set $builderStatus == 1>>
 					
 					<</if>>
 					
@@ -159,9 +153,9 @@
 					<<run console.log("registered post.")>>
 					<<if $buildTime >= 1>>
 						<<run console.log("started building post.")>>
-						<<set _buildStone = Math.round($defenseBuildings.outpost.priceS / Math.round($defenseBuildings.outpost.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+						<<set _buildStone = Math.round($defenseBuildings.outpost.priceS / Math.clamp(Math.round($defenseBuildings.outpost.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.outpost.buildTime))>>
 							<<run console.log(_buildStone + " _buildStone")>>
-						<<set _buildWood = Math.round($defenseBuildings.outpost.priceW / Math.round($defenseBuildings.outpost.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+						<<set _buildWood = Math.round($defenseBuildings.outpost.priceW / Math.clamp(Math.round($defenseBuildings.outpost.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.outpost.buildTime))>>
 							<<run console.log(_buildWood + " _buildWood")>>
 						<<if $stone >= _buildStone && $wood >= _buildWood>>
 							<<run console.log("buildTime is " + $buildTime)>>
@@ -171,19 +165,6 @@
 						<<else>>
 							<<set _resourceDown = true>>
 							<<run console.log("_resourceDown = true, apparently." + _resourceDown)>>
-						<</if>>
-						<<buildTimeSanityCheck>>
-						
-					<<elseif $buildTime == 0>>
-						<<run console.log("finished building.")>>
-						<<set $defenseBuildings.outpost.amount += 1>>
-						<<set _finished to "outpost">>
-						<<run console.log("finished is: " + _finished)>>
-						<<set $buildTime = -1>>
-						<<run $buildQueue.deleteAt(0)>>
-						<<set $builderStatus to 3>>
-						<<if $defenseBuildings.outpost.amount == $defenseBuildings.outpost.max>>
-							<<run $buildQueue.delete("outpost")>>
 						<</if>>
 
 					<<else>>
@@ -203,26 +184,14 @@
 					<<run console.log("registered pali.")>>
 					<<if $buildTime >= 1>>
 						<<run console.log("started building pali.")>>
-						<<set _buildStone = Math.round($defenseBuildings.palisade.priceS / Math.round($defenseBuildings.palisade.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
-						<<set _buildWood = Math.round($defenseBuildings.palisade.priceW / Math.round($defenseBuildings.palisade.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+						<<set _buildStone = Math.round($defenseBuildings.palisade.priceS / Math.clamp(Math.round($defenseBuildings.palisade.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.palisade.buildTime))>>
+						<<set _buildWood = Math.round($defenseBuildings.palisade.priceW / Math.clamp(Math.round($defenseBuildings.palisade.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.palisade.buildTime))>>
 						<<if $stone >= _buildStone && $wood >= _buildWood>>
 							<<set $buildTime -= 1>>
 							<<set $stone -= _buildStone>>
 							<<set $wood -= _buildWood>>
 						<<else>>
 							<<set _resourceDown = true>>
-						<</if>>
-						<<buildTimeSanityCheck>>
-						
-					<<elseif $buildTime == 0>>
-						<<run console.log("finished building.")>>
-						<<set $defenseBuildings.palisade.amount += 1>>
-						<<set _finished to "palisade">>
-						<<set $buildTime = -1>>
-						<<run $buildQueue.deleteAt(0)>>
-						<<set $builderStatus to 3>>
-						<<if $defenseBuildings.palisade.amount == $defenseBuildings.palisade.max>>
-							<<run $buildQueue.delete("palisade")>>
 						<</if>>
 
 					<<else>>
@@ -241,27 +210,14 @@
 					<<run console.log("registered rockfall.")>>
 					<<if $buildTime >= 1>>
 						<<run console.log("started building rockfall.")>>
-						<<set _buildStone = Math.round($defenseBuildings.rockfall.priceS / Math.round($defenseBuildings.rockfall.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
-						<<set _buildWood = Math.round($defenseBuildings.rockfall.priceW / Math.round($defenseBuildings.rockfall.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+						<<set _buildStone = Math.round($defenseBuildings.rockfall.priceS / Math.clamp(Math.round($defenseBuildings.rockfall.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.rockfall.buildTime))>>
+						<<set _buildWood = Math.round($defenseBuildings.rockfall.priceW / Math.clamp(Math.round($defenseBuildings.rockfall.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $defenseBuildings.rockfall.buildTime))>>
 						<<if $stone >= _buildStone && $wood >= _buildWood>>
 							<<set $buildTime -= 1>>
 							<<set $stone -= _buildStone>>
 							<<set $wood -= _buildWood>>
 						<<else>>
 							<<set _resourceDown = true>>
-						<</if>>
-						<<buildTimeSanityCheck>>
-						
-					<<elseif $buildTime == 0>>
-						<<run console.log("finished building.")>>
-						<<set $defenseBuildings.rockfall.amount += 1>>
-						<<set $defenseBuildings.rockfall.empty += 1>>
-						<<set _finished to "rockfall">>
-						<<set $buildTime = -1>>
-						<<run $buildQueue.deleteAt(0)>>
-						<<set $builderStatus to 3>>
-						<<if $defenseBuildings.rockfall.amount == $defenseBuildings.rockfall.max>>
-							<<run $buildQueue.delete("rockfall")>>
 						<</if>>
 
 					<<else>>
@@ -276,13 +232,13 @@
 					<</if>>
 
 
-		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHELTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-				<<case "hollow">>
-					<<run console.log("Registered hollow.")>>
-					<<if $buildTime >= 1>>
-						<<run console.log("started building hollow.")>>
-						<<set _buildStone = Math.round($shelter.hollows.priceS / Math.round($shelter.hollows.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
-						<<set _buildWood = Math.round($shelter.hollows.priceW / Math.round($shelter.hollows.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))))>>
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ JOBSITES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+				<<case "builderJobSite">>
+				<<run console.log("Registered builder stockpile.")>>
+				<<if $buildTime >= 1>>
+						<<run console.log("started building jobsite - stockpile.")>>
+						<<set _buildStone = Math.round($jobSites.builder.priceS / Math.clamp(Math.round($jobSites.builder.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.builder.buildTime))>>
+						<<set _buildWood = Math.round($jobSites.builder.priceW / Math.clamp(Math.round($jobSites.builder.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.builder.buildTime))>>
 						<<if $stone >= _buildStone && $wood >= _buildWood>>
 							<<set $buildTime -= 1>>
 							<<set $stone -= _buildStone>>
@@ -290,16 +246,165 @@
 						<<else>>
 							<<set _resourceDown = true>>
 						<</if>>
-						<<buildTimeSanityCheck>>
+
+					<<else>>
+						<<run console.log("Got ready.")>>
+						<<set $buildTime = Math.round($jobSites.builder.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+						<<run console.log("Buildtime 2: " + $buildTime)>>
+						<<if $buildTime < 1>>
+							<<set $buildTime += 1>>
+						<</if>>
+						<<set _startBuild = true>>
+						<<set $builderStatus = 1>>
 						
-					<<elseif $buildTime == 0>>
-						<<run console.log("finished building.")>>
-						<<set $shelter.hollows.amount += 1>>
-						<<set $shelter.hollows.free += (($shelter.hollows.amount * $shelter.hollows.shelter) - ($shelter.hollows.occupied))>>
-						<<set _finished to "hollow">>
-						<<set $buildTime = -1>>
-						<<run $buildQueue.deleteAt(0)>>
-						<<set $builderStatus to 3>>
+					<</if>>
+		
+				<<case "foragerJobSite">>
+				<<run console.log("Registered forager camp.")>>
+				<<if $buildTime >= 1>>
+						<<run console.log("started building jobsite - camp.")>>
+						<<set _buildStone = Math.round($jobSites.forager.priceS / Math.clamp(Math.round($jobSites.forager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.forager.buildTime))>>
+						<<set _buildWood = Math.round($jobSites.forager.priceW / Math.clamp(Math.round($jobSites.forager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.forager.buildTime))>>
+						<<if $stone >= _buildStone && $wood >= _buildWood>>
+							<<set $buildTime -= 1>>
+							<<set $stone -= _buildStone>>
+							<<set $wood -= _buildWood>>
+						<<else>>
+							<<set _resourceDown = true>>
+						<</if>>
+
+					<<else>>
+						<<run console.log("Got ready.")>>
+						<<set $buildTime = Math.round($jobSites.forager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+						<<run console.log("Buildtime 2: " + $buildTime)>>
+						<<if $buildTime < 1>>
+							<<set $buildTime += 1>>
+						<</if>>
+						<<set _startBuild = true>>
+						<<set $builderStatus = 1>>
+						
+					<</if>>
+		
+				<<case "rainierJobSite">>
+				<<run console.log("Registered rainier pond.")>>
+				<<if $buildTime >= 1>>
+						<<run console.log("started building jobsite - pond.")>>
+						<<set _buildStone = Math.round($jobSites.rainier.priceS / Math.clamp(Math.round($jobSites.rainier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.rainier.buildTime))>>
+						<<set _buildWood = Math.round($jobSites.rainier.priceW / Math.clamp(Math.round($jobSites.rainier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.rainier.buildTime))>>
+						<<if $stone >= _buildStone && $wood >= _buildWood>>
+							<<set $buildTime -= 1>>
+							<<set $stone -= _buildStone>>
+							<<set $wood -= _buildWood>>
+						<<else>>
+							<<set _resourceDown = true>>
+						<</if>>
+
+					<<else>>
+						<<run console.log("Got ready.")>>
+						<<set $buildTime = Math.round($jobSites.rainier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+						<<run console.log("Buildtime 2: " + $buildTime)>>
+						<<if $buildTime < 1>>
+							<<set $buildTime += 1>>
+						<</if>>
+						<<set _startBuild = true>>
+						<<set $builderStatus = 1>>
+						
+					<</if>>
+					
+				<<case "salvagerJobSite">>
+					<<run console.log("Registered salvager trove.")>>
+					<<if $buildTime >= 1>>
+							<<run console.log("started building jobsite - trove.")>>
+							<<set _buildStone = Math.round($jobSites.salvager.priceS / Math.clamp(Math.round($jobSites.salvager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.salvager.buildTime))>>
+							<<set _buildWood = Math.round($jobSites.salvager.priceW / Math.clamp(Math.round($jobSites.salvager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.salvager.buildTime))>>
+							<<if $stone >= _buildStone && $wood >= _buildWood>>
+								<<set $buildTime -= 1>>
+								<<set $stone -= _buildStone>>
+								<<set $wood -= _buildWood>>
+							<<else>>
+								<<set _resourceDown = true>>
+							<</if>>
+
+						<<else>>
+							<<run console.log("Got ready.")>>
+							<<set $buildTime = Math.round($jobSites.salvager.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+							<<run console.log("Buildtime 2: " + $buildTime)>>
+							<<if $buildTime < 1>>
+								<<set $buildTime += 1>>
+							<</if>>
+							<<set _startBuild = true>>
+							<<set $builderStatus = 1>>
+							
+						<</if>>
+		
+				<<case "scavengerJobSite">>
+					<<run console.log("Registered scavenger dropsite.")>>
+					<<if $buildTime >= 1>>
+						<<run console.log("started building jobsite - dropsite.")>>
+						<<set _buildStone = Math.round($jobSites.scavenger.priceS / Math.clamp(Math.round($jobSites.scavenger.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.scavenger.buildTime))>>
+						<<set _buildWood = Math.round($jobSites.scavenger.priceW / Math.clamp(Math.round($jobSites.scavenger.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.scavenger.buildTime))>>
+						<<if $stone >= _buildStone && $wood >= _buildWood>>
+							<<set $buildTime -= 1>>
+							<<set $stone -= _buildStone>>
+							<<set $wood -= _buildWood>>
+						<<else>>
+							<<set _resourceDown = true>>
+						<</if>>
+
+					<<else>>
+						<<run console.log("Got ready.")>>
+						<<set $buildTime = Math.round($jobSites.scavenger.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+						<<run console.log("Buildtime 2: " + $buildTime)>>
+						<<if $buildTime < 1>>
+							<<set $buildTime += 1>>
+						<</if>>
+						<<set _startBuild = true>>
+						<<set $builderStatus = 1>>
+						
+					<</if>>
+		
+				<<case "soldierJobSite">>
+					<<run console.log("Registered soldier cantonment.")>>
+					<<if $buildTime >= 1>>
+						<<run console.log("started building jobsite - cantonment.")>>
+						<<set _buildStone = Math.round($jobSites.soldier.priceS / Math.clamp(Math.round($jobSites.soldier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.soldier.buildTime))>>
+						<<set _buildWood = Math.round($jobSites.soldier.priceW / Math.clamp(Math.round($jobSites.soldier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $jobSites.soldier.buildTime))>>
+						<<if $stone >= _buildStone && $wood >= _buildWood>>
+							<<set $buildTime -= 1>>
+							<<set $stone -= _buildStone>>
+							<<set $wood -= _buildWood>>
+						<<else>>
+							<<set _resourceDown = true>>
+						<</if>>
+
+					<<else>>
+						<<run console.log("Got ready.")>>
+						<<set $buildTime = Math.round($jobSites.soldier.buildTime * (2 / (Math.sqrt(_wantedCount) + 1)))>>
+						<<run console.log("Buildtime 2: " + $buildTime)>>
+						<<if $buildTime < 1>>
+							<<set $buildTime += 1>>
+						<</if>>
+						<<set _startBuild = true>>
+						<<set $builderStatus = 1>>
+						
+					<</if>>
+				
+
+
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SHELTERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+				<<case "hollow">>
+					<<run console.log("Registered hollow.")>>
+					<<if $buildTime >= 1>>
+						<<run console.log("started building hollow.")>>
+						<<set _buildStone = Math.round($shelter.hollows.priceS / Math.clamp(Math.round($shelter.hollows.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1, $shelter.hollows.buildTime))>>
+						<<set _buildWood = Math.round($shelter.hollows.priceW / Math.clamp(Math.round($shelter.hollows.buildTime * (2 / (Math.sqrt(_wantedCount) + 1))), 1,  $shelter.hollows.buildTime))>>
+						<<if $stone >= _buildStone && $wood >= _buildWood>>
+							<<set $buildTime -= 1>>
+							<<set $stone -= _buildStone>>
+							<<set $wood -= _buildWood>>
+						<<else>>
+							<<set _resourceDown = true>>
+						<</if>>
 
 					<<else>>
 						<<run console.log("Got ready.")>>
@@ -318,6 +423,10 @@
 					<<errorPopup "buildQueueWeird">>
 
 			<</switch>>
+			
+			<<if _buildStart !== true>>
+				<<buildTimeCheck>>
+			<</if>>
 
 		<<else>>
 
