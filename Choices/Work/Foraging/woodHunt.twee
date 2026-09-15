@@ -34,13 +34,34 @@
 		<<set _collect = random(5, 9)>>
 
 		<<if _scene == 0>>
-			Your wood-seeking patrol is interrupted by the existence of a tree you don't recognize. Specifically, this tree is walking, and as you get closer the ent possessing it begins to panic. You end its fear quickly. Its host gives you a pleasant <span class="wood"><<print _collect>> wood</span> for your stores. <br> <br>
+			<<set _risk = random(2)>>
+			<<if _risk == 2>>
+				<<set $player.health -= 1>>
+				Your wood-seeking patrol is interrupted by the existence of a tree you don't recognize. Specifically, this tree is walking. As you get closer, the ent possessing it begins to panic, and you rush in to end its fear—<br><br>
+				
+				And are roundly smacked for your trouble. It's not a hard hit; the thing is likely young and can't land a blow you'd care about, but it still <em>hurt</em>. You return the favor much more violently, putting an end to its misery.
+			<<else>>
+				Your wood-seeking patrol is interrupted by the existence of a tree you don't recognize. Specifically, this tree is walking. As you get closer the ent possessing it begins to panic. You end its fear quickly.
+			<</if>>
+
+			Its host gives you a pleasant <span class="wood"><<print _collect>> wood</span> for your stores.<br><br>
 		
 		<<elseif _scene == 1>>
 			You take a long look at the forest growing near your home, and make a decision: it's getting too close. Though not entirely discomforting, you're not fond of creatures thinking your thunder has abandoned its central lair over something as silly as overgrown trees. The <span class="wood"><<print _collect>> wood</span> you get is a nice bonus. <br> <br>
 		
 		<<else>>
-			You patrol deeper into the woods than you normally would, intent on finding trees that are larger than the ones nearest your home - though there are plenty there. Your determination is rewarded by a fairly heavy tree, half-strangled by the vines around it and certainly on its way to death. You shear off the vines and tug the tree down forcefully - and it goes easily. A lot of it is understandably too brittle to be used, but there's enough there to be cut down to transport. You return home with <span class="wood"><<print _collect>> timber</span>; enough to be satisfied, at least. <br> <br>
+			<<set _risk = random(2)>>
+
+			You patrol deeper into the woods than you normally would, intent on finding trees that are larger than the ones nearest your home - though there are plenty there. Your determination is rewarded by a fairly heavy tree, half-strangled by the vines around it and certainly on its way to death.<br><br>
+
+			<<if _risk == 2>>
+				<<set $player.health -= 1>>
+				You shear off the vines and tug the tree down forcefully—only for another tree's bough, tangled in the collapsing tree's branches, to come crashing down on you. It glances off your shoulder, but nothing worse. And the tree is down. A lot of the old thing is too brittle to be used, but there's enough to be cut and transported anyway.
+			<<else>>
+				You shear off the vines and tug the tree down forcefully - and it goes easily. A lot of it is understandably too brittle to be used, but there's enough there to be cut down to transport.
+			<</if>>
+
+			You return home with <span class="wood"><<print _collect>> timber</span>; enough to be satisfied, at least.<br><br>
 		
 		<</if>>
 		

@@ -7,6 +7,8 @@
                     /* Such as other colonies, traders, etc. */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+    /* CLEAN OUT COLONIST MAKER!!! */
+    /* ALL COMMENT APOSTROPHES MUST BE CULLED, OR THEY'LL BREAK STOLEN EGGS AGAIN */
 <<widget "colonistMaker">><<nobr>>
     <<run console.log("Ran colonistMaker.")>>
     
@@ -23,8 +25,6 @@
             /* They are basically entirely randomized, from hatch-time to appearance. */
         <<case "stolen egg">>
             <<run console.log("Ran stolen egg.")>>
-            <<run console.log("dSize?")>>
-            <<run console.log($dSize)>>
 
             <<run $eggs.push( {
 
@@ -60,15 +60,15 @@
                     /* Eggs and hatchlings go in the nursery. */
                     /* Their only job is to exist and grow up hale and healthy. */
                     /* Winglets, when they exist, are mini colonists. */
-                    /* They aren't as capable but can actually contribute; when they grow up, they have half the XP as days worked. */
-                    /* (They are, after all, extremely limited by what they're allowed to do.) */
+                    /* They are not as capable but can actually contribute; when they grow up, they have half the XP as days worked. */
+                    /* (They are, after all, extremely limited by what they are allowed to do.) */
                     /* Adults are your primary workforce: they do everything that needs to be done, as they are assigned. */
                     /* They are also the most independent, and liable to do terrible things if unhappy. */
                     /* Elders, when they exist, are retired dragons. */
                     /* They can do social jobs (when those exist), but hard labor is off the table. */
                 stage: "egg", 
 
-                    /* Status is the dragon's current... status. Or health. */
+                    /* Status is the current... status... of the colonist. */
                     /* Overall health is how much HP a dragon has; how many */
                     /* fatal rolls they can take before going down. */
                     /* An egg gets fatally sick... that's that. */
@@ -94,29 +94,19 @@
                 },
 
                     /* Appearance is all fluff. */
-                    /* stolen eggs specifically struggles wtih calling all the
-                       $d* variables, so... workaround. */
                 appearance: {
 
-                    size: either("small",
-		                        "normal", "normal", "normal", "normal",
-		                        "large"),
+                    size: either($dSize),
 
-                    color: either("red", "blue", "yellow", "green"),
+                    color: either($dColor),
 
-                    pattern: either("freckled", 
-                                    "piebald", 
-                                    "plain", "plain", "plain", "plain", "plain",
-                                    "smooth", 
-                                    "spotted",
-                                    "striped"),
+                    pattern: either($dPattern),
 
-                    visquirk: either("none", "none", "none", "none", "none", "none", "none", "none", "none", 
-		                            "clean", "dull", "raggedy", "sharp teeth", "stub-tail")
+                    visquirk: either($dVisQuirk)
                 },
                 
                     /* None is to keep eggs/hatchies from being counted in the workforce. */
-                    /* When they grow up, they'll be counted as slackers instead. */
+                    /* When they grow up, they will be counted as slackers instead. */
                 job: "none", 
 
                     /* Home is what shelter the dragon lives in, mostly for flavor. */
@@ -158,6 +148,7 @@
                     /* 'Lost child' is a wandering winglet or hatchling brought into the fold. */
                 origin: "stolen"
             })>>
+            <<run console.log("dSize 3: " + $dSize)>>
 
 
             /* Laid eggs are from couples within your colony. */

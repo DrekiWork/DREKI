@@ -641,7 +641,7 @@
 
 		/* Sets game version for update widget.
 		   Currently does nothing! */
-	<<set $gameVersion = 0.31.3.11>>
+	<<set $gameVersion = "0.31.3.11">>
 
 	
 	/* ~~~ POLICIES ~~~ */
